@@ -1,0 +1,16 @@
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\bin\Debug\netstandard2.0\IoC.Configuration.Schema.xsd
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\bin\Debug\netstandard2.0\TestPluginAssembly3.deps.json
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\bin\Debug\netstandard2.0\TestPluginAssembly3.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\bin\Debug\netstandard2.0\TestPluginAssembly3.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\bin\Debug\netstandard2.0\IoC.Configuration.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\bin\Debug\netstandard2.0\OROptimizer.Shared.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\bin\Debug\netstandard2.0\SharedServices.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\bin\Debug\netstandard2.0\IoC.Configuration.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\bin\Debug\netstandard2.0\OROptimizer.Shared.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\bin\Debug\netstandard2.0\SharedServices.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\obj\Debug\netstandard2.0\TestPluginAssembly3.csprojResolveAssemblyReference.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\obj\Debug\netstandard2.0\TestPluginAssembly3.csproj.CoreCompileInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\obj\Debug\netstandard2.0\TestPluginAssembly3.AssemblyInfoInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\obj\Debug\netstandard2.0\TestPluginAssembly3.AssemblyInfo.cs
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\obj\Debug\netstandard2.0\TestPluginAssembly3.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\obj\Debug\netstandard2.0\TestPluginAssembly3.pdb

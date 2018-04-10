@@ -1,0 +1,14 @@
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Ninject\bin\Debug\IoC.Configuration.Schema.xsd
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Ninject\bin\Debug\IoC.Configuration.Extensions.Ninject.deps.json
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Ninject\bin\Debug\IoC.Configuration.Extensions.Ninject.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Ninject\bin\Debug\IoC.Configuration.Extensions.Ninject.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Ninject\bin\Debug\IoC.Configuration.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Ninject\bin\Debug\OROptimizer.Shared.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Ninject\bin\Debug\IoC.Configuration.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Ninject\bin\Debug\OROptimizer.Shared.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Ninject\obj\Debug\IoC.Configuration.Extensions.Ninject.csprojResolveAssemblyReference.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Ninject\obj\Debug\IoC.Configuration.Extensions.Ninject.csproj.CoreCompileInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Ninject\obj\Debug\IoC.Configuration.Extensions.Ninject.AssemblyInfoInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Ninject\obj\Debug\IoC.Configuration.Extensions.Ninject.AssemblyInfo.cs
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Ninject\obj\Debug\IoC.Configuration.Extensions.Ninject.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Ninject\obj\Debug\IoC.Configuration.Extensions.Ninject.pdb

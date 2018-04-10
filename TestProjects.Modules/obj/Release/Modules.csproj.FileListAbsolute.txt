@@ -1,0 +1,15 @@
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\Modules\bin\Release\Modules.deps.json
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\Modules\bin\Release\Modules.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\Modules\bin\Release\Modules.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\Modules\bin\Release\DynamicallyLoadedAssembly1.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\Modules\bin\Release\DynamicallyLoadedAssembly2.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\Modules\bin\Release\SharedServices.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\Modules\bin\Release\SharedServices.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\Modules\bin\Release\DynamicallyLoadedAssembly1.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\Modules\bin\Release\DynamicallyLoadedAssembly2.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\Modules\obj\Release\Modules.csprojResolveAssemblyReference.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\Modules\obj\Release\Modules.csproj.CoreCompileInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\Modules\obj\Release\Modules.AssemblyInfoInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\Modules\obj\Release\Modules.AssemblyInfo.cs
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\Modules\obj\Release\Modules.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\Modules\obj\Release\Modules.pdb

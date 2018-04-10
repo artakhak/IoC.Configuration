@@ -1,0 +1,50 @@
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\OROptimizer.Core.Tests\bin\Debug\netcoreapp2.0\Plugins\SmartXMLDocs\DynamicallyLoadedAssembly1.deps.json
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\OROptimizer.Core.Tests\bin\Debug\netcoreapp2.0\Plugins\SmartXMLDocs\DynamicallyLoadedAssembly1.dll
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\OROptimizer.Core.Tests\bin\Debug\netcoreapp2.0\Plugins\SmartXMLDocs\DynamicallyLoadedAssembly1.pdb
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\OROptimizer.Core.Tests\bin\Debug\ThirdPartyLibs\DynamicallyLoadedAssembly1.deps.json
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\OROptimizer.Core.Tests\bin\Debug\ThirdPartyLibs\DynamicallyLoadedAssembly1.dll
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\OROptimizer.Core.Tests\bin\Debug\ThirdPartyLibs\DynamicallyLoadedAssembly1.pdb
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\DynamicallyLoadedAssembly1.deps.json
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\DynamicallyLoadedAssembly1.dll
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\DynamicallyLoadedAssembly1.pdb
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedAssembly1\obj\Debug\DynamicallyLoadedAssembly1.csprojResolveAssemblyReference.cache
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedAssembly1\obj\Debug\DynamicallyLoadedAssembly1.csproj.CoreCompileInputs.cache
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedAssembly1\obj\Debug\DynamicallyLoadedAssembly1.AssemblyInfoInputs.cache
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedAssembly1\obj\Debug\DynamicallyLoadedAssembly1.AssemblyInfo.cs
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedAssembly1\obj\Debug\DynamicallyLoadedAssembly1.dll
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedAssembly1\obj\Debug\DynamicallyLoadedAssembly1.pdb
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\App.config
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\CustomConfiguration1.xml
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\IoC.Configuration.Schema.xsd
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\IoC.Configuration.Schema.xsd
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\App.config
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\CustomConfiguration1.xml
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\DynamicallyLoadedAssembly1.deps.json
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\DynamicallyLoadedAssembly1.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\DynamicallyLoadedAssembly1.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\IoC.Configuration.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\IoC.Configuration.Extensions.Autofac.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\IoC.Configuration.Tests.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\OROptimizer.Shared.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\IoC.Configuration.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\OROptimizer.Shared.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\IoC.Configuration.Extensions.Autofac.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\IoC.Configuration.Tests.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\IoC.Configuration.Tests.dll.config
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\Debug\DynamicallyLoadedAssembly1.deps.json
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\Debug\DynamicallyLoadedAssembly1.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\Debug\DynamicallyLoadedAssembly1.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\Debug\SharedServices.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\bin\Debug\SharedServices.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\obj\Debug\DynamicallyLoadedAssembly1.csprojResolveAssemblyReference.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\obj\Debug\DynamicallyLoadedAssembly1.csproj.CoreCompileInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\obj\Debug\DynamicallyLoadedAssembly1.AssemblyInfoInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\obj\Debug\DynamicallyLoadedAssembly1.AssemblyInfo.cs
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\obj\Debug\DynamicallyLoadedAssembly1.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\DynamicallyLoadedAssembly1\obj\Debug\DynamicallyLoadedAssembly1.pdb

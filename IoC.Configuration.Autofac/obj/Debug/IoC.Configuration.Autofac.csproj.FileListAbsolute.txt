@@ -1,0 +1,9 @@
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Autofac\bin\Debug\IoC.Configuration.Autofac.deps.json
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Autofac\bin\Debug\IoC.Configuration.Autofac.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Autofac\bin\Debug\IoC.Configuration.Autofac.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Autofac\obj\Debug\IoC.Configuration.Autofac.csproj.CoreCompileInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Autofac\obj\Debug\IoC.Configuration.Autofac.AssemblyInfoInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Autofac\obj\Debug\IoC.Configuration.Autofac.AssemblyInfo.cs
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Autofac\obj\Debug\IoC.Configuration.Autofac.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Autofac\obj\Debug\IoC.Configuration.Autofac.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Autofac\obj\Debug\IoC.Configuration.Autofac.csprojResolveAssemblyReference.cache

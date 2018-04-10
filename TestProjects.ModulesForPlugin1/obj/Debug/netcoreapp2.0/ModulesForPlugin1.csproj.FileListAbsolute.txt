@@ -1,0 +1,5 @@
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\ModulesForPlugin1\bin\Debug\netcoreapp2.0\ModulesForPlugin1.deps.json
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\ModulesForPlugin1\bin\Debug\netcoreapp2.0\ModulesForPlugin1.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\ModulesForPlugin1\obj\Debug\netcoreapp2.0\ModulesForPlugin1.csproj.CoreCompileInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\ModulesForPlugin1\obj\Debug\netcoreapp2.0\ModulesForPlugin1.AssemblyInfoInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\ModulesForPlugin1\obj\Debug\netcoreapp2.0\ModulesForPlugin1.AssemblyInfo.cs

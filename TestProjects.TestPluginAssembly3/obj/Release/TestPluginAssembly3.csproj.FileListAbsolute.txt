@@ -1,0 +1,11 @@
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\bin\Release\TestPluginAssembly3.deps.json
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\bin\Release\TestPluginAssembly3.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\bin\Release\TestPluginAssembly3.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\bin\Release\SharedServices.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\bin\Release\SharedServices.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\obj\Release\TestPluginAssembly3.csprojResolveAssemblyReference.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\obj\Release\TestPluginAssembly3.csproj.CoreCompileInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\obj\Release\TestPluginAssembly3.AssemblyInfoInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\obj\Release\TestPluginAssembly3.AssemblyInfo.cs
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\obj\Release\TestPluginAssembly3.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\obj\Release\TestPluginAssembly3.pdb

@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OROptimizer.Shared</name>
+    </assembly>
+    <members>
+        <member name="M:OROptimizer.Diagnostics.Log.LogHelperContextAbstr.CreateLog(System.Type)">
+            <summary>
+                Pass the type where the log will be used.
+            </summary>
+            <param name="typeThatOwnsTheLog"></param>
+            <returns></returns>
+        </member>
+        <member name="T:OROptimizer.IGlobalsCore">
+            <summary>
+                Provides some helper functions.
+                This interface should always be bound using singletone scope.
+            </summary>
+        </member>
+        <member name="M:OROptimizer.IGlobalsCore.EnsureParameterNotNull(System.String,System.Object)">
+            <summary>
+            Logs an error and throws an exception if <paramref name="parameterValue"/> is null.
+            </summary>
+            <param name="parameterName"></param>
+            <param name="parameterValue"></param>
+            <exception cref="T:System.ArgumentNullException">Throws this exception.</exception>
+        </member>
+        <member name="P:OROptimizer.IGlobalsCore.EntryAssemblyFolder">
+            <summary>
+            This is normally the location where the executable is. For test projects this might be the folder where the test execution 
+            library is. Therefore, the context might need to be replaced with a one, that returns a valid entry folder path.
+            </summary>
+        </member>
+        <member name="M:OROptimizer.IGlobalsCore.LogAnErrorAndThrowException(System.String,System.String,System.Func{System.String,System.Exception})">
+            <summary>
+                Logs an error specified in <paramref name="loggedErrorMessage" /> and throws an exception.
+            </summary>
+            <param name="loggedErrorMessage">Logged error message. Example: "The value of attribute 'name' cannot be null."</param>
+            <param name="exceptionMessage">
+                The message to use in thrown exception. If null, a common error will be used in thrown exception. Otherwise, the
+                message
+                in this parameter will be used
+            </param>
+            <param name="createException">
+                A function, that creates an exception object.
+                The argument passed to a function is specified in parameter <paramref name="exceptionMessage" /> if the parameter
+                value is not null. Otherwise, generic error message
+                is used.
+            </param>
+            <exception cref="T:System.Exception">
+                Always throws exception. The exception object is created by <paramref name="createException" /> parameter, if the
+                value of parameter is not null.
+                Otherwise <see cref="T:System.Exception" /> is thrown.
+            </exception>
+        </member>
+        <member name="T:OROptimizer.Serializer.ITypeBasedSimpleSerializer">
+            <summary>
+                A simple serializer that serializes/de-serializes objects to and from strings.
+                The serialized string does not have any information about the type, so specific implementation de-serializes
+                specific type.
+                For example integer value 3 will be de-serialized from "3".
+            </summary>
+        </member>
+        <member name="M:OROptimizer.Serializer.ITypeBasedSimpleSerializerAggregator.Deserialize``1(System.String)">
+            <summary>
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="valueToDeserialize"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException">Throws this exception if the value cannot be deserialized</exception>
+        </member>
+    </members>
+</doc>

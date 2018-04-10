@@ -1,0 +1,14 @@
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\SharedServices\bin\Debug\netstandard2.0\SharedServices.deps.json
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\SharedServices\bin\Debug\netstandard2.0\SharedServices.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\SharedServices\bin\Debug\netstandard2.0\SharedServices.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\SharedServices\obj\Debug\netstandard2.0\SharedServices.csproj.CoreCompileInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\SharedServices\obj\Debug\netstandard2.0\SharedServices.AssemblyInfoInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\SharedServices\obj\Debug\netstandard2.0\SharedServices.AssemblyInfo.cs
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\SharedServices\obj\Debug\netstandard2.0\SharedServices.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\SharedServices\obj\Debug\netstandard2.0\SharedServices.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\SharedServices\bin\Debug\netstandard2.0\IoC.Configuration.Schema.xsd
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\SharedServices\bin\Debug\netstandard2.0\IoC.Configuration.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\SharedServices\bin\Debug\netstandard2.0\OROptimizer.Shared.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\SharedServices\bin\Debug\netstandard2.0\IoC.Configuration.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\SharedServices\bin\Debug\netstandard2.0\OROptimizer.Shared.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\SharedServices\obj\Debug\netstandard2.0\SharedServices.csprojResolveAssemblyReference.cache

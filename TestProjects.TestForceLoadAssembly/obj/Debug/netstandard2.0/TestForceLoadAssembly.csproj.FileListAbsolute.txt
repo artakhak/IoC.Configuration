@@ -1,0 +1,8 @@
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\netstandard2.0\TestForceLoadAssembly.deps.json
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\netstandard2.0\TestForceLoadAssembly.dll
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\netstandard2.0\TestForceLoadAssembly.pdb
+K:\Projects\OROptimizer\OROptimizer 2.0\TestForceLoadAssembly\obj\Debug\netstandard2.0\TestForceLoadAssembly.csproj.CoreCompileInputs.cache
+K:\Projects\OROptimizer\OROptimizer 2.0\TestForceLoadAssembly\obj\Debug\netstandard2.0\TestForceLoadAssembly.AssemblyInfoInputs.cache
+K:\Projects\OROptimizer\OROptimizer 2.0\TestForceLoadAssembly\obj\Debug\netstandard2.0\TestForceLoadAssembly.AssemblyInfo.cs
+K:\Projects\OROptimizer\OROptimizer 2.0\TestForceLoadAssembly\obj\Debug\netstandard2.0\TestForceLoadAssembly.dll
+K:\Projects\OROptimizer\OROptimizer 2.0\TestForceLoadAssembly\obj\Debug\netstandard2.0\TestForceLoadAssembly.pdb

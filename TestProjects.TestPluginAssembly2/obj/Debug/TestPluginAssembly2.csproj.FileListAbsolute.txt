@@ -1,0 +1,30 @@
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\PluginDlls\Plugin2\TestPluginAssembly2.deps.json
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\PluginDlls\Plugin2\TestPluginAssembly2.dll
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\PluginDlls\Plugin2\TestPluginAssembly2.pdb
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\TestPluginAssembly2\obj\Debug\TestPluginAssembly2.csprojResolveAssemblyReference.cache
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\TestPluginAssembly2\obj\Debug\TestPluginAssembly2.csproj.CoreCompileInputs.cache
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\TestPluginAssembly2\obj\Debug\TestPluginAssembly2.AssemblyInfoInputs.cache
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\TestPluginAssembly2\obj\Debug\TestPluginAssembly2.AssemblyInfo.cs
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\TestPluginAssembly2\obj\Debug\TestPluginAssembly2.dll
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\TestPluginAssembly2\obj\Debug\TestPluginAssembly2.pdb
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\PluginDlls\Plugin2\IoC.Configuration.Schema.xsd
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\PluginDlls\Plugin2\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\PluginDlls\Plugin2\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\PluginDlls\Plugin2\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\PluginDlls\Plugin2\App.config
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\PluginDlls\Plugin2\CustomConfiguration1.xml
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly2\bin\Debug\TestPluginAssembly2.deps.json
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly2\bin\Debug\TestPluginAssembly2.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly2\bin\Debug\TestPluginAssembly2.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly2\bin\Debug\DynamicallyLoadedAssembly1.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly2\bin\Debug\DynamicallyLoadedAssembly2.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly2\bin\Debug\SharedServices.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly2\bin\Debug\SharedServices.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly2\bin\Debug\DynamicallyLoadedAssembly1.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly2\bin\Debug\DynamicallyLoadedAssembly2.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly2\obj\Debug\TestPluginAssembly2.csprojResolveAssemblyReference.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly2\obj\Debug\TestPluginAssembly2.csproj.CoreCompileInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly2\obj\Debug\TestPluginAssembly2.AssemblyInfoInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly2\obj\Debug\TestPluginAssembly2.AssemblyInfo.cs
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly2\obj\Debug\TestPluginAssembly2.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly2\obj\Debug\TestPluginAssembly2.pdb

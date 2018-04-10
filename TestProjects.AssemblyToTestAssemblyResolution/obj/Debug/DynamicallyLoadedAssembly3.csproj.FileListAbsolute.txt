@@ -1,0 +1,11 @@
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\CustomConfigurationDefault.xml
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\DynamicallyLoadedAssembly3.deps.json
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\DynamicallyLoadedAssembly3.dll
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\DynamicallyLoadedAssembly3.pdb
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedAssembly3\obj\Debug\DynamicallyLoadedAssembly3.csprojResolveAssemblyReference.cache
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedAssembly3\obj\Debug\DynamicallyLoadedAssembly3.csproj.CoreCompileInputs.cache
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedAssembly3\obj\Debug\DynamicallyLoadedAssembly3.AssemblyInfoInputs.cache
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedAssembly3\obj\Debug\DynamicallyLoadedAssembly3.AssemblyInfo.cs
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedAssembly3\obj\Debug\DynamicallyLoadedAssembly3.dll
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedAssembly3\obj\Debug\DynamicallyLoadedAssembly3.pdb
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\IoC.Configuration.Schema.xsd

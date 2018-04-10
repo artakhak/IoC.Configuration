@@ -1,0 +1,14 @@
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\bin\Release\netstandard2.0\IoC.Cnfiguration.Content\IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\bin\Release\netstandard2.0\IoC.Cnfiguration.Content\IoC.Configuration.Template.xml
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\bin\Release\netstandard2.0\IoC.Configuration.xml
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\bin\Release\netstandard2.0\IoC.Configuration.deps.json
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\bin\Release\netstandard2.0\IoC.Configuration.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\bin\Release\netstandard2.0\IoC.Configuration.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\obj\Release\netstandard2.0\IoC.Configuration.Properties.Resources.resources
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\obj\Release\netstandard2.0\IoC.Configuration.csproj.GenerateResource.Cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\obj\Release\netstandard2.0\IoC.Configuration.csproj.CoreCompileInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\obj\Release\netstandard2.0\IoC.Configuration.AssemblyInfoInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\obj\Release\netstandard2.0\IoC.Configuration.AssemblyInfo.cs
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\obj\Release\netstandard2.0\IoC.Configuration.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\obj\Release\netstandard2.0\IoC.Configuration.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\obj\Release\netstandard2.0\IoC.Configuration.csprojResolveAssemblyReference.cache

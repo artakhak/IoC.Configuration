@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Autofac.Extensions.DependencyInjection</name>
+    </assembly>
+    <members>
+        <member name="T:Autofac.Extensions.DependencyInjection.AutofacRegistration">
+            <summary>
+            Extension methods for registering ASP.NET Core dependencies with Autofac.
+            </summary>
+        </member>
+        <member name="M:Autofac.Extensions.DependencyInjection.AutofacRegistration.Populate(Autofac.ContainerBuilder,System.Collections.Generic.IEnumerable{Microsoft.Extensions.DependencyInjection.ServiceDescriptor})">
+            <summary>
+            Populates the Autofac container builder with the set of registered service descriptors
+            and makes <see cref="T:System.IServiceProvider"/> and <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceScopeFactory"/>
+            available in the container.
+            </summary>
+            <param name="builder">
+            The <see cref="T:Autofac.ContainerBuilder"/> into which the registrations should be made.
+            </param>
+            <param name="descriptors">
+            The set of service descriptors to register in the container.
+            </param>
+        </member>
+        <member name="M:Autofac.Extensions.DependencyInjection.AutofacRegistration.ConfigureLifecycle``2(Autofac.Builder.IRegistrationBuilder{System.Object,``0,``1},Microsoft.Extensions.DependencyInjection.ServiceLifetime)">
+            <summary>
+            Configures the lifecycle on a service registration.
+            </summary>
+            <typeparam name="TActivatorData">The activator data type.</typeparam>
+            <typeparam name="TRegistrationStyle">The object registration style.</typeparam>
+            <param name="registrationBuilder">The registration being built.</param>
+            <param name="lifecycleKind">The lifecycle specified on the service registration.</param>
+            <returns>
+            The <paramref name="registrationBuilder" />, configured with the proper lifetime scope,
+            and available for additional configuration.
+            </returns>
+        </member>
+        <member name="M:Autofac.Extensions.DependencyInjection.AutofacRegistration.Register(Autofac.ContainerBuilder,System.Collections.Generic.IEnumerable{Microsoft.Extensions.DependencyInjection.ServiceDescriptor})">
+            <summary>
+            Populates the Autofac container builder with the set of registered service descriptors.
+            </summary>
+            <param name="builder">
+            The <see cref="T:Autofac.ContainerBuilder"/> into which the registrations should be made.
+            </param>
+            <param name="descriptors">
+            The set of service descriptors to register in the container.
+            </param>
+        </member>
+        <member name="T:Autofac.Extensions.DependencyInjection.AutofacServiceProvider">
+            <summary>
+            Autofac implementation of the ASP.NET Core <see cref="T:System.IServiceProvider"/>.
+            </summary>
+            <seealso cref="T:System.IServiceProvider" />
+            <seealso cref="T:Microsoft.Extensions.DependencyInjection.ISupportRequiredService" />
+        </member>
+        <member name="M:Autofac.Extensions.DependencyInjection.AutofacServiceProvider.#ctor(Autofac.IComponentContext)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Autofac.Extensions.DependencyInjection.AutofacServiceProvider"/> class.
+            </summary>
+            <param name="componentContext">
+            The component context from which services should be resolved.
+            </param>
+        </member>
+        <member name="M:Autofac.Extensions.DependencyInjection.AutofacServiceProvider.GetRequiredService(System.Type)">
+            <summary>
+            Gets service of type <paramref name="serviceType" /> from the
+            <see cref="T:Autofac.Extensions.DependencyInjection.AutofacServiceProvider" /> and requires it be present.
+            </summary>
+            <param name="serviceType">
+            An object that specifies the type of service object to get.
+            </param>
+            <returns>
+            A service object of type <paramref name="serviceType" />.
+            </returns>
+            <exception cref="T:Autofac.Core.Registration.ComponentNotRegisteredException">
+            Thrown if the <paramref name="serviceType" /> isn't registered with the container.
+            </exception>
+            <exception cref="T:Autofac.Core.DependencyResolutionException">
+            Thrown if the object can't be resolved from the container.
+            </exception>
+        </member>
+        <member name="M:Autofac.Extensions.DependencyInjection.AutofacServiceProvider.GetService(System.Type)">
+            <summary>
+            Gets the service object of the specified type.
+            </summary>
+            <param name="serviceType">
+            An object that specifies the type of service object to get.
+            </param>
+            <returns>
+            A service object of type <paramref name="serviceType" />; or <see langword="null" />
+            if there is no service object of type <paramref name="serviceType" />.
+            </returns>
+        </member>
+        <member name="T:Autofac.Extensions.DependencyInjection.AutofacServiceScope">
+            <summary>
+            Autofac implementation of the ASP.NET Core <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceScope"/>.
+            </summary>
+            <seealso cref="T:Microsoft.Extensions.DependencyInjection.IServiceScope" />
+        </member>
+        <member name="M:Autofac.Extensions.DependencyInjection.AutofacServiceScope.#ctor(Autofac.ILifetimeScope)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Autofac.Extensions.DependencyInjection.AutofacServiceScope"/> class.
+            </summary>
+            <param name="lifetimeScope">
+            The lifetime scope from which services should be resolved for this service scope.
+            </param>
+        </member>
+        <member name="P:Autofac.Extensions.DependencyInjection.AutofacServiceScope.ServiceProvider">
+            <summary>
+            Gets an <see cref="T:System.IServiceProvider" /> corresponding to this service scope.
+            </summary>
+            <value>
+            An <see cref="T:System.IServiceProvider" /> that can be used to resolve dependencies from the scope.
+            </value>
+        </member>
+        <member name="M:Autofac.Extensions.DependencyInjection.AutofacServiceScope.Dispose">
+            <summary>
+            Disposes of the lifetime scope and resolved disposable services.
+            </summary>
+        </member>
+        <member name="T:Autofac.Extensions.DependencyInjection.AutofacServiceScopeFactory">
+            <summary>
+            Autofac implementation of the ASP.NET Core <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceScopeFactory"/>.
+            </summary>
+            <seealso cref="T:Microsoft.Extensions.DependencyInjection.IServiceScopeFactory" />
+        </member>
+        <member name="M:Autofac.Extensions.DependencyInjection.AutofacServiceScopeFactory.#ctor(Autofac.ILifetimeScope)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Autofac.Extensions.DependencyInjection.AutofacServiceScopeFactory"/> class.
+            </summary>
+            <param name="lifetimeScope">The lifetime scope.</param>
+        </member>
+        <member name="M:Autofac.Extensions.DependencyInjection.AutofacServiceScopeFactory.CreateScope">
+            <summary>
+            Creates an <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceScope" /> which contains an
+            <see cref="T:System.IServiceProvider" /> used to resolve dependencies within
+            the scope.
+            </summary>
+            <returns>
+            An <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceScope" /> controlling the lifetime of the scope. Once
+            this is disposed, any scoped services that have been resolved
+            from the <see cref="P:Microsoft.Extensions.DependencyInjection.IServiceScope.ServiceProvider" />
+            will also be disposed.
+            </returns>
+        </member>
+    </members>
+</doc>

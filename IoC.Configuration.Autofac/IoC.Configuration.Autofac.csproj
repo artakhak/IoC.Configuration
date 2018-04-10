@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>IoC.Configuration.Autofac</RootNamespace>
+    <AssemblyName>IoC.Configuration.Autofac</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Version>1.0.0-beta2</Version>
+    <Company>OROptimizer</Company>
+    <Authors>Artak Hakobyan</Authors>
+    <Description>An Autofac extension for IoC.Configuration.</Description>
+    <Copyright>Copyright 2018 (c) OROptimizer. All rights reserved.</Copyright>
+    <PackageTags>IoC Configuration dependencyinjection inversion of control autofac ninject xml Autofac</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\IoC.Configuration.Autofac.xml</DocumentationFile>
+    <NoWarn>1701;1702;1705;1591;</NoWarn>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.5.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />
+    <PackageReference Include="IoC.Configuration" Version="1.0.0-beta4" />
+    <PackageReference Include="JetBrains.Annotations" Version="10.2.1" />
+    <PackageReference Include="Microsoft.CodeAnalysis" Version="2.3.2" />
+    <PackageReference Include="OROptimizer.Shared" Version="1.0.0-beta2" />
+  </ItemGroup>
+
+</Project>

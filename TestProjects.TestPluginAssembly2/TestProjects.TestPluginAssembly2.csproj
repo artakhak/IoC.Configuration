@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="IoC.Configuration" Version="1.0.0-beta4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly1\TestProjects.DynamicallyLoadedAssembly1.csproj" />
+    <ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly2\TestProjects.DynamicallyLoadedAssembly2.csproj" />
+    <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin\Debug</OutputPath>
+    <WarningLevel>1</WarningLevel>
+  </PropertyGroup>
+
+</Project>

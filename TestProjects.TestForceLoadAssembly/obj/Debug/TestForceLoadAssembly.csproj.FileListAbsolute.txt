@@ -1,0 +1,16 @@
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\TestForceLoadAssembly.deps.json
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\TestForceLoadAssembly.dll
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\DynamicallyLoadedDlls\TestForceLoadAssembly.pdb
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\TestForceLoadAssembly\obj\Debug\TestForceLoadAssembly.csproj.CoreCompileInputs.cache
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\TestForceLoadAssembly\obj\Debug\TestForceLoadAssembly.AssemblyInfoInputs.cache
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\TestForceLoadAssembly\obj\Debug\TestForceLoadAssembly.AssemblyInfo.cs
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\TestForceLoadAssembly\obj\Debug\TestForceLoadAssembly.dll
+K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\TestForceLoadAssembly\obj\Debug\TestForceLoadAssembly.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestForceLoadAssembly\bin\Debug\TestForceLoadAssembly.deps.json
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestForceLoadAssembly\bin\Debug\TestForceLoadAssembly.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestForceLoadAssembly\bin\Debug\TestForceLoadAssembly.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestForceLoadAssembly\obj\Debug\TestForceLoadAssembly.csproj.CoreCompileInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestForceLoadAssembly\obj\Debug\TestForceLoadAssembly.AssemblyInfoInputs.cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestForceLoadAssembly\obj\Debug\TestForceLoadAssembly.AssemblyInfo.cs
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestForceLoadAssembly\obj\Debug\TestForceLoadAssembly.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestForceLoadAssembly\obj\Debug\TestForceLoadAssembly.pdb
