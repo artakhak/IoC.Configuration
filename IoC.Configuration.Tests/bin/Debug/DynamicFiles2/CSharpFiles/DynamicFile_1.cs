@@ -1,5 +1,5 @@
 using System.Linq;
-namespace DynamicImplementations_636583976895143532
+namespace DynamicImplementations_636594305405892785
 {
 public class AdditionalServices : Ninject.Modules.NinjectModule
 {

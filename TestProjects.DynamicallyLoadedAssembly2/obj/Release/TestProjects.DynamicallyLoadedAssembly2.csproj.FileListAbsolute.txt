@@ -9,6 +9,6 @@ K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.Dynamica
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.DynamicallyLoadedAssembly2\obj\Release\TestProjects.DynamicallyLoadedAssembly2.csproj.CoreCompileInputs.cache
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.DynamicallyLoadedAssembly2\obj\Release\TestProjects.DynamicallyLoadedAssembly2.AssemblyInfoInputs.cache
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.DynamicallyLoadedAssembly2\obj\Release\TestProjects.DynamicallyLoadedAssembly2.AssemblyInfo.cs
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.DynamicallyLoadedAssembly2\obj\Release\TestProjects.DynamicallyLoadedAssembly2.csproj.CopyComplete
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.DynamicallyLoadedAssembly2\obj\Release\TestProjects.DynamicallyLoadedAssembly2.dll
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.DynamicallyLoadedAssembly2\obj\Release\TestProjects.DynamicallyLoadedAssembly2.pdb
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.DynamicallyLoadedAssembly2\obj\Release\TestProjects.DynamicallyLoadedAssembly2.csproj.CopyComplete

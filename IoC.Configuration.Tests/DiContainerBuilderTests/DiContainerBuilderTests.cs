@@ -1,4 +1,28 @@
-﻿using System;
+﻿// This software is part of the IoC.Configuration library
+// Copyright © 2018 IoC.Configuration Contributors
+// http://oroptimizer.com
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,6 +34,7 @@ using IoC.Configuration.OnApplicationStart;
 using JetBrains.Annotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OROptimizer;
+using OROptimizer.Diagnostics.Log;
 using SharedServices.Implementations;
 using SharedServices.Interfaces;
 using TestsSharedLibrary;
@@ -88,8 +113,7 @@ namespace IoC.Configuration.Tests.DiContainerBuilderTests
         private T CreateObject<T>(string classFullName, string assemblyPath, ParameterInfo[] constructorParameters) where T : class
         {
             var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyPath);
-            GlobalsCoreAmbientContext.Context.TryCreateInstanceFromType(assembly.GetType(classFullName), constructorParameters, out var instance, out var errorMessage);
-            return (T) instance;
+            return (T)GlobalsCoreAmbientContext.Context.CreateInstance(assembly.GetType(classFullName), constructorParameters, out var errorMessage);
         }
 
         [TestCleanup]
@@ -99,9 +123,11 @@ namespace IoC.Configuration.Tests.DiContainerBuilderTests
         }
 
         [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
-        public void TestCodeBasedDiContainerBuilder(DiImplementationType diImplementationType)
+        [DataRow(DiImplementationType.Autofac, true)]
+        [DataRow(DiImplementationType.Autofac, false)]
+        [DataRow(DiImplementationType.Ninject, true)]
+        [DataRow(DiImplementationType.Ninject, false)]
+        public void TestCodeBasedDiContainerBuilder(DiImplementationType diImplementationType, bool isLoggerNotSetTest)
         {
             var assemblyProbingPaths = new List<string>
             {
@@ -110,13 +136,16 @@ namespace IoC.Configuration.Tests.DiContainerBuilderTests
                 DiManagerHelpers.GetDiImplementationInfo(diImplementationType).DiManagerFolder
             };
 
-            TestCodeBasedDiContainerBuilder(diImplementationType, assemblyProbingPaths, true);
-            TestCodeBasedDiContainerBuilder(diImplementationType, assemblyProbingPaths, false);
+            RuntTests(isLoggerNotSetTest, () =>
+            {
+                TestCodeBasedDiContainerBuilder(diImplementationType, assemblyProbingPaths, true);
+                TestCodeBasedDiContainerBuilder(diImplementationType, assemblyProbingPaths, false);
+            });
         }
 
         public void TestCodeBasedDiContainerBuilder(DiImplementationType diImplementationType,
                                                     IEnumerable<string> assemblyProbingPaths,
-                                                    bool usPresetDiContainer)
+                                                    bool isPresetDiContainer)
         {
             var diImplementationInfo = DiManagerHelpers.GetDiImplementationInfo(diImplementationType);
             IDiContainer presetDiContainer = null;
@@ -129,7 +158,7 @@ namespace IoC.Configuration.Tests.DiContainerBuilderTests
                 assemblyProbingPaths.ToArray());
 
             ICodeBasedDiModulesConfigurator diModulesConfigurator = null;
-            if (usPresetDiContainer)
+            if (isPresetDiContainer)
             {
                 presetDiContainer = CreateDiContainer(diImplementationType);
                 diModulesConfigurator = diContainerConfigurator.WithDiContainer(presetDiContainer);
@@ -159,7 +188,7 @@ namespace IoC.Configuration.Tests.DiContainerBuilderTests
                                        .RegisterModules()
                                        .Start())
             {
-                if (usPresetDiContainer)
+                if (isPresetDiContainer)
                     Assert.AreSame(presetDiContainer, containerInfo.DiContainer);
 
                 ValidateDiContainer(diImplementationType, containerInfo.DiContainer);
@@ -176,54 +205,82 @@ namespace IoC.Configuration.Tests.DiContainerBuilderTests
         }
 
         [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
-        public void TestFileBasedDiContainerBuilderWithDiContainerProvided(DiImplementationType diImplementationType)
+        [DataRow(DiImplementationType.Autofac, true)]
+        [DataRow(DiImplementationType.Autofac, false)]
+        [DataRow(DiImplementationType.Ninject, true)]
+        [DataRow(DiImplementationType.Ninject, false)]
+        public void TestFileBasedDiContainerBuilderWithDiContainerProvided(DiImplementationType diImplementationType, bool isLoggerNotSetTest)
         {
-            var diContainer = CreateDiContainer(diImplementationType);
-
-            var diContainerBuilder = new DiContainerBuilder.DiContainerBuilder();
-
-            using (var containerInfo = diContainerBuilder.StartFileBasedDi(
-                                                             new FileBasedConfigurationFileContentsProvider(
-                                                                 Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration1.xml")), Helpers.TestsEntryAssemblyFolder,
-                                                             (sender, e) => ConfigurationFileXmlDocumentLoadedEventHandler(diImplementationType, e))
-                                                         .WithDiContainer(diContainer)
-                                                         .AddAdditionalDiModules(new DiModule1())
-                                                         .AddNativeModules(CreateNativeModule(diImplementationType))
-                                                         .RegisterModules()
-                                                         .Start())
+            RuntTests(isLoggerNotSetTest, () =>
             {
-                Assert.AreSame(diContainer, containerInfo.DiContainer);
+                var diContainer = CreateDiContainer(diImplementationType);
 
-                ValidateFileBasedDiContainer(diImplementationType, containerInfo.DiContainer);
-            }
+                var diContainerBuilder = new DiContainerBuilder.DiContainerBuilder();
+
+                using (var containerInfo = diContainerBuilder.StartFileBasedDi(
+                                                                 new FileBasedConfigurationFileContentsProvider(
+                                                                     Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration1.xml")), Helpers.TestsEntryAssemblyFolder,
+                                                                 (sender, e) => ConfigurationFileXmlDocumentLoadedEventHandler(diImplementationType, e))
+                                                             .WithDiContainer(diContainer)
+                                                             .AddAdditionalDiModules(new DiModule1())
+                                                             .AddNativeModules(CreateNativeModule(diImplementationType))
+                                                             .RegisterModules()
+                                                             .Start())
+                {
+                    Assert.AreSame(diContainer, containerInfo.DiContainer);
+
+                    ValidateFileBasedDiContainer(diImplementationType, containerInfo.DiContainer);
+                }
+            });
+
+            
         }
 
         [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
-        public void TestFileBasedDiContainerBuilderWithNoDiContainerProvided(DiImplementationType diImplementationType)
+        [DataRow(DiImplementationType.Autofac, true)]
+        [DataRow(DiImplementationType.Autofac, false)]
+        [DataRow(DiImplementationType.Ninject, true)]
+        [DataRow(DiImplementationType.Ninject, false)]
+        public void TestFileBasedDiContainerBuilderWithNoDiContainerProvided(DiImplementationType diImplementationType, bool isLoggerNotSetTest)
         {
-            var diContainerBuilder = new DiContainerBuilder.DiContainerBuilder();
-            using (var containerInfo = diContainerBuilder.StartFileBasedDi(
-                                                             new FileBasedConfigurationFileContentsProvider(
-                                                                 Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration1.xml")), Helpers.TestsEntryAssemblyFolder,
-                                                             (sender, e) => ConfigurationFileXmlDocumentLoadedEventHandler(diImplementationType, e))
-                                                         .WithoutPresetDiContainer()
-                                                         .AddAdditionalDiModules(new DiModule1())
-                                                         .AddNativeModules(CreateNativeModule(diImplementationType))
-                                                         .RegisterModules()
-                                                         .Start())
+            RuntTests(isLoggerNotSetTest, () =>
             {
-                ValidateFileBasedDiContainer(diImplementationType, containerInfo.DiContainer);
-            }
+                var diContainerBuilder = new DiContainerBuilder.DiContainerBuilder();
+                using (var containerInfo = diContainerBuilder.StartFileBasedDi(
+                                                                 new FileBasedConfigurationFileContentsProvider(
+                                                                     Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration1.xml")), Helpers.TestsEntryAssemblyFolder,
+                                                                 (sender, e) => ConfigurationFileXmlDocumentLoadedEventHandler(diImplementationType, e))
+                                                             .WithoutPresetDiContainer()
+                                                             .AddAdditionalDiModules(new DiModule1())
+                                                             .AddNativeModules(CreateNativeModule(diImplementationType))
+                                                             .RegisterModules()
+                                                             .Start())
+                {
+                    ValidateFileBasedDiContainer(diImplementationType, containerInfo.DiContainer);
+                }
+            });
         }
 
-        [TestInitialize]
-        public void TestInit()
+        private void RuntTests(bool isLoggerNotSetTest, Action doRunTests)
         {
-            TestsHelper.SetupLogger();
+            try
+            {
+                LogHelper.RemoveContext();
+                if (!isLoggerNotSetTest)
+                    TestsHelper.SetupLogger();
+
+                doRunTests();
+
+                if (isLoggerNotSetTest)
+                    Assert.Fail();
+            }
+            catch (LoggerWasNotInitializedException e)
+            {
+                if (!isLoggerNotSetTest)
+                    Assert.Fail();
+
+                Console.Out.WriteLine(e.Message);
+            }
         }
 
         private void ValidateDiContainer(DiImplementationType diImplementationType, IDiContainer diContainer)

@@ -249,7 +249,7 @@
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       },
-      "OROptimizer.Shared/1.0.0-beta2": {
+      "OROptimizer.Shared/1.0.0": {
         "type": "package",
         "dependencies": {
           "JetBrains.Annotations": "10.2.1",
@@ -2464,14 +2464,14 @@
         "lib/netstandard1.0/_._"
       ]
     },
-    "OROptimizer.Shared/1.0.0-beta2": {
-      "sha512": "ic3dpxCDq/VsmwnwVnuw5qFTWUvAVNRK3zrnMuSla4BjnTWRTvT1uRw/Kgci5P4sXIUA5WAYu2S527DsY2KdiQ==",
+    "OROptimizer.Shared/1.0.0": {
+      "sha512": "rBop7fF1akOSF6R0KozmmsEzlT070X1sMP/G9+0roVo1n4iLeoDuY6KbkpHDG4Cm+TC8xPvT6e2MRMa6idPJbA==",
       "type": "package",
-      "path": "oroptimizer.shared/1.0.0-beta2",
+      "path": "oroptimizer.shared/1.0.0",
       "files": [
         "lib/netstandard2.0/OROptimizer.Shared.dll",
         "lib/netstandard2.0/OROptimizer.Shared.xml",
-        "oroptimizer.shared.1.0.0-beta2.nupkg.sha512",
+        "oroptimizer.shared.1.0.0.nupkg.sha512",
         "oroptimizer.shared.nuspec"
       ]
     },
@@ -6772,7 +6772,7 @@
       "JetBrains.Annotations >= 10.2.1",
       "Microsoft.CodeAnalysis >= 2.3.2",
       "NETStandard.Library >= 2.0.1",
-      "OROptimizer.Shared >= 1.0.0-beta2",
+      "OROptimizer.Shared >= 1.0.0",
       "System.Runtime.Loader >= 4.3.0"
     ]
   },
@@ -6782,7 +6782,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
-    "version": "1.0.0-beta4",
+    "version": "1.0.1",
     "restore": {
       "projectUniqueName": "K:\\Projects\\OROptimizer\\MyGitHubProjects\\IoC.Configuration\\IoC.Configuration\\IoC.Configuration.csproj",
       "projectName": "IoC.Configuration",
@@ -6836,7 +6836,7 @@
           },
           "OROptimizer.Shared": {
             "target": "Package",
-            "version": "[1.0.0-beta2, )"
+            "version": "[1.0.0, )"
           },
           "System.Runtime.Loader": {
             "target": "Package",

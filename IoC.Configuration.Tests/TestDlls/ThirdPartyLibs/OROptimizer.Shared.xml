@@ -4,6 +4,129 @@
         <name>OROptimizer.Shared</name>
     </assembly>
     <members>
+        <member name="T:OROptimizer.AmbientContext`2">
+            <summary>
+            A generic ambient context to replace static methods. 
+            </summary>
+            <typeparam name="TContext">The type of the context.</typeparam>
+            <typeparam name="TContextDefaultImplementation">The type of the context default implementation.</typeparam>
+            <seealso cref="T:OROptimizer.GlobalsCoreAmbientContext"/>
+        </member>
+        <member name="P:OROptimizer.AmbientContext`2.Context">
+            <summary>
+            Gets or sets the context.
+            </summary>
+            <value>
+            The context.
+            </value>
+        </member>
+        <member name="M:OROptimizer.AmbientContext`2.SetDefaultContext">
+            <summary>
+            Sets the default context.
+            </summary>
+        </member>
+        <member name="T:OROptimizer.AssemblyResolver">
+            <summary>
+            An assembly resolver class that resolves assemblies based on probing paths passed as a constructor parameter.
+            Just use <see cref="M:OROptimizer.AssemblyResolver.#ctor(System.Collections.Generic.IEnumerable{System.String})"/> constructor to setup assembly resolution.
+            </summary>
+            <seealso cref="T:System.IDisposable" />
+        </member>
+        <member name="M:OROptimizer.AssemblyResolver.#ctor(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:OROptimizer.AssemblyResolver"/> class. Creating an instance of this class using this constructor will
+            automatically resolve assemblies using the probing paths passed as a constructor parameter.
+            Note, the assemblies will be re-solved if they are not already loaded into app domain, and are not resolved somehwre else.
+            </summary>
+            <param name="probingPaths">The probing paths.</param>
+        </member>
+        <member name="M:OROptimizer.AssemblyResolver.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+        </member>
+        <member name="T:OROptimizer.Diagnostics.Log.ILog">
+            <summary>
+            A logger interface.
+            See <see cref="T:OROptimizer.Diagnostics.Log.Log4NetLog"/> for specific implementation details.
+            </summary>
+        </member>
+        <member name="P:OROptimizer.Diagnostics.Log.ILogHelperContext.Log">
+            <summary>
+            Gets the log.
+            </summary>
+            <value>
+            The log.
+            </value>
+        </member>
+        <member name="T:OROptimizer.Diagnostics.Log.Log4NetLog">
+            <summary>
+            Log4Net implementation of <see cref="T:OROptimizer.Diagnostics.Log.ILog"/>
+            </summary>
+            <seealso cref="T:OROptimizer.Diagnostics.Log.ILog" />
+        </member>
+        <member name="M:OROptimizer.Diagnostics.Log.Log4NetLog.#ctor(log4net.ILog)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OROptimizer.Diagnostics.Log.Log4NetLog"/> class.
+            </summary>
+            <param name="log">The log.</param>
+        </member>
+        <member name="T:OROptimizer.Diagnostics.Log.LoggerWasNotInitializedException">
+            <summary>
+            An exception thrown when <see cref="P:OROptimizer.Diagnostics.Log.LogHelper.Context"/> is null, when the property is used. 
+            </summary>
+            <seealso cref="T:System.Exception" />
+        </member>
+        <member name="M:OROptimizer.Diagnostics.Log.LoggerWasNotInitializedException.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:OROptimizer.Diagnostics.Log.LoggerWasNotInitializedException"/> class.
+            </summary>
+        </member>
+        <member name="T:OROptimizer.Diagnostics.Log.LogHelper">
+            <summary>
+            A helper class for logging.
+            </summary>
+        </member>
+        <member name="P:OROptimizer.Diagnostics.Log.LogHelper.Context">
+            <summary>
+            Gets the context.
+            </summary>
+            <value>
+            The context.
+            </value>
+            <exception cref="T:OROptimizer.Diagnostics.Log.LoggerWasNotInitializedException"></exception>
+        </member>
+        <member name="P:OROptimizer.Diagnostics.Log.LogHelper.IsContextInitialized">
+            <summary>
+            Gets a value indicating whether this instance is context initialized.
+            </summary>
+            <value>
+              <c>true</c> if this instance is context initialized; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:OROptimizer.Diagnostics.Log.LogHelper.RemoveContext">
+            <summary>
+            Nulls the value of <see cref="P:OROptimizer.Diagnostics.Log.LogHelper.Context"/>. Use this in situations when you want to switch to a different logger.
+            Normally the logger should be set only once, when the application starts. However in some scenarios the logger might need to be reset
+            to something else. One such scenario might be changing the logger in tests.
+            After the <see cref="P:OROptimizer.Diagnostics.Log.LogHelper.Context"/> is set to null using this method, <see cref="M:OROptimizer.Diagnostics.Log.LogHelper.RegisterContext(OROptimizer.Diagnostics.Log.ILogHelperContext)"/> can be called again.
+            </summary>
+        </member>
+        <member name="M:OROptimizer.Diagnostics.Log.LogHelper.RegisterContext(OROptimizer.Diagnostics.Log.ILogHelperContext)">
+            <summary>
+            Registers the context. Call this method before accessing the property <see cref="P:OROptimizer.Diagnostics.Log.LogHelper.Context"/>.
+            </summary>
+            <param name="context">The context.</param>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="P:OROptimizer.Diagnostics.Log.LogHelperContextAbstr.Log">
+            <summary>
+            Gets the log.
+            </summary>
+            <value>
+            The log.
+            </value>
+        </member>
         <member name="M:OROptimizer.Diagnostics.Log.LogHelperContextAbstr.CreateLog(System.Type)">
             <summary>
                 Pass the type where the log will be used.
@@ -11,15 +134,348 @@
             <param name="typeThatOwnsTheLog"></param>
             <returns></returns>
         </member>
+        <member name="T:OROptimizer.DynamicCode.DynamicAssemblyBuilder">
+            <summary>
+            Dynamic assembly generator for C# files.
+            Example: <para/>
+            using(var assemblyGenerator = new DynamicAssemblyBuilder("c:\Assembly1.dll", null))
+            {
+                assemblyGenerator.AddReferencedAssembly("c:\Assembly1.dll");
+                var cSharpFileContents = "C# file contents go here";
+                assemblyGenerator.AddCSharpFile(cSharpFileContents);
+            }
+            </summary>
+            <seealso cref="T:OROptimizer.DynamicCode.IDynamicAssemblyBuilder" />
+        </member>
+        <member name="M:OROptimizer.DynamicCode.DynamicAssemblyBuilder.#ctor(System.String,OROptimizer.Delegates.OnDynamicAssemblyEmitComplete)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OROptimizer.DynamicCode.DynamicAssemblyBuilder"/> class.
+            </summary>
+            <param name="dynamicAssemblyPath">The dynamic assembly path.</param>
+            <param name="onDynamicAssemblyEmitComplete">The on dynamic assembly emit complete.</param>
+        </member>
+        <member name="M:OROptimizer.DynamicCode.DynamicAssemblyBuilder.AddCSharpFile(System.String)">
+            <summary>
+            Adds the c# sharp file to assembly generator.
+            </summary>
+            <param name="cSharpFileContents">The c sharp file contents.</param>
+        </member>
+        <member name="M:OROptimizer.DynamicCode.DynamicAssemblyBuilder.AddReferencedAssembly(System.Type)">
+            <summary>
+            Adds a reference to assembly <paramref name="type" />.Assembly in the generated dynamic assembly.
+            </summary>
+            <param name="type">The type.</param>
+        </member>
+        <member name="M:OROptimizer.DynamicCode.DynamicAssemblyBuilder.AddReferencedAssembly(System.String)">
+            <summary>
+            Adds a reference to assembly <paramref name="assemblyPath" /> in the generated dynamic assembly.
+            </summary>
+            <param name="assemblyPath">The assembly path.</param>
+        </member>
+        <member name="P:OROptimizer.DynamicCode.DynamicAssemblyBuilder.BuildStatus">
+            <summary>
+            Gets the build status.
+            </summary>
+            <value>
+            The build status.
+            </value>
+        </member>
+        <member name="M:OROptimizer.DynamicCode.DynamicAssemblyBuilder.Dispose">
+            <summary>
+            Call this method to finalize the assembly generation.
+            </summary>
+        </member>
+        <member name="M:OROptimizer.DynamicCode.DynamicAssemblyBuilder.SetIsAborted">
+            <summary>
+            Call this method if the assembly generation should be aborted.
+            </summary>
+        </member>
+        <member name="T:OROptimizer.DynamicCode.DynamicAssemblyBuilderFactory">
+            <summary>
+            A factory for <see cref="T:OROptimizer.DynamicCode.IDynamicAssemblyBuilder"/>
+            </summary>
+        </member>
+        <member name="M:OROptimizer.DynamicCode.DynamicAssemblyBuilderFactory.CreateDynamicAssemblyBuilder(System.String,OROptimizer.Delegates.OnDynamicAssemblyEmitComplete)">
+            <summary>
+            Creates the dynamic assembly builder.
+            </summary>
+            <param name="dynamicAssemblyPath">The dynamic assembly path.</param>
+            <param name="onDynamicAssemblyEmitComplete">The on dynamic assembly emit complete.</param>
+            <returns></returns>
+        </member>
+        <member name="T:OROptimizer.DynamicCode.IDynamicAssemblyBuilder">
+            <summary>
+            Dynamic assembly generator for C# files.
+            Example: <para/>
+            using(var assemblyGenerator = new DynamicAssemblyBuilder("c:\Assembly1.dll", null))
+            {
+                assemblyGenerator.AddReferencedAssembly("c:\Assembly1.dll");
+                var cSharpFileContents = "C# file contents go here";
+                assemblyGenerator.AddCSharpFile(cSharpFileContents);
+            }
+            </summary>
+            <seealso cref="T:System.IDisposable" />
+        </member>
+        <member name="M:OROptimizer.DynamicCode.IDynamicAssemblyBuilder.AddCSharpFile(System.String)">
+            <summary>
+            Adds the c# sharp file to assembly generator.
+            </summary>
+            <param name="cSharpFileContents">The c sharp file contents.</param>
+        </member>
+        <member name="M:OROptimizer.DynamicCode.IDynamicAssemblyBuilder.AddReferencedAssembly(System.Type)">
+            <summary>
+            Adds a reference to assembly <paramref name="type"/>.Assembly in the generated dynamic assembly.
+            </summary>
+            <param name="type">The type.</param>
+        </member>
+        <member name="M:OROptimizer.DynamicCode.IDynamicAssemblyBuilder.AddReferencedAssembly(System.String)">
+            <summary>
+            Adds a reference to assembly <paramref name="assemblyPath"/> in the generated dynamic assembly.
+            </summary>
+            <param name="assemblyPath">The assembly path.</param>
+        </member>
+        <member name="P:OROptimizer.DynamicCode.IDynamicAssemblyBuilder.BuildStatus">
+            <summary>
+            Gets the build status.
+            </summary>
+            <value>
+            The build status.
+            </value>
+        </member>
+        <member name="M:OROptimizer.DynamicCode.IDynamicAssemblyBuilder.SetIsAborted">
+            <summary>
+            Call this method if the assembly generation should be aborted.
+            </summary>
+        </member>
+        <member name="T:OROptimizer.DynamicCode.IDynamicAssemblyBuilderFactory">
+            <summary>
+            A factory for <see cref="T:OROptimizer.DynamicCode.IDynamicAssemblyBuilder"/>
+            </summary>
+        </member>
+        <member name="M:OROptimizer.DynamicCode.IDynamicAssemblyBuilderFactory.CreateDynamicAssemblyBuilder(System.String,OROptimizer.Delegates.OnDynamicAssemblyEmitComplete)">
+            <summary>
+            Creates the dynamic assembly builder.
+            </summary>
+            <param name="dynamicAssemblyPath">The dynamic assembly path.</param>
+            <param name="onDynamicAssemblyEmitComplete">The on dynamic assembly emit complete.</param>
+            <returns></returns>
+        </member>
+        <member name="P:OROptimizer.DynamicCode.IGeneratedTypeInfo.CSharpFileContents">
+            <summary>
+            Gets the c sharp file contents.
+            </summary>
+            <value>
+            The c sharp file contents.
+            </value>
+        </member>
+        <member name="P:OROptimizer.DynamicCode.IGeneratedTypeInfo.TypeFullName">
+            <summary>
+            Gets the full name of the type.
+            </summary>
+            <value>
+            The full name of the type.
+            </value>
+        </member>
+        <member name="M:OROptimizer.GlobalsCore.#ctor">
+            <summary>
+                Initializes a new instance of the <see cref="T:OROptimizer.GlobalsCore" /> class.
+            </summary>
+        </member>
+        <member name="M:OROptimizer.GlobalsCore.#ctor(OROptimizer.DynamicCode.IDynamicAssemblyBuilderFactory)">
+            <summary>
+                Initializes a new instance of the <see cref="T:OROptimizer.GlobalsCore" /> class.
+            </summary>
+            <param name="dynamicAssemblyBuilderFactory">The dynamic assembly builder factory.</param>
+        </member>
+        <member name="M:OROptimizer.GlobalsCore.CheckTypeConstructorExistence(System.Type,System.Type,System.Type[],System.Reflection.ConstructorInfo@,System.String@)">
+            <summary>
+                Checks the type constructor existence.
+            </summary>
+            <param name="serviceType">Type of the service.</param>
+            <param name="implementationType">Type of the implementation.</param>
+            <param name="constructorParametersTypes">The constructor parameters types.</param>
+            <param name="constructorInfo">The constructor information.</param>
+            <param name="errorMessage">The error message.</param>
+            <returns></returns>
+        </member>
+        <member name="M:OROptimizer.GlobalsCore.CheckTypeConstructorExistence(System.Type,System.Type[],System.Reflection.ConstructorInfo@,System.String@)">
+            <summary>
+                Checks the type constructor existence.
+            </summary>
+            <param name="type">The type.</param>
+            <param name="constructorParametersTypes">The constructor parameters types.</param>
+            <param name="constructorInfo">The constructor information.</param>
+            <param name="errorMessage">The error message.</param>
+            <returns></returns>
+        </member>
+        <member name="M:OROptimizer.GlobalsCore.CreateInstance``1(System.String,System.String,OROptimizer.ParameterInfo[])">
+            <summary>
+                Creates an instance of type <paramref name="classFullName" /> in assembly <paramref name="assemblyFilePath" />
+                using parameters specified in
+                <paramref name="constructorParameters" />.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="classFullName">Full name of the class.</param>
+            <param name="assemblyFilePath">The assembly file path.</param>
+            <param name="constructorParameters">The constructor parameters.</param>
+            <returns>
+                Returns created type, or null if the type instance cannot be created.
+            </returns>
+        </member>
+        <member name="M:OROptimizer.GlobalsCore.CreateInstance(System.Type,System.Type,OROptimizer.ParameterInfo[],System.String@)">
+            <summary>
+                Tries to create an instance if type <paramref name="implementationType" /> that implements
+                <paramref name="serviceType" />.
+            </summary>
+            <param name="serviceType">Type of the service.</param>
+            <param name="implementationType">Type of the implementation.</param>
+            <param name="constructorParameters">The constructor parameters.</param>
+            <param name="errorMessage">The error message.</param>
+            <returns>
+                Returns created type, or null if the type instance cannot be created.
+            </returns>
+        </member>
+        <member name="M:OROptimizer.GlobalsCore.CreateInstance(System.Type,OROptimizer.ParameterInfo[],System.String@)">
+            <summary>
+                Tries to create an instance if type <paramref name="type" />.
+            </summary>
+            <param name="type">The type.</param>
+            <param name="constructorParameters">The constructor parameters.</param>
+            <param name="errorMessage">The error message.</param>
+            <returns>
+                Returns created type, or null if the type instance cannot be created.
+            </returns>
+        </member>
+        <member name="P:OROptimizer.GlobalsCore.CurrentInProgressDynamicAssemblyBuilder">
+            <summary>
+                Gets the current in progress dynamic assembly builder.
+            </summary>
+            <value>
+                The current in progress dynamic assembly builder.
+            </value>
+        </member>
+        <member name="M:OROptimizer.GlobalsCore.StartDynamicAssemblyBuilder(System.String,OROptimizer.Delegates.OnDynamicAssemblyEmitComplete,System.Boolean,System.String[])">
+            <summary>
+                Starts the dynamic assembly builder and returns an instance of <see cref="T:OROptimizer.DynamicCode.IDynamicAssemblyBuilder" />.
+                Use the value of <see cref="P:OROptimizer.IGlobalsCore.CurrentInProgressDynamicAssemblyBuilder" />
+                anywhere in code to add C# files and referenced assemblies to the assembly being generated.
+                Example usage of this method is as follows:
+                <para />
+                using(var assemblyBuilder = <see cref="M:OROptimizer.GlobalsCore.StartDynamicAssemblyBuilder(System.String,OROptimizer.Delegates.OnDynamicAssemblyEmitComplete,System.Boolean,System.String[])" />("c:\DynamicallyGeneratedAssembly1.dll"))
+                <para />
+                {
+                <para />
+                assemblyBuilder.<see cref="M:OROptimizer.DynamicCode.IDynamicAssemblyBuilder.AddReferencedAssembly(System.Type)" />(typeof(<see cref="!:ITypeBasedSimpleSerializerAggregator" />));
+                <para />
+                assemblyBuilder.AddReferencedAssembly("MyReferencedAssembly1.dll");
+                <para />
+                AddCSharpFile1();
+                <para />
+                }
+                <para />
+                public void AddCSharpFile1()
+                <para />
+                {
+                <para />
+                var assemblyBuilder = <see cref="!:GlobalsCoreAmbientContext.Context.CurrentInProgressDynamicAssemblyBuilder" />;
+                <para />
+                var cSharpFile = null;
+                <para />
+                // generate C# file contents in cSharpFile
+                <para />
+                // ...
+                <para />
+                assemblyBuilder.AddCSharpFile(cSharpFile);
+                <para />
+                }
+                <para />
+            </summary>
+            <param name="dynamicAssemblyPath">The dynamic assembly path, where dynamically generated assembly will be saved.</param>
+            <param name="onDynamicAssemblyEmitComplete">
+                Delegate <see cref="!:OnDynamicAssemblyEmitComplete" /> that will be called,
+                when the dynamic assembly generation is complete.
+            </param>
+            <param name="addAllLoadedAssembliesAsReferences">
+                if set to <c>true</c> all assemblies loaded into current application
+                domain will be automatically added as referenced assemblies to the dynamically generated assembly.
+            </param>
+            <param name="referencedAssemblyPaths">
+                Assembly paths for assemblies that will be added as references to generated
+                assembly.
+            </param>
+            <returns>
+                Returns an instance of <see cref="T:OROptimizer.DynamicCode.IDynamicAssemblyBuilder" />.
+            </returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
         <member name="T:OROptimizer.IGlobalsCore">
             <summary>
                 Provides some helper functions.
                 This interface should always be bound using singletone scope.
             </summary>
         </member>
+        <member name="M:OROptimizer.IGlobalsCore.CheckTypeConstructorExistence(System.Type,System.Type,System.Type[],System.Reflection.ConstructorInfo@,System.String@)">
+            <summary>
+                Checks the type constructor existence.
+            </summary>
+            <param name="serviceType">Type of the service.</param>
+            <param name="implementationType">Type of the implementation.</param>
+            <param name="constructorParametersTypes">The constructor parameters types.</param>
+            <param name="constructorInfo">The constructor information.</param>
+            <param name="errorMessage">The error message.</param>
+        </member>
+        <member name="M:OROptimizer.IGlobalsCore.CheckTypeConstructorExistence(System.Type,System.Type[],System.Reflection.ConstructorInfo@,System.String@)">
+            <summary>
+                Checks the type constructor existence.
+            </summary>
+            <param name="type">The type.</param>
+            <param name="constructorParametersTypes">The constructor parameters types.</param>
+            <param name="constructorInfo">The constructor information.</param>
+            <param name="errorMessage">The error message.</param>
+        </member>
+        <member name="M:OROptimizer.IGlobalsCore.CreateInstance``1(System.String,System.String,OROptimizer.ParameterInfo[])">
+            <summary>
+                Creates an instance of type <paramref name="classFullName" /> in assembly <paramref name="assemblyFilePath" />
+                using parameters specified in
+                <paramref name="constructorParameters" />.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="classFullName">Full name of the class.</param>
+            <param name="assemblyFilePath">The assembly file path.</param>
+            <param name="constructorParameters">The constructor parameters.</param>
+            <returns>Returns created type, or null if the type instance cannot be created.</returns>
+        </member>
+        <member name="M:OROptimizer.IGlobalsCore.CreateInstance(System.Type,System.Type,OROptimizer.ParameterInfo[],System.String@)">
+            <summary>
+                Tries to create an instance if type <paramref name="implementationType" /> that implements
+                <paramref name="serviceType" />.
+            </summary>
+            <param name="serviceType">Type of the service.</param>
+            <param name="implementationType">Type of the implementation.</param>
+            <param name="constructorParameters">The constructor parameters.</param>
+            <param name="errorMessage">The error message.</param>
+            <returns>Returns created type, or null if the type instance cannot be created.</returns>
+        </member>
+        <member name="M:OROptimizer.IGlobalsCore.CreateInstance(System.Type,OROptimizer.ParameterInfo[],System.String@)">
+            <summary>
+                Tries to create an instance if type <paramref name="type" />.
+            </summary>
+            <param name="type">The type.</param>
+            <param name="constructorParameters">The constructor parameters.</param>
+            <param name="errorMessage">The error message.</param>
+            <returns>Returns created type, or null if the type instance cannot be created.</returns>
+        </member>
+        <member name="P:OROptimizer.IGlobalsCore.CurrentInProgressDynamicAssemblyBuilder">
+            <summary>
+                Gets the current in progress dynamic assembly builder.
+            </summary>
+            <value>
+                The current in progress dynamic assembly builder.
+            </value>
+        </member>
         <member name="M:OROptimizer.IGlobalsCore.EnsureParameterNotNull(System.String,System.Object)">
             <summary>
-            Logs an error and throws an exception if <paramref name="parameterValue"/> is null.
+                Logs an error and throws an exception if <paramref name="parameterValue" /> is null.
             </summary>
             <param name="parameterName"></param>
             <param name="parameterValue"></param>
@@ -27,9 +483,22 @@
         </member>
         <member name="P:OROptimizer.IGlobalsCore.EntryAssemblyFolder">
             <summary>
-            This is normally the location where the executable is. For test projects this might be the folder where the test execution 
-            library is. Therefore, the context might need to be replaced with a one, that returns a valid entry folder path.
+                This is normally the location where the executable is. For test projects this might be the folder where the test
+                execution library is. Therefore, the context might need to be replaced with a one, that returns a valid entry
+                folder path.
             </summary>
+        </member>
+        <member name="M:OROptimizer.IGlobalsCore.GenerateUniqueId">
+            <summary>
+                Generates the unique identifier.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OROptimizer.IGlobalsCore.GetAllLoadedAssemblies">
+            <summary>
+                Gets all loaded assemblies.
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:OROptimizer.IGlobalsCore.LogAnErrorAndThrowException(System.String,System.String,System.Func{System.String,System.Exception})">
             <summary>
@@ -53,6 +522,86 @@
                 Otherwise <see cref="T:System.Exception" /> is thrown.
             </exception>
         </member>
+        <member name="M:OROptimizer.IGlobalsCore.StartDynamicAssemblyBuilder(System.String,OROptimizer.Delegates.OnDynamicAssemblyEmitComplete,System.Boolean,System.String[])">
+            <summary>
+                Starts the dynamic assembly builder and returns an instance of <see cref="T:OROptimizer.DynamicCode.IDynamicAssemblyBuilder" />.
+                Use the value of <see cref="P:OROptimizer.IGlobalsCore.CurrentInProgressDynamicAssemblyBuilder" />
+                anywhere in code to add C# files and referenced assemblies to the assembly being generated.
+                Example usage of this method is as follows:
+                <para />
+                using(var assemblyBuilder = <see cref="M:OROptimizer.IGlobalsCore.StartDynamicAssemblyBuilder(System.String,OROptimizer.Delegates.OnDynamicAssemblyEmitComplete,System.Boolean,System.String[])" />("c:\DynamicallyGeneratedAssembly1.dll"))
+                <para />
+                {
+                <para />
+                assemblyBuilder.<see cref="M:OROptimizer.DynamicCode.IDynamicAssemblyBuilder.AddReferencedAssembly(System.Type)" />(typeof(
+                <see cref="!:ITypeBasedSimpleSerializerAggregator" />));
+                <para />
+                assemblyBuilder.AddReferencedAssembly("MyReferencedAssembly1.dll");
+                <para />
+                AddCSharpFile1();
+                <para />
+                }
+                <para />
+                public void AddCSharpFile1()
+                <para />
+                {
+                <para />
+                var assemblyBuilder = <see cref="!:GlobalsCoreAmbientContext.Context.CurrentInProgressDynamicAssemblyBuilder" />;
+                <para />
+                var cSharpFile = null;
+                <para />
+                // generate C# file contents in cSharpFile
+                <para />
+                // ...
+                <para />
+                assemblyBuilder.AddCSharpFile(cSharpFile);
+                <para />
+                }
+                <para />
+            </summary>
+            <param name="dynamicAssemblyPath">The dynamic assembly path, where dynamically generated assembly will be saved.</param>
+            <param name="onDynamicAssemblyEmitComplete">
+                Delegate <see cref="T:OROptimizer.Delegates.OnDynamicAssemblyEmitComplete" /> that will be called,
+                when the dynamic assembly generation is complete.
+            </param>
+            <param name="addAllLoadedAssembliesAsReferences">
+                if set to <c>true</c> all assemblies loaded into current application
+                domain will be automatically added as referenced assemblies to the dynamically generated assembly.
+            </param>
+            <param name="referencedAssemblyPaths">
+                Assembly paths for assemblies that will be added as references to generated
+                assembly.
+            </param>
+            <returns>Returns an instance of <see cref="T:OROptimizer.DynamicCode.IDynamicAssemblyBuilder" />.</returns>
+        </member>
+        <member name="T:OROptimizer.ParameterInfo">
+            <summary>
+            A class representing a parameter info that can be used in reflection helper methods, such as the ones in <see cref="T:OROptimizer.IGlobalsCore"/>.
+            </summary>
+        </member>
+        <member name="M:OROptimizer.ParameterInfo.#ctor(System.Type,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OROptimizer.ParameterInfo"/> class.
+            </summary>
+            <param name="parameterType">Type of the parameter.</param>
+            <param name="parameterValue">The parameter value.</param>
+        </member>
+        <member name="P:OROptimizer.ParameterInfo.ParameterType">
+            <summary>
+            Gets the type of the parameter.
+            </summary>
+            <value>
+            The type of the parameter.
+            </value>
+        </member>
+        <member name="P:OROptimizer.ParameterInfo.ParameterValue">
+            <summary>
+            Gets the parameter value.
+            </summary>
+            <value>
+            The parameter value.
+            </value>
+        </member>
         <member name="T:OROptimizer.Serializer.ITypeBasedSimpleSerializer">
             <summary>
                 A simple serializer that serializes/de-serializes objects to and from strings.
@@ -61,13 +610,162 @@
                 For example integer value 3 will be de-serialized from "3".
             </summary>
         </member>
+        <member name="T:OROptimizer.Serializer.ITypeBasedSimpleSerializerAggregator">
+            <summary>
+            A serializer that serializes/deserializes values to/from string values.
+            </summary>
+        </member>
         <member name="M:OROptimizer.Serializer.ITypeBasedSimpleSerializerAggregator.Deserialize``1(System.String)">
             <summary>
+            Deserializes value from value specified in parameter <paramref name="valueToDeserialize"/> into an instance
+            of type <typeparamref name="T"/>.
+            The serializer will fail if there no serializer <see cref="T:OROptimizer.Serializer.ITypeBasedSimpleSerializer"/> was registered for
+            type <typeparamref name="T"/> for which <see cref="P:OROptimizer.Serializer.ITypeBasedSimpleSerializer.SerializedType"/> == <typeparamref name="T"/>.
             </summary>
             <typeparam name="T"></typeparam>
             <param name="valueToDeserialize"></param>
             <returns></returns>
             <exception cref="T:System.ArgumentException">Throws this exception if the value cannot be deserialized</exception>
+        </member>
+        <member name="M:OROptimizer.Serializer.ITypeBasedSimpleSerializerAggregator.GetRegisteredSerializers">
+            <summary>
+            Gets the registered serializers.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OROptimizer.Serializer.ITypeBasedSimpleSerializerAggregator.GetSerializerForType(System.Type)">
+            <summary>
+            Gets the <see cref="T:OROptimizer.Serializer.ITypeBasedSimpleSerializer"/> registered for type <paramref name="type"/>.
+            </summary>
+            <param name="type">The type.</param>
+        </member>
+        <member name="M:OROptimizer.Serializer.ITypeBasedSimpleSerializerAggregator.HasSerializerForType(System.Type)">
+            <summary>
+            Determines whether there is a serializer object of type <see cref="T:OROptimizer.Serializer.ITypeBasedSimpleSerializer"/> registered to
+            serialize/de-serialize value of type <paramref name="type"/>.
+            </summary>
+            <param name="type">The type.</param>
+        </member>
+        <member name="M:OROptimizer.Serializer.ITypeBasedSimpleSerializerAggregator.Register(OROptimizer.Serializer.ITypeBasedSimpleSerializer)">
+            <summary>
+            Registers the specified type based simple serializer. The serializers registered using this method
+            are used by method <see cref="M:OROptimizer.Serializer.ITypeBasedSimpleSerializerAggregator.Deserialize``1(System.String)"/> and <see cref="M:OROptimizer.Serializer.ITypeBasedSimpleSerializerAggregator.TrySerialize(System.Object,System.String@)"/>.
+            </summary>
+            <param name="typeBasedSimpleSerializer">The type based simple serializer.</param>
+            <returns></returns>
+        </member>
+        <member name="M:OROptimizer.Serializer.ITypeBasedSimpleSerializerAggregator.TryDeserialize(System.Type,System.String,System.Object@)">
+            <summary>
+            Tries the deserialize the value in <paramref name="deserializedValue"/> into an on object of type <paramref name="typeToDeserializeTo"/>.
+            </summary>
+            <param name="typeToDeserializeTo">The type to deserialize to.</param>
+            <param name="valueToDeserialize">The value to deserialize.</param>
+            <param name="deserializedValue">The deserialized value.</param>
+            <returns>Returns <c>true</c>, if the value was successfully de-serialized. returns <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:OROptimizer.Serializer.ITypeBasedSimpleSerializerAggregator.TryDeserialize``1(System.String,``0,``0@)">
+            <summary>
+            Tries the deserialize the value in <paramref name="deserializedValue"/> into an on object of type <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="valueToDeserialize">The value to deserialize.</param>
+            <param name="defaultValueIfFails">The default value if fails.</param>
+            <param name="deserializedValue">The deserialized value.</param>
+            <returns>Returns <c>true</c>, if the value was successfully de-serialized. returns <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:OROptimizer.Serializer.ITypeBasedSimpleSerializerAggregator.TrySerialize(System.Object,System.String@)">
+            <summary>
+            Tries the serialize the value in <paramref name="serializedValue"/> into an output parameter <paramref name="serializedValue"/>.
+            </summary>
+            <param name="valueToSerialize">The value to serialize.</param>
+            <param name="serializedValue">The serialized value.</param>
+            <returns>Returns <c>true</c>, if the value was successfully serialized. returns <c>false</c> otherwise.</returns>
+        </member>
+        <member name="T:OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator">
+            <summary>
+            A serializer that serializes/deserializes values to/from string values.
+            </summary>
+            <seealso cref="T:OROptimizer.Serializer.ITypeBasedSimpleSerializerAggregator" />
+        </member>
+        <member name="M:OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator.Deserialize``1(System.String)">
+            <summary>
+            Deserializes value from value specified in parameter <paramref name="valueToDeserialize" /> into an instance
+            of type <typeparamref name="T" />.
+            The serializer will fail if there no serializer <see cref="T:OROptimizer.Serializer.ITypeBasedSimpleSerializer" /> was registered for
+            type <typeparamref name="T" /> for which <see cref="P:OROptimizer.Serializer.ITypeBasedSimpleSerializer.SerializedType" /> == <typeparamref name="T" />.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="valueToDeserialize"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator.GetRegisteredSerializers">
+            <summary>
+            Gets the registered serializers.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator.GetSerializerForType(System.Type)">
+            <summary>
+            Gets the <see cref="T:OROptimizer.Serializer.ITypeBasedSimpleSerializer" /> registered for type <paramref name="type" />.
+            </summary>
+            <param name="type">The type.</param>
+            <returns></returns>
+        </member>
+        <member name="M:OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator.HasSerializerForType(System.Type)">
+            <summary>
+            Determines whether there is a serializer object of type <see cref="T:OROptimizer.Serializer.ITypeBasedSimpleSerializer" /> registered to
+            serialize/de-serialize value of type <paramref name="type" />.
+            </summary>
+            <param name="type">The type.</param>
+            <returns></returns>
+        </member>
+        <member name="M:OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator.Register(OROptimizer.Serializer.ITypeBasedSimpleSerializer)">
+            <summary>
+            Registers the specified type based simple serializer. The serializers registered using this method
+            are used by method <see cref="M:OROptimizer.Serializer.ITypeBasedSimpleSerializerAggregator.Deserialize``1(System.String)" /> and <see cref="M:OROptimizer.Serializer.ITypeBasedSimpleSerializerAggregator.TrySerialize(System.Object,System.String@)" />.
+            </summary>
+            <param name="typeBasedSimpleSerializer">The type based simple serializer.</param>
+            <returns></returns>
+        </member>
+        <member name="M:OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator.TryDeserialize``1(System.String,``0,``0@)">
+            <summary>
+            Tries the deserialize the value in <paramref name="deserializedValue" /> into an on object of type <typeparamref name="T"/>.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="valueToDeserialize">The value to deserialize.</param>
+            <param name="defaultValueIfFails">The default value if fails.</param>
+            <param name="deserializedValue">The deserialized value.</param>
+            <returns>
+            Returns <c>true</c>, if the value was successfully de-serialized. returns <c>false</c> otherwise.
+            </returns>
+        </member>
+        <member name="M:OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator.TryDeserialize(System.Type,System.String,System.Object@)">
+            <summary>
+            Tries the deserialize the value in <paramref name="deserializedValue" /> into an on object of type <paramref name="typeToDeserializeTo" />.
+            </summary>
+            <param name="typeToDeserializeTo">The type to deserialize to.</param>
+            <param name="valueToDeserialize">The value to deserialize.</param>
+            <param name="deserializedValue">The deserialized value.</param>
+            <returns>
+            Returns <c>true</c>, if the value was successfully de-serialized. returns <c>false</c> otherwise.
+            </returns>
+        </member>
+        <member name="M:OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator.TrySerialize(System.Object,System.String@)">
+            <summary>
+            Tries the serialize the value in <paramref name="serializedValue" /> into an output parameter <paramref name="serializedValue" />.
+            </summary>
+            <param name="valueToSerialize">The value to serialize.</param>
+            <param name="serializedValue">The serialized value.</param>
+            <returns>
+            Returns <c>true</c>, if the value was successfully serialized. returns <c>false</c> otherwise.
+            </returns>
+        </member>
+        <member name="M:OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator.GetDefaultSerializerAggregator">
+            <summary>
+            Gets the default serializer aggregator.
+            </summary>
+            <returns></returns>
         </member>
     </members>
 </doc>

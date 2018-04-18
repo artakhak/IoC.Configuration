@@ -2,12 +2,12 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.0": {
-      "IoC.Configuration/1.0.0-beta4": {
+      "IoC.Configuration/1.0.1": {
         "type": "package",
         "dependencies": {
           "JetBrains.Annotations": "10.2.1",
           "Microsoft.CodeAnalysis": "2.3.2",
-          "OROptimizer.Shared": "1.0.0-beta2",
+          "OROptimizer.Shared": "1.0.0",
           "System.Runtime.Loader": "4.3.0"
         },
         "compile": {
@@ -447,7 +447,7 @@
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       },
-      "OROptimizer.Shared/1.0.0-beta2": {
+      "OROptimizer.Shared/1.0.0": {
         "type": "package",
         "dependencies": {
           "JetBrains.Annotations": "10.2.1",
@@ -2305,7 +2305,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
-          "IoC.Configuration": "1.0.0-beta4",
+          "IoC.Configuration": "1.0.1",
           "TestProjects.SharedServices": "1.0.0"
         },
         "compile": {
@@ -2319,7 +2319,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
-          "IoC.Configuration": "1.0.0-beta4"
+          "IoC.Configuration": "1.0.1"
         },
         "compile": {
           "bin/placeholder/TestProjects.SharedServices.dll": {}
@@ -2331,16 +2331,16 @@
     }
   },
   "libraries": {
-    "IoC.Configuration/1.0.0-beta4": {
-      "sha512": "E3NwdHa48aNDtHZcO3B6i6r0rUvVAhb0Rd1XiNN+CEz29/KCZ4JdoQmhfg1bqh90UgbC9K7IbDa27L+KMIuk2Q==",
+    "IoC.Configuration/1.0.1": {
+      "sha512": "xIqcU2m/NrTEA++qrO7YBFab0Y9Kf0/u9tdMvWJGvu0t2llqegogKt6sugRrQFHDFv3AEQx0Ku+8kCAx701r/Q==",
       "type": "package",
-      "path": "ioc.configuration/1.0.0-beta4",
+      "path": "ioc.configuration/1.0.1",
       "files": [
         "content/IoC.Cnfiguration.Content/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd",
         "content/IoC.Cnfiguration.Content/IoC.Configuration.Template.xml",
         "contentFiles/any/netstandard2.0/IoC.Cnfiguration.Content/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd",
         "contentFiles/any/netstandard2.0/IoC.Cnfiguration.Content/IoC.Configuration.Template.xml",
-        "ioc.configuration.1.0.0-beta4.nupkg.sha512",
+        "ioc.configuration.1.0.1.nupkg.sha512",
         "ioc.configuration.nuspec",
         "lib/netstandard2.0/IoC.Configuration.dll",
         "lib/netstandard2.0/IoC.Configuration.xml"
@@ -3015,14 +3015,14 @@
         "netstandard.library.nuspec"
       ]
     },
-    "OROptimizer.Shared/1.0.0-beta2": {
-      "sha512": "ic3dpxCDq/VsmwnwVnuw5qFTWUvAVNRK3zrnMuSla4BjnTWRTvT1uRw/Kgci5P4sXIUA5WAYu2S527DsY2KdiQ==",
+    "OROptimizer.Shared/1.0.0": {
+      "sha512": "rBop7fF1akOSF6R0KozmmsEzlT070X1sMP/G9+0roVo1n4iLeoDuY6KbkpHDG4Cm+TC8xPvT6e2MRMa6idPJbA==",
       "type": "package",
-      "path": "oroptimizer.shared/1.0.0-beta2",
+      "path": "oroptimizer.shared/1.0.0",
       "files": [
         "lib/netstandard2.0/OROptimizer.Shared.dll",
         "lib/netstandard2.0/OROptimizer.Shared.xml",
-        "oroptimizer.shared.1.0.0-beta2.nupkg.sha512",
+        "oroptimizer.shared.1.0.0.nupkg.sha512",
         "oroptimizer.shared.nuspec"
       ]
     },
@@ -7330,7 +7330,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
-      "IoC.Configuration >= 1.0.0-beta4",
+      "IoC.Configuration >= 1.0.1",
       "Microsoft.NETCore.App >= 2.0.0",
       "TestProjects.DynamicallyLoadedAssembly1 >= 1.0.0",
       "TestProjects.SharedServices >= 1.0.0"
@@ -7389,7 +7389,7 @@
         "dependencies": {
           "IoC.Configuration": {
             "target": "Package",
-            "version": "[1.0.0-beta4, )"
+            "version": "[1.0.1, )"
           },
           "Microsoft.NETCore.App": {
             "suppressParent": "All",

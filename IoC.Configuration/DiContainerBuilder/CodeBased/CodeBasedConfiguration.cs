@@ -1,4 +1,28 @@
-﻿using System;
+﻿// This software is part of the IoC.Configuration library
+// Copyright © 2018 IoC.Configuration Contributors
+// http://oroptimizer.com
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+using System;
 using System.Collections.Generic;
 using IoC.Configuration.DiContainer;
 using JetBrains.Annotations;
@@ -8,12 +32,15 @@ using OROptimizer.Serializer;
 
 namespace IoC.Configuration.DiContainerBuilder.CodeBased
 {
+    /// <summary>
+    /// A class that stores data for building dependency injection container using code based configuration.
+    /// </summary>
+    /// <seealso cref="IoC.Configuration.DiContainerBuilder.DiContainerBuilderConfiguration" />
     public class CodeBasedConfiguration : DiContainerBuilderConfiguration
     {
         #region Member Variables
 
-        [NotNull]
-        [ItemNotNull]
+        [NotNull, ItemNotNull]
         private readonly LinkedList<string> _assemblyProbingPaths = new LinkedList<string>();
 
         [NotNull]
@@ -22,17 +49,18 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         #endregion
 
         #region  Constructors
-
+       
         /// <summary>
+        /// Initializes a new instance of the <see cref="CodeBasedConfiguration"/> class.
         /// </summary>
-        /// <param name="diManager"></param>
+        /// <param name="diManager">The DI manager.</param>
         /// <param name="entryAssemblyFolder">
         ///     The location where the executable is.
         ///     For non test projects <see cref="IGlobalsCore.EntryAssemblyFolder" /> can be used as a value for this parameter.
         ///     However, for tests projects <see cref="IGlobalsCore.EntryAssemblyFolder" /> might be
         ///     be the folder where the test execution library is, so a different value might need to be passed.
         /// </param>
-        /// <param name="assemblyProbingPaths"></param>
+        /// <param name="assemblyProbingPaths">The assembly probing paths.</param>
         public CodeBasedConfiguration([NotNull] IDiManager diManager,
                                       [NotNull] string entryAssemblyFolder,
                                       [CanBeNull] [ItemNotNull] params string[] assemblyProbingPaths) : base(entryAssemblyFolder)
@@ -74,6 +102,9 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
             AddNativeModules(GlobalsCoreAmbientContext.Context.CreateInstance<object>(nativeModuleClassFullName, nativeModuleClassAssemblyFilePath, nativeModuleConstructorParameters));
         }
 
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
         public override void Dispose()
         {
             base.Dispose();

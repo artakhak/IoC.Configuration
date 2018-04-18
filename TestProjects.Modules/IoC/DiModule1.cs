@@ -1,7 +1,6 @@
 ﻿using IoC.Configuration.DiContainer;
 using SharedServices.Implementations;
 using SharedServices.Interfaces;
-using IoCConfiguration = IoC.Configuration;
 
 namespace Modules.IoC
 {

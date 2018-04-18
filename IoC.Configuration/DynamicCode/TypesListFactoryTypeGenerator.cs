@@ -1,4 +1,28 @@
-﻿using System;
+﻿// This software is part of the IoC.Configuration library
+// Copyright © 2018 IoC.Configuration Contributors
+// http://oroptimizer.com
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,8 +56,28 @@ namespace IoC.Configuration.DynamicCode
 
         #endregion
 
-        #region ITypesListFactoryTypeGenerator Interface Implementation
-
+        #region ITypesListFactoryTypeGenerator Interface Implementation        
+        /// <summary>
+        /// Generates a C# file for a type that is an implementation of interface specified in
+        /// <paramref name="interfaceToImplement" /> parameter.
+        /// Calls <see cref="M:OROptimizer.DynamicCode.IDynamicAssemblyBuilder.AddCSharpFile(System.String)" /> to add the generated C# file to an assembly being
+        /// built.
+        /// Interface <paramref name="interfaceToImplement" /> should have exactly one method that has arbitrary number
+        /// of parameters, and returns <see cref="T:System.Collections.Generic.IEnumerable`1" />, where T is an interface.
+        /// </summary>
+        /// <param name="dynamicAssemblyBuilder">The dynamic assembly builder.</param>
+        /// <param name="interfaceToImplement">The interface to implement.</param>
+        /// <param name="dynamicImplementationsNamespace">Namespace to use for generated classes.</param>
+        /// <param name="returnedInstanceTypesForDefaultCase">The returned instance types for default case.</param>
+        /// <param name="selectorParameterValues">The selector parameter values.</param>
+        /// <param name="returnedInstanceTypesForSelectorParameterValues">The returned instance types for selector parameter values.</param>
+        /// <returns>
+        /// Returns generated type information, such as class full name and C# file contents.
+        /// </returns>
+        /// <exception cref="System.Exception">
+        /// selectorParameterValues
+        /// or
+        /// </exception>
         public IGeneratedTypeInfo GenerateType(IDynamicAssemblyBuilder dynamicAssemblyBuilder, Type interfaceToImplement,
                                                string dynamicImplementationsNamespace,
                                                IEnumerable<Type> returnedInstanceTypesForDefaultCase,
@@ -90,6 +134,14 @@ namespace IoC.Configuration.DynamicCode
             }
         }
 
+        /// <summary>
+        /// Validates the implemented interface.
+        /// </summary>
+        /// <param name="interfaceToImplement">The interface to implement.</param>
+        /// <param name="implementedMethodInfo">The implemented method information.</param>
+        /// <param name="returnedItemsType">Type of the returned items.</param>
+        /// <param name="errorMessage">The error message.</param>
+        /// <returns></returns>
         public bool ValidateImplementedInterface(Type interfaceToImplement, out MethodInfo implementedMethodInfo, out Type returnedItemsType, out string errorMessage)
         {
             errorMessage = null;
@@ -134,6 +186,13 @@ namespace IoC.Configuration.DynamicCode
             return true;
         }
 
+        /// <summary>
+        /// Validates the parameter values.
+        /// </summary>
+        /// <param name="implementedMethodInfo">The implemented method information.</param>
+        /// <param name="selectorParameterValues">The selector parameter values.</param>
+        /// <param name="errorMessage">The error message.</param>
+        /// <returns></returns>
         public bool ValidateParameterValues(MethodInfo implementedMethodInfo, IEnumerable<string> selectorParameterValues, out string errorMessage)
         {
             errorMessage = null;
@@ -204,6 +263,13 @@ namespace IoC.Configuration.DynamicCode
             return true;
         }
 
+        /// <summary>
+        /// Validates the type of the returned.
+        /// </summary>
+        /// <param name="specifiedReturnedType">Specified type of the returned.</param>
+        /// <param name="returnedItemsType">Type of the returned items.</param>
+        /// <param name="errorMessage">The error message.</param>
+        /// <returns></returns>
         public bool ValidateReturnedType(Type specifiedReturnedType, Type returnedItemsType, out string errorMessage)
         {
             errorMessage = null;

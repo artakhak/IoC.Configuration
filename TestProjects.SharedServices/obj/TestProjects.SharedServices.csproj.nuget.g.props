@@ -13,16 +13,16 @@
     <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
   </PropertyGroup>
   <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Content Include="$(NuGetPackageRoot)ioc.configuration\1.0.0-beta4\contentFiles\any\netstandard2.0\IoC.Cnfiguration.Content\IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd" Condition="Exists('$(NuGetPackageRoot)ioc.configuration\1.0.0-beta4\contentFiles\any\netstandard2.0\IoC.Cnfiguration.Content\IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd')">
+    <Content Include="$(NuGetPackageRoot)ioc.configuration\1.0.1\contentFiles\any\netstandard2.0\IoC.Cnfiguration.Content\IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd" Condition="Exists('$(NuGetPackageRoot)ioc.configuration\1.0.1\contentFiles\any\netstandard2.0\IoC.Cnfiguration.Content\IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd')">
       <NuGetPackageId>IoC.Configuration</NuGetPackageId>
-      <NuGetPackageVersion>1.0.0-beta4</NuGetPackageVersion>
+      <NuGetPackageVersion>1.0.1</NuGetPackageVersion>
       <NuGetItemType>Content</NuGetItemType>
       <Private>False</Private>
       <Link>IoC.Cnfiguration.Content\IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd</Link>
     </Content>
-    <Content Include="$(NuGetPackageRoot)ioc.configuration\1.0.0-beta4\contentFiles\any\netstandard2.0\IoC.Cnfiguration.Content\IoC.Configuration.Template.xml" Condition="Exists('$(NuGetPackageRoot)ioc.configuration\1.0.0-beta4\contentFiles\any\netstandard2.0\IoC.Cnfiguration.Content\IoC.Configuration.Template.xml')">
+    <Content Include="$(NuGetPackageRoot)ioc.configuration\1.0.1\contentFiles\any\netstandard2.0\IoC.Cnfiguration.Content\IoC.Configuration.Template.xml" Condition="Exists('$(NuGetPackageRoot)ioc.configuration\1.0.1\contentFiles\any\netstandard2.0\IoC.Cnfiguration.Content\IoC.Configuration.Template.xml')">
       <NuGetPackageId>IoC.Configuration</NuGetPackageId>
-      <NuGetPackageVersion>1.0.0-beta4</NuGetPackageVersion>
+      <NuGetPackageVersion>1.0.1</NuGetPackageVersion>
       <NuGetItemType>Content</NuGetItemType>
       <Private>False</Private>
       <Link>IoC.Cnfiguration.Content\IoC.Configuration.Template.xml</Link>

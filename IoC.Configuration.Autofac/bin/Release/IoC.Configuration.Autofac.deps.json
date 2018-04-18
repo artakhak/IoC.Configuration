@@ -1,21 +1,21 @@
 {
   "runtimeTarget": {
     "name": ".NETStandard,Version=v2.0/",
-    "signature": "c386a5db28314c484707559fadfd202371da70e1"
+    "signature": "7a550ef02e440354a4fd28818aca5893675fe753"
   },
   "compilationOptions": {},
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "IoC.Configuration.Autofac/1.0.0-beta2": {
+      "IoC.Configuration.Autofac/1.0.0": {
         "dependencies": {
           "Autofac": "4.5.0",
           "Autofac.Extensions.DependencyInjection": "4.0.0",
-          "IoC.Configuration": "1.0.0-beta4",
+          "IoC.Configuration": "1.0.1",
           "JetBrains.Annotations": "10.2.1",
           "Microsoft.CodeAnalysis": "2.3.2",
           "NETStandard.Library": "2.0.1",
-          "OROptimizer.Shared": "1.0.0-beta2"
+          "OROptimizer.Shared": "1.0.0"
         },
         "runtime": {
           "IoC.Configuration.Autofac.dll": {}
@@ -40,11 +40,11 @@
           "lib/netstandard1.1/Autofac.Extensions.DependencyInjection.dll": {}
         }
       },
-      "IoC.Configuration/1.0.0-beta4": {
+      "IoC.Configuration/1.0.1": {
         "dependencies": {
           "JetBrains.Annotations": "10.2.1",
           "Microsoft.CodeAnalysis": "2.3.2",
-          "OROptimizer.Shared": "1.0.0-beta2",
+          "OROptimizer.Shared": "1.0.0",
           "System.Runtime.Loader": "4.3.0"
         },
         "runtime": {
@@ -233,7 +233,7 @@
           "Microsoft.NETCore.Platforms": "1.1.0"
         }
       },
-      "OROptimizer.Shared/1.0.0-beta2": {
+      "OROptimizer.Shared/1.0.0": {
         "dependencies": {
           "JetBrains.Annotations": "10.2.1",
           "Microsoft.CodeAnalysis": "2.3.2",
@@ -1426,7 +1426,7 @@
     }
   },
   "libraries": {
-    "IoC.Configuration.Autofac/1.0.0-beta2": {
+    "IoC.Configuration.Autofac/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
@@ -1445,12 +1445,12 @@
       "path": "autofac.extensions.dependencyinjection/4.0.0",
       "hashPath": "autofac.extensions.dependencyinjection.4.0.0.nupkg.sha512"
     },
-    "IoC.Configuration/1.0.0-beta4": {
+    "IoC.Configuration/1.0.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-E3NwdHa48aNDtHZcO3B6i6r0rUvVAhb0Rd1XiNN+CEz29/KCZ4JdoQmhfg1bqh90UgbC9K7IbDa27L+KMIuk2Q==",
-      "path": "ioc.configuration/1.0.0-beta4",
-      "hashPath": "ioc.configuration.1.0.0-beta4.nupkg.sha512"
+      "sha512": "sha512-xIqcU2m/NrTEA++qrO7YBFab0Y9Kf0/u9tdMvWJGvu0t2llqegogKt6sugRrQFHDFv3AEQx0Ku+8kCAx701r/Q==",
+      "path": "ioc.configuration/1.0.1",
+      "hashPath": "ioc.configuration.1.0.1.nupkg.sha512"
     },
     "JetBrains.Annotations/10.2.1": {
       "type": "package",
@@ -1564,12 +1564,12 @@
       "path": "netstandard.library/2.0.1",
       "hashPath": "netstandard.library.2.0.1.nupkg.sha512"
     },
-    "OROptimizer.Shared/1.0.0-beta2": {
+    "OROptimizer.Shared/1.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ic3dpxCDq/VsmwnwVnuw5qFTWUvAVNRK3zrnMuSla4BjnTWRTvT1uRw/Kgci5P4sXIUA5WAYu2S527DsY2KdiQ==",
-      "path": "oroptimizer.shared/1.0.0-beta2",
-      "hashPath": "oroptimizer.shared.1.0.0-beta2.nupkg.sha512"
+      "sha512": "sha512-rBop7fF1akOSF6R0KozmmsEzlT070X1sMP/G9+0roVo1n4iLeoDuY6KbkpHDG4Cm+TC8xPvT6e2MRMa6idPJbA==",
+      "path": "oroptimizer.shared/1.0.0",
+      "hashPath": "oroptimizer.shared.1.0.0.nupkg.sha512"
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",

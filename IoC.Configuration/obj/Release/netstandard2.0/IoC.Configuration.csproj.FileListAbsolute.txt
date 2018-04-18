@@ -4,11 +4,11 @@ K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\bin
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\bin\Release\netstandard2.0\IoC.Configuration.deps.json
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\bin\Release\netstandard2.0\IoC.Configuration.dll
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\bin\Release\netstandard2.0\IoC.Configuration.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\obj\Release\netstandard2.0\IoC.Configuration.csprojResolveAssemblyReference.cache
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\obj\Release\netstandard2.0\IoC.Configuration.Properties.Resources.resources
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\obj\Release\netstandard2.0\IoC.Configuration.csproj.GenerateResource.Cache
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\obj\Release\netstandard2.0\IoC.Configuration.csproj.GenerateResource.cache
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\obj\Release\netstandard2.0\IoC.Configuration.csproj.CoreCompileInputs.cache
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\obj\Release\netstandard2.0\IoC.Configuration.AssemblyInfoInputs.cache
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\obj\Release\netstandard2.0\IoC.Configuration.AssemblyInfo.cs
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\obj\Release\netstandard2.0\IoC.Configuration.dll
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\obj\Release\netstandard2.0\IoC.Configuration.pdb
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration\obj\Release\netstandard2.0\IoC.Configuration.csprojResolveAssemblyReference.cache

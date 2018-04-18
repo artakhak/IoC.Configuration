@@ -1,9 +1,9 @@
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestForceLoadAssembly\bin\Release\TestProjects.TestForceLoadAssembly.deps.json
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestForceLoadAssembly\bin\Release\TestProjects.TestForceLoadAssembly.dll
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestForceLoadAssembly\bin\Release\TestProjects.TestForceLoadAssembly.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestForceLoadAssembly\obj\Release\TestProjects.TestForceLoadAssembly.csprojResolveAssemblyReference.cache
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestForceLoadAssembly\obj\Release\TestProjects.TestForceLoadAssembly.csproj.CoreCompileInputs.cache
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestForceLoadAssembly\obj\Release\TestProjects.TestForceLoadAssembly.AssemblyInfoInputs.cache
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestForceLoadAssembly\obj\Release\TestProjects.TestForceLoadAssembly.AssemblyInfo.cs
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestForceLoadAssembly\obj\Release\TestProjects.TestForceLoadAssembly.dll
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestForceLoadAssembly\obj\Release\TestProjects.TestForceLoadAssembly.pdb
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestForceLoadAssembly\obj\Release\TestProjects.TestForceLoadAssembly.csprojResolveAssemblyReference.cache

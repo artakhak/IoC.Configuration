@@ -10,7 +10,7 @@ namespace TestsSharedLibrary
         public static void SetupLogger()
         {
             if (!LogHelper.IsContextInitialized)
-                LogHelper.RegisterDefaultContext(new LogHelper4TestsContext());
+                LogHelper.RegisterContext(new LogHelper4TestsContext());
         }
 
         #endregion

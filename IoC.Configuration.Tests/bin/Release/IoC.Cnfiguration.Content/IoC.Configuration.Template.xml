@@ -1,4 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+Sample license text.
+-->
 
 <!--
    This is a simple sample configuration file to use with IoC.Configuration library.
@@ -21,7 +24,7 @@
 
     <!--The application should have write permissions to path specified in appDataDir. This is where dynamically generated DLLs are saved.-->
     <appDataDir path="C:\Users\user1\AppData\Local\MyApplication" />
-    
+
     <plugins pluginsDirPath="c:\Program Files\MyApplication\DLLs\PluginDlls">
         <!--        
         Plugin assemblies will be in a folder with similar name under pluginsDirPath folder.
@@ -31,7 +34,7 @@
         <!--If Plugin1 is enabled, a folder c:\Program Files\MyApplication\DLLs\PluginDlls\Plugin1 should exist  -->
         <!--<plugin name="Plugin1" />-->
         <!--<plugin name="Plugin2" enabled="false" />-->
-        
+
     </plugins>
 
     <additionalAssemblyProbingPaths>
@@ -48,7 +51,8 @@
         <assembly name="IoC.Configuration.Ninject" alias="ninject_ext" />
     </assemblies>
 
-    <parameterSerializers serializerAggregatorType="OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator" assembly="oroptimizer_shared">
+    <parameterSerializers serializerAggregatorType="OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator"
+                          assembly="oroptimizer_shared">
         <!--
         Use parameters element to specify constructor parameters, if the type specified in 'serializerAggregatorType' attribute
         has non-default constructor.

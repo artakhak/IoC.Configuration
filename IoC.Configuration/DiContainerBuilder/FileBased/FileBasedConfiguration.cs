@@ -1,4 +1,28 @@
-﻿using System;
+﻿// This software is part of the IoC.Configuration library
+// Copyright © 2018 IoC.Configuration Contributors
+// http://oroptimizer.com
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use,
+// copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following
+// conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+// OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+// HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+// WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+// OTHER DEALINGS IN THE SOFTWARE.
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -54,15 +78,20 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         #region  Constructors
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="FileBasedConfiguration"/> class.
         /// </summary>
-        /// <param name="configurationFileContentsProvider"></param>
+        /// <param name="configurationFileContentsProvider">
+        /// The configuration file contents provider. An example implementation of <see cref="IConfigurationFileContentsProvider"/> implementation is <see cref="FileBasedConfigurationFileContentsProvider"/>
+        /// </param>
         /// <param name="entryAssemblyFolder">
         ///     The location where the executable is.
         ///     For non test projects <see cref="IGlobalsCore.EntryAssemblyFolder" /> can be used as a value for this parameter.
         ///     However, for tests projects <see cref="IGlobalsCore.EntryAssemblyFolder" /> might be
         ///     be the folder where the test execution library is, so a different value might need to be passed.
         /// </param>
-        /// <param name="configurationFileXmlDocumentLoaded"></param>
+        /// <param name="configurationFileXmlDocumentLoaded">
+        /// The configuration file XML document loaded. 
+        /// </param>
         public FileBasedConfiguration([NotNull] IConfigurationFileContentsProvider configurationFileContentsProvider,
                                       [NotNull] string entryAssemblyFolder,
                                       [CanBeNull] ConfigurationFileXmlDocumentLoadedEventHandler configurationFileXmlDocumentLoaded) : base(entryAssemblyFolder)
@@ -212,23 +241,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                 servicesToAddBindingsTo.Add(BindingConfigurationForFile.CreateBindingConfigurationForFile(typeof(IStartupAction), false, serviceImplementationElements));
         }
 
-        //public static void CleanupTemporaryFiles()
-        //{
-        //    // TODO: Delete dynamic DLLs from all directories in _directoriesToCleanup
-
-        //    foreach (var directoryPath in _directoriesToCleanup)
-        //    {
-        //        try
-        //        {
-        //            CleanupDirectory(directoryPath);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            LogHelper.Context.Log.Error($"Filed to cleanup directory '{directoryPath}'", ex);
-        //        }
-        //    }
-        //}
-
         private static void CleanupDirectory([NotNull] string directoryPath)
         {
             try
@@ -259,9 +271,17 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
             }
         }
 
+        /// <summary>
+        /// Gets the configuration loaded from the root iocConfiguration element. This property stores the entire configuration.
+        /// </summary>
+        /// <value>
+        /// The configuration.
+        /// </value>
         [NotNull]
         public IConfiguration Configuration { get; private set; }
-
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
         public override void Dispose()
         {
             var onApplicationsStarted = DiContainer.Resolve<IOnApplicationsStarted>();
@@ -360,6 +380,9 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
             return Path.Combine(Configuration?.ApplicationDataDirectory?.Path, _dynamicallyGeneratedAssemblyFileName);
         }
 
+        /// <summary>
+        /// This method should be called after the object is constructed.
+        /// </summary>
         public override void Init()
         {
             base.Init();

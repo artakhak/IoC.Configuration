@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETStandard,Version=v2.0/",
-    "signature": "348adc90028b89369a5eb792a98410c962a945b3"
+    "signature": "1b62470e589f0881db7a09c10f6673a5f80c3b94"
   },
   "compilationOptions": {},
   "targets": {
@@ -9,7 +9,7 @@
     ".NETStandard,Version=v2.0/": {
       "TestProjects.TestPluginAssembly3/1.0.0": {
         "dependencies": {
-          "IoC.Configuration": "1.0.0-beta4",
+          "IoC.Configuration": "1.0.1",
           "NETStandard.Library": "2.0.1",
           "TestProjects.SharedServices": "1.0.0"
         },
@@ -17,11 +17,11 @@
           "TestProjects.TestPluginAssembly3.dll": {}
         }
       },
-      "IoC.Configuration/1.0.0-beta4": {
+      "IoC.Configuration/1.0.1": {
         "dependencies": {
           "JetBrains.Annotations": "10.2.1",
           "Microsoft.CodeAnalysis": "2.3.2",
-          "OROptimizer.Shared": "1.0.0-beta2",
+          "OROptimizer.Shared": "1.0.0",
           "System.Runtime.Loader": "4.3.0"
         },
         "runtime": {
@@ -196,7 +196,7 @@
           "Microsoft.NETCore.Platforms": "1.1.0"
         }
       },
-      "OROptimizer.Shared/1.0.0-beta2": {
+      "OROptimizer.Shared/1.0.0": {
         "dependencies": {
           "JetBrains.Annotations": "10.2.1",
           "Microsoft.CodeAnalysis": "2.3.2",
@@ -1380,7 +1380,7 @@
       },
       "TestProjects.SharedServices/1.0.0": {
         "dependencies": {
-          "IoC.Configuration": "1.0.0-beta4"
+          "IoC.Configuration": "1.0.1"
         },
         "runtime": {
           "TestProjects.SharedServices.dll": {}
@@ -1394,12 +1394,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "IoC.Configuration/1.0.0-beta4": {
+    "IoC.Configuration/1.0.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-E3NwdHa48aNDtHZcO3B6i6r0rUvVAhb0Rd1XiNN+CEz29/KCZ4JdoQmhfg1bqh90UgbC9K7IbDa27L+KMIuk2Q==",
-      "path": "ioc.configuration/1.0.0-beta4",
-      "hashPath": "ioc.configuration.1.0.0-beta4.nupkg.sha512"
+      "sha512": "sha512-xIqcU2m/NrTEA++qrO7YBFab0Y9Kf0/u9tdMvWJGvu0t2llqegogKt6sugRrQFHDFv3AEQx0Ku+8kCAx701r/Q==",
+      "path": "ioc.configuration/1.0.1",
+      "hashPath": "ioc.configuration.1.0.1.nupkg.sha512"
     },
     "JetBrains.Annotations/10.2.1": {
       "type": "package",
@@ -1506,12 +1506,12 @@
       "path": "netstandard.library/2.0.1",
       "hashPath": "netstandard.library.2.0.1.nupkg.sha512"
     },
-    "OROptimizer.Shared/1.0.0-beta2": {
+    "OROptimizer.Shared/1.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ic3dpxCDq/VsmwnwVnuw5qFTWUvAVNRK3zrnMuSla4BjnTWRTvT1uRw/Kgci5P4sXIUA5WAYu2S527DsY2KdiQ==",
-      "path": "oroptimizer.shared/1.0.0-beta2",
-      "hashPath": "oroptimizer.shared.1.0.0-beta2.nupkg.sha512"
+      "sha512": "sha512-rBop7fF1akOSF6R0KozmmsEzlT070X1sMP/G9+0roVo1n4iLeoDuY6KbkpHDG4Cm+TC8xPvT6e2MRMa6idPJbA==",
+      "path": "oroptimizer.shared/1.0.0",
+      "hashPath": "oroptimizer.shared.1.0.0.nupkg.sha512"
     },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
       "type": "package",

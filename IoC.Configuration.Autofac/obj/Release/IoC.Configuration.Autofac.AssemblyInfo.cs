@@ -16,7 +16,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCopyrightAttribute("Copyright 2018 (c) OROptimizer. All rights reserved.")]
 [assembly: System.Reflection.AssemblyDescriptionAttribute("An Autofac extension for IoC.Configuration.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0-beta2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("IoC.Configuration.Autofac")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IoC.Configuration.Autofac")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

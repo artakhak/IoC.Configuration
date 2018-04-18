@@ -21,8 +21,7 @@
     <appDataDir
         path="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\Debug\DynamicFiles" />
 
-    <plugins
-        pluginsDirPath="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\TestDlls\PluginDlls">
+    <plugins pluginsDirPath="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\TestDlls\PluginDlls">
 
         <!--        
         Plugin assemblies will be in a folder with similar name under pluginsDirPath folder.

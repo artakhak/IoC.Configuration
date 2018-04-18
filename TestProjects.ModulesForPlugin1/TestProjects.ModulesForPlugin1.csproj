@@ -18,7 +18,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.5.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />
-    <PackageReference Include="IoC.Configuration" Version="1.0.0-beta4" />
+    <PackageReference Include="IoC.Configuration" Version="1.0.1" />
     <PackageReference Include="Ninject" Version="3.3.0" />
   </ItemGroup>
 

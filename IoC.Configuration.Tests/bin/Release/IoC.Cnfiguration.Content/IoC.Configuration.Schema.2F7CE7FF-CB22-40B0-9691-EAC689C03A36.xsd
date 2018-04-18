@@ -1,21 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!--
+Sample license text.
+-->
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:simpleType name="scopeValues">
         <xs:restriction base="xs:string">
             <!--The same object will be used for all service resolutions -->
-            <xs:enumeration value="singleton"/>
+            <xs:enumeration value="singleton" />
 
             <!--New object will be created per request-->
-            <xs:enumeration value="transient"/>
+            <xs:enumeration value="transient" />
 
             <!--The same object will be created per scope lifetime., however different objects will be created in different lifetime scopes.-->
-            <xs:enumeration value="scopeLifetime"/>
+            <xs:enumeration value="scopeLifetime" />
         </xs:restriction>
     </xs:simpleType>
 
     <xs:simpleType name="DateTimeType">
         <xs:restriction base="xs:string">
-            <xs:pattern value="[0-9]{4}-(0[1-9]|1(0|1|2))-(0[1-9]|[1-2][0-9]|3[0-1]) ([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]).([0-9]{3})" />
+            <xs:pattern
+                value="[0-9]{4}-(0[1-9]|1(0|1|2))-(0[1-9]|[1-2][0-9]|3[0-1]) ([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]).([0-9]{3})" />
         </xs:restriction>
     </xs:simpleType>
 
@@ -39,7 +44,7 @@
             <xs:attribute name="value" use="required" type="xs:short" />
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="int32">
         <xs:complexType>
             <xs:attribute name="name" use="required" type="xs:string" />
@@ -75,7 +80,7 @@
             <xs:attribute name="value" use="required" type="xs:string" />
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="object">
         <xs:complexType>
             <xs:attribute name="type" use="required" type="xs:string" />
@@ -146,11 +151,11 @@
             <xs:attribute name="path" type="xs:string" use="required" />
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="plugins">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="plugin" minOccurs="0"  maxOccurs="unbounded" >
+                <xs:element name="plugin" minOccurs="0" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:attribute name="name" type="xs:string" use="required" />
                         <xs:attribute name="enabled" type="xs:boolean" use="optional" default="true" />
@@ -160,11 +165,11 @@
             <xs:attribute name="pluginsDirPath" type="xs:string" use="optional" />
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="additionalAssemblyProbingPaths">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="probingPath" minOccurs="0" maxOccurs="unbounded" >
+                <xs:element name="probingPath" minOccurs="0" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:attribute name="path" type="xs:string" use="required" />
                         <!--<xs:attribute name="enabled" type="xs:boolean" use="optional" default="true" />-->
@@ -173,11 +178,11 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="assemblies">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="assembly" minOccurs="0" maxOccurs="unbounded" >
+                <xs:element name="assembly" minOccurs="0" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:attribute name="name" type="xs:string" use="required" />
                         <xs:attribute name="alias" type="xs:string" use="required" />
@@ -204,7 +209,7 @@
     <xs:element name="parameters" type="injectedValuesType">
     </xs:element>
 
-    <xs:element name="injectedProperties" type="injectedValuesType" >
+    <xs:element name="injectedProperties" type="injectedValuesType">
     </xs:element>
 
     <xs:element name="parameterSerializers">
@@ -239,12 +244,12 @@
     <xs:element name="diManagers">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="diManager" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element ref="diManager" minOccurs="1" maxOccurs="unbounded" />
             </xs:sequence>
             <xs:attribute name="activeDiManagerName" type="xs:string" use="required" />
         </xs:complexType>
     </xs:element>
-   
+
 
     <xs:element name="settings" type="valuesType">
     </xs:element>
@@ -252,13 +257,13 @@
     <xs:element name="settingsRequestor">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="parameters" minOccurs="0" maxOccurs="1"/>
+                <xs:element ref="parameters" minOccurs="0" maxOccurs="1" />
             </xs:sequence>
             <xs:attribute name="type" type="xs:string" use="required" />
             <xs:attribute name="assembly" type="xs:string" use="required" />
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="modules">
         <xs:complexType>
             <xs:sequence>
@@ -287,13 +292,13 @@
             <xs:attribute name="scope" type="scopeValues" use="required" />
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="service">
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="implementation" minOccurs="1" maxOccurs="unbounded" />
             </xs:sequence>
-            
+
             <xs:attribute name="type" type="xs:string" use="required" />
             <xs:attribute name="assembly" type="xs:string" use="required" />
             <xs:attribute name="registerIfNotRegistered" type="xs:boolean" default="false" use="optional" />
@@ -313,7 +318,7 @@
             <xs:attribute name="registerIfNotRegistered" type="xs:boolean" default="false" use="optional" />
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="services">
         <xs:complexType>
             <xs:sequence minOccurs="0" maxOccurs="unbounded">
@@ -324,14 +329,14 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="typeFactory">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="if" minOccurs="0" maxOccurs="unbounded" >
+                <xs:element name="if" minOccurs="0" maxOccurs="unbounded">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="returnedType" minOccurs="1" maxOccurs="unbounded" >
+                            <xs:element name="returnedType" minOccurs="1" maxOccurs="unbounded">
                                 <xs:complexType>
                                     <xs:attribute name="type" type="xs:string" use="required" />
                                     <xs:attribute name="assembly" type="xs:string" use="required" />
@@ -350,10 +355,10 @@
                         <xs:attribute name="parameter10" type="xs:string" use="optional" />
                     </xs:complexType>
                 </xs:element>
-                <xs:element name="default" minOccurs="1" maxOccurs="1" >
+                <xs:element name="default" minOccurs="1" maxOccurs="1">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="returnedType" minOccurs="1" maxOccurs="unbounded" >
+                            <xs:element name="returnedType" minOccurs="1" maxOccurs="unbounded">
                                 <xs:complexType>
                                     <xs:attribute name="type" type="xs:string" use="required" />
                                     <xs:attribute name="assembly" type="xs:string" use="required" />
@@ -367,7 +372,7 @@
             <xs:attribute name="assembly" type="xs:string" use="required" />
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="autoGeneratedServices">
         <xs:complexType>
             <xs:sequence>
@@ -375,7 +380,7 @@
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="dependencyInjection">
         <xs:complexType>
             <xs:sequence>
@@ -400,7 +405,7 @@
     <xs:element name="startupActions">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="startupAction" minOccurs="0" maxOccurs="unbounded"  />
+                <xs:element ref="startupAction" minOccurs="0" maxOccurs="unbounded" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -415,42 +420,42 @@
             <xs:attribute name="assembly" type="xs:string" use="required" />
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="pluginSetup">
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="pluginImplementation" minOccurs="1" maxOccurs="1" />
-                <xs:element ref="settings" minOccurs="1" maxOccurs="1"/>
-                <xs:element ref="dependencyInjection" minOccurs="1" maxOccurs="1"/>
+                <xs:element ref="settings" minOccurs="1" maxOccurs="1" />
+                <xs:element ref="dependencyInjection" minOccurs="1" maxOccurs="1" />
             </xs:sequence>
 
             <xs:attribute name="plugin" type="xs:string" use="required" />
         </xs:complexType>
-        
+
     </xs:element>
 
     <xs:element name="pluginsSetup">
         <xs:complexType>
             <xs:sequence>
-                <xs:element ref="pluginSetup" minOccurs="0" maxOccurs="unbounded"  />
+                <xs:element ref="pluginSetup" minOccurs="0" maxOccurs="unbounded" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-    
+
     <xs:element name="iocConfiguration">
         <xs:complexType>
             <xs:sequence>
                 <xs:element ref="appDataDir" minOccurs="1" maxOccurs="1" />
                 <xs:element ref="plugins" minOccurs="1" maxOccurs="1" />
                 <xs:element ref="additionalAssemblyProbingPaths" minOccurs="1" maxOccurs="1" />
-                <xs:element ref="assemblies" minOccurs="1" maxOccurs="1"/>
-                <xs:element ref="parameterSerializers" minOccurs="1" maxOccurs="1"/>
-                <xs:element ref="diManagers" minOccurs="1" maxOccurs="1"/>
-                <xs:element ref="settingsRequestor" minOccurs="0" maxOccurs="1"/>
-                <xs:element ref="settings" minOccurs="1" maxOccurs="1"/>
-                <xs:element ref="dependencyInjection" minOccurs="1" maxOccurs="1"/>
-                <xs:element ref="startupActions" minOccurs="1" maxOccurs="1"/>
-                <xs:element ref="pluginsSetup" minOccurs="1" maxOccurs="1"/>
+                <xs:element ref="assemblies" minOccurs="1" maxOccurs="1" />
+                <xs:element ref="parameterSerializers" minOccurs="1" maxOccurs="1" />
+                <xs:element ref="diManagers" minOccurs="1" maxOccurs="1" />
+                <xs:element ref="settingsRequestor" minOccurs="0" maxOccurs="1" />
+                <xs:element ref="settings" minOccurs="1" maxOccurs="1" />
+                <xs:element ref="dependencyInjection" minOccurs="1" maxOccurs="1" />
+                <xs:element ref="startupActions" minOccurs="1" maxOccurs="1" />
+                <xs:element ref="pluginsSetup" minOccurs="1" maxOccurs="1" />
             </xs:sequence>
         </xs:complexType>
     </xs:element>

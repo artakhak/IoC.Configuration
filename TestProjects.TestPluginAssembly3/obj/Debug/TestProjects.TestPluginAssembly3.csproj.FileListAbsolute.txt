@@ -9,15 +9,3 @@ K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDyna
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\obj\Debug\TestProjects.TestPluginAssembly3.AssemblyInfo.cs
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\obj\Debug\TestProjects.TestPluginAssembly3.dll
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestPluginAssembly3\obj\Debug\TestProjects.TestPluginAssembly3.pdb
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPluginAssembly3\bin\Debug\TestProjects.TestPluginAssembly3.deps.json
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPluginAssembly3\bin\Debug\TestProjects.TestPluginAssembly3.dll
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPluginAssembly3\bin\Debug\TestProjects.TestPluginAssembly3.pdb
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPluginAssembly3\bin\Debug\TestProjects.SharedServices.dll
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPluginAssembly3\bin\Debug\TestProjects.SharedServices.pdb
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPluginAssembly3\obj\Debug\TestProjects.TestPluginAssembly3.csprojResolveAssemblyReference.cache
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPluginAssembly3\obj\Debug\TestProjects.TestPluginAssembly3.csproj.CoreCompileInputs.cache
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPluginAssembly3\obj\Debug\TestProjects.TestPluginAssembly3.AssemblyInfoInputs.cache
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPluginAssembly3\obj\Debug\TestProjects.TestPluginAssembly3.AssemblyInfo.cs
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPluginAssembly3\obj\Debug\TestProjects.TestPluginAssembly3.csproj.CopyComplete
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPluginAssembly3\obj\Debug\TestProjects.TestPluginAssembly3.dll
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPluginAssembly3\obj\Debug\TestProjects.TestPluginAssembly3.pdb

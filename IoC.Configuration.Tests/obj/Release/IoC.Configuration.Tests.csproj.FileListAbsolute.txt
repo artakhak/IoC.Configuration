@@ -24,6 +24,8 @@ K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\IoC.Configurati
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\IoC.Configuration.Tests\obj\Release\IoC.Configuration.Tests.AssemblyInfo.cs
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\IoC.Configuration.Tests\obj\Release\IoC.Configuration.Tests.dll
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\IoC.Configuration.Tests\obj\Release\IoC.Configuration.Tests.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\Release\IoC.Cnfiguration.Content\IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\Release\IoC.Cnfiguration.Content\IoC.Configuration.Template.xml
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\Release\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\Release\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\Release\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
@@ -36,14 +38,17 @@ K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tes
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\Release\IoC.Configuration.Tests.runtimeconfig.dev.json
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\Release\IoC.Configuration.Tests.dll
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\Release\IoC.Configuration.Tests.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\Release\IoC.Configuration.dll
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\Release\TestProjects.SharedServices.dll
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\Release\TestsSharedLibrary.dll
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\Release\IoC.Configuration.pdb
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\Release\IoC.Configuration.xml
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\Release\TestProjects.SharedServices.pdb
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\Release\TestsSharedLibrary.pdb
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\obj\Release\IoC.Configuration.Tests.csprojResolveAssemblyReference.cache
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\obj\Release\IoC.Configuration.Tests.csproj.CoreCompileInputs.cache
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\obj\Release\IoC.Configuration.Tests.AssemblyInfoInputs.cache
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\obj\Release\IoC.Configuration.Tests.AssemblyInfo.cs
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\obj\Release\IoC.Configuration.Tests.csproj.CopyComplete
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\obj\Release\IoC.Configuration.Tests.dll
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\obj\Release\IoC.Configuration.Tests.pdb
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\obj\Release\IoC.Configuration.Tests.csproj.CopyComplete

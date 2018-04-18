@@ -13,6 +13,6 @@ K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPlug
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPluginAssembly1\obj\Release\TestProjects.TestPluginAssembly1.csproj.CoreCompileInputs.cache
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPluginAssembly1\obj\Release\TestProjects.TestPluginAssembly1.AssemblyInfoInputs.cache
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPluginAssembly1\obj\Release\TestProjects.TestPluginAssembly1.AssemblyInfo.cs
+K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPluginAssembly1\obj\Release\TestProjects.TestPluginAssembly1.csproj.CopyComplete
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPluginAssembly1\obj\Release\TestProjects.TestPluginAssembly1.dll
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPluginAssembly1\obj\Release\TestProjects.TestPluginAssembly1.pdb
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestPluginAssembly1\obj\Release\TestProjects.TestPluginAssembly1.csproj.CopyComplete

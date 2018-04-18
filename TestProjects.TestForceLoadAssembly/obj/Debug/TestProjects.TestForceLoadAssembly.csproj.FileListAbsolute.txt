@@ -7,12 +7,3 @@ K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDyna
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestForceLoadAssembly\obj\Debug\TestProjects.TestForceLoadAssembly.AssemblyInfo.cs
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestForceLoadAssembly\obj\Debug\TestProjects.TestForceLoadAssembly.dll
 K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestForceLoadAssembly\obj\Debug\TestProjects.TestForceLoadAssembly.pdb
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestForceLoadAssembly\bin\Debug\TestProjects.TestForceLoadAssembly.deps.json
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestForceLoadAssembly\bin\Debug\TestProjects.TestForceLoadAssembly.dll
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestForceLoadAssembly\bin\Debug\TestProjects.TestForceLoadAssembly.pdb
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestForceLoadAssembly\obj\Debug\TestProjects.TestForceLoadAssembly.csproj.CoreCompileInputs.cache
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestForceLoadAssembly\obj\Debug\TestProjects.TestForceLoadAssembly.AssemblyInfoInputs.cache
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestForceLoadAssembly\obj\Debug\TestProjects.TestForceLoadAssembly.AssemblyInfo.cs
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestForceLoadAssembly\obj\Debug\TestProjects.TestForceLoadAssembly.dll
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestForceLoadAssembly\obj\Debug\TestProjects.TestForceLoadAssembly.pdb
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\TestProjects.TestForceLoadAssembly\obj\Debug\TestProjects.TestForceLoadAssembly.csprojResolveAssemblyReference.cache

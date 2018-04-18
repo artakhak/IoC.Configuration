@@ -15,26 +15,33 @@
 
   <PropertyGroup>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <Version>1.0.0-beta2</Version>
+    <Version>1.0.0</Version>
     <Company>OROptimizer</Company>
     <Authors>Artak Hakobyan</Authors>
     <Description>An Autofac extension for IoC.Configuration.</Description>
     <Copyright>Copyright 2018 (c) OROptimizer. All rights reserved.</Copyright>
     <PackageTags>IoC Configuration dependencyinjection inversion of control autofac ninject xml Autofac</PackageTags>
+    <PackageLicenseUrl>https://opensource.org/licenses/mit-license.php</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/artakhak/IoC.Configuration</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\IoC.Configuration.Autofac.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591;</NoWarn>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\IoC.Configuration.licenseheader" Link="IoC.Configuration.licenseheader" />
+  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.5.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />
-    <PackageReference Include="IoC.Configuration" Version="1.0.0-beta4" />
+    <PackageReference Include="IoC.Configuration" Version="1.0.1" />
     <PackageReference Include="JetBrains.Annotations" Version="10.2.1" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="2.3.2" />
-    <PackageReference Include="OROptimizer.Shared" Version="1.0.0-beta2" />
+    <PackageReference Include="OROptimizer.Shared" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

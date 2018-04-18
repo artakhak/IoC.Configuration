@@ -1,114 +1,88 @@
 using System;
 using System.Collections.Generic;
-using IoC.Configuration.DiContainer;
-using OROptimizer.Diagnostics.Log;
-using OROptimizer.Serializer;
-using TestPluginAssembly1.Interfaces;
-
-namespace DynamicImplementations_636583977886378414
+namespace DynamicImplementations_636595161441212446
 {
-    public class IResourceAccessValidatorFactory_636583977914007766 : IResourceAccessValidatorFactory
-    {
-        #region Member Variables
-
-        private readonly IDiContainer _diContainer;
-        private readonly List<object[]> _selectorValues;
-
-        #endregion
-
-        #region  Constructors
-
-        public IResourceAccessValidatorFactory_636583977914007766(IDiContainer diContainer, ITypeBasedSimpleSerializerAggregator serializerAggregator)
-        {
-            _diContainer = diContainer;
-            _selectorValues = new List<object[]>(2);
-            object deserializedValue;
-            {
-                var deserializedValues = new object[1];
-                _selectorValues.Add(deserializedValues);
-                if (!serializerAggregator.TryDeserialize(typeof(string), "public_pages", out deserializedValue))
-                    throw new Exception("Failed to convert 'public_pages' to 'System.String'.");
-                deserializedValues[0] = deserializedValue;
-            }
-            {
-                var deserializedValues = new object[1];
-                _selectorValues.Add(deserializedValues);
-                if (!serializerAggregator.TryDeserialize(typeof(string), "admin_pages", out deserializedValue))
-                    throw new Exception("Failed to convert 'admin_pages' to 'System.String'.");
-                deserializedValues[0] = deserializedValue;
-            }
-        }
-
-        #endregion
-
-        #region IResourceAccessValidatorFactory Interface Implementation
-
-        public IEnumerable<IResourceAccessValidator> GetValidators(string resourceName)
-        {
-            var returnedValues = new List<IResourceAccessValidator>();
-            if (resourceName != null && resourceName.Equals(_selectorValues[0][0]))
-            {
-                try
-                {
-                    returnedValues.Add(_diContainer.Resolve<ResourceAccessValidator1>());
-                }
-                catch (Exception e)
-                {
-                    LogHelper.Context.Log.Error("Could not resolve the type 'TestPluginAssembly1.Interfaces.ResourceAccessValidator1'. Make sure to register the type in configuration file.", e);
-                    throw;
-                }
-
-                return returnedValues;
-            }
-
-            if (resourceName != null && resourceName.Equals(_selectorValues[1][0]))
-            {
-                try
-                {
-                    returnedValues.Add(_diContainer.Resolve<ResourceAccessValidator1>());
-                }
-                catch (Exception e)
-                {
-                    LogHelper.Context.Log.Error("Could not resolve the type 'TestPluginAssembly1.Interfaces.ResourceAccessValidator1'. Make sure to register the type in configuration file.", e);
-                    throw;
-                }
-
-                try
-                {
-                    returnedValues.Add(_diContainer.Resolve<ResourceAccessValidator2>());
-                }
-                catch (Exception e)
-                {
-                    LogHelper.Context.Log.Error("Could not resolve the type 'TestPluginAssembly1.Interfaces.ResourceAccessValidator2'. Make sure to register the type in configuration file.", e);
-                    throw;
-                }
-
-                return returnedValues;
-            }
-
-            try
-            {
-                returnedValues.Add(_diContainer.Resolve<ResourceAccessValidator2>());
-            }
-            catch (Exception e)
-            {
-                LogHelper.Context.Log.Error("Could not resolve the type 'TestPluginAssembly1.Interfaces.ResourceAccessValidator2'. Make sure to register the type in configuration file.", e);
-                throw;
-            }
-
-            try
-            {
-                returnedValues.Add(_diContainer.Resolve<ResourceAccessValidator1>());
-            }
-            catch (Exception e)
-            {
-                LogHelper.Context.Log.Error("Could not resolve the type 'TestPluginAssembly1.Interfaces.ResourceAccessValidator1'. Make sure to register the type in configuration file.", e);
-                throw;
-            }
-
-            return returnedValues;
-        }
-
-        #endregion
-    }
+public class IResourceAccessValidatorFactory_636595161448747916: TestPluginAssembly1.Interfaces.IResourceAccessValidatorFactory
+{
+private List<object[]> _selectorValues;
+private IoC.Configuration.DiContainer.IDiContainer _diContainer;
+public IResourceAccessValidatorFactory_636595161448747916(IoC.Configuration.DiContainer.IDiContainer diContainer, OROptimizer.Serializer.ITypeBasedSimpleSerializerAggregator serializerAggregator)
+{
+_diContainer = diContainer;
+_selectorValues = new List<object[]>(2);
+object deserializedValue;
+{
+var deserializedValues = new object[1];
+_selectorValues.Add(deserializedValues);
+if (!serializerAggregator.TryDeserialize(typeof(System.String), "public_pages", out deserializedValue))
+ throw new Exception("Failed to convert 'public_pages' to 'System.String'.");
+deserializedValues[0]=deserializedValue;
+}
+{
+var deserializedValues = new object[1];
+_selectorValues.Add(deserializedValues);
+if (!serializerAggregator.TryDeserialize(typeof(System.String), "admin_pages", out deserializedValue))
+ throw new Exception("Failed to convert 'admin_pages' to 'System.String'.");
+deserializedValues[0]=deserializedValue;
+}
+}
+public System.Collections.Generic.IEnumerable<TestPluginAssembly1.Interfaces.IResourceAccessValidator> GetValidators(System.String resourceName)
+{
+var returnedValues = new System.Collections.Generic.List<TestPluginAssembly1.Interfaces.IResourceAccessValidator>();
+if ((resourceName != null && resourceName.Equals(_selectorValues[0][0])))
+{
+try
+{
+returnedValues.Add(_diContainer.Resolve<TestPluginAssembly1.Interfaces.ResourceAccessValidator1>());
+}
+catch(Exception e)
+{
+OROptimizer.Diagnostics.Log.LogHelper.Context.Log.Error("Could not resolve the type 'TestPluginAssembly1.Interfaces.ResourceAccessValidator1'. Make sure to register the type in configuration file.", e);
+throw;
+}
+return returnedValues;
+}
+if ((resourceName != null && resourceName.Equals(_selectorValues[1][0])))
+{
+try
+{
+returnedValues.Add(_diContainer.Resolve<TestPluginAssembly1.Interfaces.ResourceAccessValidator1>());
+}
+catch(Exception e)
+{
+OROptimizer.Diagnostics.Log.LogHelper.Context.Log.Error("Could not resolve the type 'TestPluginAssembly1.Interfaces.ResourceAccessValidator1'. Make sure to register the type in configuration file.", e);
+throw;
+}
+try
+{
+returnedValues.Add(_diContainer.Resolve<TestPluginAssembly1.Interfaces.ResourceAccessValidator2>());
+}
+catch(Exception e)
+{
+OROptimizer.Diagnostics.Log.LogHelper.Context.Log.Error("Could not resolve the type 'TestPluginAssembly1.Interfaces.ResourceAccessValidator2'. Make sure to register the type in configuration file.", e);
+throw;
+}
+return returnedValues;
+}
+try
+{
+returnedValues.Add(_diContainer.Resolve<TestPluginAssembly1.Interfaces.ResourceAccessValidator2>());
+}
+catch(Exception e)
+{
+OROptimizer.Diagnostics.Log.LogHelper.Context.Log.Error("Could not resolve the type 'TestPluginAssembly1.Interfaces.ResourceAccessValidator2'. Make sure to register the type in configuration file.", e);
+throw;
+}
+try
+{
+returnedValues.Add(_diContainer.Resolve<TestPluginAssembly1.Interfaces.ResourceAccessValidator1>());
+}
+catch(Exception e)
+{
+OROptimizer.Diagnostics.Log.LogHelper.Context.Log.Error("Could not resolve the type 'TestPluginAssembly1.Interfaces.ResourceAccessValidator1'. Make sure to register the type in configuration file.", e);
+throw;
+}
+return returnedValues;
+}
+}
 }

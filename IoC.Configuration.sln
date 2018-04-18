@@ -39,6 +39,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProjects.TestPluginAsse
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProjects.TestPluginAssembly3", "TestProjects.TestPluginAssembly3\TestProjects.TestPluginAssembly3.csproj", "{1FA30D83-4F50-41E9-A6E3-A2AA9852AA33}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OROptimizer.Shared", "..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj", "{5140DBD0-2271-47C9-AC28-E95F26DDE783}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{E5B1DF5A-07C3-4E11-A881-851D6C6E4927}"
+	ProjectSection(SolutionItems) = preProject
+		Documentation\Info.txt = Documentation\Info.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{157A33B6-78ED-4494-9985-E06B46C8E87D}"
+	ProjectSection(SolutionItems) = preProject
+		Documentation\NuGet\IoC.Configuration.Description.md = Documentation\NuGet\IoC.Configuration.Description.md
+		Documentation\NuGet\IoC.Configuration.Documentation.md = Documentation\NuGet\IoC.Configuration.Documentation.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{D4FE76C6-4FFF-461A-8AB9-215835333A6C}"
+	ProjectSection(SolutionItems) = preProject
+		Documentation\GitHub\IoC.Configuration.Description.md = Documentation\GitHub\IoC.Configuration.Description.md
+		Documentation\GitHub\IoC.Configuration.Documentation.md = Documentation\GitHub\IoC.Configuration.Documentation.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +124,10 @@ Global
 		{1FA30D83-4F50-41E9-A6E3-A2AA9852AA33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FA30D83-4F50-41E9-A6E3-A2AA9852AA33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FA30D83-4F50-41E9-A6E3-A2AA9852AA33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5140DBD0-2271-47C9-AC28-E95F26DDE783}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5140DBD0-2271-47C9-AC28-E95F26DDE783}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5140DBD0-2271-47C9-AC28-E95F26DDE783}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5140DBD0-2271-47C9-AC28-E95F26DDE783}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,73 +148,10 @@ Global
 		{D20425E9-9E7D-4C29-8B43-97F6F2347FFE} = {7F5DA0D6-7EBC-43A7-812D-3363089F05F5}
 		{06C87889-171C-4792-97BC-F76F190BAF9D} = {7F5DA0D6-7EBC-43A7-812D-3363089F05F5}
 		{1FA30D83-4F50-41E9-A6E3-A2AA9852AA33} = {7F5DA0D6-7EBC-43A7-812D-3363089F05F5}
+		{157A33B6-78ED-4494-9985-E06B46C8E87D} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
+		{D4FE76C6-4FFF-461A-8AB9-215835333A6C} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1A1C25FA-E067-48BA-A479-2F251496CF15}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 16
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://pc1:8080/tfs/oroptimizerprojects2
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = IoC.Configuration.Autofac\\IoC.Configuration.Autofac.csproj
-		SccProjectTopLevelParentUniqueName1 = IoC.Configuration.sln
-		SccProjectName1 = IoC.Configuration.Autofac
-		SccLocalPath1 = IoC.Configuration.Autofac
-		SccProjectUniqueName2 = IoC.Configuration.Ninject\\IoC.Configuration.Ninject.csproj
-		SccProjectTopLevelParentUniqueName2 = IoC.Configuration.sln
-		SccProjectName2 = IoC.Configuration.Ninject
-		SccLocalPath2 = IoC.Configuration.Ninject
-		SccProjectUniqueName3 = IoC.Configuration.Tests\\IoC.Configuration.Tests.csproj
-		SccProjectTopLevelParentUniqueName3 = IoC.Configuration.sln
-		SccProjectName3 = IoC.Configuration.Tests
-		SccLocalPath3 = IoC.Configuration.Tests
-		SccProjectUniqueName4 = IoC.Configuration\\IoC.Configuration.csproj
-		SccProjectName4 = IoC.Configuration
-		SccLocalPath4 = IoC.Configuration
-		SccProjectUniqueName5 = TestProjects.AssemblyToTestAssemblyResolution\\TestProjects.AssemblyToTestAssemblyResolution.csproj
-		SccProjectTopLevelParentUniqueName5 = IoC.Configuration.sln
-		SccProjectName5 = TestProjects.AssemblyToTestAssemblyResolution
-		SccLocalPath5 = TestProjects.AssemblyToTestAssemblyResolution
-		SccProjectUniqueName6 = TestProjects.DynamicallyLoadedAssembly1\\TestProjects.DynamicallyLoadedAssembly1.csproj
-		SccProjectTopLevelParentUniqueName6 = IoC.Configuration.sln
-		SccProjectName6 = TestProjects.DynamicallyLoadedAssembly1
-		SccLocalPath6 = TestProjects.DynamicallyLoadedAssembly1
-		SccProjectUniqueName7 = TestProjects.DynamicallyLoadedAssembly2\\TestProjects.DynamicallyLoadedAssembly2.csproj
-		SccProjectTopLevelParentUniqueName7 = IoC.Configuration.sln
-		SccProjectName7 = TestProjects.DynamicallyLoadedAssembly2
-		SccLocalPath7 = TestProjects.DynamicallyLoadedAssembly2
-		SccProjectUniqueName8 = TestProjects.Modules\\TestProjects.Modules.csproj
-		SccProjectTopLevelParentUniqueName8 = IoC.Configuration.sln
-		SccProjectName8 = TestProjects.Modules
-		SccLocalPath8 = TestProjects.Modules
-		SccProjectUniqueName9 = TestProjects.ModulesForPlugin1\\TestProjects.ModulesForPlugin1.csproj
-		SccProjectTopLevelParentUniqueName9 = IoC.Configuration.sln
-		SccProjectName9 = TestProjects.ModulesForPlugin1
-		SccLocalPath9 = TestProjects.ModulesForPlugin1
-		SccProjectUniqueName10 = TestProjects.SharedServices\\TestProjects.SharedServices.csproj
-		SccProjectTopLevelParentUniqueName10 = IoC.Configuration.sln
-		SccProjectName10 = TestProjects.SharedServices
-		SccLocalPath10 = TestProjects.SharedServices
-		SccProjectUniqueName11 = TestProjects.TestForceLoadAssembly\\TestProjects.TestForceLoadAssembly.csproj
-		SccProjectTopLevelParentUniqueName11 = IoC.Configuration.sln
-		SccProjectName11 = TestProjects.TestForceLoadAssembly
-		SccLocalPath11 = TestProjects.TestForceLoadAssembly
-		SccProjectUniqueName12 = TestProjects.TestPluginAssembly1\\TestProjects.TestPluginAssembly1.csproj
-		SccProjectTopLevelParentUniqueName12 = IoC.Configuration.sln
-		SccProjectName12 = TestProjects.TestPluginAssembly1
-		SccLocalPath12 = TestProjects.TestPluginAssembly1
-		SccProjectUniqueName13 = TestProjects.TestPluginAssembly2\\TestProjects.TestPluginAssembly2.csproj
-		SccProjectTopLevelParentUniqueName13 = IoC.Configuration.sln
-		SccProjectName13 = TestProjects.TestPluginAssembly2
-		SccLocalPath13 = TestProjects.TestPluginAssembly2
-		SccProjectUniqueName14 = TestProjects.TestPluginAssembly3\\TestProjects.TestPluginAssembly3.csproj
-		SccProjectTopLevelParentUniqueName14 = IoC.Configuration.sln
-		SccProjectName14 = TestProjects.TestPluginAssembly3
-		SccLocalPath14 = TestProjects.TestPluginAssembly3
-		SccProjectUniqueName15 = TestsSharedLibrary\\TestsSharedLibrary.csproj
-		SccProjectTopLevelParentUniqueName15 = IoC.Configuration.sln
-		SccProjectName15 = TestsSharedLibrary
-		SccLocalPath15 = TestsSharedLibrary
 	EndGlobalSection
 EndGlobal

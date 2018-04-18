@@ -23,33 +23,6 @@
           "lib/netstandard1.3/Castle.Core.dll": {}
         }
       },
-      "IoC.Configuration/1.0.0-beta4": {
-        "type": "package",
-        "dependencies": {
-          "JetBrains.Annotations": "10.2.1",
-          "Microsoft.CodeAnalysis": "2.3.2",
-          "OROptimizer.Shared": "1.0.0-beta2",
-          "System.Runtime.Loader": "4.3.0"
-        },
-        "compile": {
-          "lib/netstandard2.0/IoC.Configuration.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/IoC.Configuration.dll": {}
-        },
-        "contentFiles": {
-          "contentFiles/any/netstandard2.0/IoC.Cnfiguration.Content/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          },
-          "contentFiles/any/netstandard2.0/IoC.Cnfiguration.Content/IoC.Configuration.Template.xml": {
-            "buildAction": "Content",
-            "codeLanguage": "any",
-            "copyToOutput": false
-          }
-        }
-      },
       "JetBrains.Annotations/10.2.1": {
         "type": "package",
         "dependencies": {
@@ -862,7 +835,7 @@
           "lib/netstandard1.0/Newtonsoft.Json.dll": {}
         }
       },
-      "OROptimizer.Shared/1.0.0-beta2": {
+      "OROptimizer.Shared/1.0.0": {
         "type": "package",
         "dependencies": {
           "JetBrains.Annotations": "10.2.1",
@@ -2939,12 +2912,25 @@
           "lib/netstandard1.3/System.Xml.XPath.XmlDocument.dll": {}
         }
       },
-      "TestProjects.SharedServices/1.0.0": {
+      "IoC.Configuration/1.0.1": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
-          "IoC.Configuration": "1.0.0-beta4"
+          "JetBrains.Annotations": "10.2.1",
+          "Microsoft.CodeAnalysis": "2.3.2",
+          "OROptimizer.Shared": "1.0.0",
+          "System.Runtime.Loader": "4.3.0"
         },
+        "compile": {
+          "bin/placeholder/IoC.Configuration.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/IoC.Configuration.dll": {}
+        }
+      },
+      "TestProjects.SharedServices/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
         "compile": {
           "bin/placeholder/TestProjects.SharedServices.dll": {}
         },
@@ -2957,7 +2943,7 @@
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
           "Microsoft.CodeAnalysis": "2.3.2",
-          "OROptimizer.Shared": "1.0.0-beta2",
+          "OROptimizer.Shared": "1.0.0",
           "System.Runtime.Loader": "4.3.0"
         },
         "compile": {
@@ -2989,21 +2975,6 @@
         "lib/netstandard1.3/Castle.Core.dll",
         "lib/netstandard1.3/Castle.Core.xml",
         "readme.txt"
-      ]
-    },
-    "IoC.Configuration/1.0.0-beta4": {
-      "sha512": "E3NwdHa48aNDtHZcO3B6i6r0rUvVAhb0Rd1XiNN+CEz29/KCZ4JdoQmhfg1bqh90UgbC9K7IbDa27L+KMIuk2Q==",
-      "type": "package",
-      "path": "ioc.configuration/1.0.0-beta4",
-      "files": [
-        "content/IoC.Cnfiguration.Content/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd",
-        "content/IoC.Cnfiguration.Content/IoC.Configuration.Template.xml",
-        "contentFiles/any/netstandard2.0/IoC.Cnfiguration.Content/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd",
-        "contentFiles/any/netstandard2.0/IoC.Cnfiguration.Content/IoC.Configuration.Template.xml",
-        "ioc.configuration.1.0.0-beta4.nupkg.sha512",
-        "ioc.configuration.nuspec",
-        "lib/netstandard2.0/IoC.Configuration.dll",
-        "lib/netstandard2.0/IoC.Configuration.xml"
       ]
     },
     "JetBrains.Annotations/10.2.1": {
@@ -4090,14 +4061,14 @@
         "tools/install.ps1"
       ]
     },
-    "OROptimizer.Shared/1.0.0-beta2": {
-      "sha512": "ic3dpxCDq/VsmwnwVnuw5qFTWUvAVNRK3zrnMuSla4BjnTWRTvT1uRw/Kgci5P4sXIUA5WAYu2S527DsY2KdiQ==",
+    "OROptimizer.Shared/1.0.0": {
+      "sha512": "rBop7fF1akOSF6R0KozmmsEzlT070X1sMP/G9+0roVo1n4iLeoDuY6KbkpHDG4Cm+TC8xPvT6e2MRMa6idPJbA==",
       "type": "package",
-      "path": "oroptimizer.shared/1.0.0-beta2",
+      "path": "oroptimizer.shared/1.0.0",
       "files": [
         "lib/netstandard2.0/OROptimizer.Shared.dll",
         "lib/netstandard2.0/OROptimizer.Shared.xml",
-        "oroptimizer.shared.1.0.0-beta2.nupkg.sha512",
+        "oroptimizer.shared.1.0.0.nupkg.sha512",
         "oroptimizer.shared.nuspec"
       ]
     },
@@ -8912,6 +8883,11 @@
         "system.xml.xpath.xmldocument.nuspec"
       ]
     },
+    "IoC.Configuration/1.0.1": {
+      "type": "project",
+      "path": "../IoC.Configuration/IoC.Configuration.csproj",
+      "msbuildProject": "../IoC.Configuration/IoC.Configuration.csproj"
+    },
     "TestProjects.SharedServices/1.0.0": {
       "type": "project",
       "path": "../TestProjects.SharedServices/TestProjects.SharedServices.csproj",
@@ -8925,7 +8901,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
-      "IoC.Configuration >= 1.0.0-beta4",
+      "IoC.Configuration >= 1.0.1",
       "JetBrains.Annotations >= 10.2.1",
       "MSTest.TestAdapter >= 1.1.18",
       "MSTest.TestFramework >= 1.1.18",
@@ -8971,6 +8947,9 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
+            "K:\\Projects\\OROptimizer\\MyGitHubProjects\\IoC.Configuration\\IoC.Configuration\\IoC.Configuration.csproj": {
+              "projectPath": "K:\\Projects\\OROptimizer\\MyGitHubProjects\\IoC.Configuration\\IoC.Configuration\\IoC.Configuration.csproj"
+            },
             "K:\\Projects\\OROptimizer\\MyGitHubProjects\\IoC.Configuration\\TestProjects.SharedServices\\TestProjects.SharedServices.csproj": {
               "projectPath": "K:\\Projects\\OROptimizer\\MyGitHubProjects\\IoC.Configuration\\TestProjects.SharedServices\\TestProjects.SharedServices.csproj"
             },
@@ -8989,10 +8968,6 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
-          "IoC.Configuration": {
-            "target": "Package",
-            "version": "[1.0.0-beta4, )"
-          },
           "JetBrains.Annotations": {
             "target": "Package",
             "version": "[10.2.1, )"
