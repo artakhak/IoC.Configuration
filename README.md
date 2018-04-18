@@ -667,8 +667,8 @@ Here is an example ofcode based configuration.
 
 ![](http://oroptimizer.com/IoC.Configuration/GitHubDocs/CodeBasedConfiguration1.png)
 
-## Native and IoC.Configuration modules in configuration file.
-Both native modules ((e.g., subclasses of Autofac.AutofacModule or Ninject.Modules.NinjectModule)) and IoC.Configuration modules can be specified in configuration files. 
+## Native and IoC.Configuration Modules in Configuration File.
+Both native modules (e.g., subclasses of Autofac.AutofacModule or Ninject.Modules.NinjectModule) and IoC.Configuration modules can be specified in configuration files. 
 
 Here is an xample from configuration file above which has both native and container agnostic IoC.Configuration modules.
 
