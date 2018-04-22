@@ -65,12 +65,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{3ACBE6AD
 		docs\NuGet\IoC.Configuration.Documentation.md = docs\NuGet\IoC.Configuration.Documentation.md
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{269A3A9F-2D0D-4123-97D7-84B494FC7417}"
-	ProjectSection(SolutionItems) = preProject
-		docs\source\conf.py = docs\source\conf.py
-		docs\source\index.rst = docs\source\index.rst
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{C925815B-2EB4-4EF7-8979-0F20E15F9AFD}"
 EndProject
 Global
@@ -165,7 +159,6 @@ Global
 		{1FA30D83-4F50-41E9-A6E3-A2AA9852AA33} = {7F5DA0D6-7EBC-43A7-812D-3363089F05F5}
 		{A34794D1-A604-4DBB-9AB9-1EA4B7F85C9D} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
 		{3ACBE6AD-995F-4935-B55A-7A4900BB2151} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
-		{269A3A9F-2D0D-4123-97D7-84B494FC7417} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
 		{C925815B-2EB4-4EF7-8979-0F20E15F9AFD} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution

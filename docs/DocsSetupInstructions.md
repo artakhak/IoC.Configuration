@@ -21,7 +21,7 @@ GitHub images are at http://oroptimizer.com/IoC.Configuration/GitHubDocs
     cd "docs folder under prooject" example cd "K:\...\IoC.Configuration\docs"
     sphinx-quickstart #this will build the Sphinx doc project. 
         Here are non-default responses:
-            Separate source and build directories: Y
+            Separate source and build directories: N (it seems readthedocs does not like this option).
             Project name: IoC.Configuration
             Do you want to use the epub builder: N
 ### Building the docs
