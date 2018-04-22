@@ -1,0 +1,5 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/IoC.Configuration.Tests/bin/Debug/DynamicFiles2/DynamicallyGeneratedAssembly_636596085835692235.dll

@@ -41,27 +41,37 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProjects.TestPluginAsse
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OROptimizer.Shared", "..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj", "{5140DBD0-2271-47C9-AC28-E95F26DDE783}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{E5B1DF5A-07C3-4E11-A881-851D6C6E4927}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E5B1DF5A-07C3-4E11-A881-851D6C6E4927}"
 	ProjectSection(SolutionItems) = preProject
-		Documentation\Info.txt = Documentation\Info.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{157A33B6-78ED-4494-9985-E06B46C8E87D}"
-	ProjectSection(SolutionItems) = preProject
-		Documentation\NuGet\IoC.Configuration.Description.md = Documentation\NuGet\IoC.Configuration.Description.md
-		Documentation\NuGet\IoC.Configuration.Documentation.md = Documentation\NuGet\IoC.Configuration.Documentation.md
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{D4FE76C6-4FFF-461A-8AB9-215835333A6C}"
-	ProjectSection(SolutionItems) = preProject
-		Documentation\GitHub\IoC.Configuration.Description.md = Documentation\GitHub\IoC.Configuration.Description.md
-		Documentation\GitHub\IoC.Configuration.Documentation.md = Documentation\GitHub\IoC.Configuration.Documentation.md
+		docs\DocsSetupInstructions.md = docs\DocsSetupInstructions.md
+		docs\make.bat = docs\make.bat
+		docs\Makefile = docs\Makefile
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{96926937-EF46-4E1C-8887-76DA0B8D4BF7}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{A34794D1-A604-4DBB-9AB9-1EA4B7F85C9D}"
+	ProjectSection(SolutionItems) = preProject
+		docs\GitHub\IoC.Configuration.Description.md = docs\GitHub\IoC.Configuration.Description.md
+		docs\GitHub\IoC.Configuration.Documentation.md = docs\GitHub\IoC.Configuration.Documentation.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{3ACBE6AD-995F-4935-B55A-7A4900BB2151}"
+	ProjectSection(SolutionItems) = preProject
+		docs\NuGet\IoC.Configuration.Description.md = docs\NuGet\IoC.Configuration.Description.md
+		docs\NuGet\IoC.Configuration.Documentation.md = docs\NuGet\IoC.Configuration.Documentation.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "source", "source", "{269A3A9F-2D0D-4123-97D7-84B494FC7417}"
+	ProjectSection(SolutionItems) = preProject
+		docs\source\conf.py = docs\source\conf.py
+		docs\source\index.rst = docs\source\index.rst
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{C925815B-2EB4-4EF7-8979-0F20E15F9AFD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -153,8 +163,10 @@ Global
 		{D20425E9-9E7D-4C29-8B43-97F6F2347FFE} = {7F5DA0D6-7EBC-43A7-812D-3363089F05F5}
 		{06C87889-171C-4792-97BC-F76F190BAF9D} = {7F5DA0D6-7EBC-43A7-812D-3363089F05F5}
 		{1FA30D83-4F50-41E9-A6E3-A2AA9852AA33} = {7F5DA0D6-7EBC-43A7-812D-3363089F05F5}
-		{157A33B6-78ED-4494-9985-E06B46C8E87D} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
-		{D4FE76C6-4FFF-461A-8AB9-215835333A6C} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
+		{A34794D1-A604-4DBB-9AB9-1EA4B7F85C9D} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
+		{3ACBE6AD-995F-4935-B55A-7A4900BB2151} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
+		{269A3A9F-2D0D-4123-97D7-84B494FC7417} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
+		{C925815B-2EB4-4EF7-8979-0F20E15F9AFD} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1A1C25FA-E067-48BA-A479-2F251496CF15}

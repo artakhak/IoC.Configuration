@@ -1,0 +1,1 @@
+Container agnostic configuration of dependency injection using XML configuration file as well as using native (e.g., Autofac, Ninject), modules or container agnostic modules that are translated to native DI modules. Please, look at Wiki tab or IoC.Configurations.Tests projects for more details (ReadMe section is not complete yet). 
