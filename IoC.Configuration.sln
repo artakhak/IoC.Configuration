@@ -39,8 +39,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProjects.TestPluginAsse
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProjects.TestPluginAssembly3", "TestProjects.TestPluginAssembly3\TestProjects.TestPluginAssembly3.csproj", "{1FA30D83-4F50-41E9-A6E3-A2AA9852AA33}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OROptimizer.Shared", "..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj", "{5140DBD0-2271-47C9-AC28-E95F26DDE783}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E5B1DF5A-07C3-4E11-A881-851D6C6E4927}"
 	ProjectSection(SolutionItems) = preProject
 		docs\DocsSetupInstructions.md = docs\DocsSetupInstructions.md
@@ -133,10 +131,6 @@ Global
 		{1FA30D83-4F50-41E9-A6E3-A2AA9852AA33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FA30D83-4F50-41E9-A6E3-A2AA9852AA33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FA30D83-4F50-41E9-A6E3-A2AA9852AA33}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5140DBD0-2271-47C9-AC28-E95F26DDE783}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5140DBD0-2271-47C9-AC28-E95F26DDE783}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5140DBD0-2271-47C9-AC28-E95F26DDE783}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5140DBD0-2271-47C9-AC28-E95F26DDE783}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
