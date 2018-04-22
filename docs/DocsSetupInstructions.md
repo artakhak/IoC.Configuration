@@ -33,4 +33,7 @@ GitHub images are at http://oroptimizer.com/IoC.Configuration/GitHubDocs
         #To reload the docs, run 
         sphinx-autobuild . _build/html
         
+### Publishing to Git
+      -Before committing to git run "make clean" to clean the generated files. ReadTheDcos will build the docs.
+        
 
