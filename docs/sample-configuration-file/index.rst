@@ -6,9 +6,12 @@ Sample XML Configuration File
    Note, this is the file **IoCConfiguration1.xml** in test project `IoC.Configuration.Tests <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests>`_ so the names are meaningless (e.g., Interface1, Class1, etc).
 
 - The XML configuration file schema is available at `IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/IoC.Cnfiguration.Content/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd>`_
+
 - A template XML configuration file can be downloaded from `IoC.Configuration.Template.xml <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/IoC.Cnfiguration.Content/IoC.Configuration.Template.xml>`_
 
 The template file and schema are also available in folder, where **Nuget** package **IoC.Cnfiguration** is unpacked.
+
+IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests>`_:
 
 .. code-block:: xml
    :linenos:
@@ -28,7 +31,7 @@ The template file and schema are also available in folder, where **Nuget** packa
             The plugin folders will be included in assembly resolution mechanism.
             -->
 
-            <!--A folder K:\...\IoC.Configuration.Tests\TestDlls\PluginDlls\Plugin1 should exist.  -->
+            <!--A folder K:\...\IoC.Configuration.Tests\TestDlls\PluginDlls\Plugin1 should exist.-->
             <plugin name="Plugin1" />
             <plugin name="Plugin2" />
             <plugin name="Plugin3" enabled="false" />
