@@ -11,6 +11,7 @@ Welcome to IoC.Configuration's documentation!
    :maxdepth: 3
 
    overview/index.rst
+   sample-configuration-file/index.rst
 
 
 
