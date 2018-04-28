@@ -14,9 +14,27 @@ The template file and schema are also available in folder, where **Nuget** packa
 .. sourcecode:: xml
 
 
+    <?xml version="1.0" encoding="utf-8"?>
+
+    <!--
+       The XML configuration file is validated against schema file IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd,
+       which can be found in folder IoC.Cnfiguration.Content in output directory.
+       The schema file can also be downloaded from
+       http://oroptimizer.com/ioc.configuration/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd or in source code
+       project in Github.com.
+
+       To use Visual Studio code completion based on schema contents, right click Properties on this file in Visual Studio, and in Schemas
+       field pick the schema IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd.
+
+        Before running the test make sure to execute IoC.Configuration\Tests\IoC.Configuration.Tests\PostBuildCommands.bat to copy the dlls into
+        folders specified in this configuration file.
+        Also, modify the batch file to copy the Autofac and Ninject assemblies from Nuget packages folder on machine, where the test is run.
+    -->
+
     <iocConfiguration>
 
-        <!--The application should have write permissions to path specified in appDataDir. This is where dynamically generated DLLs are saved.-->
+        <!--The application should have write permissions to path specified in appDataDir.
+        This is where dynamically generated DLLs are saved.-->
         <appDataDir
             path="K:\...\IoC.Configuration.Tests\bin\Debug\DynamicFiles" />
 
@@ -62,7 +80,8 @@ The template file and schema are also available in folder, where **Nuget** packa
             probing paths specified in additionalAssemblyProbingPaths element.
             -->
 
-            <assembly name="TestProjects.TestForceLoadAssembly" alias="TestForceLoadAssembly" loadAlways="true"
+            <assembly name="TestProjects.TestForceLoadAssembly"
+                      alias="TestForceLoadAssembly" loadAlways="true"
                       overrideDirectory="K:\...\IoC.Configuration.Tests\TestDlls\DynamicallyLoadedDlls" />
 
             <assembly name="OROptimizer.Shared" alias="oroptimizer_shared" />
@@ -71,16 +90,27 @@ The template file and schema are also available in folder, where **Nuget** packa
             <assembly name="IoC.Configuration.Ninject" alias="ninject_ext" />
 
             <assembly name="TestProjects.Modules" alias="modules" />
-            <assembly name="TestProjects.DynamicallyLoadedAssembly1" alias="dynamic1" />
-            <assembly name="TestProjects.DynamicallyLoadedAssembly2" alias="dynamic2" />
 
-            <assembly name="TestProjects.TestPluginAssembly1" alias="pluginassm1" plugin="Plugin1" />
-            <assembly name="TestProjects.ModulesForPlugin1" alias="modules_plugin1" plugin="Plugin1" />
+            <assembly name="TestProjects.DynamicallyLoadedAssembly1"
+                      alias="dynamic1" />
 
-            <assembly name="TestProjects.TestPluginAssembly2" alias="pluginassm2" plugin="Plugin2" />
-            <assembly name="TestProjects.TestPluginAssembly3" alias="pluginassm3" plugin="Plugin3" />
+            <assembly name="TestProjects.DynamicallyLoadedAssembly2"
+                      alias="dynamic2" />
+
+            <assembly name="TestProjects.TestPluginAssembly1"
+                      alias="pluginassm1" plugin="Plugin1" />
+
+            <assembly name="TestProjects.ModulesForPlugin1"
+                      alias="modules_plugin1" plugin="Plugin1" />
+
+            <assembly name="TestProjects.TestPluginAssembly2"
+                      alias="pluginassm2" plugin="Plugin2" />
+
+            <assembly name="TestProjects.TestPluginAssembly3"
+                      alias="pluginassm3" plugin="Plugin3" />
 
             <assembly name="TestProjects.SharedServices" alias="shared_services" />
+
             <assembly name="IoC.Configuration.Tests" alias="tests" />
         </assemblies>
 
@@ -95,23 +125,33 @@ The template file and schema are also available in folder, where **Nuget** packa
             <serializers>
                 <parameterSerializer type="OROptimizer.Serializer.TypeBasedSimpleSerializerDouble"
                                      assembly="oroptimizer_shared" />
+
                 <parameterSerializer type="OROptimizer.Serializer.TypeBasedSimpleSerializerLong"
                                      assembly="oroptimizer_shared" />
+
                 <parameterSerializer type="OROptimizer.Serializer.TypeBasedSimpleSerializerInt"
                                      assembly="oroptimizer_shared" />
+
                 <parameterSerializer type="OROptimizer.Serializer.TypeBasedSimpleSerializerShort"
                                      assembly="oroptimizer_shared" />
+
                 <parameterSerializer type="OROptimizer.Serializer.TypeBasedSimpleSerializerByte"
                                      assembly="oroptimizer_shared" />
+
                 <parameterSerializer type="OROptimizer.Serializer.TypeBasedSimpleSerializerBoolean"
                                      assembly="oroptimizer_shared" />
+
                 <parameterSerializer type="OROptimizer.Serializer.TypeBasedSimpleSerializerDateTime"
                                      assembly="oroptimizer_shared" />
+
                 <parameterSerializer type="OROptimizer.Serializer.TypeBasedSimpleSerializerString"
                                      assembly="oroptimizer_shared" />
 
-                <parameterSerializer type="TestPluginAssembly1.Implementations.DoorSerializer" assembly="pluginassm1" />
-                <parameterSerializer type="TestPluginAssembly2.Implementations.WheelSerializer" assembly="pluginassm2" />
+                <parameterSerializer type="TestPluginAssembly1.Implementations.DoorSerializer"
+                                     assembly="pluginassm1" />
+
+                <parameterSerializer type="TestPluginAssembly2.Implementations.WheelSerializer"
+                                     assembly="pluginassm2" />
 
                 <parameterSerializer type="TestPluginAssembly1.Implementations.UnsignedIntSerializerWithParameters"
                                      assembly="pluginassm1">
@@ -123,9 +163,11 @@ The template file and schema are also available in folder, where **Nuget** packa
             </serializers>
         </parameterSerializers>
 
-        <!--The value of type attribute should be a type that implements IoC.Configuration.DiContainer.IDiManager-->
+        <!--The value of type attribute should be a type that implements
+        IoC.Configuration.DiContainer.IDiManager-->
         <diManagers activeDiManagerName="Autofac">
-            <diManager name="Ninject" type="IoC.Configuration.Ninject.NinjectDiManager" assembly="ninject_ext">
+            <diManager name="Ninject" type="IoC.Configuration.Ninject.NinjectDiManager"
+                       assembly="ninject_ext">
                 <!--
                 Use parameters element to specify constructor parameters, if the type specified in 'type' attribute
                 has non-default constructor.-->
@@ -133,18 +175,22 @@ The template file and schema are also available in folder, where **Nuget** packa
                 </parameters>-->
             </diManager>
 
-            <diManager name="Autofac" type="IoC.Configuration.Autofac.AutofacDiManager" assembly="autofac_ext">
+            <diManager name="Autofac" type="IoC.Configuration.Autofac.AutofacDiManager"
+                       assembly="autofac_ext">
             </diManager>
         </diManagers>
 
         <!--
-        If settingsRequestor element is used, the type in type attribute should specify a type that implements
-        SharedServices.ISettingsRequestor. The implementation specifies a collection of requierd settings that shiuld be present
+        If settingsRequestor element is used, the type in type attribute should
+        specify a type that implements SharedServices.ISettingsRequestor.
+        The implementation specifies a collection of required settings that should be present
         in settings element.
-        Note, the type specified in type attribute is fully integrated into a dependency injection framework. In other words, constructor
-        parameters will be injected using bindings specified in dependencyInjection element.
+        Note, the type specified in type attribute is fully integrated into a dependency
+        injection framework. In other words, constructor parameters will be injected using
+        bindings specified in dependencyInjection element.
         -->
-        <settingsRequestor type="SharedServices.FakeSettingsRequestor" assembly="shared_services">
+        <settingsRequestor type="SharedServices.FakeSettingsRequestor"
+                           assembly="shared_services">
         </settingsRequestor>
 
         <settings>
@@ -155,7 +201,8 @@ The template file and schema are also available in folder, where **Nuget** packa
 
         <dependencyInjection>
             <modules>
-                <module type="IoC.Configuration.Tests.PrimitiveTypeDefaultBindingsModule" assembly="tests">
+                <module type="IoC.Configuration.Tests.PrimitiveTypeDefaultBindingsModule"
+                        assembly="tests">
                     <parameters>
                         <datetime name="defaultDateTime" value="1915-04-24 00:00:00.000" />
                         <double name="defaultDouble" value="0" />
@@ -183,20 +230,25 @@ The template file and schema are also available in folder, where **Nuget** packa
                 </module>
             </modules>
             <services>
-                <service type="DynamicallyLoadedAssembly1.Interfaces.IInterface1" assembly="dynamic1">
-                    <implementation type="DynamicallyLoadedAssembly1.Implementations.Interface1_Impl1" assembly="dynamic1"
+                <service type="DynamicallyLoadedAssembly1.Interfaces.IInterface1"
+                         assembly="dynamic1">
+                    <implementation type="DynamicallyLoadedAssembly1.Implementations.Interface1_Impl1"
+                                    assembly="dynamic1"
                                     scope="singleton">
                     </implementation>
                 </service>
 
-                <service type="DynamicallyLoadedAssembly1.Interfaces.IInterface2" assembly="dynamic1">
-                    <implementation type="DynamicallyLoadedAssembly1.Implementations.Interface2_Impl1" assembly="dynamic1"
+                <service type="DynamicallyLoadedAssembly1.Interfaces.IInterface2"
+                         assembly="dynamic1">
+                    <implementation type="DynamicallyLoadedAssembly1.Implementations.Interface2_Impl1"
+                                    assembly="dynamic1"
                                     scope="transient">
                     </implementation>
                 </service>
 
                 <service type="DynamicallyLoadedAssembly1.Interfaces.IInterface3" assembly="dynamic1">
-                    <implementation type="DynamicallyLoadedAssembly1.Implementations.Interface3_Impl1" assembly="dynamic1"
+                    <implementation type="DynamicallyLoadedAssembly1.Implementations.Interface3_Impl1"
+                                    assembly="dynamic1"
                                     scope="scopeLifetime">
                     </implementation>
                 </service>
@@ -206,11 +258,14 @@ The template file and schema are also available in folder, where **Nuget** packa
                 present, and using non-default constructor otherwise, with injected parameters)
                 -->
                 <service type="SharedServices.Interfaces.IInterface9" assembly="shared_services">
-                    <implementation type="SharedServices.Implementations.Interface9_Impl1" assembly="shared_services"
+                    <implementation type="SharedServices.Implementations.Interface9_Impl1"
+                                    assembly="shared_services"
                                     scope="singleton" />
                 </service>
-                <service type="SharedServices.Interfaces.IInterface8" assembly="shared_services">
-                    <implementation type="SharedServices.Implementations.Interface8_Impl1" assembly="shared_services"
+                <service type="SharedServices.Interfaces.IInterface8"
+                         assembly="shared_services">
+                    <implementation type="SharedServices.Implementations.Interface8_Impl1"
+                                    assembly="shared_services"
                                     scope="singleton">
                         <!--
                         Since parameters is present, a default constructor will be used to construct an object, even though
@@ -220,7 +275,8 @@ The template file and schema are also available in folder, where **Nuget** packa
                         </parameters>
                     </implementation>
 
-                    <implementation type="SharedServices.Implementations.Interface8_Impl2" assembly="shared_services"
+                    <implementation type="SharedServices.Implementations.Interface8_Impl2"
+                                    assembly="shared_services"
                                     scope="singleton">
                         <!--
                         Since parameters is not present, DI will pick a constructor with maximum number of parameters.
@@ -230,7 +286,8 @@ The template file and schema are also available in folder, where **Nuget** packa
                 </service>
 
                 <!--Injected constructor parameters with self bound services-->
-                <selfBoundService type="DynamicallyLoadedAssembly1.Implementations.SelfBoundService1" assembly="dynamic1"
+                <selfBoundService type="DynamicallyLoadedAssembly1.Implementations.SelfBoundService1"
+                                  assembly="dynamic1"
                                   scope="singleton">
                     <parameters>
                         <int32 name="param1" value="14" />
@@ -241,7 +298,8 @@ The template file and schema are also available in folder, where **Nuget** packa
                 </selfBoundService>
 
                 <!--Injected properties with self bound services-->
-                <selfBoundService type="DynamicallyLoadedAssembly1.Implementations.SelfBoundService2" assembly="dynamic1"
+                <selfBoundService type="DynamicallyLoadedAssembly1.Implementations.SelfBoundService2"
+                                  assembly="dynamic1"
                                   scope="transient">
                     <injectedProperties>
                         <int32 name="Property1" value="17" />
@@ -252,13 +310,15 @@ The template file and schema are also available in folder, where **Nuget** packa
                 </selfBoundService>
 
                 <!--Life time scope with self bound services-->
-                <selfBoundService type="DynamicallyLoadedAssembly1.Implementations.SelfBoundService3" assembly="dynamic1"
+                <selfBoundService type="DynamicallyLoadedAssembly1.Implementations.SelfBoundService3"
+                                  assembly="dynamic1"
                                   scope="scopeLifetime">
                 </selfBoundService>
 
                 <!--Test circular references between SharedServices.Interfaces.IInterface3 and SharedServices.Interfaces.IInterface4-->
                 <service type="SharedServices.Interfaces.IInterface3" assembly="shared_services">
-                    <implementation type="SharedServices.Implementations.Interface3_Impl1" assembly="shared_services"
+                    <implementation type="SharedServices.Implementations.Interface3_Impl1"
+                                    assembly="shared_services"
                                     scope="singleton">
                         <injectedProperties>
                             <injectedObject name="Property2" type="SharedServices.Interfaces.IInterface4"
@@ -267,7 +327,8 @@ The template file and schema are also available in folder, where **Nuget** packa
                     </implementation>
                 </service>
                 <service type="SharedServices.Interfaces.IInterface4" assembly="shared_services">
-                    <implementation type="SharedServices.Implementations.Interface4_Impl1" assembly="shared_services"
+                    <implementation type="SharedServices.Implementations.Interface4_Impl1"
+                                    assembly="shared_services"
                                     scope="singleton">
                     </implementation>
                 </service>
@@ -275,7 +336,8 @@ The template file and schema are also available in folder, where **Nuget** packa
                 <!--Injected constructor parameters-->
                 <service type="SharedServices.Interfaces.IInterface2" assembly="shared_services">
                     <!--Test constructor parameters-->
-                    <implementation type="SharedServices.Implementations.Interface2_Impl1" assembly="shared_services"
+                    <implementation type="SharedServices.Implementations.Interface2_Impl1"
+                                    assembly="shared_services"
                                     scope="singleton">
                         <parameters>
                             <!--The value will be de-serialized using serializer TypeBasedSimpleSerializerDateTime
@@ -288,7 +350,8 @@ The template file and schema are also available in folder, where **Nuget** packa
                     </implementation>
 
                     <!--Test injected properties-->
-                    <implementation type="SharedServices.Implementations.Interface2_Impl2" assembly="shared_services"
+                    <implementation type="SharedServices.Implementations.Interface2_Impl2"
+                                    assembly="shared_services"
                                     scope="singleton">
                         <injectedProperties>
                             <!--The value of param2 will be de-serialized using serializer TypeBasedSimpleSerializerDateTime
@@ -302,7 +365,8 @@ The template file and schema are also available in folder, where **Nuget** packa
 
                     <!--Test constructor parameters with injected properties. Constructor values will be overridden by
                     injected properties.-->
-                    <implementation type="SharedServices.Implementations.Interface2_Impl3" assembly="shared_services"
+                    <implementation type="SharedServices.Implementations.Interface2_Impl3"
+                                    assembly="shared_services"
                                     scope="singleton">
                         <parameters>
                             <!--The value will be de-serialized using serializer TypeBasedSimpleSerializerDateTime in
@@ -333,18 +397,21 @@ The template file and schema are also available in folder, where **Nuget** packa
                     <!--Test injected constructor parameters. Primitive type constructor parameters, such as DateTime and double,
                         will be injected with default values specified in module: IoC.Configuration.Tests.PrimitiveTypeDefaultBindingsModule.
                      -->
-                    <implementation type="SharedServices.Implementations.Interface2_Impl4" assembly="shared_services"
+                    <implementation type="SharedServices.Implementations.Interface2_Impl4"
+                                    assembly="shared_services"
                                     scope="singleton">
                     </implementation>
                 </service>
 
-                <selfBoundService type="DynamicallyLoadedAssembly2.ActionValidator3" assembly="dynamic2" scope="transient">
+                <selfBoundService type="DynamicallyLoadedAssembly2.ActionValidator3"
+                                  assembly="dynamic2" scope="transient">
                     <parameters>
                         <int32 name="intParam" value="5" />
                     </parameters>
                 </selfBoundService>
 
-                <selfBoundService type="DynamicallyLoadedAssembly1.Implementations.CleanupJob2" assembly="dynamic1"
+                <selfBoundService type="DynamicallyLoadedAssembly1.Implementations.CleanupJob2"
+                                  assembly="dynamic1"
                                   scope="transient">
                     <parameters>
                         <injectedObject name="cleanupJobData"
@@ -353,7 +420,8 @@ The template file and schema are also available in folder, where **Nuget** packa
                     </parameters>
                 </selfBoundService>
 
-                <selfBoundService type="DynamicallyLoadedAssembly1.Implementations.CleanupJob3" assembly="dynamic1"
+                <selfBoundService type="DynamicallyLoadedAssembly1.Implementations.CleanupJob3"
+                                  assembly="dynamic1"
                                   scope="singleton">
                     <injectedProperties>
                         <injectedObject name="CleanupJobData"
@@ -363,7 +431,8 @@ The template file and schema are also available in folder, where **Nuget** packa
                 </selfBoundService>
 
                 <service type="SharedServices.Interfaces.ICleanupJobData" assembly="shared_services">
-                    <implementation type="DynamicallyLoadedAssembly1.Implementations.CleanupJobData" assembly="dynamic1"
+                    <implementation type="DynamicallyLoadedAssembly1.Implementations.CleanupJobData"
+                                    assembly="dynamic1"
                                     scope="singleton">
                     </implementation>
                 </service>
@@ -382,8 +451,8 @@ The template file and schema are also available in folder, where **Nuget** packa
                 </service>
 
                 <!--
-                Test registerIfNotRegistered. Note, SharedServices.Interfaces.IInterface6 is already registered in module  Modules.IoC.DiModule1
-                for implementation SharedServices.Implementations.Interface6_Impl1.
+                Test registerIfNotRegistered. Note, SharedServices.Interfaces.IInterface6 is already registered in
+                module  Modules.IoC.DiModule1 for implementation SharedServices.Implementations.Interface6_Impl1.
                 Therefore, implementation SharedServices.Implementations.Interface6_Impl2 will not be registered.
                 -->
                 <service type="SharedServices.Interfaces.IInterface6" assembly="shared_services"
@@ -398,78 +467,104 @@ The template file and schema are also available in folder, where **Nuget** packa
                 -->
                 <service type="SharedServices.Interfaces.IInterface7" assembly="shared_services"
                          registerIfNotRegistered="true">
-                    <implementation type="SharedServices.Implementations.Interface7_Impl1" assembly="shared_services"
+                    <implementation type="SharedServices.Implementations.Interface7_Impl1"
+                                    assembly="shared_services"
                                     scope="singleton" />
                 </service>
 
-                <selfBoundService type="SharedServices.Implementations.SelfBoundService1" assembly="shared_services"
+                <selfBoundService type="SharedServices.Implementations.SelfBoundService1"
+                                  assembly="shared_services"
                                   registerIfNotRegistered="true" scope="singleton">
                 </selfBoundService>
             </services>
             <autoGeneratedServices>
                 <!--The scope for typeFactory implementations is always singleton -->
-                <!--The function in DynamicallyLoadedAssembly2.IActionValidatorFactory1 that this configuration implements has the following signature
-
-                IEnumerable<DynamicallyLoadedAssembly1.IActionValidator> GetInstances(int param1, string param2);
-                The type attribute value in returnedType element should be a concrete class (non-abstract and non-interface), that implements
-                DynamicallyLoadedAssembly1.IActionValidator.
-                Attributes parameter1 and parameter2 can be set to specify conditions when specific type instances will be returned.
+                <!--The function in DynamicallyLoadedAssembly2.IActionValidatorFactory1 that this
+                configuration implements has the following signature
+                IEnumerable<DynamicallyLoadedAssembly1.IActionValidator> GetInstances(int param1,
+                string param2);
+                The type attribute value in returnedType element should be a concrete class (non-abstract and
+                non-interface), that implements DynamicallyLoadedAssembly1.IActionValidator.
+                Attributes parameter1 and parameter2 can be set to specify conditions when specific
+                type instances will be returned.
                 -->
-                <typeFactory interface="DynamicallyLoadedAssembly2.IActionValidatorFactory1" assembly="dynamic2">
+                <typeFactory interface="DynamicallyLoadedAssembly2.IActionValidatorFactory1"
+                             assembly="dynamic2">
                     <if parameter2="project1" parameter1="1">
-                        <returnedType type="DynamicallyLoadedAssembly2.ActionValidator3" assembly="dynamic2" />
-                        <returnedType type="DynamicallyLoadedAssembly2.ActionValidator1" assembly="dynamic2" />
+                        <returnedType type="DynamicallyLoadedAssembly2.ActionValidator3"
+                                      assembly="dynamic2" />
+                        <returnedType type="DynamicallyLoadedAssembly2.ActionValidator1"
+                                      assembly="dynamic2" />
                     </if>
                     <if parameter1="1" parameter2="project2">
-                        <returnedType type="DynamicallyLoadedAssembly2.ActionValidator1" assembly="dynamic2" />
-                        <returnedType type="DynamicallyLoadedAssembly2.ActionValidator2" assembly="dynamic2" />
+                        <returnedType type="DynamicallyLoadedAssembly2.ActionValidator1"
+                                      assembly="dynamic2" />
+                        <returnedType type="DynamicallyLoadedAssembly2.ActionValidator2"
+                                      assembly="dynamic2" />
                     </if>
                     <if parameter1="2">
-                        <returnedType type="DynamicallyLoadedAssembly2.ActionValidator1" assembly="dynamic2" />
-                        <returnedType type="DynamicallyLoadedAssembly2.ActionValidator2" assembly="dynamic2" />
-                        <returnedType type="DynamicallyLoadedAssembly2.ActionValidator3" assembly="dynamic2" />
+                        <returnedType type="DynamicallyLoadedAssembly2.ActionValidator1"
+                                      assembly="dynamic2" />
+                        <returnedType type="DynamicallyLoadedAssembly2.ActionValidator2"
+                                      assembly="dynamic2" />
+                        <returnedType type="DynamicallyLoadedAssembly2.ActionValidator3"
+                                      assembly="dynamic2" />
                     </if>
                     <default>
-                        <returnedType type="DynamicallyLoadedAssembly2.ActionValidator2" assembly="dynamic2" />
-                        <returnedType type="DynamicallyLoadedAssembly2.ActionValidator1" assembly="dynamic2" />
+                        <returnedType type="DynamicallyLoadedAssembly2.ActionValidator2"
+                                      assembly="dynamic2" />
+                        <returnedType type="DynamicallyLoadedAssembly2.ActionValidator1"
+                                      assembly="dynamic2" />
                     </default>
                 </typeFactory>
 
                 <!--The scope for typeFactory implementations is always singleton -->
                 <!--
-                The function in SharedServices.Interfaces.ICleanupJobFactory that this configuration implements has the following signature
+                The function in SharedServices.Interfaces.ICleanupJobFactory that this configuration
+                implements has the following signature
                 IEnumerable<SharedServices.Interfaces.ICleanupJob> GetCleanupJobs(int projectId);
 
-                The type attribute value in returnedType element should be a concrete class (non-abstract and non-interface), that implements
+                The type attribute value in returnedType element should be a concrete
+                class (non-abstract and non-interface), that implements
                 SharedServices.Interfaces.ICleanupJob.
-                Attribute parameter1 can be set to specify conditions when specific type instances will be returned.
+                Attribute parameter1 can be set to specify conditions when specific type instances
+                will be returned.
                 -->
 
-                <typeFactory interface="SharedServices.Interfaces.ICleanupJobFactory" assembly="shared_services">
+                <typeFactory interface="SharedServices.Interfaces.ICleanupJobFactory"
+                             assembly="shared_services">
                     <if parameter1="1">
-                        <returnedType type="DynamicallyLoadedAssembly1.Implementations.CleanupJob1" assembly="dynamic1" />
-                        <returnedType type="DynamicallyLoadedAssembly1.Implementations.CleanupJob2" assembly="dynamic1" />
+                        <returnedType type="DynamicallyLoadedAssembly1.Implementations.CleanupJob1"
+                                      assembly="dynamic1" />
+                        <returnedType type="DynamicallyLoadedAssembly1.Implementations.CleanupJob2"
+                                      assembly="dynamic1" />
                     </if>
                     <if parameter1="2">
-                        <returnedType type="DynamicallyLoadedAssembly1.Implementations.CleanupJob2" assembly="dynamic1" />
+                        <returnedType type="DynamicallyLoadedAssembly1.Implementations.CleanupJob2"
+                                      assembly="dynamic1" />
                     </if>
                     <default>
-                        <returnedType type="DynamicallyLoadedAssembly1.Implementations.CleanupJob1" assembly="dynamic1" />
-                        <returnedType type="DynamicallyLoadedAssembly1.Implementations.CleanupJob3" assembly="dynamic1" />
+                        <returnedType type="DynamicallyLoadedAssembly1.Implementations.CleanupJob1"
+                                      assembly="dynamic1" />
+                        <returnedType type="DynamicallyLoadedAssembly1.Implementations.CleanupJob3"
+                                      assembly="dynamic1" />
                     </default>
                 </typeFactory>
             </autoGeneratedServices>
         </dependencyInjection>
 
         <startupActions>
-            <startupAction type="DynamicallyLoadedAssembly1.Implementations.StartupAction1" assembly="dynamic1"></startupAction>
-            <startupAction type="DynamicallyLoadedAssembly1.Implementations.StartupAction2" assembly="dynamic1"></startupAction>
+            <startupAction type="DynamicallyLoadedAssembly1.Implementations.StartupAction1"
+                           assembly="dynamic1"></startupAction>
+            <startupAction type="DynamicallyLoadedAssembly1.Implementations.StartupAction2"
+                           assembly="dynamic1"></startupAction>
         </startupActions>
 
         <pluginsSetup>
             <pluginSetup plugin="Plugin1">
                 <!--type in pluginImplementation should be a concrete class that implements IoC.Configuration.IPlugin-->
-                <pluginImplementation type="TestPluginAssembly1.Implementations.Plugin1" assembly="pluginassm1">
+                <pluginImplementation type="TestPluginAssembly1.Implementations.Plugin1"
+                                      assembly="pluginassm1">
                     <parameters>
                         <int64 name="param1" value="25" />
                     </parameters>
@@ -482,27 +577,32 @@ The template file and schema are also available in folder, where **Nuget** packa
                 <dependencyInjection>
                     <modules>
                         <!--TODO: Test the case when the module is not in an assembly in Plugin folder.-->
-                        <module type="ModulesForPlugin1.Ninject.NinjectModule1" assembly="modules_plugin1">
+                        <module type="ModulesForPlugin1.Ninject.NinjectModule1"
+                                assembly="modules_plugin1">
                             <parameters>
                                 <int32 name="param1" value="101" />
                             </parameters>
                         </module>
 
-                        <module type="ModulesForPlugin1.Autofac.AutofacModule1" assembly="modules_plugin1">
+                        <module type="ModulesForPlugin1.Autofac.AutofacModule1"
+                                assembly="modules_plugin1">
                             <parameters>
                                 <int32 name="param1" value="102" />
                             </parameters>
                         </module>
 
-                        <module type="ModulesForPlugin1.IoC.DiModule1" assembly="modules_plugin1">
+                        <module type="ModulesForPlugin1.IoC.DiModule1"
+                                assembly="modules_plugin1">
                             <parameters>
                                 <int32 name="param1" value="103" />
                             </parameters>
                         </module>
                     </modules>
                     <services>
-                        <service type="TestPluginAssembly1.Interfaces.IDoor" assembly="pluginassm1">
-                            <implementation type="TestPluginAssembly1.Implementations.Door" assembly="pluginassm1"
+                        <service type="TestPluginAssembly1.Interfaces.IDoor"
+                                 assembly="pluginassm1">
+                            <implementation type="TestPluginAssembly1.Implementations.Door"
+                                            assembly="pluginassm1"
                                             scope="transient">
                                 <parameters>
                                     <int32 name="Color" value="3" />
@@ -511,16 +611,19 @@ The template file and schema are also available in folder, where **Nuget** packa
                             </implementation>
                         </service>
                         <service type="TestPluginAssembly1.Interfaces.IRoom" assembly="pluginassm1">
-                            <implementation type="TestPluginAssembly1.Implementations.Room" assembly="pluginassm1"
+                            <implementation type="TestPluginAssembly1.Implementations.Room"
+                                            assembly="pluginassm1"
                                             scope="transient">
                                 <parameters>
-                                    <object name="door1" type="TestPluginAssembly1.Interfaces.IDoor" assembly="pluginassm1"
+                                    <object name="door1" type="TestPluginAssembly1.Interfaces.IDoor"
+                                            assembly="pluginassm1"
                                             value="5,185.1" />
                                     <injectedObject name="door2" type="TestPluginAssembly1.Interfaces.IDoor"
                                                     assembly="pluginassm1" />
                                 </parameters>
                                 <injectedProperties>
-                                    <object name="Door2" type="TestPluginAssembly1.Interfaces.IDoor" assembly="pluginassm1"
+                                    <object name="Door2" type="TestPluginAssembly1.Interfaces.IDoor"
+                                            assembly="pluginassm1"
                                             value="7,187.3" />
                                 </injectedProperties>
                             </implementation>
@@ -559,7 +662,8 @@ The template file and schema are also available in folder, where **Nuget** packa
             </pluginSetup>
 
             <pluginSetup plugin="Plugin2">
-                <pluginImplementation type="TestPluginAssembly2.Implementations.Plugin2" assembly="pluginassm2">
+                <pluginImplementation type="TestPluginAssembly2.Implementations.Plugin2"
+                                      assembly="pluginassm2">
                     <parameters>
                         <boolean name="param1" value="true" />
                         <double name="param2" value="25.3" />
@@ -578,7 +682,8 @@ The template file and schema are also available in folder, where **Nuget** packa
                     </modules>
                     <services>
                         <service type="TestPluginAssembly2.Interfaces.IWheel" assembly="pluginassm2">
-                            <implementation type="TestPluginAssembly2.Implementations.Wheel" assembly="pluginassm2"
+                            <implementation type="TestPluginAssembly2.Implementations.Wheel"
+                                            assembly="pluginassm2"
                                             scope="transient">
                                 <parameters>
                                     <int32 name="Color" value="5" />
@@ -587,7 +692,8 @@ The template file and schema are also available in folder, where **Nuget** packa
                             </implementation>
                         </service>
                         <service type="TestPluginAssembly2.Interfaces.ICar" assembly="pluginassm2">
-                            <implementation type="TestPluginAssembly2.Implementations.Car" assembly="pluginassm2"
+                            <implementation type="TestPluginAssembly2.Implementations.Car"
+                                            assembly="pluginassm2"
                                             scope="transient">
                                 <parameters>
                                     <object name="wheel1" type="TestPluginAssembly2.Interfaces.IWheel"
@@ -609,8 +715,8 @@ The template file and schema are also available in folder, where **Nuget** packa
             </pluginSetup>
 
             <pluginSetup plugin="Plugin3">
-                <pluginImplementation type="TestPluginAssembly3.Implementations.Plugin3" assembly="pluginassm3">
-
+                <pluginImplementation type="TestPluginAssembly3.Implementations.Plugin3"
+                                      assembly="pluginassm3">
                 </pluginImplementation>
                 <settings></settings>
                 <dependencyInjection>

@@ -29,15 +29,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/_build/html/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="60" selection-start-line="2" selection-start-column="60" selection-end-line="2" selection-end-column="60" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="index.rst" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/overview/index.rst">
           <provider selected="true" editor-type-id="text-editor">
@@ -50,8 +41,8 @@
       <file leaf-file-name="index.rst" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sample-configuration-file/index.rst">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-8840">
-              <caret line="65" column="47" selection-start-line="65" selection-start-column="47" selection-end-line="65" selection-end-column="47" />
+            <state relative-caret-position="-1793">
+              <caret line="84" column="47" selection-start-line="84" selection-start-column="47" selection-end-line="84" selection-end-column="47" />
             </state>
           </provider>
         </entry>
@@ -104,17 +95,6 @@
             <path>
               <item name="docs" type="b2602c69:ProjectViewProjectNode" />
               <item name="docs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="docs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="docs" type="462c0819:PsiDirectoryNode" />
-              <item name="_build" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="docs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="docs" type="462c0819:PsiDirectoryNode" />
-              <item name="_build" type="462c0819:PsiDirectoryNode" />
-              <item name="html" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="docs" type="b2602c69:ProjectViewProjectNode" />
@@ -203,12 +183,12 @@
       <updated>1524420986319</updated>
       <workItem from="1524421019742" duration="888000" />
       <workItem from="1524423966793" duration="5224000" />
-      <workItem from="1524879951642" duration="8971000" />
+      <workItem from="1524879951642" duration="10021000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15083000" />
+    <option name="totallyTimeSpent" value="16133000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="1186" extended-state="6" />
@@ -315,8 +295,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sample-configuration-file/index.rst">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8840">
-          <caret line="65" column="47" selection-start-line="65" selection-start-column="47" selection-end-line="65" selection-end-column="47" />
+        <state relative-caret-position="-1793">
+          <caret line="84" column="47" selection-start-line="84" selection-start-column="47" selection-end-line="84" selection-end-column="47" />
         </state>
       </provider>
     </entry>
