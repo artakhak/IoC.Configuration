@@ -10,27 +10,10 @@ Sample XML Configuration File
 
 The template file and schema are also available in folder, where **Nuget** package **IoC.Cnfiguration** is unpacked.
 
-
-.. sourcecode:: xml
-
+.. code-block:: xml
+   :linenos:
 
     <?xml version="1.0" encoding="utf-8"?>
-
-    <!--
-       The XML configuration file is validated against schema file IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd,
-       which can be found in folder IoC.Cnfiguration.Content in output directory.
-       The schema file can also be downloaded from
-       http://oroptimizer.com/ioc.configuration/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd or in source code
-       project in Github.com.
-
-       To use Visual Studio code completion based on schema contents, right click Properties on this file in Visual Studio, and in Schemas
-       field pick the schema IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd.
-
-        Before running the test make sure to execute IoC.Configuration\Tests\IoC.Configuration.Tests\PostBuildCommands.bat to copy the dlls into
-        folders specified in this configuration file.
-        Also, modify the batch file to copy the Autofac and Ninject assemblies from Nuget packages folder on machine, where the test is run.
-    -->
-
     <iocConfiguration>
 
         <!--The application should have write permissions to path specified in appDataDir.
