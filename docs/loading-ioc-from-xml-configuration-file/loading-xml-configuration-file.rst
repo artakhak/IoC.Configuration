@@ -1,5 +1,5 @@
-==============================
-Loading XML Configuration File
-==============================
+==================================
+Loading the XML Configuration File
+==================================
 
 Provide details....

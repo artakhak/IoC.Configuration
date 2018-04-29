@@ -54,6 +54,7 @@ Here is a quick start:
    bindings-in-modules/index.rst
    loading-ioc-from-xml-configuration-file/index.rst
    loading-ioc-from-modules/index.rst
+   resolving-services/index.rst
 
 
 
