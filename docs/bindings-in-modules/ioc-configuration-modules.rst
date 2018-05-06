@@ -214,7 +214,7 @@ In this example, the constructor of type **CircularReferenceTestInterface2_Impl*
 
 .. note::
 
-    The property used for property injection needs to be declared in implementation only.
+    The setter property used for property injection needs to be declared in implementation only.
 
 .. sourcecode:: csharp
 

@@ -6,9 +6,8 @@ To resolve the types, we first need to load the configuration into an instance o
 
 Refer to sections  :doc:`../loading-ioc-configuration/loading-from-xml` and :doc:`../loading-ioc-configuration/loading-from-modules` for more details.
 
-Here is an example of loading from XML COnfiguration file:
+Here is an example of loading from XML Configuration file:
 
-.. The example is taken from
 .. sourcecode:: csharp
 
     var configurationFileContentsProvider = new FileBasedConfigurationFileContentsProvider(
@@ -31,11 +30,9 @@ Here is an example of loading from XML COnfiguration file:
         Assert.IsNotNull(containerInfo.DiContainer.Resolve<IInterface6>());
     }
 
-Once the **IoC** is loadexd into **IoC.Configuration.DiContainerBuilder.IContainerInfo**, use methods in **IoC.Configuration.DiContainerBuilder.IContainerInfo.DiContainer** to resolve types.
+Once the **IoC** is loaded into **IoC.Configuration.DiContainerBuilder.IContainerInfo**, use methods in **IoC.Configuration.DiContainerBuilder.IContainerInfo.DiContainer** to resolve types.
 
-To resolve types, use methods in in **IoC.Configuration.DiContainerBuilder.IContainerInfo.DiContainer**.
-
-Examples are:
+Examples of resolving types:
 
 .. sourcecode:: csharp
 
