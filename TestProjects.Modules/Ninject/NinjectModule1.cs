@@ -1,5 +1,4 @@
 ﻿using IoC.Configuration.DiContainer;
-using IoC.Configuration.DiContainerBuilder;
 using Ninject.Modules;
 using SharedServices.Implementations;
 using SharedServices.Interfaces;
