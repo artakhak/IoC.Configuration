@@ -56,11 +56,9 @@ To load the IoC configuration from XML configuration file use method **IoC.Confi
 
 - Once the configuration is loaded into containerInfo (an instance of **IoC.Configuration.DiContainerBuilder.IContainerInfo**), resolve types using property **DiContainer** in **IoC.Configuration.DiContainerBuilder.IContainerInfo** (the property is of type **IoC.Configuration.DiContainer.IDiContainer**).
 - Interface **IoC.Configuration.DiContainerBuilder.IContainerInfo** extends **System.IDisposable**.
-
-- Native and IoC.Configuration modules can be specified in XML configuration file, in **iocConfiguration/dependencyInjection/modules/module** elements.
-    However, if necessary, use the following methods in **IoC.Configuration.DiContainerBuilder.FileBased.IFileBasedDiModulesConfigurator** to load additional **IoC.Configuration** modules (instances of IoC.Configuration.DiContainer.IDiModule), as well as native (e.g, Ninject or Autofac) modules:
+- Native and IoC.Configuration modules can be specified in XML configuration file, in **iocConfiguration/dependencyInjection/modules/module** elements. However, if necessary, use the following methods in **IoC.Configuration.DiContainerBuilder.FileBased.IFileBasedDiModulesConfigurator** to load additional **IoC.Configuration** modules (instances of IoC.Configuration.DiContainer.IDiModule), as well as native (e.g, Ninject or Autofac) modules:
     - IFileBasedDiModulesConfigurator.AddAdditionalDiModules(params IDiModule[] diModules)
-    - IoC.Configuration.DiContainerBuilder.FileBased.IFileBasedDiModulesConfigurator.AddNativeModules(params object[] nativeModules)
+    - IFileBasedDiModulesConfigurator.AddNativeModules(params object[] nativeModules)
 
     .. note::
 

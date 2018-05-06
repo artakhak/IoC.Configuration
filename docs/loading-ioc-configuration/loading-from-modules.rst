@@ -56,7 +56,7 @@ To load the IoC configuration from XML configuration file use method **IoC.Confi
         }
 
 - Once the configuration is loaded into containerInfo (an instance of **IoC.Configuration.DiContainerBuilder.IContainerInfo**), resolve types using property **DiContainer** in **IoC.Configuration.DiContainerBuilder.IContainerInfo** (the property is of type **IoC.Configuration.DiContainer.IDiContainer**).
-- Interface **IoC.Configuration.DiContainerBuilder.IContainerInfo** extends System.IDisposable, and should be disposed, to make sure all the resources are properly disposed of.
+- Interface **IoC.Configuration.DiContainerBuilder.IContainerInfo** extends System.IDisposable.
 
 - Use one of the following overloaded methods in class **IoC.Configuration.DiContainerBuilder.DiContainerBuilder** to specify an instance of **IoC.Configuration.DiContainer.IDiManager**, that handles the type resolutions and translates the bindings in **IoC.Configuration** modules into native container bindings (e.g., Autofac and Ninject bindings). If the project references the library with implementation of IoC.Configuration.DiContainer.IDiManager, the first one can be used. Otherwise the second overloaded method can be used, in which case reflection will be used to create an instance of **IoC.Configuration.DiContainer.IDiManager**.
     - DiContainerBuilder.StartCodeBasedDi(IDiManager diManager, string entryAssemblyFolder, params string[] assemblyProbingPaths)
