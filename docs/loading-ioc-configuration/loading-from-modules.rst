@@ -56,18 +56,19 @@ To load the IoC configuration from XML configuration file use method **IoC.Confi
         }
 
 - Once the configuration is loaded into containerInfo (an instance of **IoC.Configuration.DiContainerBuilder.IContainerInfo**), resolve types using property **DiContainer** in **IoC.Configuration.DiContainerBuilder.IContainerInfo** (the property is of type **IoC.Configuration.DiContainer.IDiContainer**).
-- Interface IoC.Configuration.DiContainerBuilder.IContainerInfo extends System.IDisposable, and should be disposed, to make sure all the resources are properly disposed of.
-- Use one of the following overloaded methods in class **IoC.Configuration.DiContainerBuilder.DiContainerBuilder** to specify an instance of **IoC.Configuration.DiContainer.IDiManager** that handles the type resolutions and translates the bindings in **IoC.Configuration** modules into native container bindings (e.g., Autofac and Ninject bindings). If the project references the library with implementation of IoC.Configuration.DiContainer.IDiManager, the first one can be used. Otherwise the second overloaded method can be used, in which case reflection will be used to create an instance of IoC.Configuration.DiContainer.IDiManager.
+- Interface **IoC.Configuration.DiContainerBuilder.IContainerInfo** extends System.IDisposable, and should be disposed, to make sure all the resources are properly disposed of.
+
+- Use one of the following overloaded methods in class **IoC.Configuration.DiContainerBuilder.DiContainerBuilder** to specify an instance of **IoC.Configuration.DiContainer.IDiManager**, that handles the type resolutions and translates the bindings in **IoC.Configuration** modules into native container bindings (e.g., Autofac and Ninject bindings). If the project references the library with implementation of IoC.Configuration.DiContainer.IDiManager, the first one can be used. Otherwise the second overloaded method can be used, in which case reflection will be used to create an instance of **IoC.Configuration.DiContainer.IDiManager**.
     - DiContainerBuilder.StartCodeBasedDi(IDiManager diManager, string entryAssemblyFolder, params string[] assemblyProbingPaths)
     - DiContainerBuilder.StartCodeBasedDi(string diManagerClassFullName, string diManagerClassAssemblyFilePath, ParameterInfo[] diManagerConstructorParameters, string entryAssemblyFolder, params string[] assemblyProbingPaths)
 
     .. note::
         Currently two implementations of **IoC.Configuration.DiContainer.IDiManager** are available: **IoC.Configuration.Autofac.AutofacDiManager** and **IoC.Configuration.Ninject.NinjectDiManager**. These implementations are available in Nuget packages `IoC.Configuration.Autofac <https://www.nuget.org/packages/IoC.Configuration.Autofac>`_ and `IoC.Configuration.Ninject <https://www.nuget.org/packages/IoC.Configuration.Ninject>`_
 
-- The following methods can be used to load **IoC.Configuration** modules **IoC.Configuration** modules (instances of **IoC.Configuration.DiContainer.IDiModule**), as well as native (e.g, Ninject or Autofac) modules:
-    - IoC.Configuration.DiContainerBuilder.CodeBased.ICodeBasedDiModulesConfigurator.AddDiModules(params IoC.Configuration.DiContainer.IDiModule[] diModules)
-    - IoC.Configuration.DiContainerBuilder.CodeBased.ICodeBasedDiModulesConfigurator.AddNativeModules(params object[] nativeModules)
-    - IoC.Configuration.DiContainerBuilder.CodeBased.ICodeBasedDiModulesConfigurator.AddNativeModule(string nativeModuleClassFullName, string nativeModuleClassAssemblyFilePath, ParameterInfo[] nativeModuleConstructorParameters)
+- The following methods in interface **IoC.Configuration.DiContainerBuilder.CodeBased.ICodeBasedDiModulesConfigurator** can be used to load **IoC.Configuration** modules **IoC.Configuration** modules (instances of **IoC.Configuration.DiContainer.IDiModule**), as well as native (e.g, Ninject or Autofac) modules:
+    - ICodeBasedDiModulesConfigurator.AddDiModules(params IoC.Configuration.DiContainer.IDiModule[] diModules)
+    - ICodeBasedDiModulesConfigurator.AddNativeModules(params object[] nativeModules)
+    - ICodeBasedDiModulesConfigurator.AddNativeModule(string nativeModuleClassFullName, string nativeModuleClassAssemblyFilePath, ParameterInfo[] nativeModuleConstructorParameters)
 
     .. note::
         These methods can be called multiple times in any order.
