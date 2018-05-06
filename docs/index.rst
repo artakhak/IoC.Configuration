@@ -3,6 +3,8 @@ Welcome to IoC.Configuration's documentation!
 
 IoC.Configuration is a container agnostic configuration of dependency injection.
 
+.. IoC.Configuration is a wrapper around popular **IoC** containers, with additional functionality (see below). Currently `Ninject <https://www.nuget.org/packages/Ninject>`_ and `Autofac <https://www.nuget.org/packages/Autiofac>`_ are supported through the usage of Nuget extension packages `IoC.Configuration.Ninject <https://www.nuget.org/packages/IoC.Configuration.Ninject>`_ and `IoC.Configuration.Autofac <https://www.nuget.org/packages/IoC.Configuration.Autofac>`_.
+
 Among other things, it allows specifying dependency injection configuration in XML file, as well as in **IoC.Configuration** module classes,
 or third party IoC container modules (e.g., **Autofac** or **Ninject** modules), easy switching between containers to use for service
 resolution (e.g., **Autofac**, **Ninject**).
@@ -20,13 +22,17 @@ Here is a quick start:
     - In XML configuration file. This method is the preferred way to configure the dependency injection, since it is the most flexible.
       XML configuration files can specify service bindings, as well as **IoC.Configuration** or native (i.e., **Autofac**, **Ninject**, etc) modules.
 
-- Service resolutions are done by one of popular IoC containers (e.g., **Autofac**, **Ninject**), through the usage of implementations of **IoC.Configuration.DiContainer.IDiManager** interface.
+    .. note::
+
+        IoC.Configuration has its own syntax for type bindings, which reminds the syntax used in `Ninject <https://www.nuget.org/packages/Ninject>`_. However, the bindings specified in **IoC.Configuration** are translated into 3-rd party **IoC** container bindings (e.g., **Autofac**, **Ninject**, etc).
+
+- Service resolutions are done by one of popular IoC containers (e.g., **Autofac**, **Ninject**, etc), through the usage of implementations of **IoC.Configuration.DiContainer.IDiManager** interface.
   Currently, two implementations of **IoC.Configuration.DiContainer.IDiManager**  are availabe, **Ninject** and **Autofac** implementations).
   These implementations are in packages `IoC.Configuration.Ninject <https://www.nuget.org/packages/IoC.Configuration.Ninject>`_ and
   `IoC.Configuration.Autofac <https://www.nuget.org/packages/IoC.Configuration.Autofac>`_.
 
 - Also, the the container used to resolve services can be switched in XML configuration file.
-  Here is an exert from :doc:`IoCConfiguration1.xml <../sample-configuration-file/index>`, that shows usage of element **diManagers** to specify container that will resolve services:
+  Here is an exert from :doc:`IoCConfiguration1.xml <../sample-configuration-file/index>`, that shows the usage of element **diManagers** to specify container that will resolve services:
 
 .. code-block:: xml
 
@@ -52,11 +58,9 @@ Here is a quick start:
 
    sample-configuration-file/index.rst
    bindings-in-modules/index.rst
-   loading-ioc-from-xml-configuration-file/index.rst
-   loading-ioc-from-modules/index.rst
-   resolving-services/index.rst
-
-
+   xml-configuration-file/index.rst
+   loading-ioc-configuration/index.rst
+   resolving-types/index.rst
 
 Indices and tables
 ==================

@@ -1,18 +1,19 @@
-======================================================
-Specifying Binding in IoC.Configuration Module Classes
-======================================================
+==========================================
+Type Bindings in IoC.Configuration Modules
+==========================================
 
 .. contents::
   :local:
   :depth: 2
 
 
-Specifying Bindings in implementation of **IoC.Configuration.DiContainer.IDiModule**
-====================================================================================
+Type Bindings in implementation of **IoC.Configuration.DiContainer.IDiModule**
+==============================================================================
+
 The service bindings are specified either in implementation of **Load()** method of interface **IoC.Configuration.DiContainer.IDiModule**,
 or in overridden method **AddServiceRegistrations** in **IoC.Configuration.DiContainer.ModuleAbstr** (note, **IoC.Configuration.DiContainer.ModuleAbstr** is an implementation of interface **IoC.Configuration.DiContainer.IDiModule**).
 
-Here is an example of specifying binding in overridden **Load()** method in a sub-class of **IoC.Configuration.DiContainer.ModuleAbstr**.
+Here is an example of specifying binding in overridden **AddServiceRegistrations()** method in a sub-class of **IoC.Configuration.DiContainer.ModuleAbstr**.
 
 .. sourcecode:: csharp
 
@@ -68,7 +69,7 @@ Here is an example of specifying binding in overridden **Load()** method in a su
                 .To<CircularReferenceTestInterface1_Impl>()
                 .OnImplementationObjectActivated(
                     (diContainer, instance) =>
-                        // Note, type of instance1 is the implementation type
+                        // Note, type of instance is the implementation type
                         // CircularReferenceTestInterface1_Impl. So we can use Property1 setter.
                         // ICircularReferenceTestInterface1 has only getter for Property1.
                         instance.Property1 = diContainer.Resolve<ICircularReferenceTestInterface2>())
@@ -83,7 +84,7 @@ Here is an example of specifying binding in overridden **Load()** method in a su
 
 .. note::
 
-    The examples below demonstrate dependency injection concepts supported by **IoC.Configuration** package. Services are resolved using an instance of **IoC.Configuration.DiContainer.IDiContainer**. To see how to create an instance of **IoC.Configuration.DiContainer.IDiContainer**, refer to sections :doc:`Loading XML Configuration File <../loading-ioc-from-xml-configuration-file/loading-xml-configuration-file>` and :doc:`Loading IoC Configuration from Modules <../loading-ioc-from-modules/index>`.
+    The examples below demonstrate dependency injection concepts supported by **IoC.Configuration** package. Services are resolved using an instance of **IoC.Configuration.DiContainer.IDiContainer**. To see how to create an instance of **IoC.Configuration.DiContainer.IDiContainer**, refer to sections :doc:`../loading-ioc-configuration/loading-from-xml` and :doc:`../loading-ioc-configuration/loading-from-modules`.
     In examples below, it is assumed that an instance of **IoC.Configuration.DiContainer.IDiContainer**, **diContainer**, was already creating using one of the techniques described in these sections.
 
 
@@ -117,8 +118,8 @@ Example of resolving the service **Class1**.
         Assert.IsTrue(implementation.GetType() == typeof(Class1));
     }
 
-Binding to Implementation Type
-------------------------------
+Binding to Type
+---------------
 
 This binding type can be used to specify that the type will be re-solved to an instance of arbitrary type, that is either the same type, implementation or sub-class of the type being re-solved.
 
@@ -147,16 +148,17 @@ Example of resolving the service **IInterface2**.
         Assert.IsInstanceOfType(implementation, typeof(IInterface2));
     }
 
-Binding to an Instance of Resolved Type, Returned by a Delegate
----------------------------------------------------------------
+Binding to a Delegate
+---------------------
 
 Type is resolved to an object returned by a delegate.
 
-Example of this type of binding in overridden method **IoC.Configuration.DiContainer.ModuleAbstr.AddServiceRegistrations()**:
-
 .. note::
 
-    The delegate that is used to create an instance of resolved type accepts as an parameter an instance of **IoC.Configuration.DiContainer.IDiContainer**. This parameter can be used to resolve other types, when constructin the oobject to return.
+    The delegate that is used to create an instance of resolved type accepts as a parameter an instance of **IoC.Configuration.DiContainer.IDiContainer**. This parameter can be used to resolve other types, when constructing the object to return.
+
+
+Example of this type of binding in overridden method **IoC.Configuration.DiContainer.ModuleAbstr.AddServiceRegistrations()**:
 
 .. sourcecode:: csharp
 
@@ -164,7 +166,7 @@ Example of this type of binding in overridden method **IoC.Configuration.DiConta
     {
         //...
         Bind<IInterface6>().To(
-        // The comiler will generate an error message if Interface6_Impl1 is not assignable to IInterface6.
+        // The compiler will generate an error message if object of type IInterface6 is not assignable from an object of type Interface6_Impl1.
         diContainer => new Interface6_Impl1(11, diContainer.Resolve<IInterface1>()));
     }
 
@@ -177,4 +179,60 @@ Example of resolving the service **IInterface6**.
         //...
         var implementation = diContainer.Resolve<IInterface6>();
         Assert.IsInstanceOfType(implementation, typeof(IInterface6));
+    }
+
+Specifying Resolution Scope
+---------------------------
+
+For more details on resolution scope, refer to section :doc:`../resolving-types/resolution-scopes`.
+Here we will just mention that all three resolution scopes are supporetd in **IoC.Configuration** modules.
+
+Here are ome examlples on how to specify the resolution scope in in overridden method
+**IoC.Configuration.DiContainer.ModuleAbstr.AddServiceRegistrations()**.
+
+.. sourcecode:: csharp
+
+    protected override void AddServiceRegistrations()
+    {
+        Bind<Class1>().ToSelf().SetResolutionScope(DiResolutionScope.Singleton);
+        Bind<IInterface4>().To<Interface4_Impl1>().SetResolutionScope(DiResolutionScope.Transient);
+        Bind<IInterface3>().To<Interface3_Impl1>().SetResolutionScope(DiResolutionScope.ScopeLifetime);
+    }
+
+Property Injection and Circular References
+==========================================
+
+The most common dependency injection type is constructor injection, when dependency injection container creates objects and injects them into constructor of an object being resolved (this process is done recursively).
+
+However, there are scenarios when two types reference each other. In this case constructor injection might fail. For example if type **TypeA** is specified as a constructor parameter of type **TypeB** and **TypeB** is specified as a constructor parameter of type **TypeA**, the dependency injection container will not be able to create an instance of **TypeA**, since it will need to create an instance of type **TypeB**, which requiers creating an instance of type **TypeA**.
+
+In such cases, property injection can be used. In this example type **TypeB** can be specified as a constructor parameter for type **TypeA**, and type **TypeA** can be a type of property **TypeB.TypeAProperty**, which will be initialized after the DI container created both types.
+
+Here is an example of how property injection can be implemented in in overridden **AddServiceRegistrations()** method in a sub-class of **IoC.Configuration.DiContainer.ModuleAbstr**:
+
+In this example, the constructor of type **CircularReferenceTestInterface2_Impl** has a parameter of type **ICircularReferenceTestInterface1**, and the implementation of **ICircularReferenceTestInterface1**, **CircularReferenceTestInterface1_Impl**, has a setter property **Property1** of type **ICircularReferenceTestInterface2**.
+
+.. note::
+
+    The property used for property injection needs to be declared in implementation only.
+
+.. sourcecode:: csharp
+
+    public class TestDiModule : IoC.Configuration.DiContainer.ModuleAbstr
+    {
+        protected override void AddServiceRegistrations()
+        {
+            Bind<ICircularReferenceTestInterface1>()
+                        .To<CircularReferenceTestInterface1_Impl>()
+                        .OnImplementationObjectActivated(
+                            (diContainer, instance) =>
+                                // Note, type of instance is the implementation type
+                                // CircularReferenceTestInterface1_Impl. So we can use Property1 setter.
+                                // ICircularReferenceTestInterface1 has only getter for Property1.
+                                instance.Property1 = diContainer.Resolve<ICircularReferenceTestInterface2>())
+                        .SetResolutionScope(DiResolutionScope.Singleton);
+
+            Bind<ICircularReferenceTestInterface2>().To<CircularReferenceTestInterface2_Impl>()
+                                                    .SetResolutionScope(DiResolutionScope.Singleton);
+        }
     }

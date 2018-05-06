@@ -407,11 +407,11 @@ Here is an example of configuring and starting the container:
             <service type="SharedServices.Interfaces.IInterface5" assembly="shared_services">
                 <implementation type="SharedServices.Implementations.Interface5_Impl1" assembly="shared_services"
                                 scope="singleton" />
-                <implementation type="TestPluginAssembly1.Implementations.Interface5_Pluing1Impl"
+                <implementation type="TestPluginAssembly1.Implementations.Interface5_Plugin1Impl"
                                 assembly="pluginassm1" scope="singleton" />
-                <implementation type="TestPluginAssembly2.Implementations.Interface5_Pluing2Impl"
+                <implementation type="TestPluginAssembly2.Implementations.Interface5_Plugin2Impl"
                                 assembly="pluginassm2" scope="transient" />
-                <implementation type="TestPluginAssembly3.Implementations.Interface5_Pluing3Impl"
+                <implementation type="TestPluginAssembly3.Implementations.Interface5_Plugin3Impl"
                                 assembly="pluginassm3" scope="transient" />
             </service>
 

@@ -685,11 +685,11 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             var servicesInjectiontester = _diContainer.Resolve<ClassToTestServicesInjection<IInterface5>>();
 
             servicesInjectiontester.ValidateHasImplementation(Helpers.GetType("SharedServices.Implementations.Interface5_Impl1"));
-            servicesInjectiontester.ValidateHasImplementation(Helpers.GetType("TestPluginAssembly1.Implementations.Interface5_Pluing1Impl"));
-            servicesInjectiontester.ValidateHasImplementation(Helpers.GetType("TestPluginAssembly2.Implementations.Interface5_Pluing2Impl"));
+            servicesInjectiontester.ValidateHasImplementation(Helpers.GetType("TestPluginAssembly1.Implementations.Interface5_Plugin1Impl"));
+            servicesInjectiontester.ValidateHasImplementation(Helpers.GetType("TestPluginAssembly2.Implementations.Interface5_Plugin2Impl"));
 
             // Plugin 3 is disabled, so its implementations are ignored.
-            servicesInjectiontester.ValidateDoesNotHaveImplementation("TestPluginAssembly3.Implementations.Interface5_Pluing3Impl");
+            servicesInjectiontester.ValidateDoesNotHaveImplementation("TestPluginAssembly3.Implementations.Interface5_Plugin3Impl");
         }
 
         [TestMethod]

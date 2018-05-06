@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "36497194afb5662d737c3aaa4560ed7459191086"
+    "signature": "f72dd1436d00bba6e36db421bf9a1cea1b3426e3"
   },
   "compilationOptions": {},
   "targets": {
@@ -46,7 +46,7 @@
           "lib/netstandard2.0/IoC.Configuration.dll": {}
         }
       },
-      "IoC.Configuration.Autofac/1.0.0-beta2": {
+      "IoC.Configuration.Autofac/1.0.0": {
         "dependencies": {
           "Autofac": "4.5.0",
           "Autofac.Extensions.DependencyInjection": "4.0.0",
@@ -59,7 +59,7 @@
           "lib/netstandard2.0/IoC.Configuration.Autofac.dll": {}
         }
       },
-      "IoC.Configuration.Ninject/1.0.0-beta2": {
+      "IoC.Configuration.Ninject/1.0.0": {
         "dependencies": {
           "IoC.Configuration": "1.0.1",
           "Ninject": "3.3.0",
@@ -1556,8 +1556,8 @@
       },
       "TestProjects.AssemblyToTestAssemblyResolution/1.0.0": {
         "dependencies": {
-          "IoC.Configuration.Autofac": "1.0.0-beta2",
-          "IoC.Configuration.Ninject": "1.0.0-beta2"
+          "IoC.Configuration.Autofac": "1.0.0",
+          "IoC.Configuration.Ninject": "1.0.0"
         },
         "runtime": {
           "TestProjects.AssemblyToTestAssemblyResolution.dll": {}
@@ -1619,19 +1619,19 @@
       "path": "ioc.configuration/1.0.1",
       "hashPath": "ioc.configuration.1.0.1.nupkg.sha512"
     },
-    "IoC.Configuration.Autofac/1.0.0-beta2": {
+    "IoC.Configuration.Autofac/1.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Ev8sYyY/QPe1oCSQbhUsFiyQOKLcsPIMDcWBWQvjDowc8W6akA5XPREIy7H+pay3VSgvKBNnJciH4URhw4LyIQ==",
-      "path": "ioc.configuration.autofac/1.0.0-beta2",
-      "hashPath": "ioc.configuration.autofac.1.0.0-beta2.nupkg.sha512"
+      "sha512": "sha512-qoHdS6yWZJ0rOAo0AfHApKvZDCNBZhM7yJBi50ikb7p+W3wg3uAuVdITIZq+4R/mhwCtmPIpzTxXI0i8bgwfFw==",
+      "path": "ioc.configuration.autofac/1.0.0",
+      "hashPath": "ioc.configuration.autofac.1.0.0.nupkg.sha512"
     },
-    "IoC.Configuration.Ninject/1.0.0-beta2": {
+    "IoC.Configuration.Ninject/1.0.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-YvHjq4C7huCl0W2/3o4qpy51UG45B7PohMB6aP3+/CtpRUX49vr/UKzVBm34RcbeRR0d0UhgRQz5TVB7yS1B9Q==",
-      "path": "ioc.configuration.ninject/1.0.0-beta2",
-      "hashPath": "ioc.configuration.ninject.1.0.0-beta2.nupkg.sha512"
+      "sha512": "sha512-v+BjIYM7CBLi6kU7z5O/HZcG8P4gZZeeThQPGnoqJaPy36Y71Pz44X4rxWP6ihwHnGyD8ktvNbqZ796XYPmPKQ==",
+      "path": "ioc.configuration.ninject/1.0.0",
+      "hashPath": "ioc.configuration.ninject.1.0.0.nupkg.sha512"
     },
     "JetBrains.Annotations/10.2.1": {
       "type": "package",

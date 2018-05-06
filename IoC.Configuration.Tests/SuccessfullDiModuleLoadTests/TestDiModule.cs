@@ -48,7 +48,7 @@ namespace IoC.Configuration.Tests.SuccessfullDiModuleLoadTests
             Bind<Class4>().ToSelf()
                           .SetResolutionScope(DiResolutionScope.Transient);
 
-            // The first binding should be with Singletone scope, and the second
+            // The first binding should be with Singleton scope, and the second
             // should with Transient, so that we can test that the first binding was used.
             Bind<Class5>().OnlyIfNotRegistered()
                           .ToSelf().SetResolutionScope(DiResolutionScope.Singleton);
@@ -79,7 +79,7 @@ namespace IoC.Configuration.Tests.SuccessfullDiModuleLoadTests
                 .To<CircularReferenceTestInterface1_Impl>()
                 .OnImplementationObjectActivated(
                     (diContainer, instance) =>
-                        // Note, type of instance1 is the implementation type
+                        // Note, type of instance is the implementation type
                         // CircularReferenceTestInterface1_Impl. So we can use Property1 setter.
                         // ICircularReferenceTestInterface1 has only getter for Property1.
                         instance.Property1 = diContainer.Resolve<ICircularReferenceTestInterface2>())

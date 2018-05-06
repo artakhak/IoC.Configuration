@@ -29,12 +29,12 @@
           "lib/netstandard1.1/Autofac.Extensions.DependencyInjection.dll": {}
         }
       },
-      "IoC.Configuration/1.0.0-beta2": {
+      "IoC.Configuration/1.0.1": {
         "type": "package",
         "dependencies": {
           "JetBrains.Annotations": "10.2.1",
           "Microsoft.CodeAnalysis": "2.3.2",
-          "OROptimizer.Shared": "1.0.0-beta2",
+          "OROptimizer.Shared": "1.0.0",
           "System.Runtime.Loader": "4.3.0"
         },
         "compile": {
@@ -42,37 +42,68 @@
         },
         "runtime": {
           "lib/netstandard2.0/IoC.Configuration.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/any/_._": {
+            "buildAction": "None",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
-      "IoC.Configuration.Autofac/1.0.0-beta2": {
+      "IoC.Configuration.Autofac/1.0.0": {
         "type": "package",
         "dependencies": {
           "Autofac": "4.5.0",
           "Autofac.Extensions.DependencyInjection": "4.0.0",
-          "IoC.Configuration": "1.0.0-beta2",
+          "IoC.Configuration": "1.0.1",
           "JetBrains.Annotations": "10.2.1",
           "Microsoft.CodeAnalysis": "2.3.2",
-          "OROptimizer.Shared": "1.0.0-beta2"
+          "OROptimizer.Shared": "1.0.0"
         },
         "compile": {
           "lib/netstandard2.0/IoC.Configuration.Autofac.dll": {}
         },
         "runtime": {
           "lib/netstandard2.0/IoC.Configuration.Autofac.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/netstandard2.0/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/netstandard2.0/IoC.Configuration.Template.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
-      "IoC.Configuration.Ninject/1.0.0-beta2": {
+      "IoC.Configuration.Ninject/1.0.0": {
         "type": "package",
         "dependencies": {
-          "IoC.Configuration": "1.0.0-beta2",
+          "IoC.Configuration": "1.0.1",
           "Ninject": "3.3.0",
-          "OROptimizer.Shared": "1.0.0-beta2"
+          "OROptimizer.Shared": "1.0.0"
         },
         "compile": {
           "lib/netstandard2.0/IoC.Configuration.Ninject.dll": {}
         },
         "runtime": {
           "lib/netstandard2.0/IoC.Configuration.Ninject.dll": {}
+        },
+        "contentFiles": {
+          "contentFiles/any/netstandard2.0/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          },
+          "contentFiles/any/netstandard2.0/IoC.Configuration.Template.xml": {
+            "buildAction": "Content",
+            "codeLanguage": "any",
+            "copyToOutput": false
+          }
         }
       },
       "JetBrains.Annotations/10.2.1": {
@@ -524,7 +555,7 @@
           "lib/netstandard2.0/Ninject.dll": {}
         }
       },
-      "OROptimizer.Shared/1.0.0-beta2": {
+      "OROptimizer.Shared/1.0.0": {
         "type": "package",
         "dependencies": {
           "JetBrains.Annotations": "10.2.1",
@@ -2417,33 +2448,46 @@
         "lib/netstandard1.1/Autofac.Extensions.DependencyInjection.xml"
       ]
     },
-    "IoC.Configuration/1.0.0-beta2": {
-      "sha512": "81J0yoJCo5eloPc0LTuEFJPjTre77NIyRR9bsqVHRF8DdPgFoaK1CxDgXkYoTloE85Ndj/nuDMg8l8Fl4iYdgw==",
+    "IoC.Configuration/1.0.1": {
+      "sha512": "xIqcU2m/NrTEA++qrO7YBFab0Y9Kf0/u9tdMvWJGvu0t2llqegogKt6sugRrQFHDFv3AEQx0Ku+8kCAx701r/Q==",
       "type": "package",
-      "path": "ioc.configuration/1.0.0-beta2",
+      "path": "ioc.configuration/1.0.1",
       "files": [
-        "ioc.configuration.1.0.0-beta2.nupkg.sha512",
+        "content/IoC.Cnfiguration.Content/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd",
+        "content/IoC.Cnfiguration.Content/IoC.Configuration.Template.xml",
+        "contentFiles/any/netstandard2.0/IoC.Cnfiguration.Content/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd",
+        "contentFiles/any/netstandard2.0/IoC.Cnfiguration.Content/IoC.Configuration.Template.xml",
+        "ioc.configuration.1.0.1.nupkg.sha512",
         "ioc.configuration.nuspec",
-        "lib/netstandard2.0/IoC.Configuration.dll"
+        "lib/netstandard2.0/IoC.Configuration.dll",
+        "lib/netstandard2.0/IoC.Configuration.xml"
       ]
     },
-    "IoC.Configuration.Autofac/1.0.0-beta2": {
-      "sha512": "Ev8sYyY/QPe1oCSQbhUsFiyQOKLcsPIMDcWBWQvjDowc8W6akA5XPREIy7H+pay3VSgvKBNnJciH4URhw4LyIQ==",
+    "IoC.Configuration.Autofac/1.0.0": {
+      "sha512": "qoHdS6yWZJ0rOAo0AfHApKvZDCNBZhM7yJBi50ikb7p+W3wg3uAuVdITIZq+4R/mhwCtmPIpzTxXI0i8bgwfFw==",
       "type": "package",
-      "path": "ioc.configuration.autofac/1.0.0-beta2",
+      "path": "ioc.configuration.autofac/1.0.0",
       "files": [
-        "ioc.configuration.autofac.1.0.0-beta2.nupkg.sha512",
+        "content/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd",
+        "content/IoC.Configuration.Template.xml",
+        "contentFiles/any/netstandard2.0/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd",
+        "contentFiles/any/netstandard2.0/IoC.Configuration.Template.xml",
+        "ioc.configuration.autofac.1.0.0.nupkg.sha512",
         "ioc.configuration.autofac.nuspec",
         "lib/netstandard2.0/IoC.Configuration.Autofac.dll",
         "lib/netstandard2.0/IoC.Configuration.Autofac.xml"
       ]
     },
-    "IoC.Configuration.Ninject/1.0.0-beta2": {
-      "sha512": "YvHjq4C7huCl0W2/3o4qpy51UG45B7PohMB6aP3+/CtpRUX49vr/UKzVBm34RcbeRR0d0UhgRQz5TVB7yS1B9Q==",
+    "IoC.Configuration.Ninject/1.0.0": {
+      "sha512": "v+BjIYM7CBLi6kU7z5O/HZcG8P4gZZeeThQPGnoqJaPy36Y71Pz44X4rxWP6ihwHnGyD8ktvNbqZ796XYPmPKQ==",
       "type": "package",
-      "path": "ioc.configuration.ninject/1.0.0-beta2",
+      "path": "ioc.configuration.ninject/1.0.0",
       "files": [
-        "ioc.configuration.ninject.1.0.0-beta2.nupkg.sha512",
+        "content/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd",
+        "content/IoC.Configuration.Template.xml",
+        "contentFiles/any/netstandard2.0/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd",
+        "contentFiles/any/netstandard2.0/IoC.Configuration.Template.xml",
+        "ioc.configuration.ninject.1.0.0.nupkg.sha512",
         "ioc.configuration.ninject.nuspec",
         "lib/netstandard2.0/IoC.Configuration.Ninject.dll",
         "lib/netstandard2.0/IoC.Configuration.Ninject.xml"
@@ -3142,14 +3186,14 @@
         "ninject.nuspec"
       ]
     },
-    "OROptimizer.Shared/1.0.0-beta2": {
-      "sha512": "ic3dpxCDq/VsmwnwVnuw5qFTWUvAVNRK3zrnMuSla4BjnTWRTvT1uRw/Kgci5P4sXIUA5WAYu2S527DsY2KdiQ==",
+    "OROptimizer.Shared/1.0.0": {
+      "sha512": "rBop7fF1akOSF6R0KozmmsEzlT070X1sMP/G9+0roVo1n4iLeoDuY6KbkpHDG4Cm+TC8xPvT6e2MRMa6idPJbA==",
       "type": "package",
-      "path": "oroptimizer.shared/1.0.0-beta2",
+      "path": "oroptimizer.shared/1.0.0",
       "files": [
         "lib/netstandard2.0/OROptimizer.Shared.dll",
         "lib/netstandard2.0/OROptimizer.Shared.xml",
-        "oroptimizer.shared.1.0.0-beta2.nupkg.sha512",
+        "oroptimizer.shared.1.0.0.nupkg.sha512",
         "oroptimizer.shared.nuspec"
       ]
     },
@@ -7504,8 +7548,8 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
-      "IoC.Configuration.Autofac >= 1.0.0-beta2",
-      "IoC.Configuration.Ninject >= 1.0.0-beta2",
+      "IoC.Configuration.Autofac >= 1.0.0",
+      "IoC.Configuration.Ninject >= 1.0.0",
       "Microsoft.NETCore.App >= 2.0.0"
     ]
   },
@@ -7555,11 +7599,11 @@
         "dependencies": {
           "IoC.Configuration.Autofac": {
             "target": "Package",
-            "version": "[1.0.0-beta2, )"
+            "version": "[1.0.0, )"
           },
           "IoC.Configuration.Ninject": {
             "target": "Package",
-            "version": "[1.0.0-beta2, )"
+            "version": "[1.0.0, )"
           },
           "Microsoft.NETCore.App": {
             "suppressParent": "All",
