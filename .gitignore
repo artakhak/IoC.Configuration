@@ -1,22 +1,3 @@
 ﻿################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
-
-/IoC.Configuration.Tests/bin/Debug/DynamicFiles2/DynamicallyGeneratedAssembly_636596085835692235.dll
-/IoC.Configuration.Tests/bin/Debug/DynamicFiles2/DynamicallyGeneratedAssembly_636596085833926250.dll
-/IoC.Configuration.Tests/bin/Debug/DynamicFiles/DynamicallyGeneratedAssembly_636596085895513978.dll
-/IoC.Configuration.Tests/bin/Debug/DynamicFiles/DynamicallyGeneratedAssembly_636596085889024108.dll
-/IoC.Configuration.Tests/bin/Debug/DynamicFiles/DynamicallyGeneratedAssembly_636596085886915806.dll
-/IoC.Configuration.Tests/bin/Debug/DynamicFiles/DynamicallyGeneratedAssembly_636596085876854857.dll
-/IoC.Configuration.Tests/bin/Debug/DynamicFiles/DynamicallyGeneratedAssembly_636596085874998258.dll
-/IoC.Configuration.Tests/bin/Debug/DynamicFiles/DynamicallyGeneratedAssembly_636596085866058369.dll
-/IoC.Configuration.Tests/bin/Debug/DynamicFiles/DynamicallyGeneratedAssembly_636596085864070141.dll
-/IoC.Configuration.Tests/bin/Debug/DynamicFiles/DynamicallyGeneratedAssembly_636596085853042554.dll
-/IoC.Configuration.Tests/bin/Debug/DynamicFiles/DynamicallyGeneratedAssembly_636596085851095571.dll
-/IoC.Configuration.Tests/bin/Debug/DynamicFiles/DynamicallyGeneratedAssembly_636596085848876930.dll
-/IoC.Configuration.Tests/bin/Debug/DynamicFiles/DynamicallyGeneratedAssembly_636596085846577428.dll
-/IoC.Configuration.Tests/bin/Debug/DynamicFiles/DynamicallyGeneratedAssembly_636596085840296997.dll
-/IoC.Configuration.Tests/bin/Debug/DynamicFiles/DynamicallyGeneratedAssembly_636596085837038847.dll
-/IoC.Configuration.Tests/bin/Debug/DynamicFiles/DynamicallyGeneratedAssembly_636596085798245864.dll
-/IoC.Configuration.Tests/bin/Debug/TypesListFactoryTypeGeneratorTests/DynamicCode_636596085845439790.dll
-/IoC.Configuration.Tests/bin/Debug/TypesListFactoryTypeGeneratorTests/DynamicCode_636596085844663631.dll

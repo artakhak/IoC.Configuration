@@ -20,8 +20,8 @@ xcopy "%NugetPackagesDir%\autofac.extensions.dependencyinjection\4.0.0\lib\netst
 xcopy "%NugetPackagesDir%\oroptimizer.shared\1.0.0\lib\netstandard2.0\OROptimizer.Shared.*" %ThirdPartyLibsDir% /Y
 
 REM Copy IoC extensions
-xcopy "%NugetPackagesDir%\ioc.configuration.autofac\1.0.0\lib\netstandard2.0\IoC.Configuration.Autofac.*"  %DynamicDllsDir%\ContainerImplementations\Autofac /Y
-xcopy "%NugetPackagesDir%\ioc.configuration.ninject\1.0.0\lib\netstandard2.0\IoC.Configuration.Ninject.*"  %DynamicDllsDir%\ContainerImplementations\Ninject /Y
+xcopy "%NugetPackagesDir%\ioc.configuration.autofac\1.0.1\lib\netstandard2.0\IoC.Configuration.Autofac.*"  %DynamicDllsDir%\ContainerImplementations\Autofac /Y
+xcopy "%NugetPackagesDir%\ioc.configuration.ninject\1.0.1\lib\netstandard2.0\IoC.Configuration.Ninject.*"  %DynamicDllsDir%\ContainerImplementations\Ninject /Y
 
 REM copy DynamicallyLoadedDlls
 xcopy %SolutionDir%TestProjects.AssemblyToTestAssemblyResolution\bin\%ConfigurationName%\TestProjects.AssemblyToTestAssemblyResolution.*  %DynamicDllsDir%\TestAssemblyResolution /Y

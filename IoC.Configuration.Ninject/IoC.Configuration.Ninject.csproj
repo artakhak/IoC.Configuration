@@ -15,7 +15,7 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AssemblyName>IoC.Configuration.Ninject</AssemblyName>
     <RootNamespace>IoC.Configuration.Ninject</RootNamespace>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Authors>Artak Hakobyan</Authors>
     <Company>OROptimizer</Company>
     <Description>A Ninject extension for IoC.Configuration.</Description>
@@ -24,6 +24,7 @@
     <PackageLicenseUrl>https://opensource.org/licenses/mit-license.php</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/artakhak/IoC.Configuration</PackageProjectUrl>
     <RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
+    <PackageReleaseNotes>Referencing IoC.Configuration 1.0.3 (instead of 1.0.1), after fixing a typo in folder IoC.Configuration.Content in IoC.Configuration.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -36,7 +37,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="IoC.Configuration" Version="1.0.1" />
+    <PackageReference Include="IoC.Configuration" Version="1.0.3" />
     <PackageReference Include="Ninject" Version="3.3.0" />
     <PackageReference Include="OROptimizer.Shared" Version="1.0.0" />
   </ItemGroup>

@@ -399,7 +399,7 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
             try
             {
                 // Load XML schema file
-                var xmlSchemaPath = Path.Combine(_entryAssemblyFolder, HelpersIoC.SchemeFileFolderRelativeLocation, HelpersIoC.IoCConfigurationSchemaName);
+                var xmlSchemaPath = Path.Combine(_entryAssemblyFolder, HelpersIoC.SchemaFileFolderRelativeLocation, HelpersIoC.IoCConfigurationSchemaName);
 
                 LogHelper.Context.Log.InfoFormat("Loading xml schema from '{0}'", xmlSchemaPath);
                 var reader = new XmlTextReader(xmlSchemaPath);

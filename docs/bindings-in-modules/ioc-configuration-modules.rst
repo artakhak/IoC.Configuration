@@ -6,7 +6,6 @@ Type Bindings in IoC.Configuration Modules
   :local:
   :depth: 2
 
-
 Type Bindings in implementation of **IoC.Configuration.DiContainer.IDiModule**
 ==============================================================================
 

@@ -15,7 +15,7 @@
 
   <PropertyGroup>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Company>OROptimizer</Company>
     <Authors>Artak Hakobyan</Authors>
     <Description>An Autofac extension for IoC.Configuration.</Description>
@@ -24,6 +24,7 @@
     <PackageLicenseUrl>https://opensource.org/licenses/mit-license.php</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/artakhak/IoC.Configuration</PackageProjectUrl>
     <RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
+    <PackageReleaseNotes>Referemcing IoC.Configuration 1.0.3 (instead of 1.0.1), after fixing a typo in folder IoC.Configuration.Content in IoC.Configuration.</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -38,7 +39,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.5.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />
-    <PackageReference Include="IoC.Configuration" Version="1.0.1" />
+    <PackageReference Include="IoC.Configuration" Version="1.0.3" />
     <PackageReference Include="JetBrains.Annotations" Version="10.2.1" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="2.3.2" />
     <PackageReference Include="OROptimizer.Shared" Version="1.0.0" />

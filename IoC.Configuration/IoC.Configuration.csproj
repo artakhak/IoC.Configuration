@@ -7,7 +7,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.1</Version>
+    <Version>1.0.3</Version>
     <PackageTags>IoC Configuration dependencyinjection inversion of control Autofac Ninject XML IoC.Configuration</PackageTags>
     <Authors>Artak Hakobyan</Authors>
     <Company>OROptimizer</Company>
@@ -24,7 +24,7 @@ In addition, the configuration file has sections for settings, plugins, startup 
 
 The bindings are specified using IoC.Configuration chained methods, however the actual resolutions are done using one of the popular dependency injection containers, Ninject and Autofac, via extension libraries IoC.Configuration.Ninject and IoC.Configuration.Autofac.</Description>
     <Copyright>Copyright 2018 (c) OROptimizer. All rights reserved.</Copyright>
-    <PackageReleaseNotes>Fixing some formatting issues in Nuget package description.</PackageReleaseNotes>
+    <PackageReleaseNotes>Fixed some typos in code related to typos in a directory name  in previous version.</PackageReleaseNotes>
     <PackageLicenseUrl>https://opensource.org/licenses/mit-license.php</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
     <PackageProjectUrl>https://github.com/artakhak/IoC.Configuration</PackageProjectUrl>
@@ -57,6 +57,11 @@ The bindings are specified using IoC.Configuration chained methods, however the 
           <copyToOutput>true</copyToOutput>
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="IoC.Configuration.Content\IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd" />
+    <Content Include="IoC.Configuration.Content\IoC.Configuration.Template.xml" />
   </ItemGroup>
 
   <ItemGroup>

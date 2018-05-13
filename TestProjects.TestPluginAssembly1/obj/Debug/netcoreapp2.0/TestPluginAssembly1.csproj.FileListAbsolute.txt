@@ -1,9 +1,0 @@
-K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\SmartXMLDocsPlugin\bin\Debug\netcoreapp2.0\TestPluginAssembly1.deps.json
-K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\SmartXMLDocsPlugin\bin\Debug\netcoreapp2.0\TestPluginAssembly1.dll
-K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\SmartXMLDocsPlugin\bin\Debug\netcoreapp2.0\OROptimizer.Core.dll
-K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\SmartXMLDocsPlugin\bin\Debug\netcoreapp2.0\OROptimizer.Core.pdb
-K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\SmartXMLDocsPlugin\bin\Debug\netcoreapp2.0\OROptimizer.Core.xml
-K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\SmartXMLDocsPlugin\obj\Debug\netcoreapp2.0\TestPluginAssembly1.csprojResolveAssemblyReference.cache
-K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\SmartXMLDocsPlugin\obj\Debug\netcoreapp2.0\TestPluginAssembly1.csproj.CoreCompileInputs.cache
-K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\SmartXMLDocsPlugin\obj\Debug\netcoreapp2.0\TestPluginAssembly1.AssemblyInfoInputs.cache
-K:\Projects\OROptimizer\OROptimizer 2.0\Tests\DynamicallyLoadedAssemblies\SmartXMLDocsPlugin\obj\Debug\netcoreapp2.0\TestPluginAssembly1.AssemblyInfo.cs

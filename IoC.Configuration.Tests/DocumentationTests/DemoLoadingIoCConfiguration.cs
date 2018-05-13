@@ -6,6 +6,7 @@ using IoC.Configuration.Tests.SuccessfullDiModuleLoadTests.TestClasses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OROptimizer;
 using TestsSharedLibrary.Diagnostics.Log;
+using System.Linq;
 
 namespace IoC.Configuration.Tests.DocumentationTests
 {
@@ -40,6 +41,9 @@ namespace IoC.Configuration.Tests.DocumentationTests
                                         // before the configuration is loaded.
                                         // For example, we can replace the value of attribute 'activeDiManagerName' in element 
                                         // iocConfiguration.diManagers to use a different DI manager (say switch from Autofac to Ninject).
+                                        e.XmlDocument.SelectElements("/iocConfiguration/diManagers")
+                                                     .First() 
+                                                     .SetAttributeValue("activeDiManagerName", "Autofac");
                                     })
 
                     // Note, most of the time we will need to call method WithoutPresetDiContainer().

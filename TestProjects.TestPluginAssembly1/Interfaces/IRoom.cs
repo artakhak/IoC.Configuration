@@ -5,7 +5,7 @@ namespace TestPluginAssembly1.Interfaces
         #region Current Type Interface
 
         IDoor Door1 { get; }
-        IDoor Door2 { get; set; }
+        IDoor Door2 { get; }
 
         #endregion
     }

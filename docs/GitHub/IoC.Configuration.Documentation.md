@@ -40,7 +40,7 @@ Here is an example of configuring and starting the container:
 <?xml version="1.0" encoding="utf-8"?>
 <!--
    The XML configuration file is validated against schema file IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd, 
-   which can be found in folder IoC.Cnfiguration.Content in output directory. 
+   which can be found in folder IoC.Configuration.Content in output directory. 
    The schema file can also be downloaded from 
    http://oroptimizer.com/ioc.configuration/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd or in source code 
    project in Github.com.

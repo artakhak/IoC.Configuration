@@ -1,8 +1,0 @@
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestForceLoadAssembly\bin\Release\TestForceLoadAssembly.deps.json
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestForceLoadAssembly\bin\Release\TestForceLoadAssembly.dll
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestForceLoadAssembly\bin\Release\TestForceLoadAssembly.pdb
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestForceLoadAssembly\obj\Release\TestForceLoadAssembly.csproj.CoreCompileInputs.cache
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestForceLoadAssembly\obj\Release\TestForceLoadAssembly.AssemblyInfoInputs.cache
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestForceLoadAssembly\obj\Release\TestForceLoadAssembly.AssemblyInfo.cs
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestForceLoadAssembly\obj\Release\TestForceLoadAssembly.dll
-K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\ProjectsForDynamicallyLoadedDlls\TestForceLoadAssembly\obj\Release\TestForceLoadAssembly.pdb

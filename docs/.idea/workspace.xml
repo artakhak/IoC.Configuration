@@ -11,65 +11,65 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="index.rst" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bindings-in-modules/index.rst">
+      <file leaf-file-name="xml-configuration-template.rst" pinned="true" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/loading-ioc-configuration/xml-configuration-template.rst">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="16" column="43" selection-start-line="16" selection-start-column="43" selection-end-line="16" selection-end-column="43" />
+            <state relative-caret-position="-493">
+              <caret line="16" column="71" selection-start-line="16" selection-start-column="71" selection-end-line="16" selection-end-column="71" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.rst" pinned="true" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.rst">
+      <file leaf-file-name="assemblies-and-probing-paths.rst" pinned="true" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/xml-configuration-file/assemblies-and-probing-paths.rst">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="213">
-              <caret line="31" column="89" selection-start-line="31" selection-start-column="2" selection-end-line="31" selection-end-column="89" />
+            <state relative-caret-position="459">
+              <caret line="93" column="101" selection-start-line="93" selection-start-column="12" selection-end-line="93" selection-end-column="101" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.rst" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resolving-types/index.rst">
+      <file leaf-file-name="parameter-serializers.rst" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/xml-configuration-file/parameter-serializers.rst">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
+            <state relative-caret-position="162">
+              <caret line="130" lean-forward="true" selection-start-line="130" selection-end-line="130" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ioc-configuration-modules.rst" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/bindings-in-modules/ioc-configuration-modules.rst">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="530">
-              <caret line="237" column="5" selection-start-line="237" selection-start-column="5" selection-end-line="237" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="native-modules.rst" pinned="true" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bindings-in-modules/native-modules.rst">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" selection-start-line="21" selection-end-line="21" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.rst" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/loading-ioc-configuration/index.rst">
+      <file leaf-file-name="constructor-parameters.rst" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/xml-configuration-file/constructor-parameters.rst">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="68">
-              <caret line="4" column="259" selection-start-line="4" selection-start-column="259" selection-end-line="4" selection-end-column="259" />
+              <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="di-managers.rst" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/xml-configuration-file/di-managers.rst">
+      <file leaf-file-name="index.rst" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/xml-configuration-file/index.rst">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="2" column="21" selection-start-line="2" selection-start-column="21" selection-end-line="2" selection-end-column="21" />
+            <state relative-caret-position="204">
+              <caret line="12" column="26" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="type-bindings.rst" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/xml-configuration-file/type-bindings.rst">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="68">
+              <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.rst" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sample-configuration-file/index.rst">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="272">
+              <caret line="16" column="3" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="12" />
             </state>
           </provider>
         </entry>
@@ -85,15 +85,17 @@
       <find>note:</find>
       <find>resolving-services</find>
       <find>`</find>
-      <find>:doc:</find>
       <find>oob</find>
       <find>pluing</find>
       <find>lifet</find>
       <find>:doc</find>
-      <find>IoC.Configuration.Autofac</find>
       <find>IoC.Con</find>
       <find>DiContainer</find>
       <find>To resolve types, use methods in in</find>
+      <find>IoC.Configuration.Autofac</find>
+      <find>**</find>
+      <find>:doc:</find>
+      <find>appDataDir</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -117,8 +119,6 @@
         <option value="$PROJECT_DIR$/loading-ioc-from-xml-configuration-file/index.rst" />
         <option value="$PROJECT_DIR$/resolving-services/index.rst" />
         <option value="$PROJECT_DIR$/loading-ioc-from-modules/index.rst" />
-        <option value="$PROJECT_DIR$/loading-ioc-configuration/loading-from-xml.rst" />
-        <option value="$PROJECT_DIR$/loading-ioc-configuration/loading-from-modules.rst" />
         <option value="$PROJECT_DIR$/xml-configuration-file/service-bindings.rst" />
         <option value="$PROJECT_DIR$/xml-configuration-file/modules.rst" />
         <option value="$PROJECT_DIR$/xml-configuration-file/type-bindings.rst" />
@@ -128,12 +128,22 @@
         <option value="$PROJECT_DIR$/resolving-types/resolution-scopes.rst" />
         <option value="$PROJECT_DIR$/sample-configuration-file/index.rst" />
         <option value="$PROJECT_DIR$/resolving-types/resolving-to-multiple-types.rst" />
-        <option value="$PROJECT_DIR$/xml-configuration-file/index.rst" />
         <option value="$PROJECT_DIR$/xml-configuration-file/di-managers.rst" />
         <option value="$PROJECT_DIR$/bindings-in-modules/native-modules.rst" />
-        <option value="$PROJECT_DIR$/loading-ioc-configuration/index.rst" />
         <option value="$PROJECT_DIR$/resolving-types/index.rst" />
+        <option value="$PROJECT_DIR$/loading-ioc-configuration/index.rst" />
+        <option value="$PROJECT_DIR$/loading-ioc-configuration/loading-from-modules.rst" />
+        <option value="$PROJECT_DIR$/loading-ioc-configuration/xml-configuration-file-template.rst" />
+        <option value="$PROJECT_DIR$/loading-ioc-configuration/xml-configuration-file-schema.rst" />
+        <option value="$PROJECT_DIR$/loading-ioc-configuration/xml-configuration-template.rst" />
+        <option value="$PROJECT_DIR$/loading-ioc-configuration/modifying-xml-configuration-at-runtime.rst" />
         <option value="$PROJECT_DIR$/bindings-in-modules/ioc-configuration-modules.rst" />
+        <option value="$PROJECT_DIR$/loading-ioc-configuration/loading-from-xml.rst" />
+        <option value="$PROJECT_DIR$/xml-configuration-file/plugins.rst" />
+        <option value="$PROJECT_DIR$/xml-configuration-file/assemblies-and-probing-paths.rst" />
+        <option value="$PROJECT_DIR$/xml-configuration-file/parameters.rst" />
+        <option value="$PROJECT_DIR$/xml-configuration-file/index.rst" />
+        <option value="$PROJECT_DIR$/xml-configuration-file/parameter-serializers.rst" />
       </list>
     </option>
   </component>
@@ -156,7 +166,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -177,11 +186,6 @@
             <path>
               <item name="docs" type="b2602c69:ProjectViewProjectNode" />
               <item name="docs" type="462c0819:PsiDirectoryNode" />
-              <item name="resolving-types" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="docs" type="b2602c69:ProjectViewProjectNode" />
-              <item name="docs" type="462c0819:PsiDirectoryNode" />
               <item name="sample-configuration-file" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -193,8 +197,9 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
       <pane id="PackagesPane" />
+      <pane id="AndroidView" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -277,16 +282,18 @@
       <workItem from="1524931964791" duration="19964000" />
       <workItem from="1525034383401" duration="8310000" />
       <workItem from="1525403618077" duration="2604000" />
-      <workItem from="1525533284279" duration="17446000" />
+      <workItem from="1525533284279" duration="18599000" />
+      <workItem from="1525623016140" duration="10556000" />
+      <workItem from="1525825048515" duration="2409000" />
+      <workItem from="1526152882044" duration="20522000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="64457000" />
+    <option name="totallyTimeSpent" value="99097000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="1186" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -298,10 +305,10 @@
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.3605313" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.20967741" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.26349613" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2667095" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.33681214" />
       <window_info id="Learn" order="2" />
@@ -326,44 +333,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/sample-configuration-file/index.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="42" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/conf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1326">
-          <caret line="78" selection-start-line="78" selection-end-line="78" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="38" selection-start-line="13" selection-start-column="38" selection-end-line="13" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/overview/index.rst" />
-    <entry file="file://$PROJECT_DIR$/sample-configuration-file/index.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3536">
-          <caret line="208" column="63" lean-forward="true" selection-start-line="208" selection-start-column="63" selection-end-line="208" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/conf.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1292">
-          <caret line="76" column="22" selection-start-line="76" selection-start-column="22" selection-end-line="76" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/DocsSetupInstructions.md" />
-    <entry file="file://$PROJECT_DIR$/IoC.Configuration.Description-GitHub.md" />
     <entry file="file://$PROJECT_DIR$/build/html/index.html" />
     <entry file="file://$PROJECT_DIR$/source/index.rst" />
     <entry file="file://$PROJECT_DIR$/source/conf.py" />
@@ -445,69 +414,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/overview/index.rst" />
-    <entry file="file://$PROJECT_DIR$/_build/html/searchindex.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="174" selection-start-column="174" selection-end-column="174" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/loading-ioc-from-modules/index.rst" />
     <entry file="file://$PROJECT_DIR$/xml-configuration-file/loading-xml-configuration-file.rst" />
-    <entry file="file://$PROJECT_DIR$/loading-ioc-configuration/loading-from-xml.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" selection-start-line="1" selection-end-line="1" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_build/html/bindings-in-modules/ioc-configuration-modules.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1020" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_build/html/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="5" column="8" lean-forward="true" selection-start-line="5" selection-start-column="8" selection-end-line="5" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/xml-configuration-file/type-bindings.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" selection-start-line="1" selection-end-line="1" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_build/html/_sources/index.rst.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="34" column="24" selection-start-line="34" selection-start-column="24" selection-end-line="34" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/_build/html/_sources/bindings-in-modules/index.rst.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="15" column="137" selection-start-line="15" selection-start-column="136" selection-end-line="15" selection-end-column="137" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resolving-types/resolution-scopes.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="407">
-          <caret line="74" selection-start-line="74" selection-end-line="74" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/sample-configuration-file/index.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="441" column="17" selection-start-line="441" selection-start-column="17" selection-end-line="441" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/_build/html/bindings-in-modules/ioc-configuration-modules.html" />
+    <entry file="file://$PROJECT_DIR$/_build/html/index.html" />
+    <entry file="file://$PROJECT_DIR$/_build/html/_sources/index.rst.txt" />
+    <entry file="file://$PROJECT_DIR$/_build/html/_sources/bindings-in-modules/index.rst.txt" />
     <entry file="file://$PROJECT_DIR$/xml-configuration-file/modules.rst">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -515,31 +427,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/xml-configuration-file/index.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="19" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resolving-types/resolving-to-multiple-types.rst">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="555">
           <caret line="76" column="5" selection-start-line="76" selection-start-column="5" selection-end-line="76" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="213">
-          <caret line="31" column="89" selection-start-line="31" selection-start-column="2" selection-end-line="31" selection-end-column="89" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/loading-ioc-configuration/loading-from-modules.rst">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="16" selection-start-line="4" selection-start-column="16" selection-end-line="4" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -566,22 +457,130 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/loading-ioc-configuration/index.rst">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="259" selection-start-line="4" selection-start-column="259" selection-end-line="4" selection-end-column="259" />
+        <state relative-caret-position="255">
+          <caret line="15" selection-start-line="15" selection-end-line="18" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loading-ioc-configuration/ioc.configuration-files.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="31" column="89" selection-start-line="31" selection-start-column="2" selection-end-line="31" selection-end-column="89" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/resolving-types/index.rst">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="47" column="5" selection-start-line="47" selection-start-column="5" selection-end-line="47" selection-end-column="5" />
+        <state relative-caret-position="102">
+          <caret line="6" column="19" selection-start-line="6" selection-start-column="19" selection-end-line="6" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resolving-types/resolution-scopes.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="781">
+          <caret line="74" selection-start-line="74" selection-end-line="74" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loading-ioc-configuration/modifying-xml-configuration-at-runtime.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/_build/html/searchindex.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret column="1073" selection-start-column="1073" selection-end-column="1073" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xml-configuration-file/plugins.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="34">
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bindings-in-modules/ioc-configuration-modules.rst">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="530">
-          <caret line="237" column="5" selection-start-line="237" selection-start-column="5" selection-end-line="237" selection-end-column="5" />
+        <state relative-caret-position="153">
+          <caret line="9" column="10" selection-start-line="9" selection-start-column="10" selection-end-line="9" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loading-ioc-configuration/xml-configuration-file-schema.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" selection-start-line="15" selection-end-line="16" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loading-ioc-configuration/loading-from-xml.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1241">
+          <caret line="73" selection-start-line="73" selection-end-line="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loading-ioc-configuration/xml-configuration-template.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-493">
+          <caret line="16" column="71" selection-start-line="16" selection-start-column="71" selection-end-line="16" selection-end-column="71" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xml-configuration-file/index.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="26" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xml-configuration-file/constructor-parameters.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/loading-ioc-configuration/loading-from-modules.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="22" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xml-configuration-file/type-bindings.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xml-configuration-file/assemblies-and-probing-paths.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="93" column="101" selection-start-line="93" selection-start-column="12" selection-end-line="93" selection-end-column="101" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sample-configuration-file/index.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="3" selection-start-line="16" selection-start-column="3" selection-end-line="16" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/xml-configuration-file/parameter-serializers.rst">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="130" lean-forward="true" selection-start-line="130" selection-end-line="130" />
         </state>
       </provider>
     </entry>

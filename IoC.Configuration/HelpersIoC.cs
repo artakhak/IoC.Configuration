@@ -33,7 +33,7 @@ namespace IoC.Configuration
         public const string ConfigurationFileVersion = "2F7CE7FF-CB22-40B0-9691-EAC689C03A36";
         public const string IoCConfigurationSchemaName = "IoC.Configuration.Schema." + ConfigurationFileVersion + ".xsd";
         public const string OnDiContainerReadyMethodName = "OnDiContainerReady";
-        public const string SchemeFileFolderRelativeLocation = "IoC.Cnfiguration.Content";
+        public const string SchemaFileFolderRelativeLocation = "IoC.Configuration.Content";
         #endregion
     }
 }

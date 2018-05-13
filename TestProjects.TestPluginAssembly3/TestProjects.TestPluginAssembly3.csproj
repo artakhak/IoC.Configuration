@@ -24,7 +24,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <PackageReference Include="IoC.Configuration" Version="1.0.1" />
+    <PackageReference Include="IoC.Configuration" Version="1.0.3" />
   </ItemGroup>
   
   <ItemGroup>

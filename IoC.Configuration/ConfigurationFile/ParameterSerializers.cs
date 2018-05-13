@@ -157,6 +157,7 @@ namespace IoC.Configuration.ConfigurationFile
             TypeBasedSimpleSerializerAggregator = (ITypeBasedSimpleSerializerAggregator) serializerAggregatorObject;
 
             if (_parameterSerializersCollection != null)
+            {
                 foreach (var parameterSerializer in _parameterSerializersCollection.AllSerializers)
                 {
                     if (parameterSerializer.Serializer == null)
@@ -180,12 +181,15 @@ namespace IoC.Configuration.ConfigurationFile
 
                     TypeBasedSimpleSerializerAggregator.Register(parameterSerializer.Serializer);
                 }
+            }
 
 
             var defaultSerializer = OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator.GetDefaultSerializerAggregator();
 
             if (defaultSerializer != TypeBasedSimpleSerializerAggregator)
+            {
                 foreach (var serializer in defaultSerializer.GetRegisteredSerializers())
+                {
                     if (!TypeBasedSimpleSerializerAggregator.HasSerializerForType(serializer.SerializedType))
                     {
                         if (!_defaultSerializersThatCannotBeOverridden.ContainsKey(serializer.SerializedType))
@@ -194,6 +198,8 @@ namespace IoC.Configuration.ConfigurationFile
 
                         TypeBasedSimpleSerializerAggregator.Register(serializer);
                     }
+                }
+            }
         }
 
         #endregion
