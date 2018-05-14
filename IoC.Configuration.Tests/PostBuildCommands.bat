@@ -5,14 +5,18 @@ REM Example of calling in command line: PostBuildCommands.bat Debug K:\Projects\
 REM ConfigurationName is either Debug or Release
 SET ConfigurationName=%1
 SET SolutionDir=%2
-REM SET "SolutionDir=K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration"
 
-SET "DynamicDllsDir=K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\TestDlls"
 SET "NugetPackagesDir=C:\Users\artak\.nuget\packages"
-SET "ThirdPartyLibsDir=K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\TestDlls\ThirdPartyLibs"
+SET "DynamicDllsDir=%SolutionDir%IoC.Configuration.Tests\TestDlls"
+SET "ThirdPartyLibsDir=%SolutionDir%IoC.Configuration.Tests\TestDlls\ThirdPartyLibs"
+SET "TestFiles=%SolutionDir%IoC.Configuration.Tests\bin\TestFiles"
+
+REM Create folders required for Tests\TestDlls
+if not exist "%TestFiles%\DynamicFiles\" mkdir "%TestFiles%\DynamicFiles"
+if not exist "%TestFiles%\DynamicFiles2\" mkdir "%TestFiles%\DynamicFiles2"
 
 REM Copy third party libraries
-xcopy "%NugetPackagesDir%\ninject\3.3.0\lib\netstandard2.0\Ninject.*" %ThirdPartyLibsDir% /Y
+xcopy "%NugetPackagesDir%\ninject\3.3.0\lib\netstandard2.0\Ninject.*" %ThirdPartyLibsDir% /Y 
 xcopy "%NugetPackagesDir%\autofac\4.5.0\lib\netstandard1.1\Autofac.*" %ThirdPartyLibsDir% /Y
 xcopy "%NugetPackagesDir%\autofac.extensions.dependencyinjection\4.0.0\lib\netstandard1.1\Autofac.Extensions.DependencyInjection.*" %ThirdPartyLibsDir% /Y
 
@@ -38,5 +42,4 @@ xcopy %SolutionDir%TestProjects.ModulesForPlugin1\bin\%ConfigurationName%\TestPr
 
 xcopy %SolutionDir%TestProjects.TestPluginAssembly2\bin\%ConfigurationName%\TestProjects.TestPluginAssembly2.*  %DynamicDllsDir%\PluginDlls\Plugin2 /Y
 xcopy %SolutionDir%TestProjects.TestPluginAssembly3\bin\%ConfigurationName%\TestProjects.TestPluginAssembly3.*  %DynamicDllsDir%\PluginDlls\Plugin3 /Y
-
 REM pause

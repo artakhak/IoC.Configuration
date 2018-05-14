@@ -20,7 +20,7 @@ Example of **appDataDir** in configuratioon file:
 
 .. code-block:: xml
 
-    <appDataDir path="K:\...\IoC.Configuration.Tests\bin\Debug\DynamicFiles" />
+    <appDataDir path="K:\...\IoC.Configuration.Tests\bin\TestFiles\DynamicFiles" />
 
 Element: plugins
 ================
@@ -67,7 +67,7 @@ Here is an example of **additionalAssemblyProbingPaths** element:
         <probingPath path="K:\...\TestDlls\TestAssemblyResolution" />
     </additionalAssemblyProbingPaths>
 
-Elements: assemblies and assembly
+Element: assemblies and assembly
 =================================
 
 The elements **assemblies** and **assembly** specify all the assemblies that can be used in types in XML configuration file. The assemblies in **assemblies** and their dependencies are resolved by looking up for assemblies in folders specified in elements **plugins**, and **additionalAssemblyProbingPaths**, in addition to default folders (e.g., application startup folder, standard folder for **.Net Core** asemblies, etc).

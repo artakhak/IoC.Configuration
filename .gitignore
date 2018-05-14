@@ -1,3 +1,21 @@
 ﻿################################################################################
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
+
+/.vs/**
+/**/.idea/**
+/**/.vs/**
+/**/obj/**
+/**/bin/**
+/IoC.Configuration.Tests/bin/**/DynamicFiles/**
+/IoC.Configuration.Tests/bin/**/DynamicFiles2/**
+/IoC.Configuration.Tests/bin/**/TypesListFactoryTypeGeneratorTests/**
+/IoC.Configuration.Tests/TestDlls/**/*.dll
+/IoC.Configuration.Tests/TestDlls/**/*.pdb
+/IoC.Configuration.Tests/TestDlls/**/*.xml
+/IoC.Configuration.Tests/TestDlls/**/*.json
+/IoC.Configuration.Tests/TestDlls/**/*.deps.json
+#/IoC.Configuration.Tests/TestDlls/**
+/IoC.Configuration/docs/_build/**
+/IoC.Configuration/docs/_static/**
+/IoC.Configuration/docs/_templates/**

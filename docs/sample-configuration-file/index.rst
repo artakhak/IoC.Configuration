@@ -22,7 +22,7 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
         <!--The application should have write permissions to path specified in appDataDir.
         This is where dynamically generated DLLs are saved.-->
         <appDataDir
-            path="K:\...\IoC.Configuration.Tests\bin\Debug\DynamicFiles" />
+            path="K:\...\IoC.Configuration.Tests\bin\TestFiles\DynamicFiles" />
 
         <plugins pluginsDirPath="K:\...\IoC.Configuration.Tests\TestDlls\PluginDlls">
 

@@ -17,7 +17,7 @@
 
 <iocConfiguration>
     <appDataDir
-        path="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\Debug\DynamicFiles2" />
+        path="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\TestFiles\DynamicFiles2" />
 
     <plugins>
 

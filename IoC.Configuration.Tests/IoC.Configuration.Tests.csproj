@@ -12,8 +12,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="TestDlls - Copy\**" />
     <Compile Remove="TestDlls\**" />
+    <EmbeddedResource Remove="TestDlls - Copy\**" />
     <EmbeddedResource Remove="TestDlls\**" />
+    <None Remove="TestDlls - Copy\**" />
     <None Remove="TestDlls\**" />
   </ItemGroup>
 

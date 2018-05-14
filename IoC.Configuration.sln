@@ -65,6 +65,52 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{3ACBE6AD
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{C925815B-2EB4-4EF7-8979-0F20E15F9AFD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestDlls", "TestDlls", "{37C6A85F-32F8-4463-BFD8-C2BC522F8D43}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ContainerImplementations", "ContainerImplementations", "{310227E0-9C52-4C92-8055-3ABAF2D20920}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Autofac", "Autofac", "{5E9F0968-23FD-40C7-97D2-16264C036857}"
+	ProjectSection(SolutionItems) = preProject
+		IoC.Configuration.Tests\TestDlls\ContainerImplementations\Autofac\README.md = IoC.Configuration.Tests\TestDlls\ContainerImplementations\Autofac\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ninject", "Ninject", "{E7D04FDD-C1B6-42CF-9C56-D0AB1B7FA680}"
+	ProjectSection(SolutionItems) = preProject
+		IoC.Configuration.Tests\TestDlls\ContainerImplementations\Ninject\README.md = IoC.Configuration.Tests\TestDlls\ContainerImplementations\Ninject\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DynamicallyLoadedDlls", "DynamicallyLoadedDlls", "{101E100A-4E25-4BFA-B618-0E2E3B0AEE3C}"
+	ProjectSection(SolutionItems) = preProject
+		IoC.Configuration.Tests\TestDlls\DynamicallyLoadedDlls\README.md = IoC.Configuration.Tests\TestDlls\DynamicallyLoadedDlls\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PluginDlls", "PluginDlls", "{A6FF2F78-1946-4E58-93A1-9E6158A8D2E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugin1", "Plugin1", "{D16ED448-B601-477B-BF64-8BEFB610B72A}"
+	ProjectSection(SolutionItems) = preProject
+		IoC.Configuration.Tests\TestDlls\PluginDlls\Plugin1\README.md = IoC.Configuration.Tests\TestDlls\PluginDlls\Plugin1\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugin2", "Plugin2", "{BAD6D62B-4796-4C79-9905-23D3B445D78B}"
+	ProjectSection(SolutionItems) = preProject
+		IoC.Configuration.Tests\TestDlls\PluginDlls\Plugin2\README.md = IoC.Configuration.Tests\TestDlls\PluginDlls\Plugin2\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugin3", "Plugin3", "{69AE6A98-8564-4014-9E7A-A5D66E4F7A8A}"
+	ProjectSection(SolutionItems) = preProject
+		IoC.Configuration.Tests\TestDlls\PluginDlls\Plugin3\README.md = IoC.Configuration.Tests\TestDlls\PluginDlls\Plugin3\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestAssemblyResolution", "TestAssemblyResolution", "{FEF35B1D-48B6-4129-A572-B3AC86FB274D}"
+	ProjectSection(SolutionItems) = preProject
+		IoC.Configuration.Tests\TestDlls\TestAssemblyResolution\README.md = IoC.Configuration.Tests\TestDlls\TestAssemblyResolution\README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdPartyLibs", "ThirdPartyLibs", "{7E6E7FC7-A2F4-4E31-995B-F7FD10655EDA}"
+	ProjectSection(SolutionItems) = preProject
+		IoC.Configuration.Tests\TestDlls\ThirdPartyLibs\README.md = IoC.Configuration.Tests\TestDlls\ThirdPartyLibs\README.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -154,6 +200,17 @@ Global
 		{A34794D1-A604-4DBB-9AB9-1EA4B7F85C9D} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
 		{3ACBE6AD-995F-4935-B55A-7A4900BB2151} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
 		{C925815B-2EB4-4EF7-8979-0F20E15F9AFD} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
+		{37C6A85F-32F8-4463-BFD8-C2BC522F8D43} = {568B12B9-C907-46C1-9F30-089DB248AEBD}
+		{310227E0-9C52-4C92-8055-3ABAF2D20920} = {37C6A85F-32F8-4463-BFD8-C2BC522F8D43}
+		{5E9F0968-23FD-40C7-97D2-16264C036857} = {310227E0-9C52-4C92-8055-3ABAF2D20920}
+		{E7D04FDD-C1B6-42CF-9C56-D0AB1B7FA680} = {310227E0-9C52-4C92-8055-3ABAF2D20920}
+		{101E100A-4E25-4BFA-B618-0E2E3B0AEE3C} = {37C6A85F-32F8-4463-BFD8-C2BC522F8D43}
+		{A6FF2F78-1946-4E58-93A1-9E6158A8D2E7} = {37C6A85F-32F8-4463-BFD8-C2BC522F8D43}
+		{D16ED448-B601-477B-BF64-8BEFB610B72A} = {A6FF2F78-1946-4E58-93A1-9E6158A8D2E7}
+		{BAD6D62B-4796-4C79-9905-23D3B445D78B} = {A6FF2F78-1946-4E58-93A1-9E6158A8D2E7}
+		{69AE6A98-8564-4014-9E7A-A5D66E4F7A8A} = {A6FF2F78-1946-4E58-93A1-9E6158A8D2E7}
+		{FEF35B1D-48B6-4129-A572-B3AC86FB274D} = {37C6A85F-32F8-4463-BFD8-C2BC522F8D43}
+		{7E6E7FC7-A2F4-4E31-995B-F7FD10655EDA} = {37C6A85F-32F8-4463-BFD8-C2BC522F8D43}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1A1C25FA-E067-48BA-A479-2F251496CF15}

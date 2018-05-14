@@ -57,7 +57,7 @@ Here is an example of configuring and starting the container:
 
     <!--The application should have write permissions to path specified in appDataDir. This is where dynamically generated DLLs are saved.-->
     <appDataDir
-        path="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\Debug\DynamicFiles" />
+        path="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\TestFiles\DynamicFiles" />
 
     <plugins pluginsDirPath="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\TestDlls\PluginDlls">
 
