@@ -166,7 +166,7 @@
 
     <!--
     If settingsRequestor element is used, the type in type attribute should 
-    specify a type that implements SharedServices.ISettingsRequestor. 
+    specify a type that implements IoC.Configuration.ISettingsRequestor. 
     The implementation specifies a collection of required settings that should be present
     in settings element.
     Note, the type specified in type attribute is fully integrated into a dependency 
@@ -195,18 +195,24 @@
                 </parameters>
             </module>
 
+            <!--Type Modules.Autofac.AutofacModule1 is an Autofac module and is a
+                                            subclass of Autofac.AutofacModule-->
             <module type="Modules.Autofac.AutofacModule1" assembly="modules">
                 <parameters>
                     <int32 name="param1" value="1" />
                 </parameters>
             </module>
 
+            <!--Type Modules.IoC.DiModule1 is an IoC.Configuration module and is a subclass 
+                of IoC.Configuration.DiContainer.ModuleAbstr-->
             <module type="Modules.IoC.DiModule1" assembly="modules">
                 <parameters>
                     <int32 name="param1" value="2" />
                 </parameters>
             </module>
 
+            <!--Type Modules.Ninject.NinjectModule1 is a Ninject module and is a
+                                            subclass of Ninject.Modules.NinjectModule-->
             <module type="Modules.Ninject.NinjectModule1" assembly="modules">
                 <parameters>
                     <int32 name="param1" value="3" />

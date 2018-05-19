@@ -178,7 +178,7 @@ Here is an example of configuring and starting the container:
 
     <!--
     If settingsRequestor element is used, the type in type attribute should specify a type that implements
-    SharedServices.ISettingsRequestor. The implementation specifies a collection of requierd settings that shiuld be present
+    IoC.Configuration.ISettingsRequestor. The implementation specifies a collection of requierd settings that shiuld be present
     in settings element.
     Note, the type specified in type attribute is fully integrated into a dependency injection framework. In other words, constructor
     parameters will be injected using bindings specified in dependencyInjection element.

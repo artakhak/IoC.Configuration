@@ -11,7 +11,7 @@ The sections below describe varios aspects of configuration file.
     assemblies-and-probing-paths.rst
     parameter-serializers.rst
     constructor-parameters.rst
+    settings.rst
     di-managers.rst
-    modules.rst
-    type-bindings.rst
+    dependency-injection.rst
     plugins.rst

@@ -128,8 +128,10 @@ Attributes in **assembly** element
             There should exist some **plugin** element under element **plugins**, with the value of attribute **name** equal to **Plugin1**.
 
 - **overrideDirectory**: Specifies the directory, where the assembly should be loaded from. Normally this attribute should not be included in element, and the folders specified in elements **plugins**, and **additionalAssemblyProbingPaths**, in addition to default folders will be searched to locate tbe assembly.
+
   .. note::
-    Use this attribute in rare circumstances, to override the default behaviour.
+
+        Use this attribute in rare circumstances, to override the default behaviour.
 
 - **loadAlways**: Normally the assembly will be loaded only if it is used in some type in XML configuration file. Use this attribute, if for some reason the assembly should be explicitly loaded into application domain regardless if it is used in some type in configuration file or not.
     Here is an example of **loadAlways** attribute usage.

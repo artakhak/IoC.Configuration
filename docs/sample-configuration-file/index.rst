@@ -168,7 +168,7 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
 
         <!--
         If settingsRequestor element is used, the type in type attribute should
-        specify a type that implements SharedServices.ISettingsRequestor.
+        specify a type that implements IoC.Configuration.ISettingsRequestor.
         The implementation specifies a collection of required settings that should be present
         in settings element.
         Note, the type specified in type attribute is fully integrated into a dependency

@@ -88,7 +88,7 @@ Here is a template XML configuration file that can be used to get started. This 
 
             <!--
             If settingsRequestor element is used, the type in type attribute should specify a type that implements
-            SharedServices.ISettingsRequestor. The implementation specifies a collection of required settings that should be present
+            IoC.Configuration.ISettingsRequestor. The implementation specifies a collection of required settings that should be present
             in settings element.
             Note, the type specified in type attribute is fully integrated into a dependency injection framework. In other words, constructor
             parameters will be injected using bindings specified in dependencyInjection element.
