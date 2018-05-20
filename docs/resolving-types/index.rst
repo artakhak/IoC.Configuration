@@ -47,6 +47,23 @@ Examples of resolving types:
         var instance4 = diContainer.Resolve(typeof(IInterface3), lifeTimeScope);
     }
 
+Example of injecting a type into a constructor
+
+.. sourcecode:: csharp
+
+    public class TestTypeResolution
+    {
+        private IInterface3 _instanceOfInterface3;
+
+        // An instance of IInterface3 will be injected into constructor of TestTypeResolution
+        // based on binding specified for type IInterface3 in XML configuration file or in IoC.Configuration
+        // or native modules.
+        public TestTypeResolution(IInterface3 instanceOfInterface3)
+        {
+            _instanceOfInterface3 = instanceOfInterface3;
+        }
+    }
+
 When the type is re-solved, the bindings specified in configuration file (see :doc:`../xml-configuration-file/index`) or in module classes (see :doc:`../bindings-in-modules/index`) are used to recursively inject constructor parameters, or to set the property values of resolved types (if property injection is specified in configuration file or in modules).
 
 .. toctree::

@@ -6,7 +6,6 @@ Resolution scope determines if the same object or different objects will be retu
 
 **IoC.Configuration** supports three types of resolution scopes: Singleton, ScopeLifetime, and Transient scopes.
 
-
 .. contents::
    :local:
    :depth: 2
@@ -30,7 +29,7 @@ Here is an example of specifying **Singleton** resolution scope in method **IoC.
         }
     }
 
-Here is an example of specifying **Singleton** resolution scope in XML configuration file (see :doc:`../xml-configuration-file/type-bindings`):
+Here is an example of specifying **Singleton** resolution scope in XML configuration file (see :doc:`../xml-configuration-file/service-bindings`):
 
 .. code-block:: xml
 
@@ -70,7 +69,7 @@ Here is an example of specifying **Transient** resolution scope in method **IoC.
         }
     }
 
-Here is an example of specifying **Transient** resolution scope in XML configuration file (see :doc:`../xml-configuration-file/type-bindings`):
+Here is an example of specifying **Transient** resolution scope in XML configuration file (see :doc:`../xml-configuration-file/service-bindings`):
 
 .. code-block:: xml
 
@@ -118,7 +117,7 @@ Here is an example of specifying **ScopeLifetime** resolution scope in method **
         }
     }
 
-Here is an example of specifying **ScopeLifetime** resolution scope in XML configuration file (see :doc:`../xml-configuration-file/type-bindings`):
+Here is an example of specifying **ScopeLifetime** resolution scope in XML configuration file (see :doc:`../xml-configuration-file/service-bindings`):
 
 .. code-block:: xml
 

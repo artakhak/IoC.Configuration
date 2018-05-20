@@ -74,8 +74,6 @@ The second parameter **door2** will be injected into constructor of **TestPlugin
             </implementation>
         </service>
 
-
-
 Example 3
 =========
 

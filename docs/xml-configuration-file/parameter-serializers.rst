@@ -69,10 +69,14 @@ Here is an example of **parameterSerializers** element.
 - Element **parameters** specifies values of constructor parameters for the type specified in attribute **serializerAggregatorType** (for details on constructor parameters reference :doc:`./constructor-parameters`).
 - Element **serializers** lists the registered serializers using **parameterSerializer** elements. Each **parameterSerializer** element registers a serializer for specific type (see the **Element parameterSerializer** section below).
 
+.. note::
+    Some parameter serializers are provided by default, even if we do not list them under element **parameterSerializers/serializers**. Examples are serializers for some common types, such as **OROptimizer.Serializer.TypeBasedSimpleSerializerInt**, **OROptimizer.Serializer.TypeBasedSimpleSerializerDouble**, etc.
+
+
 Element parameterSerializer
 ===========================
 
-The element **parameterSerializer** element registers a serializer for specific type. This element has two attributes, **type** and **assembly**, which are used to specify the the full type name and the assembly for a serializer class that implements interface **OROptimizer.Serializer.ITypeBasedSimpleSerializer**.
+The element **parameterSerializer** registers a serializer for specific type. This element has two attributes, **type** and **assembly**, which are used to specify the the full type name and the assembly for a serializer class that implements interface **OROptimizer.Serializer.ITypeBasedSimpleSerializer**.
 
 Here is the definition of interface **OROptimizer.Serializer.ITypeBasedSimpleSerializer**:
 
@@ -96,7 +100,6 @@ Here is the definition of interface **OROptimizer.Serializer.ITypeBasedSimpleSer
         }
 
 - The property **OROptimizer.Serializer.ITypeBasedSimpleSerializer.SerializedType** is used to pick a deserializer type from the serializers registered in element **parameterSerializers**.
-
 
 
 Example 1

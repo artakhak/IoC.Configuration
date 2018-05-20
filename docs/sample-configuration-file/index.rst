@@ -361,9 +361,14 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
                             <double name="param2" value="138.3" />
 
                             <!--
-                            Inject specific implementation. Note, there is no binding IInterface3 to Interface3_Impl2.
-                            Using injectedObject, we can specify the injected type other than the one normally injected for
-                            SharedServices.Interfaces.IInterface3.
+                            Inject specific implementation. Note, there is no binding for Interface3_Impl2.
+                            IoC.Configuration** will automatically register a self bound service for a type specified in elements
+                            injectedObject, if the type is not an abstract type or an interface, and if it is not already
+                            registered in configuration file.
+                            Also, using injectedObject, we can specify a type other than a type registered for interface
+                            SharedServices.Implementations.Interface3 (i.e., the type of parameter param3).
+                            In other words, no matter what bindings are specified for interface SharedServices.Implementations.Interface3,
+                            the object injected for parameter param3 will be of type SharedServices.Implementations.Interface3_Impl2.
                             -->
                             <injectedObject name="param3" type="SharedServices.Implementations.Interface3_Impl2"
                                             assembly="shared_services" />
@@ -371,9 +376,13 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
                         <injectedProperties>
                             <double name="Property2" value="148.3" />
                             <!--
-                            Inject specific implementation. Note, there is no binding IInterface3 to Interface3_Impl3.
-                            Using injectedObject, we can specify the injected type other than the one normally injected for
-                            SharedServices.Interfaces.IInterface3.
+                            Inject specific implementation. Note, there is no binding for Interface3_Impl3.
+                            IoC.Configuration** will automatically register a self bound service for a type specified in element
+                            injectedObject, if the type is not an abstract type or an interface, and if it is not already
+                            registered in configuration file.
+                            Also, using injectedObject, we can specify a type other than a type registered for type of property
+                            Property3 somewhere else. By using element injectedObject we explicitly state the type of the object
+                            that should be injected, which is SharedServices.Implementations.Interface3_Impl3 in this example.
                             -->
                             <injectedObject name="Property3" type="SharedServices.Implementations.Interface3_Impl3"
                                             assembly="shared_services" />
