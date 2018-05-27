@@ -70,11 +70,13 @@ To load the IoC configuration from XML configuration file use method **IoC.Confi
 
         These methods can be called multiple times in any order. In other words, we can add some **IoC.Configuration** modules using **AddAdditionalDiModules**, then some native modules using **AddNativeModules()**, then some more **IoC.Configuration** modules using **AddAdditionalDiModules**.
 
+Modifying XML Configuration at Runtime
+======================================
 
 The XML Configuration file can be modified at runtime by passing a delegate for parameter **configurationFileXmlDocumentLoaded** in method **IoC.Configuration.DiContainerBuilder.StartFileBasedDi(IConfigurationFileContentsProvider configurationFileContentsProvider, string entryAssemblyFolder, ConfigurationFileXmlDocumentLoadedEventHandler configurationFileXmlDocumentLoaded = null)**.
 This method loads the configuration file into an instance of **System.Xml.XmlDocument** object, and executes the delagate passed in parameter **configurationFileXmlDocumentLoaded**.
 
-By the time the delegate is executed, **System.Xml.XmlDocument** is not yet validated against the XML schema file **IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd** (this is done after the delegate is executed). Therefore, the changes to **System.Xml.XmlDocument** should be done in such a way that the XML document can be successfully validated against this schema file.
+By the time the delegate is executed, **System.Xml.XmlDocument** object is not yet validated against the XML schema file **IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd** (this is done after the delegate is executed). Therefore, the changes to **System.Xml.XmlDocument** object should be done in such a way that the XML document is successfully validated against this schema file.
 Example of modifying the XML document at runtime to replace the value of attribute **activeDiManagerName** in element **/iocConfiguration/diManagers** with **Autofac** is shown below (this is copied from the C# code above).
 
 .. sourcecode:: csharp
@@ -92,4 +94,3 @@ Example of modifying the XML document at runtime to replace the value of attribu
 
     xml-configuration-template.rst
     xml-configuration-file-schema.rst
-    loading-from-modules.rst

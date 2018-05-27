@@ -14,4 +14,6 @@ The sections below describe varios aspects of configuration file.
     settings.rst
     di-managers.rst
     dependency-injection.rst
+    startup-actions.rst
     plugins.rst
+    additional-services.rst

@@ -566,8 +566,17 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             var pluginRepository = _diContainer.Resolve<IPluginDataRepository>();
 
             var pluginData = pluginRepository.GetPluginData("Plugin1");
-
             Assert.AreEqual(Helpers.GetPropertyValue<long>(pluginData.Plugin, "Property1"), 25, "Configuration file specifies param1=25 injected into constructor.");
+        }
+
+        [TestMethod]
+        public void TestPluginPropertyInjection()
+        {
+            var pluginRepository = _diContainer.Resolve<IPluginDataRepository>();
+
+            var pluginData = pluginRepository.GetPluginData("Plugin1");
+
+            Assert.AreEqual(Helpers.GetPropertyValue<long>(pluginData.Plugin, "Property2"), 35, "Configuration file specifies 35 in property injection element.");
         }
 
         [TestMethod]

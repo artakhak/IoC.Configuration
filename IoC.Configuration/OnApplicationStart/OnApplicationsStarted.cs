@@ -30,7 +30,7 @@ using OROptimizer.Diagnostics.Log;
 
 namespace IoC.Configuration.OnApplicationStart
 {
-    public class OnApplicationsStarted : IOnApplicationsStarted, IDisposable
+    public class OnApplicationsStarted : IOnApplicationsStarted
     {
         #region Member Variables
 
@@ -65,7 +65,7 @@ namespace IoC.Configuration.OnApplicationStart
 
         public void Dispose()
         {
-            StopStartupActions(15000, null);
+            StopStartupActions(15000, () => { LogHelper.Context.Log.InfoFormat("Applications and plugins stopped."); });
 
             foreach (var pluginData in _pluginDataRepository.Plugins)
                 pluginData.Plugin.Dispose();
@@ -105,7 +105,7 @@ namespace IoC.Configuration.OnApplicationStart
             }
         }
 
-        public void StopStartupActions(int maxMillisecondsToWait, Action onAllStartupActionsStopped)
+        protected void StopStartupActions(int maxMillisecondsToWait, Action onAllStartupActionsStopped)
         {
             if (_applicationsStopped || !_applicationsStarted)
                 return;
@@ -120,17 +120,19 @@ namespace IoC.Configuration.OnApplicationStart
                     maxMillisecondsToWait = MinMillisecondsToWaitForStop;
 
                 var startTime = DateTime.Now;
+
+                foreach (var startupAction in _startupActions)
+                    startupAction.Stop();
+
                 while (true)
                 {
                     var nonStoppedActionsExist = false;
-                    foreach (var startupAction in _startupActions)
-                        if (!startupAction.ActionExecutionCompleted)
-                        {
-                            startupAction.Stop();
 
-                            if (!startupAction.ActionExecutionCompleted)
-                                nonStoppedActionsExist = true;
-                        }
+                    foreach (var startupAction in _startupActions)
+                    {
+                        if (!startupAction.ActionExecutionCompleted)
+                            nonStoppedActionsExist = true;
+                    }
 
                     if (!nonStoppedActionsExist || (DateTime.Now - startTime).TotalMilliseconds > maxMillisecondsToWait)
                     {

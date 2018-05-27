@@ -24,12 +24,25 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 namespace IoC.Configuration.OnApplicationStart
 {
+    /// <summary>
+    /// Startup action.
+    /// </summary>
     public interface IStartupAction
     {
-        #region Current Type Interface
-
+        #region Current Type Interface        
+        /// <summary>
+        /// If <c>true</c>, the action was successfully stopped.
+        /// </summary>
         bool ActionExecutionCompleted { get; }
+
+        /// <summary>
+        /// Starts the action.
+        /// </summary>
         void Start();
+
+        /// <summary>
+        ///  Stops the action.
+        /// </summary>
         void Stop();
 
         #endregion

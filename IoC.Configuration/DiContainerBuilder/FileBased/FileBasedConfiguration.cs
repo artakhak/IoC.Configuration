@@ -71,6 +71,9 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 
         private Assembly _loadedDynamicAssembly;
 
+        [CanBeNull]
+        private IOnApplicationsStarted _onApplicationsStarted;
+
         private static readonly object _lockObject = new object();
 
         #endregion
@@ -284,10 +287,12 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         /// </summary>
         public override void Dispose()
         {
-            var onApplicationsStarted = DiContainer.Resolve<IOnApplicationsStarted>();
-            onApplicationsStarted.StopStartupActions(5000, () => { LogHelper.Context.Log.InfoFormat("Applications and plugins stopped."); });
-
             // base.Dispose() will dispose off DiContainer. So lets stop the startup applications, before we call  base.Dispose().
+            if (_onApplicationsStarted != null)
+                _onApplicationsStarted.Dispose();
+            else
+                LogHelper.Context.Log.ErrorFormat("{0} is not initialized.", nameof(_onApplicationsStarted));
+            
             base.Dispose();
 
             AppDomain.CurrentDomain.AssemblyResolve -= OnAssemblyResolve;
@@ -507,8 +512,8 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 
             ValidateRequiredSettings(DiContainer);
 
-            var onApplicationsStarted = DiContainer.Resolve<IOnApplicationsStarted>();
-            onApplicationsStarted.StartStartupActions();
+            _onApplicationsStarted = DiContainer.Resolve<IOnApplicationsStarted>();
+            _onApplicationsStarted.StartStartupActions();
             LogHelper.Context.Log.Info("Applications and plugins started.");
         }
 

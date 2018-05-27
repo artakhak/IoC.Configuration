@@ -568,7 +568,7 @@ namespace IoC.Configuration.Tests.DynamicCode
                 new[] {_typeActionValidator2, _typeActionValidator1},
                 new[] {_typeActionValidator3}
             };
-
+           
             TestDynamicAssemblyGeneration(new TypeInfo(_dynamicallyLoadedAssembly2, "DynamicallyLoadedAssembly2.IActionValidatorFactory1"),
                 selectorParameterValues,
                 returnedInstanceTypesForSelectorParameterValues,
@@ -606,7 +606,7 @@ namespace IoC.Configuration.Tests.DynamicCode
                             3, "p2"
                         }));
 
-                        Assert.AreEqual(validatorsList.Count, 2);
+                        Assert.AreEqual(2, validatorsList.Count);
                         Assert.AreEqual(validatorsList[0].GetType().FullName, _typeActionValidator2.FullName);
                         Assert.AreEqual(validatorsList[1].GetType().FullName, _typeActionValidator1.FullName);
                     }

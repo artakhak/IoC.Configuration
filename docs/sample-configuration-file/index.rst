@@ -18,20 +18,19 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
 
     <?xml version="1.0" encoding="utf-8"?>
     <iocConfiguration>
-
         <!--The application should have write permissions to path specified in appDataDir.
         This is where dynamically generated DLLs are saved.-->
         <appDataDir
-            path="K:\...\IoC.Configuration.Tests\bin\TestFiles\DynamicFiles" />
+            path="K:\...\TestFiles\DynamicFiles" />
 
-        <plugins pluginsDirPath="K:\...\IoC.Configuration.Tests\TestDlls\PluginDlls">
+        <plugins pluginsDirPath="K:\...\TestDlls\PluginDlls">
 
             <!--
             Plugin assemblies will be in a folder with similar name under pluginsDirPath folder.
             The plugin folders will be included in assembly resolution mechanism.
             -->
 
-            <!--A folder K:\...\IoC.Configuration.Tests\TestDlls\PluginDlls\Plugin1 should exist.-->
+            <!--A folder K:\...\TestDlls\PluginDlls\Plugin1 should exist.  -->
             <plugin name="Plugin1" />
             <plugin name="Plugin2" />
             <plugin name="Plugin3" enabled="false" />
@@ -39,16 +38,16 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
 
         <additionalAssemblyProbingPaths>
             <probingPath
-                path="K:\...\IoC.Configuration.Tests\TestDlls\ThirdPartyLibs" />
+                path="K:\...\TestDlls\ThirdPartyLibs" />
             <probingPath
-                path="K:\...\IoC.Configuration.Tests\TestDlls\ContainerImplementations\Autofac" />
+                path="K:\...\TestDlls\ContainerImplementations\Autofac" />
             <probingPath
-                path="K:\...\IoC.Configuration.Tests\TestDlls\ContainerImplementations\Ninject" />
+                path="K:\...\TestDlls\ContainerImplementations\Ninject" />
 
             <probingPath
-                path="K:\...\IoC.Configuration.Tests\TestDlls\DynamicallyLoadedDlls" />
+                path="K:\...\TestDlls\DynamicallyLoadedDlls" />
             <probingPath
-                path="K:\...\IoC.Configuration.Tests\TestDlls\TestAssemblyResolution" />
+                path="K:\...\TestDlls\TestAssemblyResolution" />
         </additionalAssemblyProbingPaths>
 
         <assemblies>
@@ -68,7 +67,7 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
 
             <assembly name="TestProjects.TestForceLoadAssembly"
                       alias="TestForceLoadAssembly" loadAlways="true"
-                      overrideDirectory="K:\...\IoC.Configuration.Tests\TestDlls\DynamicallyLoadedDlls" />
+                      overrideDirectory="K:\...\TestDlls\DynamicallyLoadedDlls" />
 
             <assembly name="OROptimizer.Shared" alias="oroptimizer_shared" />
             <assembly name="IoC.Configuration" alias="ioc_config" />
@@ -197,18 +196,24 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
                     </parameters>
                 </module>
 
+                <!--Type Modules.Autofac.AutofacModule1 is an Autofac module and is a
+                                                subclass of Autofac.AutofacModule-->
                 <module type="Modules.Autofac.AutofacModule1" assembly="modules">
                     <parameters>
                         <int32 name="param1" value="1" />
                     </parameters>
                 </module>
 
+                <!--Type Modules.IoC.DiModule1 is an IoC.Configuration module and is a subclass
+                    of IoC.Configuration.DiContainer.ModuleAbstr-->
                 <module type="Modules.IoC.DiModule1" assembly="modules">
                     <parameters>
                         <int32 name="param1" value="2" />
                     </parameters>
                 </module>
 
+                <!--Type Modules.Ninject.NinjectModule1 is a Ninject module and is a
+                                                subclass of Ninject.Modules.NinjectModule-->
                 <module type="Modules.Ninject.NinjectModule1" assembly="modules">
                     <parameters>
                         <int32 name="param1" value="3" />
@@ -241,7 +246,7 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
 
                 <!--
                 Test DI picking the default constructor when instantiating the implementation, if parameters element is
-                present, and using non-default constructor otherwise, with injected parameters)
+                present, and using non-default constructor otherwise, with injected parameters.
                 -->
                 <service type="SharedServices.Interfaces.IInterface9" assembly="shared_services">
                     <implementation type="SharedServices.Implementations.Interface9_Impl1"
@@ -255,7 +260,7 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
                                     scope="singleton">
                         <!--
                         Since parameters is present, a default constructor will be used to construct an object, even though
-                        Interface8_Impl1 has also a non default constructor
+                        Interface8_Impl1 has also a non default constructor.
                         -->
                         <parameters>
                         </parameters>
@@ -478,10 +483,12 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
                 configuration implements has the following signature
                 IEnumerable<DynamicallyLoadedAssembly1.IActionValidator> GetInstances(int param1,
                 string param2);
-                The type attribute value in returnedType element should be a concrete class (non-abstract and
-                non-interface), that implements DynamicallyLoadedAssembly1.IActionValidator.
-                Attributes parameter1 and parameter2 can be set to specify conditions when specific
-                type instances will be returned.
+
+                The type attribute value in returnedType element should be a concrete class
+                (non-abstract and non-interface), that implements DynamicallyLoadedAssembly1.IActionValidator.
+
+                Attributes parameter1 and parameter2 map values of parameters param1 and param2 in
+                GetInstances() method to returned values.
                 -->
                 <typeFactory interface="DynamicallyLoadedAssembly2.IActionValidatorFactory1"
                              assembly="dynamic2">
@@ -520,10 +527,9 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
                 IEnumerable<SharedServices.Interfaces.ICleanupJob> GetCleanupJobs(int projectId);
 
                 The type attribute value in returnedType element should be a concrete
-                class (non-abstract and non-interface), that implements
-                SharedServices.Interfaces.ICleanupJob.
-                Attribute parameter1 can be set to specify conditions when specific type instances
-                will be returned.
+                class (non-abstract and non-interface), that implements SharedServices.Interfaces.ICleanupJob.
+
+                Attribute parameter1 maps values of parameter projectId in GetCleanupJobs() method to returned values.
                 -->
 
                 <typeFactory interface="SharedServices.Interfaces.ICleanupJobFactory"
@@ -550,19 +556,28 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
 
         <startupActions>
             <startupAction type="DynamicallyLoadedAssembly1.Implementations.StartupAction1"
-                           assembly="dynamic1"></startupAction>
+                           assembly="dynamic1">
+              <!--Use parameters element to specify constructor parameters if necessary.-->
+              <!--<parameters></parameters>-->
+              <!--Use injectedProperties element to inject properties into startup action if necessary.-->
+              <!--<injectedProperties></injectedProperties>-->
+            </startupAction>
             <startupAction type="DynamicallyLoadedAssembly1.Implementations.StartupAction2"
                            assembly="dynamic1"></startupAction>
         </startupActions>
 
         <pluginsSetup>
             <pluginSetup plugin="Plugin1">
-                <!--type in pluginImplementation should be a concrete class that implements IoC.Configuration.IPlugin-->
+                <!--The type in pluginImplementation should be non-abstract class
+                    that implements IoC.Configuration.IPlugin and which has a public constructor-->
                 <pluginImplementation type="TestPluginAssembly1.Implementations.Plugin1"
                                       assembly="pluginassm1">
                     <parameters>
                         <int64 name="param1" value="25" />
                     </parameters>
+                    <injectedProperties>
+                      <int64 name="Property2" value="35"/>
+                    </injectedProperties>
                 </pluginImplementation>
                 <settings>
                     <int32 name="Int32Setting1" value="25" />
@@ -626,12 +641,13 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
                     </services>
                     <autoGeneratedServices>
                         <!--The scope for typeFactory implementations is always singleton -->
-                        <!--The function in TestPluginAssembly1.Interfaces.IResourceAccessValidatorFactory that this configuration
-                            implements has the following signature
+                        <!--The method in TestPluginAssembly1.Interfaces.IResourceAccessValidatorFactory that this configuration
+                            implements has the following signature:
                             IEnumerable<TestPluginAssembly1.Interfaces.IResourceAccessValidator> GetValidators(string resourceName);
-                            The type attribute value in returnedType element should be a concrete class (non-abstract and non-interface),
-                            that implements TestPluginAssembly1.Interfaces.IResourceAccessValidator.
-                            Attribute parameter1 can be set to specify conditions when specific type instances will be returned.
+
+                            The type attribute value in returnedType element should be a concrete
+                            class (non-abstract and non-interface), that implements TestPluginAssembly1.Interfaces.IResourceAccessValidator.
+                            Attribute parameter1 maps values of parameter resourceName in GetValidators() method to returned values.
                         -->
                         <typeFactory interface="TestPluginAssembly1.Interfaces.IResourceAccessValidatorFactory"
                                      assembly="pluginassm1">
@@ -725,6 +741,3 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
             </pluginSetup>
         </pluginsSetup>
     </iocConfiguration>
-
-
-

@@ -2,7 +2,7 @@
 Loading from Modules
 ====================
 
-To load the IoC configuration from XML configuration file use method **IoC.Configuration.DiContainerBuilder.DiContainerBuilder.StartFileBasedDi()** as shown below.
+To load the IoC configuration from XML configuration file use method **IoC.Configuration.DiContainerBuilder.DiContainerBuilder.StartCodeBasedDi()** as shown below.
 
 .. sourcecode:: csharp
      :linenos:

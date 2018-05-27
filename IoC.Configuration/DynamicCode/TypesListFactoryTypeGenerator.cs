@@ -276,9 +276,15 @@ namespace IoC.Configuration.DynamicCode
 
             if (specifiedReturnedType.IsInterface || specifiedReturnedType.IsAbstract)
             {
-                errorMessage = string.Format("Type {0} is an {1}. Only concrete classes are allowed.",
+                errorMessage = string.Format("Type '{0}' is an {1}. Only concrete classes are allowed.",
                     specifiedReturnedType.FullName,
                     specifiedReturnedType.IsInterface ? "interface" : "abstract class");
+                return false;
+            }
+
+            if (!specifiedReturnedType.GetConstructors().Any(x => x.IsPublic))
+            {
+                errorMessage = $"Type '{specifiedReturnedType.FullName}' does not have a public constructor.";
                 return false;
             }
 

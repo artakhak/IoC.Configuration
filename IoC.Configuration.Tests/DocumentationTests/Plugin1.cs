@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
-using AssemblyTotestAssemblyResolution;
-using IoC.Configuration;
-using SharedServices.Implementations;
 
-namespace TestPluginAssembly1.Implementations
+namespace IoC.Configuration.Tests.DocumentationTests
 {
-    public class Plugin1 : PluginBaseForTests
+    public class Plugin1 : PluginAbstr
     {
         #region Member Variables
 
@@ -27,17 +24,22 @@ namespace TestPluginAssembly1.Implementations
 
         #region Member Functions
 
-        protected override void InitializeVirtual()
+        /// <summary>
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public override void Dispose()
         {
-            // This call will result the assembly DynamicallyLoadedAssembly3 to be loaded from a probing path, specified
-            // in configuration.
-            TestingAssemblyResolution.TestAssemblyResolution();
+            // Dispose resources
+        }
+
+        /// <summary>Initializes this instance.</summary>
+        public override void Initialize()
+        {
+            // Do initialization here
         }
 
         public long Property1 { get; }
         public long Property2 { get; set; }
-
-        public override IEnumerable<SettingInfo> RequiredSettings => _requiredSettings;
 
         #endregion
     }
