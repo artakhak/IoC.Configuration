@@ -8,11 +8,10 @@ Element **service**
 
 Element **service** is used to bind a type specified in attributes **type** and **assembly** to one ore more types specified in **implementation** child elements.
 
-
 Single Implementation
 =====================
 
-An example of **service** that binds type **SharedServices.Interfaces.IInterface4** in assembly with alias **shared_services** to type **SharedServices.Implementations.Interface4_Impl1** is shown below.
+An example of **service** element that binds type **SharedServices.Interfaces.IInterface4** in assembly with alias **shared_services** to a type **SharedServices.Implementations.Interface4_Impl1** is shown below.
 
 .. code-block:: xml
 
@@ -28,7 +27,7 @@ An example of **service** that binds type **SharedServices.Interfaces.IInterface
         <!--...-->
     </services>
 
-An instance of type **SharedServices.Implementations.Interface4_Impl1** will be injected as a constructor parameter or into properties when interface **SharedServices.Interfaces.IInterface4** is requested.
+An instance of type **SharedServices.Implementations.Interface4_Impl1** will be injected as a constructor parameter or into properties by dependency injection, when interface **SharedServices.Interfaces.IInterface4** is requested.
 
 Here is an example of injecting **SharedServices.Implementations.Interface4_Impl1** as a constructor parameter **interface4**.
 
@@ -49,7 +48,7 @@ Multiple Implementations
 If multiple **implementation** elements are specified under **service** element, the type specified in element **service** will be bound to multiple types.
 In such a cases we should use **System.Collections.Generic.IEnumerable<TService>**.
 
-An example of **service** that binds a type **SharedServices.Interfaces.IInterface8** in assembly with alias **shared_services** to two types, **SharedServices.Implementations.Interface8_Impl1** and **SharedServices.Implementations.Interface8_Impl2** is shown below.
+An example of **service** element that binds a type **SharedServices.Interfaces.IInterface8** in assembly with alias **shared_services** to two types, **SharedServices.Implementations.Interface8_Impl1** and **SharedServices.Implementations.Interface8_Impl2** is shown below.
 
 .. code-block:: xml
 
@@ -71,7 +70,8 @@ An example of **service** that binds a type **SharedServices.Interfaces.IInterfa
     </services>
 
 Here is an example of injecting instances of types **SharedServices.Implementations.Interface8_Impl1** and **SharedServices.Implementations.Interface8_Impl2** for parameter **interface8Resolutions** of type **System.Collections.Generic.IEnumerable<SharedServices.Interfaces.IInterface8>**.
-In this example, the injected collection **interface8Resolutions** will have two items. The first item will be of type **SharedServices.Implementations.Interface8_Impl1** and second item will be of type **SharedServices.Implementations.Interface8_Impl2**.
+
+In this example, the injected collection **interface8Resolutions** will have two items. The first item will be of type **SharedServices.Implementations.Interface8_Impl1** and the second item will be of type **SharedServices.Implementations.Interface8_Impl2**.
 
 .. code-block:: csharp
 

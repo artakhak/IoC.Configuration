@@ -2,7 +2,7 @@
 Multiple Bindings
 =================
 
-If we know that only one binding for the type was specified in in configuration file (see :doc:`../xml-configuration-file/index`) or in modules (see :doc:`../bindings-in-modules/index`), we can resolve the type by specifying the type as parameter to **IoC.Configuration.DiContainer.IDiContainer.Resove(Type)** method as shown below:
+If we know that only one binding for the type was specified in configuration file (see :doc:`../xml-configuration-file/index`) or in modules (see :doc:`../bindings-in-modules/index`), we can resolve the type by specifying the type as a parameter to method **IoC.Configuration.DiContainer.IDiContainer.Resove(Type)**, as shown below:
 
 .. sourcecode:: csharp
 
@@ -58,7 +58,6 @@ Example of multiple bindings for type in overridden method in method **IoC.Confi
 To resolve types that are bound to multiple types, resolve type **System.Collections.Generic.IEnumerable<TService>**.
 
 .. note::
-
     We still can resolve to a single type, rather than to a collection. However, not all implementations support this resolution, when multiple bindings exist. For example, **Autofac** implementation will resolve the type to the last binding, while **Ninject** implementation will throw an exception.
 
 .. sourcecode:: csharp

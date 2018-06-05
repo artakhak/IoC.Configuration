@@ -13,7 +13,8 @@ Plugins are extensions that allow specifying additional type bindings, plugin sp
 Adding a Plugin
 ===============
 To add a plugin do the following:
-1) Add a child element **plugin** to **iocConfiguration/plugins** and specify tyhe plugin name using the **name** attribute. See the example below:
+
+1) Add a child element **plugin** to **iocConfiguration/plugins** and specify the plugin name using the **name** attribute. See the example below:
 
     .. note::
         All the types related to plugins should be in assemblies that are in a directory **[plugins directoy]\[plugin name]**, where **[plugins directoy]** is the directory specified in attribute **pluginsDirPath** of element **iocConfiguration/plugins** and **[plugin name]** is the value of attribute **name** of element **iocConfiguration/plugins/plugin**.
@@ -59,7 +60,6 @@ To add a plugin do the following:
             </settings>
             <dependencyInjection>
                 <modules>
-                    <!--TODO: Test the case when the module is not in an assembly in Plugin folder.-->
                     <module type="ModulesForPlugin1.Ninject.NinjectModule1"
                             assembly="modules_plugin1">
                         <parameters>
@@ -149,11 +149,10 @@ Element **pluginImplementation**
 ================================
 
 The element **iocConfiguration/pluginsSetup/pluginSetup/pluginImplementation** is used to specify an implementation of interface **IoC.Configuration.IPlugin** for the plugin.
-The easiest way to provide an implementation of .. is to extend the abstract class **IoC.Configuration.PluginAbstr** and to override the abstract methods **IoC.Configuration.PluginAbstr.Initialize()** and **IoC.Configuration.PluginAbstr.Dispose()**. **PluginAbstr** implements **IoC.Configuration.IPlugin**
+The easiest way to provide an implementation of **IoC.Configuration.IPlugin** is to extend the abstract class **IoC.Configuration.PluginAbstr** and to override the abstract methods **IoC.Configuration.PluginAbstr.Initialize()** and **IoC.Configuration.PluginAbstr.Dispose()**. **PluginAbstr** implements **IoC.Configuration.IPlugin**.
 
 .. note::
     Plugins are integrated into dependency injection mechanism. Therefore, the constructor parameters of **IoC.Configuration.IPlugin** implementations specified in **pluginImplementation** elements will be injected using the bindings specified in XML Configuration file or in modules referenced by the configuration file. Also, **parameters** and **injectedProperties** elements can used with **pluginImplementation** element to specify constructor parameters or property injection.
-
 
 Here is an example of implementation of **IoC.Configuration.IPlugin** interface that is referenced in element **iocConfiguration/pluginsSetup/pluginSetup/pluginImplementation** in example above:
 
@@ -202,14 +201,15 @@ An example is demonstrated below:
         {
             var pluginData = pluginRepository.GetPluginData("Plugin1");
             Assert.AreEqual(35, pluginData.Property2);
-            Assert.AreEqual(25, pluginData.Settings.GetSettingValueOrThrow<int>("Int32Setting1"));
+            Assert.AreEqual(25,
+                pluginData.Settings.GetSettingValueOrThrow<int>("Int32Setting1"));
         }
     }
 
 Plugin Settings
 ===============
 
-An element **iocConfiguration/pluginsSetup/pluginSetup/settings** can be used to specify plugin specicif settings. The format of plugin settings is similar to settings in general area (i.e., in element **iocConfiguration/settings**). For more details on settings in general refer to :doc:`./settings`.
+An element **iocConfiguration/pluginsSetup/pluginSetup/settings** can be used to specify plugin specific settings. The format of plugin settings is similar to settings in general area (i.e., in element **iocConfiguration/settings**). For more details on settings in general refer to :doc:`./settings`.
 
 .. code-block:: xml
 
@@ -234,8 +234,10 @@ Here is an example of how to access plugin setting values at runtime:
         {
             var pluginData = pluginRepository.GetPluginData("Plugin1");
 
-            Assert.AreEqual(25, pluginData.Settings.GetSettingValueOrThrow<int>("Int32Setting1"));
-            Assert.AreEqual("String Value 1", pluginData.Settings.GetSettingValueOrThrow<string>("StringSetting1"));
+            Assert.AreEqual(25,
+                            pluginData.Settings.GetSettingValueOrThrow<int>("Int32Setting1"));
+            Assert.AreEqual("String Value 1",
+                            pluginData.Settings.GetSettingValueOrThrow<string>("StringSetting1"));
         }
     }
 
@@ -245,7 +247,7 @@ Here is an example of how to access plugin setting values at runtime:
 Plugin Modules
 ==============
 - Plugin modules can be specified in **module** elements under element **iocConfiguration/pluginsSetup/pluginSetup/dependencyInjection/modules**.
-- The format of **iocConfiguration/pluginsSetup/pluginSetup/dependencyInjection/modules** is similar to the format of element **iocConfiguration/dependencyInjection/modules**, except that plugin modules are used to specify bindig for plugin related types. See :doc:`./modules` for more details on **iocConfiguration/dependencyInjection/modules** element.
+- The format of **iocConfiguration/pluginsSetup/pluginSetup/dependencyInjection/modules** is similar to the format of element **iocConfiguration/dependencyInjection/modules**, except that plugin modules are used to specify type bindings for plugin related types. See :doc:`./modules` for more details on **iocConfiguration/dependencyInjection/modules** element.
 
 Plugin Type Bindings
 ====================
@@ -367,18 +369,3 @@ The definition of interface **IResourceAccessValidatorFactory** is shown below
     {
         IEnumerable<IResourceAccessValidator> GetValidators(string resourceName);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

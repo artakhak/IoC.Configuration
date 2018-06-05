@@ -6,7 +6,7 @@ Parameter Serializers
   :local:
   :depth: 2
 
-The element **parameterSerializers** is used to de-serialize textual values used for type constructor parameters and property values,  into objects of specific types.
+The element **parameterSerializers** is used to de-serialize textual values used for type constructor parameters and property values, into objects of specific types.
 
 Here is an example of **parameterSerializers** element.
 
@@ -62,7 +62,8 @@ Here is an example of **parameterSerializers** element.
             </serializers>
         </parameterSerializers>
 
-- The value of attribute **serializerAggregatorType** in element parameterSerializers should be full name of a type that implements the interface **OROptimizer.Serializer.ITypeBasedSimpleSerializerAggregator** in assembly **OROptimizer.Shared.dll** (the assembly is available in Nuget package **OROptimizer.Shared**).
+- The value of attribute **serializerAggregatorType** in element **parameterSerializers** should be full name of a type that implements the interface **OROptimizer.Serializer.ITypeBasedSimpleSerializerAggregator** in assembly **OROptimizer.Shared.dll** (the assembly is available in Nuget package **OROptimizer.Shared**).
+
   The default implementation of this interface is class **OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator** in assembly **OROptimizer.Shared.dll**.
 
 - Attribute **assembly** is an assembly alias, that contains the type specified in attribute **serializerAggregatorType** (the assembly should be declared in some element **/iocConfiguration/assemblies/assembly**).
@@ -70,13 +71,12 @@ Here is an example of **parameterSerializers** element.
 - Element **serializers** lists the registered serializers using **parameterSerializer** elements. Each **parameterSerializer** element registers a serializer for specific type (see the **Element parameterSerializer** section below).
 
 .. note::
-    Some parameter serializers are provided by default, even if we do not list them under element **parameterSerializers/serializers**. Examples are serializers for some common types, such as **OROptimizer.Serializer.TypeBasedSimpleSerializerInt**, **OROptimizer.Serializer.TypeBasedSimpleSerializerDouble**, etc.
+    Some parameter serializers are provided by default, even if we do not list them under element **parameterSerializers/serializers**. Examples are serializers for some common types, such as parameter serializers for **System.Int32**, and **System.Double**, which are **OROptimizer.Serializer.TypeBasedSimpleSerializerInt** and **OROptimizer.Serializer.TypeBasedSimpleSerializerDouble**.
 
+Element **parameterSerializer**
+===============================
 
-Element parameterSerializer
-===========================
-
-The element **parameterSerializer** registers a serializer for specific type. This element has two attributes, **type** and **assembly**, which are used to specify the the full type name and the assembly for a serializer class that implements interface **OROptimizer.Serializer.ITypeBasedSimpleSerializer**.
+The element **parameterSerializer** registers a serializer for specific type. This element has two attributes, **type** and **assembly**, which are used to specify the full type name and the assembly for a serializer class that implements interface **OROptimizer.Serializer.ITypeBasedSimpleSerializer**.
 
 Here is the definition of interface **OROptimizer.Serializer.ITypeBasedSimpleSerializer**:
 
@@ -93,20 +93,21 @@ Here is the definition of interface **OROptimizer.Serializer.ITypeBasedSimpleSer
             /// </summary>
             public interface ITypeBasedSimpleSerializer
             {
-              Type SerializedType { get; }
-              bool TryDeserialize(string valueToDeserialize, out object deserializedValue);
-              bool TrySerialize(object valueToSerialize, out string serializedValue);
+                Type SerializedType { get; }
+                bool TryDeserialize(string valueToDeserialize, out object deserializedValue);
+                bool TrySerialize(object valueToSerialize, out string serializedValue);
             }
         }
 
-- The property **OROptimizer.Serializer.ITypeBasedSimpleSerializer.SerializedType** is used to pick a deserializer type from the serializers registered in element **parameterSerializers**.
+.. note::
+    The property **OROptimizer.Serializer.ITypeBasedSimpleSerializer.SerializedType** is used to pick a deserializer type from the serializers registered in element **parameterSerializers**.
 
 
 Example 1
 ---------
 
 .. note::
-    Refer to :doc:`./parameter-serializers` for more details on **parameters** element to specify constructor parameter values in configuration file.
+    Refer to :doc:`./constructor-parameters` for more details on **parameters** element to specify constructor parameter values in configuration file.
 
 The **selfBoundService** element below is a definition of self-bound service for type **DynamicallyLoadedAssembly1.Implementations.SelfBoundService1** from configuration file.
 
@@ -125,15 +126,15 @@ The **selfBoundService** element below is a definition of self-bound service for
 
 The type **DynamicallyLoadedAssembly1.Implementations.SelfBoundService1** has a constructor with three parameters of types **System.Int32**, **System.Double**, and **DynamicallyLoadedAssembly1.Interfaces.IInterface1**.
 
-- Since there is a **parameterSerializer** element (see example of **parameterSerializers** element above) for type **OROptimizer.Serializer.TypeBasedSimpleSerializerInt**, which de-serializes textual values into **System.Int32** values, **IoC.Configuration** will use **OROptimizer.Serializer.TypeBasedSimpleSerializerInt** to de-serialze the textual value "14" into an **System.Int32** value to use as constructor parameter **param1**.
-- Since there is a **parameterSerializer** element (see example of **parameterSerializers** element above) for type **OROptimizer.Serializer.TypeBasedSimpleSerializerDouble**, which de-serializes textual values into **System.Double** values, **IoC.Configuration** will use **OROptimizer.Serializer.TypeBasedSimpleSerializerDouble** to de-serialze the textual value "15.3" into an **System.Double** value to use as constructor parameter **param2**.
+- Since there is a **parameterSerializer** element (see example of **parameterSerializers** element above) for type **System.Int32** (i.e., **OROptimizer.Serializer.TypeBasedSimpleSerializerInt**), which de-serializes textual values into **System.Int32** values, **IoC.Configuration** will use **OROptimizer.Serializer.TypeBasedSimpleSerializerInt** to de-serialze the textual value "14" into a **System.Int32** value for the constructor parameter **param1**.
+- Since there is a **parameterSerializer** element (see example of **parameterSerializers** element above) for type **System.Double** (i.e., **OROptimizer.Serializer.TypeBasedSimpleSerializerDouble**), which de-serializes textual values into **System.Double** values, **IoC.Configuration** will use **OROptimizer.Serializer.TypeBasedSimpleSerializerDouble** to de-serialze the textual value "15.3" into an **System.Double** value for the constructor parameter **param2**.
 - The constructor parameter **param3** will be injected into constructor of **DynamicallyLoadedAssembly1.Implementations.SelfBoundService1**, using dependency injection mechanism, since **injectedObject** element is used for this parameter.
 
 Example 2
 ---------
 
 .. note::
-    Refer to :doc:`./parameter-serializers` for more details on **parameters** element to specify constructor parameter values in configuration file.
+    Refer to :doc:`./constructor-parameters` for more details on **parameters** element to specify constructor parameter values in configuration file.
 
 The **service** element below defines type bindings for interface **TestPluginAssembly1.Interfaces.IRoom**.
 
@@ -161,6 +162,6 @@ The **service** element below defines type bindings for interface **TestPluginAs
 
 The constructor of type **TestPluginAssembly1.Implementations.Room** in element **implementation** has two constructor parameters named **door1** and **door2**, both of type **TestPluginAssembly1.Interfaces.IDoor**.
 
-- Since there is a **parameterSerializer** element (see example of **parameterSerializers** element above) for type **TestPluginAssembly1.Implementations.DoorSerializer**, which de-serializes textual values into **TestPluginAssembly1.Interfaces.IDoor** values, **IoC.Configuration** will use **TestPluginAssembly1.Implementations.DoorSerializer** to de-serialze the textual value "5,185.1" into a **TestPluginAssembly1.Interfaces.IDoor** value to use as constructor parameter **door1**.
+- Since there is a **parameterSerializer** element (see example of **parameterSerializers** element above) for type **TestPluginAssembly1.Implementations.DoorSerializer**, which de-serializes textual values into **TestPluginAssembly1.Interfaces.IDoor** values, **IoC.Configuration** will use **TestPluginAssembly1.Implementations.DoorSerializer** to de-serialze the textual value **"5,185.1"** into a **TestPluginAssembly1.Interfaces.IDoor** value to use for constructor parameter **door1**.
 - The constructor parameter **door2** will be injected into constructor of **TestPluginAssembly1.Implementations.Room**, using dependency injection mechanism, since **injectedObject** element is used for this parameter.
-- Property **TestPluginAssembly1.Implementations.Room.Door2** has a setter, and is of type **TestPluginAssembly1.Interfaces.IDoor** as well (see line ?? in XML above), therefore **IoC.Configuration** will use **TestPluginAssembly1.Implementations.DoorSerializer** as well, to de-serialze the textual value "7,187.3" into a **TestPluginAssembly1.Interfaces.IDoor** value and to assign this value to property **TestPluginAssembly1.Implementations.Room.Door2** in bound object of type **TestPluginAssembly1.Implementations.Room**.
+- Property **TestPluginAssembly1.Implementations.Room.Door2** has a setter, and is of type **TestPluginAssembly1.Interfaces.IDoor** as well, therefore **IoC.Configuration** will use **TestPluginAssembly1.Implementations.DoorSerializer** as well, to de-serialze the textual value **"7,187.3"** into a **TestPluginAssembly1.Interfaces.IDoor** value and to assign this value to a property **TestPluginAssembly1.Implementations.Room.Door2** in bound object of type **TestPluginAssembly1.Implementations.Room**.

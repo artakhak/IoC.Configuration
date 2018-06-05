@@ -6,7 +6,8 @@ Settings
   :local:
   :depth: 2
 
-The configuration file has two elements for specifying settings: **/iocConfiguration/settingsRequestor** and **/iocConfiguration/settings**
+The configuration file has two elements related to settings: **/iocConfiguration/settingsRequestor** and **/iocConfiguration/settings**
+
     .. note::
         See :doc:`./plugins` for details on settings in plugins.
 
@@ -28,14 +29,12 @@ Here is an example of settings in XML configuration file:
             </settings>
         </iocConfiguration>
 
-- Element **settings** lists all the settings using elements **byte**, **int16**, **int32**, **int64**, **double**, **boolean**, **datetime**, **string**, **object**.
-  The values of settings are de-serialized using serializers provided in element **parameterSerializers** (reference section :doc:`./parameter-serializers`).
+- Element **settings** lists all the settings using elements **byte**, **int16**, **int32**, **int64**, **double**, **boolean**, **datetime**, **string**, **object**. The values of settings are de-serialized using serializers provided in element **parameterSerializers** (reference section :doc:`./parameter-serializers`).
 
 - Element **settingsRequestor** is optional and if present, is used to force the user to include settings using the type specified in attributes **type** and **assembly**. The specified type should implement an interface **IoC.Configuration.ISettingsRequestor**, which specifies a collection of required settings that should be present in settings element.
 
      .. note::
-            Note, the type specified in **type** attribute in **settingsRequestor** element is fully integrated into a dependency injection framework. In other words, constructor parameters will be injected using bindings specified in dependencyInjection element.
-
+        The type specified in **type** attribute in **settingsRequestor** element is fully integrated into a dependency injection framework. In other words, constructor parameters will be injected using bindings specified in dependencyInjection element.
 
 Interface IoC.Configuration.ISettingsRequestor
 ==============================================
@@ -96,7 +95,6 @@ Here is an example:
         }
 
 .. note::
-
     Binding for a type **TestInjectedSettings** should be registered either in module class or in XML configuration file. Below is an example of registering binding for **TestInjectedSettings** in an **IoC.Configuration** module.
 
         .. code-block:: csharp

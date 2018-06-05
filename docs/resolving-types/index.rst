@@ -36,7 +36,8 @@ Examples of resolving types:
 
 .. sourcecode:: csharp
 
-    IoC.Configuration.DiContainerBuilder.IContainerInfo.DiContainer diContainer; // diContainer is created from XML configuration file or modules.
+    // diContainer is created from XML configuration file or modules.
+    IoC.Configuration.DiContainerBuilder.IContainerInfo.DiContainer diContainer;
 
     var instance1 = diContainer.Resolve(typeof(IInterface3));
     var instance2 = diContainer.Resolve<IInterface3>();
@@ -70,11 +71,3 @@ When the type is re-solved, the bindings specified in configuration file (see :d
 
     resolution-scopes.rst
     resolving-to-multiple-types.rst
-
-
-
-
-
-
-
-

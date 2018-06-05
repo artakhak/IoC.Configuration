@@ -10,7 +10,6 @@ To use Visual Studio code completion based on this schema, right click "Properti
 
 .. image:: selecting-schema-in-vs.jpg
 
-
 **XML configuration file schema:**
 
 .. code-block:: xml

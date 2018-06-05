@@ -2,12 +2,13 @@
 Type Bindings in 3-rd Party Container Modules
 =============================================
 
-Third party modules classes can be used to specify bindings.
-The module class should be a sub-class or an implementation of a type
-specified returned by property **IoC.Configuration.DiContainer.IDiManager.ModuleType** of **IoC.Configuration.DiContainer.IDiManager** object used to load the configuration.
-To see of how **IoC.Configuration.DiContainer.IDiManager** type can be specified when loading the configuration, reference :doc:`../loading-ioc-configuration/loading-from-modules` (loading from modules) or :doc:`../xml-configuration-file/di-managers` (loading from configuration file).
+Third party module classes can be used to specify bindings.
 
-Currently two implementations of **IoC.Configuration.DiContainer.IDiManager**:
+The module class should be a sub-class or an implementation of a type returned by property **Type ModuleType { get; }** of **IoC.Configuration.DiContainer.IDiManager** object used to load the configuration.
+
+To see of how **IoC.Configuration.DiContainer.IDiManager** type can be specified when loading the configuration, reference :doc:`../loading-ioc-configuration/loading-from-modules` (loading from modules) or :doc:`../xml-configuration-file/specifying-di-manager` (loading from configuration file).
+
+Currently two implementations of **IoC.Configuration.DiContainer.IDiManager** are available on **Nuget**:
     - **IoC.Configuration.Autofac.AutofacDiManager** available in Nuget package `IoC.Configuration.Autofac <https://www.nuget.org/packages/IoC.Configuration.Autofac>`_
     - **IoC.Configuration.Autofac.NinjectDiManager** available in Nuget package `IoC.Configuration.Ninject <https://www.nuget.org/packages/IoC.Configuration.Ninject>`_
 
@@ -18,7 +19,7 @@ The module types are passed as parameters, when loaded the configuration from mo
 
 Here is an example of **Autofac** module:
 
-.. sourcecode:: csharp
+.. code-block:: csharp
 
     public class AutofacModule1 : AutofacModule
     {
@@ -44,11 +45,9 @@ Here is an example of **Autofac** module:
         }
     }
 
-..
-
 Here is an example of **Ninject** module:
 
-.. sourcecode:: csharp
+.. code-block:: csharp
 
     public class NinjectModule1 : NinjectModule
     {

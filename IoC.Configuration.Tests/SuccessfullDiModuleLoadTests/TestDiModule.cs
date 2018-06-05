@@ -79,10 +79,11 @@ namespace IoC.Configuration.Tests.SuccessfullDiModuleLoadTests
                 .To<CircularReferenceTestInterface1_Impl>()
                 .OnImplementationObjectActivated(
                     (diContainer, instance) =>
-                        // Note, type of instance is the implementation type
-                        // CircularReferenceTestInterface1_Impl. So we can use Property1 setter.
-                        // ICircularReferenceTestInterface1 has only getter for Property1.
-                        instance.Property1 = diContainer.Resolve<ICircularReferenceTestInterface2>())
+                    // Note, type of parameter 'instance' is the implementation type
+                    // CircularReferenceTestInterface1_Impl. So we can use Property1 setter in
+                    // CircularReferenceTestInterface1_Impl only and not in ICircularReferenceTestInterface1.
+                    // ICircularReferenceTestInterface1 has only getter for Property1.
+                    instance.Property1 = diContainer.Resolve<ICircularReferenceTestInterface2>())
                 .SetResolutionScope(DiResolutionScope.Singleton);
 
             Bind<ICircularReferenceTestInterface2>().To<CircularReferenceTestInterface2_Impl>()

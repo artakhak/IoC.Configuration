@@ -31,16 +31,17 @@ namespace IoC.Configuration.Tests.DocumentationTests
                   .StartFileBasedDi(
                                 new FileBasedConfigurationFileContentsProvider(
                                     Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration1.xml")),
-                                    // Provide the entry assembly folder. Normally this is the folder, where the executable file is,
-                                    // however for test projects this might not be the case.
-                                    // This folder will be used in assembly resolution.
+                                    // Provide the entry assembly folder. Normally this is the folder,
+                                    // where the executable file is. However for test projects this might not
+                                    // be the case. This folder will be used in assembly resolution.
                                     Helpers.TestsEntryAssemblyFolder,
                                     (sender, e) =>
                                     {
                                         // Replace some elements in e.XmlDocument if needed,
                                         // before the configuration is loaded.
                                         // For example, we can replace the value of attribute 'activeDiManagerName' in element 
-                                        // iocConfiguration.diManagers to use a different DI manager (say switch from Autofac to Ninject).
+                                        // iocConfiguration.diManagers to use a different DI manager (say
+                                        // switch from Autofac to Ninject).
                                         e.XmlDocument.SelectElements("/iocConfiguration/diManagers")
                                                      .First() 
                                                      .SetAttributeValue("activeDiManagerName", "Autofac");

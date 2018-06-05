@@ -2,9 +2,9 @@
 XML Configuration File
 ======================
 
-An example of XML configuration file can be found at :doc:`../sample-configuration-file/index`.
+An example of XML configuration file can be found at :doc:`../sample-files/sample-xml-configuration-file`.
 
-The sections below describe varios aspects of configuration file.
+The sections below describe various aspects of configuration file.
 
 .. toctree::
 
@@ -12,8 +12,9 @@ The sections below describe varios aspects of configuration file.
     parameter-serializers.rst
     constructor-parameters.rst
     settings.rst
-    di-managers.rst
+    specifying-di-manager.rst
     dependency-injection.rst
     startup-actions.rst
     plugins.rst
     additional-services.rst
+    troubleshooting-configuration-file-errors.rst

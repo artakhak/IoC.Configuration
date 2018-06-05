@@ -41,4 +41,3 @@ This is a Sphinx project for IoC.Configuration documentation.
         
 ### Publishing to Git
       -Before committing to git run "make clean" to clean the generated files. ReadTheDcos will build the docs.
-        

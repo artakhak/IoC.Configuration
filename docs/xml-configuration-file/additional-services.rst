@@ -3,7 +3,7 @@ Additional Services Provided by IoC.Configuration
 =================================================
 
 In addition to registering types specified in XML configuration file and module classes, **IoC.Configuration** registers bindings for number of other interfaces.
-Instances of these interfaces can be accessed using constructor or propertuy injection.
+Instances of these interfaces can be accessed using constructor or property injection.
 
 Here are some of the interfaces mentioned above:
 

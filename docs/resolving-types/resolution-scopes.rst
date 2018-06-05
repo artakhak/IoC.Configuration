@@ -4,7 +4,7 @@ Resolution Scopes
 
 Resolution scope determines if the same object or different objects will be returned by the container on subsequent requests of type.
 
-**IoC.Configuration** supports three types of resolution scopes: Singleton, ScopeLifetime, and Transient scopes.
+**IoC.Configuration** supports three types of resolution scopes: **Singleton**, **ScopeLifetime**, and **Transient scopes**.
 
 .. contents::
    :local:
@@ -15,7 +15,7 @@ Scope: Singleton
 
 Singleton scope results in type being resolved to the same instance on subsequent requests.
 
-Here is an example of specifying **Singleton** resolution scope in method **IoC.Configuration.DiContainer.ModuleAbstr.AddServiceRegistrations()** (see :doc:`Type Bindings in IoC.Configuration Modules <../bindings-in-modules/ioc-configuration-modules>`):
+Here is an example of specifying **Singleton** resolution scope in method **IoC.Configuration.DiContainer.ModuleAbstr.AddServiceRegistrations()** (see :doc:`../bindings-in-modules/ioc-configuration-modules`):
 
 .. sourcecode:: csharp
 
@@ -53,9 +53,9 @@ Here is an example of resolving types bound with **Singleton** scope resolution
 Scope: Transient
 ================
 
-Transient scope results in type being resolved to a newly created instance on each requests.
+**Transient** scope results in type being resolved to a newly created instance on each requests.
 
-Here is an example of specifying **Transient** resolution scope in method **IoC.Configuration.DiContainer.ModuleAbstr.AddServiceRegistrations()** (see :doc:`Type Bindings in IoC.Configuration Modules <../bindings-in-modules/ioc-configuration-modules>`):
+Here is an example of specifying **Transient** resolution scope in method **IoC.Configuration.DiContainer.ModuleAbstr.AddServiceRegistrations()** (see :doc:`../bindings-in-modules/ioc-configuration-modules`):
 
 .. sourcecode:: csharp
 
@@ -97,11 +97,10 @@ Here is an example of resolving types bound with **Transient** scope resolution
 Scope: ScopeLifetime
 ====================
 
-ScopeLifetime scope results in type being resolved to the same instance on subsequent requests, if the same instance of **IoC.Configuration.DiContainer.ILifeTimeScope** is used as a parameter to method **diContainer.Resolve(Type typeToResolve, ILifeTimeScope lifetimeScope)**.
+**ScopeLifetime** scope results in type being resolved to the same instance on subsequent requests, if the same instance of **IoC.Configuration.DiContainer.ILifeTimeScope** is used as a parameter to method **diContainer.Resolve(Type typeToResolve, ILifeTimeScope lifetimeScope)**.
 
 .. note::
-
-    If DiResolutionScope.ScopeLifetime was not used when specifying the binding for the type, the value passed for **ILifeTimeScope** parameter in **diContainer.Resolve(Type typeToResolve, ILifeTimeScope lifetimeScope)** does not matter, and the type will be resolved with resoltion scope used in type binding (e.g., **Singletone**, **Transient**).
+    If **DiResolutionScope.ScopeLifetime** is not used when specifying the binding for the type, the value passed for **ILifeTimeScope** parameter in **diContainer.Resolve(Type typeToResolve, ILifeTimeScope lifetimeScope)** does not matter, and the type will be resolved with resolution scope used in type binding (e.g., **Singleton**, **Transient**).
 
 Here is an example of specifying **ScopeLifetime** resolution scope in method **IoC.Configuration.DiContainer.ModuleAbstr.AddServiceRegistrations()** (see :doc:`../bindings-in-modules/ioc-configuration-modules`):
 
@@ -129,13 +128,14 @@ Here is an example of specifying **ScopeLifetime** resolution scope in XML confi
     </service>
 
 
-Here is an example of resolving types bound with **ScopeLifetime** scope resolution
+Here is an example of resolving types bound with **ScopeLifetime** scope resolution:
 
 .. sourcecode:: csharp
 
     private void LifetimeScopeResolutionExample(IoC.Configuration.DiContainer.IDiContainer diContainer)
     {
-        Type typeInterface3 = Helpers.GetType("DynamicallyLoadedAssembly1.Interfaces.IInterface3");
+        Type typeInterface3 = Helpers.GetType(
+                            "DynamicallyLoadedAssembly1.Interfaces.IInterface3");
 
         // Same objects are created in default lifetime scope.
         var service1InMainScope = diContainer.Resolve(typeInterface3);
@@ -145,16 +145,15 @@ Here is an example of resolving types bound with **ScopeLifetime** scope resolut
 
         using (var lifeTimeScope = diContainer.StartLifeTimeScope())
         {
-            // IDiContainer.Resolve(Type, ILifetimeScope) returns the same object for the same scope lifeTimeScope.
+            // IDiContainer.Resolve(Type, ILifetimeScope) returns
+            // the same object for the same scope lifeTimeScope.
             var service1InScope1 = diContainer.Resolve(typeInterface3, lifeTimeScope);
             var service2InScope1 = diContainer.Resolve(typeInterface3, lifeTimeScope);
 
             Assert.AreSame(service1InScope1, service2InScope1);
 
-            // However, the objects are different from the ones created in main lifetime scope.
+            // However, the objects are different from the ones created in main
+            // lifetime scope.
             Assert.AreNotSame(service1InScope1, service1InMainScope);
         }
     }
-
-
-

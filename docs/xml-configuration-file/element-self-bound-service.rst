@@ -18,7 +18,7 @@ An example of **selfBoundService** element to bind type **DynamicallyLoadedAssem
         <!--...-->
     </services>
 
-An instance of type **DynamicallyLoadedAssembly1.Implementations.SelfBoundService3** will be injected as a constructor parameter or into properties when type **DynamicallyLoadedAssembly1.Implementations.SelfBoundService3** is requested.
+An instance of type **DynamicallyLoadedAssembly1.Implementations.SelfBoundService3** will be injected as a constructor parameter or into properties by the dependency injection, when type **DynamicallyLoadedAssembly1.Implementations.SelfBoundService3** is requested.
 
 Here is an example of injecting **DynamicallyLoadedAssembly1.Implementations.SelfBoundService3** as a constructor parameter **selfBoundService3**.
 

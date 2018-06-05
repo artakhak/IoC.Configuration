@@ -8,7 +8,7 @@ Constructor Parameters
 
 Element **parameters** is used to specify constructor parameter values for a type specified in XML configuration file.
 
-Eement **parameters** has one child element per constructor parameter.
+Element **parameters** has one child element per constructor parameter.
 
 Child elements are **byte**, **int16**, **int32**, **int64**, **double**, **boolean**, **datetime**, **string**, **object**, and **injectedObject**.
 
@@ -21,7 +21,7 @@ Child elements are **byte**, **int16**, **int32**, **int64**, **double**, **bool
 - Element **injectedObject** is used to specify a constructor parameter that should be injected using the dependency injection mechanism.
 
     .. note::
-        Child elements **injectedObject** are valid based on context, where **parameters** element is used. For example this element can be used when specifying service bindings, as shown in examples below, but cannot be used in **settings** element.
+        Child elements **injectedObject** are valid based on context, where **parameters** element is used. For example this element can be used when specifying service bindings, as shown in examples below, however it cannot be used in **settings** element.
 
 Example 1
 =========
@@ -51,11 +51,12 @@ Example 2
 
 In example below, service of type **TestPluginAssembly1.Interfaces.IRoom** will be bound to an instance of type **TestPluginAssembly1.Implementations.Room**, which will be created using a constructor that has two parameters, **door1** and **door2**, of type **TestPluginAssembly1.Interfaces.IDoor**.
 
-The first parameter **door1** will be de-serialized from text **5,185.1**, using a serializer **TestPluginAssembly1.Implementations.DoorSerializer**, found under element **iocConfiguration/parameterSerializers** for type **TestPluginAssembly1.Interfaces.IDoor**.
-    .. note:
+- The first parameter **door1** will be de-serialized from text **5,185.1**, using a serializer **TestPluginAssembly1.Implementations.DoorSerializer**, found under element **iocConfiguration/parameterSerializers** for type **TestPluginAssembly1.Interfaces.IDoor**.
+
+    .. note::
         Refer to :doc:`./parameter-serializers` for more details on parameter serializers.
 
-The second parameter **door2** will be injected into constructor of **TestPluginAssembly1.Implementations.Room**.
+- The second parameter **door2** will be injected into constructor of **TestPluginAssembly1.Implementations.Room**.
 
 .. code-block:: xml
     :linenos:
@@ -80,8 +81,7 @@ Example 3
 This example is similar to *Example 2* above, however **parameters** element is missing under the implementation type **TestPluginAssembly1.Implementations.Room**. Since no **parameters** element is provided, an instance of type **TestPluginAssembly1.Implementations.Room** will be injected using dependency injection mechanism, rather than using a specific constructor.
 
   .. note::
-    If a **parameters** element is provided without any child parameters, an instance of type will be created using the default parameter-less constructor. Therefore the type is expected to have a default constructor.
-    To use dependency injection mechanism to construct an instance of type, one should omit the **parameters** element, instead of providing an empty **parameters** element.
+    If a **parameters** element is provided without any child parameters, an instance of type will be created using the default parameter-less constructor. Therefore the type is expected to have a default constructor. To use dependency injection mechanism to construct an instance of type, one should omit the **parameters** element, instead of providing an empty **parameters** element.
 
 .. code-block:: xml
     :linenos:

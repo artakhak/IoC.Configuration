@@ -41,9 +41,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProjects.TestPluginAsse
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E5B1DF5A-07C3-4E11-A881-851D6C6E4927}"
 	ProjectSection(SolutionItems) = preProject
-		docs\DocsSetupInstructions.md = docs\DocsSetupInstructions.md
+		docs\__init__.py = docs\__init__.py
+		docs\conf.py = docs\conf.py
+		docs\index.rst = docs\index.rst
 		docs\make.bat = docs\make.bat
 		docs\Makefile = docs\Makefile
+		docs\README.md = docs\README.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{96926937-EF46-4E1C-8887-76DA0B8D4BF7}"

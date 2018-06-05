@@ -78,11 +78,12 @@ Here is an example of configuring and starting the container:
         3) In one of the plugin folders specified in plugins element (only for assemblies with plugin attribute) -->
 
         <!--
-        Use loadAlways to make sure a reference to assembly is added to dynamically generated assembly for dependencies,
-        even if the assembly is not referenced anywhere in configuration file.
-        In general, this is not necessary, however in case if generating dynamic assembly fails because of missing .NET assemblies,
-        using this field might help.
-        Use "overrideDirectory" attribute, to make the assembly path explicit, rather then searching for an assembly in predefined folders, which also include
+        Use "loadAlways" attribute to make sure a reference to assembly is added to dynamically generated assembly for
+        dependencies, even if the assembly is not referenced anywhere in configuration file.
+        In general, this is not necessary, however in case if generating dynamic assembly fails
+        because of missing .NET assemblies, using this field might help.
+        Use "overrideDirectory" attribute, to make the assembly path explicit, rather then searching for
+        an assembly in predefined folders, which also include
         probing paths specified in additionalAssemblyProbingPaths element.
         -->
 
@@ -607,7 +608,6 @@ Here is an example of configuring and starting the container:
             </settings>
             <dependencyInjection>
                 <modules>
-                    <!--TODO: Test the case when the module is not in an assembly in Plugin folder.-->
                     <module type="ModulesForPlugin1.Ninject.NinjectModule1" 
                             assembly="modules_plugin1">
                         <parameters>

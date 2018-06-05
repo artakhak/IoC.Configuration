@@ -3,7 +3,8 @@ Sample XML Configuration File
 =============================
 
 - The XML configuration file below will be be used in examples throughout the documentation.
-   Note, this is the file **IoCConfiguration1.xml** in test project `IoC.Configuration.Tests <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests>`_ so the names are meaningless (e.g., Interface1, Class1, etc).
+    .. note::
+        This is the file **IoCConfiguration1.xml** in test project `IoC.Configuration.Tests <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests>`_ so the names are meaningless (e.g., Interface1, Class1, etc).
 
 - The XML configuration file schema is available at `IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/IoC.Cnfiguration.Content/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd>`_
 
@@ -16,8 +17,8 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
 .. code-block:: xml
    :linenos:
 
-    <?xml version="1.0" encoding="utf-8"?>
     <iocConfiguration>
+
         <!--The application should have write permissions to path specified in appDataDir.
         This is where dynamically generated DLLs are saved.-->
         <appDataDir
@@ -42,7 +43,7 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
             <probingPath
                 path="K:\...\TestDlls\ContainerImplementations\Autofac" />
             <probingPath
-                path="K:\...\TestDlls\ContainerImplementations\Ninject" />
+                path="...\TestDlls\ContainerImplementations\Ninject" />
 
             <probingPath
                 path="K:\...\TestDlls\DynamicallyLoadedDlls" />
@@ -57,14 +58,14 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
             3) In one of the plugin folders specified in plugins element (only for assemblies with plugin attribute) -->
 
             <!--
-            Use loadAlways to make sure a reference to assembly is added to dynamically generated assembly for dependencies,
-            even if the assembly is not referenced anywhere in configuration file.
-            In general, this is not necessary, however in case if generating dynamic assembly fails because of missing .NET assemblies,
-            using this field might help.
-            Use "overrideDirectory" attribute, to make the assembly path explicit, rather then searching for an assembly in predefined folders, which also include
+            Use "loadAlways" attribute to make sure a reference to assembly is added to dynamically generated assembly for
+            dependencies, even if the assembly is not referenced anywhere in configuration file.
+            In general, this is not necessary, however in case if generating dynamic assembly fails
+            because of missing .NET assemblies, using this field might help.
+            Use "overrideDirectory" attribute, to make the assembly path explicit, rather then searching for
+            an assembly in predefined folders, which also include
             probing paths specified in additionalAssemblyProbingPaths element.
             -->
-
             <assembly name="TestProjects.TestForceLoadAssembly"
                       alias="TestForceLoadAssembly" loadAlways="true"
                       overrideDirectory="K:\...\TestDlls\DynamicallyLoadedDlls" />
@@ -154,8 +155,9 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
             <diManager name="Ninject" type="IoC.Configuration.Ninject.NinjectDiManager"
                        assembly="ninject_ext">
                 <!--
-                Use parameters element to specify constructor parameters, if the type specified in 'type' attribute
-                has non-default constructor.-->
+                Use parameters element to specify constructor parameters,
+                if the type specified in 'type' attribute has non-default constructor.
+                -->
                 <!--<parameters>
                 </parameters>-->
             </diManager>
@@ -586,7 +588,6 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
                 </settings>
                 <dependencyInjection>
                     <modules>
-                        <!--TODO: Test the case when the module is not in an assembly in Plugin folder.-->
                         <module type="ModulesForPlugin1.Ninject.NinjectModule1"
                                 assembly="modules_plugin1">
                             <parameters>

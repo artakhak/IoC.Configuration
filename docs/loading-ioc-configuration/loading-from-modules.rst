@@ -2,7 +2,7 @@
 Loading from Modules
 ====================
 
-To load the IoC configuration from XML configuration file use method **IoC.Configuration.DiContainerBuilder.DiContainerBuilder.StartCodeBasedDi()** as shown below.
+To load the **IoC** configuration from XML configuration file use method **IoC.Configuration.DiContainerBuilder.DiContainerBuilder.StartCodeBasedDi()** as shown below.
 
 .. sourcecode:: csharp
      :linenos:
@@ -24,6 +24,7 @@ To load the IoC configuration from XML configuration file use method **IoC.Confi
                 .StartCodeBasedDi("IoC.Configuration.Autofac.meake cleanAutofacDiManager",
                                @"K:\...\TestDlls\ContainerImplementations\Autofac\IoC.Configuration.Autofac.dll",
                                new ParameterInfo[0], Helpers.TestsEntryAssemblyFolder, assemblyProbingPaths)
+
                 // Note, most of the time we will need to call method WithoutPresetDiContainer().
                 // However, in some cases, we might need to create an instance of IoC.Configuration.DiContainer.IDiContainer,
                 // and call the method WithDiContainer(IoC.Configuration.DiContainer.IDiContainer diContainer) instead.
@@ -55,12 +56,12 @@ To load the IoC configuration from XML configuration file use method **IoC.Confi
             var resolvedInstance = containerInfo.DiContainer.Resolve<IInterface2>();
         }
 
-- Once the configuration is loaded into containerInfo (an instance of **IoC.Configuration.DiContainerBuilder.IContainerInfo**), resolve types using property **DiContainer** in **IoC.Configuration.DiContainerBuilder.IContainerInfo** (the property is of type **IoC.Configuration.DiContainer.IDiContainer**).
-- Interface **IoC.Configuration.DiContainerBuilder.IContainerInfo** extends System.IDisposable.
+- Once the configuration is loaded into **containerInfo** variable of type **IoC.Configuration.DiContainerBuilder.IContainerInfo**, resolve types using property **DiContainer** in **IoC.Configuration.DiContainerBuilder.IContainerInfo** (the property is of type **IoC.Configuration.DiContainer.IDiContainer**).
+- Interface **IoC.Configuration.DiContainerBuilder.IContainerInfo** extends **System.IDisposable**.
 
-- Use one of the following overloaded methods in class **IoC.Configuration.DiContainerBuilder.DiContainerBuilder** to specify an instance of **IoC.Configuration.DiContainer.IDiManager**, that handles the type resolutions and translates the bindings in **IoC.Configuration** modules into native container bindings (e.g., Autofac and Ninject bindings). If the project references the library with implementation of IoC.Configuration.DiContainer.IDiManager, the first one can be used. Otherwise the second overloaded method can be used, in which case reflection will be used to create an instance of **IoC.Configuration.DiContainer.IDiManager**.
+- Use one of the following overloaded methods in class **IoC.Configuration.DiContainerBuilder.DiContainerBuilder** to specify an instance of **IoC.Configuration.DiContainer.IDiManager**, that handles the type resolutions and translates the bindings in **IoC.Configuration** modules into native container bindings (e.g., Autofac and Ninject bindings).
     - DiContainerBuilder.StartCodeBasedDi(IDiManager diManager, string entryAssemblyFolder, params string[] assemblyProbingPaths)
-    - DiContainerBuilder.StartCodeBasedDi(string diManagerClassFullName, string diManagerClassAssemblyFilePath, ParameterInfo[] diManagerConstructorParameters, string entryAssemblyFolder, params string[] assemblyProbingPaths)
+    - DiContainerBuilder.StartCodeBasedDi(string diManagerClassFullName, string diManagerClassAssemblyFilePath, ParameterInfo[] diManagerConstructorParameters, string entryAssemblyFolder, params string[] assemblyProbingPaths). This method is handy if the project does not reference the assembly with implementation of **IoC.Configuration.DiContainer.IDiManager**. **IoC.Configuration** will use refelction to load the type.
 
     .. note::
         Currently two implementations of **IoC.Configuration.DiContainer.IDiManager** are available: **IoC.Configuration.Autofac.AutofacDiManager** and **IoC.Configuration.Ninject.NinjectDiManager**. These implementations are available in Nuget packages `IoC.Configuration.Autofac <https://www.nuget.org/packages/IoC.Configuration.Autofac>`_ and `IoC.Configuration.Ninject <https://www.nuget.org/packages/IoC.Configuration.Ninject>`_
