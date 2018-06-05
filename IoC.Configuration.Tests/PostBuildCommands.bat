@@ -24,8 +24,8 @@ xcopy "%NugetPackagesDir%\autofac.extensions.dependencyinjection\4.0.0\lib\netst
 xcopy "%NugetPackagesDir%\oroptimizer.shared\1.0.0\lib\netstandard2.0\OROptimizer.Shared.*" %ThirdPartyLibsDir% /Y
 
 REM Copy IoC extensions
-xcopy "%NugetPackagesDir%\ioc.configuration.autofac\1.0.1\lib\netstandard2.0\IoC.Configuration.Autofac.*"  %DynamicDllsDir%\ContainerImplementations\Autofac /Y
-xcopy "%NugetPackagesDir%\ioc.configuration.ninject\1.0.1\lib\netstandard2.0\IoC.Configuration.Ninject.*"  %DynamicDllsDir%\ContainerImplementations\Ninject /Y
+xcopy "%NugetPackagesDir%\ioc.configuration.autofac\1.0.2\lib\netstandard2.0\IoC.Configuration.Autofac.*"  %DynamicDllsDir%\ContainerImplementations\Autofac /Y
+xcopy "%NugetPackagesDir%\ioc.configuration.ninject\1.0.2\lib\netstandard2.0\IoC.Configuration.Ninject.*"  %DynamicDllsDir%\ContainerImplementations\Ninject /Y
 
 REM xcopy "K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Autofac\bin\Debug\IoC.Configuration.Autofac.*"  %DynamicDllsDir%\ContainerImplementations\Autofac /Y
 REM xcopy "K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Ninject\bin\Debug\IoC.Configuration.Ninject.*"  %DynamicDllsDir%\ContainerImplementations\Ninject /Y
