@@ -15,16 +15,18 @@
 
   <PropertyGroup>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Company>OROptimizer</Company>
     <Authors>Artak Hakobyan</Authors>
-    <Description>An Autofac extension for IoC.Configuration.</Description>
+    <Description>An Autofac extension for IoC.Configuration.
+Detailed documentation on IoC.Configuration is available at http://iocconfiguration.readthedocs.io
+Look at http://iocconfiguration.readthedocs.io/</Description>
     <Copyright>Copyright 2018 (c) OROptimizer. All rights reserved.</Copyright>
     <PackageTags>IoC Configuration dependencyinjection inversion of control autofac ninject xml Autofac</PackageTags>
     <PackageLicenseUrl>https://opensource.org/licenses/mit-license.php</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/artakhak/IoC.Configuration</PackageProjectUrl>
+    <PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
     <RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
-    <PackageReleaseNotes>Referemcing IoC.Configuration 1.0.3 (instead of 1.0.1), after fixing a typo in folder IoC.Configuration.Content in IoC.Configuration.</PackageReleaseNotes>
+    <PackageReleaseNotes>Changed the project URL in package to point to http://iocconfiguration.readthedocs.io</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

@@ -62,8 +62,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{A34794
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{3ACBE6AD-995F-4935-B55A-7A4900BB2151}"
 	ProjectSection(SolutionItems) = preProject
+		docs\NuGet\IoC.Configuration.Autofac.Documentation.md = docs\NuGet\IoC.Configuration.Autofac.Documentation.md
 		docs\NuGet\IoC.Configuration.Description.md = docs\NuGet\IoC.Configuration.Description.md
 		docs\NuGet\IoC.Configuration.Documentation.md = docs\NuGet\IoC.Configuration.Documentation.md
+		docs\NuGet\IoC.Configuration.Ninject.Documentation.md = docs\NuGet\IoC.Configuration.Ninject.Documentation.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{C925815B-2EB4-4EF7-8979-0F20E15F9AFD}"

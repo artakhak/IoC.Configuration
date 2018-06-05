@@ -1,3 +1,6 @@
+## NOTE, the following is a very high level description of **IoC.Configuration**. For more details please refer to a more complete documentation at [http://iocconfiguration.readthedocs.io](http://iocconfiguration.readthedocs.io).
+***
+
 The main functions of IoC.Configuration library are:
 1)  Container agnostic configuration of dependency injection using XML configuration file. The file has section where container can be specified, that will be handling dependency injection resolutions.
 Currently two popular containers are supported, **Ninject** and **Autofac**, via extension libraries **IoC.Configuration.Ninject** and **IoC.Configuration.Autofac**, that are available in Nuget.org.
@@ -11,7 +14,6 @@ The bindings are specified using **IoC.Configuration** chained methods, however 
 
 ## Configuration
 Dependency injection can be configured either using file based or code based configuration builder.
-
 
 Bindings can be specified in three different ways:
 

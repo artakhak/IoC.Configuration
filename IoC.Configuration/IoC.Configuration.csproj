@@ -7,7 +7,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <PackageTags>IoC Configuration dependencyinjection inversion of control Autofac Ninject XML IoC.Configuration</PackageTags>
     <Authors>Artak Hakobyan</Authors>
     <Company>OROptimizer</Company>
@@ -24,10 +24,12 @@ In addition, the configuration file has sections for settings, plugins, startup 
 
 The bindings are specified using IoC.Configuration chained methods, however the actual resolutions are done using one of the popular dependency injection containers, Ninject and Autofac, via extension libraries IoC.Configuration.Ninject and IoC.Configuration.Autofac.</Description>
     <Copyright>Copyright 2018 (c) OROptimizer. All rights reserved.</Copyright>
-    <PackageReleaseNotes>Fixed some typos in code related to typos in a directory name  in previous version.</PackageReleaseNotes>
+    <PackageReleaseNotes>-Some documentation changes.
+-Minor improvements to handling of startup actions (startupActions element in configuration file)
+-Changed the Project URL in package to point to http://iocconfiguration.readthedocs.io</PackageReleaseNotes>
     <PackageLicenseUrl>https://opensource.org/licenses/mit-license.php</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
-    <PackageProjectUrl>https://github.com/artakhak/IoC.Configuration</PackageProjectUrl>
+    <PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
