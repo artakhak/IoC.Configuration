@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup Label="Globals">
     <SccProjectName>SAK</SccProjectName>
@@ -18,7 +18,7 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.5.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />
-    <PackageReference Include="IoC.Configuration" Version="1.0.4" />
+    <PackageReference Include="IoC.Configuration" Version="1.0.5" />
     <PackageReference Include="Ninject" Version="3.3.0" />
   </ItemGroup>
 

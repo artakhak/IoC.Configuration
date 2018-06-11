@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="IoC.Configuration" Version="1.0.4" />
+    <PackageReference Include="IoC.Configuration" Version="1.0.5" />
     <PackageReference Include="JetBrains.Annotations" Version="10.2.1" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="2.3.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
@@ -55,6 +55,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.4\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Template.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.5\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.5\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Template.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
