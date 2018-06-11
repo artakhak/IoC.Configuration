@@ -148,7 +148,6 @@ Here is the code for controller class **WebFileSystemApi.SmartXmlDocs.Controller
 
             // Register ASP.NET Core services with Autofac, however skip
             // the services, the full name of which starts with "WebFileSystemApi".
-            // Note, servicesToRegisterWithContainer is already filtered out.
             // Registering bindings of non-Microsoft services will be done in
             // IoC.Configuration file.
             autofacContainerBuilder.Populate(
