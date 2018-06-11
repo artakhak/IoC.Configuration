@@ -61,6 +61,7 @@ All these functionality will be explained in corresponding sections, however her
    xml-configuration-file/index.rst
    loading-ioc-configuration/index.rst
    resolving-types/index.rst
+   application-integration/index.rst
 
 Indices and tables
 ==================

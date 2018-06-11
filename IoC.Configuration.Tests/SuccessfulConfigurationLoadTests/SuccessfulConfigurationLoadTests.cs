@@ -69,12 +69,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             ValidateStartupActions(StartupActionState.StartCalled | StartupActionState.StopCalled);
             ValidatePluginsState(true);
         }
-
-        private static void TemporaryCodeForGitHubWiki()
-        {
-            TestsHelper.SetupLogger();
-        }
-
+      
         protected static void ClassInitializeCommon(DiImplementationType diImplementationType, Action<ConfigurationFileXmlDocumentLoadedEventArgs> configurationFileXmlDocumentLoadedEventHandler)
         {
             TestsHelper.SetupLogger();

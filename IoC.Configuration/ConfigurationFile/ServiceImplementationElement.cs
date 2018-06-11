@@ -66,6 +66,9 @@ namespace IoC.Configuration.ConfigurationFile
             if (!resolutionScopeParsed)
                 throw new ConfigurationParseException(this, $"Invalid value specified for resolution scope: '{resolutionScopeValue}'.");
 
+            if (!this.Enabled)
+                MessagesHelper.LogElementDisabledWarning(this, this.Assembly, true);
+
             //if (!_configuration.DiManagers.ActiveDiManagerElement.DiManager.SupportsResolutionScope(_resolutionScope))
             //    throw new ConfigurationParseException(this, $"DI container '{_configuration.DiManagers.ActiveDiManagerElement.DiManager.DiContainerName}' does not support a resolution scope '{resolutionScopeValue}'");
         }

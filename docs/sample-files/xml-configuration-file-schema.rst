@@ -264,8 +264,29 @@ To use Visual Studio code completion based on this schema, right click "Properti
                 </xs:complexType>
             </xs:element>
 
-
             <xs:element name="settings" type="valuesType">
+            </xs:element>
+
+            <xs:element name="controllerAssembly">
+                <xs:complexType>
+                    <xs:attribute name="assembly" type="xs:string" use="required" />
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="controllerAssemblies">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="controllerAssembly" minOccurs="0" maxOccurs="unbounded" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+
+            <xs:element name="webApi">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element ref="controllerAssemblies" minOccurs="0" maxOccurs="1" />
+                    </xs:sequence>
+                </xs:complexType>
             </xs:element>
 
             <xs:element name="settingsRequestor">
@@ -440,6 +461,7 @@ To use Visual Studio code completion based on this schema, right click "Properti
                     <xs:sequence>
                         <xs:element ref="pluginImplementation" minOccurs="1" maxOccurs="1" />
                         <xs:element ref="settings" minOccurs="1" maxOccurs="1" />
+                        <xs:element ref="webApi" minOccurs="0" maxOccurs="1" />
                         <xs:element ref="dependencyInjection" minOccurs="1" maxOccurs="1" />
                     </xs:sequence>
 
@@ -467,6 +489,7 @@ To use Visual Studio code completion based on this schema, right click "Properti
                         <xs:element ref="diManagers" minOccurs="1" maxOccurs="1" />
                         <xs:element ref="settingsRequestor" minOccurs="0" maxOccurs="1" />
                         <xs:element ref="settings" minOccurs="1" maxOccurs="1" />
+                        <xs:element ref="webApi" minOccurs="0" maxOccurs="1" />
                         <xs:element ref="dependencyInjection" minOccurs="1" maxOccurs="1" />
                         <xs:element ref="startupActions" minOccurs="1" maxOccurs="1" />
                         <xs:element ref="pluginsSetup" minOccurs="1" maxOccurs="1" />

@@ -127,7 +127,7 @@ namespace IoC.Configuration.ConfigurationFile
                     _isDiManagerInactive = true;
 
                     // If this is a native module, lets see if there is any non-active dependency manager module,
-                    // for ehich the type is correct.
+                    // for which the type is correct.
 
                     IDiManagerElement ownerDiManagerElement = null;
 

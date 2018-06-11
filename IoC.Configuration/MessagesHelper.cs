@@ -23,7 +23,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 using System;
+using System.Text;
+using IoC.Configuration.ConfigurationFile;
 using JetBrains.Annotations;
+using OROptimizer.Diagnostics.Log;
 
 namespace IoC.Configuration
 {
@@ -48,11 +51,36 @@ namespace IoC.Configuration
             return $"No implementation is provided for service '{serviceType.FullName}'.";
         }
 
+        [NotNull]
         public static string GetServiceImplmenentationTypeAssemblyBelongsToPluginMessage([NotNull] Type implementationType, [NotNull] string assemblyAlias, [NotNull] string pluginName)
         {
             return $"The settings requestor type '{implementationType.FullName}' is defined in assembly '{assemblyAlias}' which belongs to plugin '{pluginName}'. The assembly where the type is defined should not be associated with any plugin.";
         }
 
+        
+        public static void LogElementDisabledWarning([NotNull]IConfigurationFileElement configurationFileElement, [CanBeNull] IAssembly assembly, bool logInfo = false)
+        {
+            if (configurationFileElement.Enabled)
+                return;
+
+            // Lets see if this element is a child of PluginSetup element, in which case we do not want to log any warning
+            // since we already logged a warning for plugin is disabled.
+            if (configurationFileElement.GetParentPluginSetupElement() != null)
+                return;
+
+            var warning = new StringBuilder();
+            warning.AppendLine($"Element '{configurationFileElement.ToString()}' is disabled.");
+
+            var pluginElement = assembly?.Plugin ?? configurationFileElement.OwningPluginElement;
+
+            if (pluginElement != null && !pluginElement.Enabled)
+                warning.AppendLine($"   To enable this element enable the plugin '{pluginElement.Name}'.");
+
+            if (logInfo)
+                LogHelper.Context.Log.Info(warning.ToString());
+            else
+                LogHelper.Context.Log.Warn(warning.ToString());
+        }
         #endregion
     }
 }

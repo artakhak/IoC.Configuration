@@ -22,12 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
-using System;
-using System.IO;
-using System.Linq;
-using System.Xml;
 using IoC.Configuration.ConfigurationFile;
-using IoC.Configuration.DiContainer;
 using IoC.Configuration.DiContainerBuilder;
 using IoC.Configuration.OnApplicationStart;
 using IoC.Configuration.Tests.ConfigurationFileLoadFailureTests.TestClasses;
@@ -37,6 +32,10 @@ using OROptimizer;
 using OROptimizer.Serializer;
 using SharedServices.Implementations;
 using SharedServices.Interfaces;
+using System;
+using System.IO;
+using System.Linq;
+using System.Xml;
 using TestsSharedLibrary;
 using TestsSharedLibrary.Diagnostics.Log;
 
@@ -65,11 +64,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
                                      .RegisterModules()
                                      .Start();
         }
-
-        [TestCleanup]
-        public void TestCleanup()
-        {
-        }
+        
 
         [TestMethod]
         public void TestFailedLoad_additionalAssemblyProbingPaths_DuplicatePaths()

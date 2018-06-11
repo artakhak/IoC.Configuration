@@ -93,9 +93,28 @@ namespace IoC.Configuration.DiContainerBuilder
         /// <param name="entryAssemblyFolder">The entry assembly folder.</param>
         /// <param name="configurationFileXmlDocumentLoaded">The configuration file XML document loaded.</param>
         /// <returns></returns>
-        /// <exception cref="OROptimizer.Diagnostics.Log.LoggerWasNotInitializedException"></exception>
+        /// <exception cref="OROptimizer.Diagnostics.Log.LoggerWasNotInitializedException">Throws this exception.</exception>
         public IFileBasedDiContainerConfigurator StartFileBasedDi([NotNull] IConfigurationFileContentsProvider configurationFileContentsProvider,
                                                                   [NotNull] string entryAssemblyFolder,
+                                                                  [CanBeNull] ConfigurationFileXmlDocumentLoadedEventHandler configurationFileXmlDocumentLoaded = null)
+        {
+            return StartFileBasedDi(configurationFileContentsProvider, entryAssemblyFolder, out var loadedConfiguration, configurationFileXmlDocumentLoaded);
+        }
+
+        /// <summary>
+        /// Creates an instance of <see cref="IFileBasedDiContainerConfigurator"/> for file based dependency injection configuration.
+        /// </summary>
+        /// <param name="configurationFileContentsProvider">The configuration file contents provider.
+        /// An example implementation of <see cref="IConfigurationFileContentsProvider"/> implementation is <see cref="FileBasedConfigurationFileContentsProvider"/>
+        /// </param>
+        /// <param name="entryAssemblyFolder">The entry assembly folder.</param>
+        /// <param name="loadedConfiguration">Output parameter that returns an instance of <see cref="ConfigurationFile.IConfiguration"/>.</param>
+        /// <param name="configurationFileXmlDocumentLoaded">The configuration file XML document loaded.</param>
+        /// <returns></returns>
+        /// <exception cref="OROptimizer.Diagnostics.Log.LoggerWasNotInitializedException">Throws this exception.</exception>
+        public IFileBasedDiContainerConfigurator StartFileBasedDi([NotNull] IConfigurationFileContentsProvider configurationFileContentsProvider,
+                                                                  [NotNull] string entryAssemblyFolder,
+                                                                  out ConfigurationFile.IConfiguration loadedConfiguration,
                                                                   [CanBeNull] ConfigurationFileXmlDocumentLoadedEventHandler configurationFileXmlDocumentLoaded = null)
         {
             if (!LogHelper.IsContextInitialized)
@@ -103,6 +122,7 @@ namespace IoC.Configuration.DiContainerBuilder
 
             var configuration = new FileBasedConfiguration(configurationFileContentsProvider, entryAssemblyFolder, configurationFileXmlDocumentLoaded);
             configuration.Init();
+            loadedConfiguration = configuration.Configuration;
             return new FileBasedDiContainerConfigurator(configuration);
         }
     }

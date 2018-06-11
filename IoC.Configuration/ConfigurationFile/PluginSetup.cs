@@ -58,6 +58,10 @@ namespace IoC.Configuration.ConfigurationFile
             {
                 SettingsElement = (ISettingsElement) child;
             }
+            else if (child is IWebApi)
+            {
+                WebApi = (IWebApi)child;
+            }
             else if (child is IDependencyInjection)
             {
                 DependencyInjection = (IDependencyInjection) child;
@@ -84,6 +88,8 @@ namespace IoC.Configuration.ConfigurationFile
         public IPluginElement Plugin { get; private set; }
         public IPluginImplementationElement PluginImplementationElement { get; private set; }
         public ISettingsElement SettingsElement { get; private set; }
+
+        public IWebApi WebApi { get; private set; }
 
         public override void ValidateAfterChildrenAdded()
         {

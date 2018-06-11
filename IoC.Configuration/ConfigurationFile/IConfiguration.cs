@@ -44,7 +44,7 @@ namespace IoC.Configuration.ConfigurationFile
 
         [NotNull]
         IDiManagersElement DiManagers { get; }
-
+         
         [NotNull]
         IParameterSerializers ParameterSerializers { get; }
 
@@ -58,6 +58,9 @@ namespace IoC.Configuration.ConfigurationFile
 
         [CanBeNull]
         ISettingsElement SettingsElement { get; }
+
+        [CanBeNull]
+        IWebApi WebApi { get; }
 
         [CanBeNull]
         ISettingsRequestorImplementationElement SettingsRequestor { get; }

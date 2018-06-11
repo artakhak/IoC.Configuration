@@ -186,6 +186,21 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
             <string name="DisplayValue" value="Some display value" />
         </settings>
 
+        <!--
+        webApi is an optional element that contains ASP.NET Core related
+        sections such as assemblies with API controllers, etc
+        -->
+        <webApi>
+            <controllerAssemblies>
+            	<!--
+            	Specify assemblies with API controllers.
+            	The user of IoC.Configuration should add the assemblies to MVC using
+            	IMvcBuilder.AddApplicationPart(System.Reflection.Assembly)
+            	-->
+            	<controllerAssembly assembly="dynamic1"></controllerAssembly>
+            </controllerAssemblies>
+        </webApi>
+
         <dependencyInjection>
             <modules>
                 <module type="IoC.Configuration.Tests.PrimitiveTypeDefaultBindingsModule"
@@ -586,6 +601,16 @@ IoCConfiguration1.xml file from `IoC.Configuration.Tests <https://github.com/art
                     <int64 name="Int64Setting1" value="38" />
                     <string name="StringSetting1" value="String Value 1" />
                 </settings>
+                <webApi>
+                    <controllerAssemblies>
+                        <!--
+                          Specify assemblies with API controllers.
+                          The user of IoC.Configuration should add the assemblies to MVC using
+                          IMvcBuilder.AddApplicationPart(System.Reflection.Assembly)
+                        -->
+                        <controllerAssembly assembly="pluginassm1"></controllerAssembly>
+                    </controllerAssemblies>
+                </webApi>
                 <dependencyInjection>
                     <modules>
                         <module type="ModulesForPlugin1.Ninject.NinjectModule1"

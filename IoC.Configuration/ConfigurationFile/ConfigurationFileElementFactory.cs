@@ -129,6 +129,18 @@ namespace IoC.Configuration.ConfigurationFile
                         configurationFileElement = new PluginSettingsElement(xmlElement, parentConfigurationFileElement);
                     break;
 
+                case ConfigurationFileElementNames.WebApi:
+                    configurationFileElement = new WebApi(xmlElement, parentConfigurationFileElement);
+                    break;
+
+                case ConfigurationFileElementNames.ControllerAssemblies:
+                    configurationFileElement = new WebApiControllerAssemblies(xmlElement, parentConfigurationFileElement);
+                    break;
+
+                case ConfigurationFileElementNames.ControllerAssembly:
+                    configurationFileElement = new WebApiControllerAssembly(xmlElement, parentConfigurationFileElement, _assemblyLocator);
+                    break;
+
                 case ConfigurationFileElementNames.ValueByte:
                 case ConfigurationFileElementNames.ValueInt16:
                 case ConfigurationFileElementNames.ValueInt32:

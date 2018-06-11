@@ -44,9 +44,9 @@ namespace IoC.Configuration.ConfigurationFile
             base.AddChild(child);
 
             if (child is IApplicationDataDirectory)
-                ApplicationDataDirectory = (IApplicationDataDirectory) child;
+                ApplicationDataDirectory = (IApplicationDataDirectory)child;
             else if (child is IPlugins)
-                Plugins = (IPlugins) child;
+                Plugins = (IPlugins)child;
             else if (child is IAdditionalAssemblyProbingPaths)
                 AdditionalAssemblyProbingPaths = (IAdditionalAssemblyProbingPaths) child;
             else if (child is IAssemblies)
@@ -57,6 +57,8 @@ namespace IoC.Configuration.ConfigurationFile
                 DiManagers = (IDiManagersElement) child;
             else if (child is ISettingsElement)
                 SettingsElement = (ISettingsElement) child;
+            else if (child is IWebApi)
+                WebApi = (IWebApi)child;
             else if (child is IDependencyInjection)
                 DependencyInjection = (IDependencyInjection) child;
             else if (child is ISettingsRequestorImplementationElement)
@@ -70,7 +72,6 @@ namespace IoC.Configuration.ConfigurationFile
         public IAdditionalAssemblyProbingPaths AdditionalAssemblyProbingPaths { get; private set; }
         public IApplicationDataDirectory ApplicationDataDirectory { get; private set; }
         public IAssemblies Assemblies { get; private set; }
-
         public IDependencyInjection DependencyInjection { get; private set; }
         public IDiManagersElement DiManagers { get; private set; }
         public IParameterSerializers ParameterSerializers { get; private set; }
@@ -84,6 +85,7 @@ namespace IoC.Configuration.ConfigurationFile
         }
 
         public ISettingsElement SettingsElement { get; private set; }
+        public IWebApi WebApi { get; private set; }
         public ISettingsRequestorImplementationElement SettingsRequestor { get; private set; }
         public IStartupActionsElement StartupActions { get; private set; }
 

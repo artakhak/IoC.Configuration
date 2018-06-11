@@ -117,20 +117,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 
         private void AddFileConfigurationElements(XmlNode xmlNode, IConfigurationFileElement parentElement)
         {
-            Action<IConfigurationFileElement> logDisabledWarningText = configurationFileElement =>
-            {
-                if (!(LogHelper.Context.Log.IsWarnEnabled || LogHelper.Context.Log.IsFatalEnabled))
-                    return;
-
-                var warning = new StringBuilder();
-                warning.AppendFormat("Element '{0}' is disabled. The element is disabled either because the value of '{1}' attribute is false for the element or one of its parent, or because one of the elements referenced by the element '{0}' via attributes is disabled.",
-                    configurationFileElement.ElementName, ConfigurationFileAttributeNames.Enabled);
-                warning.AppendLine();
-                warning.AppendLine($"   Disabled element details: {configurationFileElement.XmlElementToString()}.");
-
-                LogHelper.Context.Log.WarnFormat(warning.ToString());
-            };
-
             foreach (var childXmlNode in xmlNode.ChildNodes)
             {
                 var childXmlElement = childXmlNode as XmlElement;
@@ -143,13 +129,8 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                 var childElement = _configurationFileElementFactory.CreateConfigurationFileElement(childXmlElement, parentElement);
 
                 var isEnabled = childElement.Enabled;
-                if (!isEnabled)
-                    logDisabledWarningText(childElement);
 
                 AddFileConfigurationElements(childXmlElement, childElement);
-
-                if (!childElement.Enabled && isEnabled)
-                    logDisabledWarningText(childElement);
 
                 LogHelper.Context.Log.DebugFormat("Adding element '{0}' to parent '{1}'.", childElement.ElementName, parentElement.ElementName);
                 parentElement.AddChild(childElement);

@@ -52,7 +52,7 @@ namespace IoC.Configuration.ConfigurationFile
             Parent = parent;
 
             if (parent == null)
-                _configuration = (IConfiguration) this;
+                _configuration = (IConfiguration)this;
             else
                 _configuration = parent.Configuration;
         }
@@ -111,6 +111,25 @@ namespace IoC.Configuration.ConfigurationFile
         }
 
         public virtual IPluginElement OwningPluginElement => Parent?.OwningPluginElement;
+
+        [CanBeNull]
+        public IPluginSetup GetParentPluginSetupElement()
+        {
+            if (this is IConfiguration)
+                return null;
+
+            var parent = this.Parent;
+
+            while (!(parent is IConfiguration))
+            {
+                if (parent is IPluginSetup pluginSetup)
+                    return pluginSetup;
+
+                parent = parent.Parent;
+            }
+
+            return null;
+        }
 
         public virtual void ValidateAfterChildrenAdded()
         {

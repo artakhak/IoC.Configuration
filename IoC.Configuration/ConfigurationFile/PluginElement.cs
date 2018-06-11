@@ -76,7 +76,7 @@ namespace IoC.Configuration.ConfigurationFile
             }
             else
             {
-                LogHelper.Context.Log.WarnFormat("Plugin '{0}' is disabled. All configuration items that use this plugin will be ignored. This among others included assemblies, types in assemblies, settings, dependency injection configurations, etc.", Name);
+                LogHelper.Context.Log.WarnFormat("Plugin '{0}' is disabled. All configuration items that use this plugin will be ignored. This among others includes assemblies, types in assemblies, settings, dependency injection configurations, etc.", Name);
             }
         }
 

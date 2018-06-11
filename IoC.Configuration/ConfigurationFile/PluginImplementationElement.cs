@@ -45,8 +45,10 @@ namespace IoC.Configuration.ConfigurationFile
             base.Initialize();
 
             if (Enabled)
+            {
                 if (Assembly.Plugin != OwningPluginElement)
                     throw new ConfigurationParseException(this, $"The plugin implementation type '{ImplementationType.FullName}' is defined in an assembly '{Assembly.Alias}' which does not belong to plugin '{OwningPluginElement.Name}'.");
+            }
         }
 
         #endregion

@@ -61,6 +61,11 @@ namespace IoC.Configuration.ConfigurationFile
 
         public const string Services = "services";
         public const string Settings = "settings";
+
+        public const string WebApi = "webApi";
+        public const string ControllerAssemblies = "controllerAssemblies";
+        public const string ControllerAssembly = "controllerAssembly";
+
         public const string SettingsRequestor = "settingsRequestor";
         public const string StartupAction = "startupAction";
 

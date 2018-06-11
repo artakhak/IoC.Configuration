@@ -67,6 +67,9 @@ namespace IoC.Configuration.ConfigurationFile
         IPluginElement OwningPluginElement { get; }
 
         [CanBeNull]
+        IPluginSetup GetParentPluginSetupElement();
+
+        [CanBeNull]
         IConfigurationFileElement Parent { get; }
 
         /// <summary>

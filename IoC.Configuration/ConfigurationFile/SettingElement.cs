@@ -46,6 +46,25 @@ namespace IoC.Configuration.ConfigurationFile
         {
             base.Initialize();
 
+            var assemblyAttributeValue = GetAttributeValue(ConfigurationFileAttributeNames.Assembly)?.Trim();
+            
+            if (!string.IsNullOrEmpty(assemblyAttributeValue))
+            {
+                var assemblySetting = Helpers.GetAssemblySettingByAssemblyAlias(this, assemblyAttributeValue);
+
+                var parentPluginSetupElement = this.GetParentPluginSetupElement();
+
+                if (parentPluginSetupElement == null)
+                {
+                    if (assemblySetting.OwningPluginElement != null)
+                        throw new ConfigurationParseException(this, $"Assembly '{assemblySetting.Alias}' belongs to plugin  '{assemblySetting.OwningPluginElement.Name}' and cannot be used in general settings.");
+                }
+                else if (assemblySetting.OwningPluginElement != null && assemblySetting.OwningPluginElement != parentPluginSetupElement.Plugin)
+                {
+                    throw new ConfigurationParseException(this, $"Assembly '{assemblySetting.Alias}' belongs to plugin  '{assemblySetting.OwningPluginElement.Name}' and cannot be used in settings for plugin '{parentPluginSetupElement.Plugin.Name}'.");
+                }
+            }
+
             if (ValueInstantiationType == ValueInstantiationType.ResolveFromDiContext)
                 throw new ConfigurationParseException(this, $"Settings cannot use '{ConfigurationFileElementNames.ValueInjectedObject}' element.");
         }

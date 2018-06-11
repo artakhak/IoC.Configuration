@@ -63,6 +63,8 @@ namespace IoC.Configuration.ConfigurationFile
 
             if (Enabled)
                 ReturnedType = Helpers.GetTypeInAssembly(_assemblyLocator, this, _assemblySetting, serviceTypeName);
+            else
+                MessagesHelper.LogElementDisabledWarning(this, _assemblySetting, true);
         }
 
         public Type ReturnedType { get; private set; }

@@ -82,10 +82,12 @@ namespace IoC.Configuration.ConfigurationFile
             _assemblySetting = Helpers.GetAssemblySettingByAssemblyAlias(this, this.GetAttributeValue<string>(ConfigurationFileAttributeNames.Assembly));
 
             if (!Enabled && ShouldBeEnabled)
-                throw new ConfigurationParseException(this, $"The element '{ElementName}' is disabled. Either make sure the assembly '{_assemblySetting}' is enabled, or delete this element.");
+                throw new ConfigurationParseException(this, $"The element '{this.ToString()}' is disabled. Either make sure the assembly '{_assemblySetting}' is enabled, or delete this element.");
         }
 
         protected TInstantiatedType Instance { get; private set; }
+
+        protected IAssembly AssemblySetting => _assemblySetting;
 
         public override void ValidateAfterChildrenAdded()
         {
@@ -103,7 +105,6 @@ namespace IoC.Configuration.ConfigurationFile
                     throw new ConfigurationParseException(this, errorMessage);
 
                 Instance = (TInstantiatedType)instance;
-                
             }
         }
 

@@ -32,7 +32,7 @@ namespace IoC.Configuration.ConfigurationFile
         IPluginElement Plugin { get; }
         IPluginImplementationElement PluginImplementationElement { get; }
         ISettingsElement SettingsElement { get; }
-
+        IWebApi WebApi { get; }
         #endregion
     }
 }

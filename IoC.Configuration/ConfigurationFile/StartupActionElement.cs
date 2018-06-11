@@ -46,9 +46,15 @@ namespace IoC.Configuration.ConfigurationFile
             base.Initialize();
 
             if (Enabled)
+            {
                 if (Assembly.Plugin != null)
                     throw new ConfigurationParseException(this,
                         MessagesHelper.GetServiceImplmenentationTypeAssemblyBelongsToPluginMessage(ImplementationType, Assembly.Alias, Assembly.Plugin.Name));
+            }
+            else
+            {
+                MessagesHelper.LogElementDisabledWarning(this, Assembly);
+            }
         }
 
         #endregion

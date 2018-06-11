@@ -73,10 +73,22 @@ namespace IoC.Configuration.ConfigurationFile
 
                 var assemblySetting = Helpers.GetAssemblySettingByAssemblyAlias(this, this.GetAttributeValue<string>(ConfigurationFileAttributeNames.Assembly));
 
+                var parentPluginSetupElement = this.GetParentPluginSetupElement();
+
+                // Disable using one plugin in  another
+                if (parentPluginSetupElement != null && 
+                    assemblySetting.OwningPluginElement != null && assemblySetting.OwningPluginElement != parentPluginSetupElement.Plugin)
+                    throw new ConfigurationParseException(this, $"Assembly '{assemblySetting.Alias}' belongs to plugin  '{assemblySetting.OwningPluginElement.Name}' and cannot be used in plugin '{parentPluginSetupElement.Plugin.Name}'.");
+
                 if (assemblySetting.Enabled)
+                {
                     ValueType = Helpers.GetTypeInAssembly(_assemblyLocator, this, assemblySetting, this.GetAttributeValue<string>(ConfigurationFileAttributeNames.Type));
-                else if (Parent?.Enabled ?? false)
+                }
+                else if (Parent?.Enabled ?? false && (parentPluginSetupElement == null || parentPluginSetupElement.Enabled))
+                {
+                    // Do not fail if the parameter is under disabled plugin is disabled.
                     throw new ConfigurationParseException(this, $"The referenced assembly with alias '{assemblySetting.Alias}' is disabled.");
+                }
 
                 if (_xmlElement.Name.Equals(ConfigurationFileElementNames.ValueInjectedObject, StringComparison.OrdinalIgnoreCase))
                     ValueInstantiationType = ValueInstantiationType.ResolveFromDiContext;
