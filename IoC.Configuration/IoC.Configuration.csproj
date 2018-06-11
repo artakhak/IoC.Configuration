@@ -24,10 +24,13 @@ In addition, the configuration file has sections for settings, plugins, startup 
 
 The bindings are specified using IoC.Configuration chained methods, however the actual resolutions are done using one of the popular dependency injection containers, Ninject and Autofac, via extension libraries IoC.Configuration.Ninject and IoC.Configuration.Autofac.</Description>
     <Copyright>Copyright 2018 (c) OROptimizer. All rights reserved.</Copyright>
-    <PackageReleaseNotes>-Added a new element in webApi to list ASP.NET Core assemblies with controllers. See http://iocconfiguration.readthedocs.io/en/latest/application-integration/index.rst for details on integration of IoC.Configuration with ASP.NET Core.
--Modified the schema file IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd to support this new element.
--Some improvements to logging (got rid off some unnecessary warnings).
--Made sure that types in plugin assemblies cannot be used in general settings and one or two more similar validations.</PackageReleaseNotes>
+    <PackageReleaseNotes>1)Added a new element in webApi to list ASP.NET Core assemblies with controllers. See http://iocconfiguration.readthedocs.io/en/latest/application-integration/asp-net-core.html for details on integration of IoC.Configuration with ASP.NET Core.
+
+2)Modified the schema file IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd to support this new element.
+
+3)Some improvements to logging (got rid off some unnecessary warnings).
+
+4)Made sure that types in plugin assemblies cannot be used in general settings and one or two more similar validations.</PackageReleaseNotes>
     <PackageLicenseUrl>https://opensource.org/licenses/mit-license.php</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
     <PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
@@ -66,7 +69,9 @@ The bindings are specified using IoC.Configuration chained methods, however the 
     <Content Include="IoC.Configuration.Content\IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="IoC.Configuration.Content\IoC.Configuration.Template.xml" />
+    <Content Include="IoC.Configuration.Content\IoC.Configuration.Template.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
