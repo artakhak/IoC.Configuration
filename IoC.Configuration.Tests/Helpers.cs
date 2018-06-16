@@ -26,6 +26,7 @@ using System;
 using System.IO;
 using System.Xml;
 using IoC.Configuration.ConfigurationFile;
+using TestsSharedLibrary.DependencyInjection;
 
 namespace IoC.Configuration.Tests
 {

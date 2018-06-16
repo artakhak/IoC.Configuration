@@ -23,6 +23,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TestsSharedLibrary.DependencyInjection;
 
 namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
 {

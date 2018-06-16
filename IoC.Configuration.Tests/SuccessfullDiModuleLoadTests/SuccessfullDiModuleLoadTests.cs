@@ -30,6 +30,7 @@ using IoC.Configuration.Tests.SuccessfullDiModuleLoadTests.TestClasses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OROptimizer;
 using TestsSharedLibrary;
+using TestsSharedLibrary.DependencyInjection;
 using TestsSharedLibrary.Diagnostics.Log;
 
 namespace IoC.Configuration.Tests.SuccessfullDiModuleLoadTests

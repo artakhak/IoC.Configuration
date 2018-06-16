@@ -1,11 +1,10 @@
 ﻿using IoC.Configuration.Tests.SuccessfullDiModuleLoadTests;
+using IoC.Configuration.Tests.SuccessfullDiModuleLoadTests.TestClasses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OROptimizer;
 using System.IO;
-using IoC.Configuration.DiContainer;
-using IoC.Configuration.Tests.SuccessfullDiModuleLoadTests.TestClasses;
 using TestsSharedLibrary;
-using TestsSharedLibrary.Diagnostics.Log;
+using TestsSharedLibrary.DependencyInjection;
 
 namespace IoC.Configuration.Tests.DocumentationTests
 {

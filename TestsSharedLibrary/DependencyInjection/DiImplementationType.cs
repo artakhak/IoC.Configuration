@@ -22,44 +22,11 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
-using JetBrains.Annotations;
-
-namespace IoC.Configuration.Tests
+namespace TestsSharedLibrary.DependencyInjection
 {
-    public class DiImplementationInfo
+    public enum DiImplementationType
     {
-        #region  Constructors
-
-        public DiImplementationInfo(DiImplementationType diImplementationType, [NotNull] string diManagerFolder,
-                                    [NotNull] string diManagerAssemblyPath,
-                                    [NotNull] string diManagerClassName,
-                                    [NotNull] string diContainerClassName)
-        {
-            DiImplementationType = diImplementationType;
-            DiManagerFolder = diManagerFolder;
-            DiManagerAssemblyPath = diManagerAssemblyPath;
-            DiManagerClassName = diManagerClassName;
-            DiContainerClassName = diContainerClassName;
-        }
-
-        #endregion
-
-        #region Member Functions
-
-        [NotNull]
-        public string DiContainerClassName { get; }
-
-        public DiImplementationType DiImplementationType { get; }
-
-        [NotNull]
-        public string DiManagerAssemblyPath { get; }
-
-        [NotNull]
-        public string DiManagerClassName { get; }
-
-        [NotNull]
-        public string DiManagerFolder { get; }
-
-        #endregion
+        Autofac,
+        Ninject
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OROptimizer;
 using TestsSharedLibrary.Diagnostics.Log;
 using System.Linq;
+using TestsSharedLibrary.DependencyInjection;
 
 namespace IoC.Configuration.Tests.DocumentationTests
 {

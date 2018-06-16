@@ -38,6 +38,7 @@ using OROptimizer.Diagnostics.Log;
 using SharedServices.Implementations;
 using SharedServices.Interfaces;
 using TestsSharedLibrary;
+using TestsSharedLibrary.DependencyInjection;
 
 namespace IoC.Configuration.Tests.DiContainerBuilderTests
 {

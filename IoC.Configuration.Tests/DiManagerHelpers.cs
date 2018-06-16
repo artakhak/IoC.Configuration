@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using JetBrains.Annotations;
+using TestsSharedLibrary.DependencyInjection;
 
 namespace IoC.Configuration.Tests
 {

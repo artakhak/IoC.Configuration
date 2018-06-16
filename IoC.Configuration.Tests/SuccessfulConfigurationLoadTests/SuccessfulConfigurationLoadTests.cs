@@ -38,6 +38,7 @@ using SharedServices;
 using SharedServices.Implementations;
 using SharedServices.Interfaces;
 using TestsSharedLibrary;
+using TestsSharedLibrary.DependencyInjection;
 using TestsSharedLibrary.Diagnostics.Log;
 
 namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
