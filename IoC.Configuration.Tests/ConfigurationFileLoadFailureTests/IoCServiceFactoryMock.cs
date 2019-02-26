@@ -44,17 +44,24 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
         /// <summary>
         ///     If the value is not set, default type generate will be used.
         /// </summary>
+
+#pragma warning disable CS0612, CS0618
         [CanBeNull]
         private TypesListFactoryTypeGeneratorMock _typesListFactoryTypeGeneratorMock;
 
+        [NotNull]
         private readonly TypesListFactoryTypeGeneratorMock.ValidationFailureMethod _typesListFactoryValidationFailureMethod;
+#pragma warning restore CS0612, CS0618
 
         #endregion
 
         #region  Constructors
 
         public IoCServiceFactoryMock([NotNull] IIoCServiceFactory ioCServiceFactory,
-                                     TypesListFactoryTypeGeneratorMock.ValidationFailureMethod typesListFactoryValidationFailureMethod)
+#pragma warning disable CS0612, CS0618
+                                     TypesListFactoryTypeGeneratorMock.ValidationFailureMethod typesListFactoryValidationFailureMethod
+#pragma warning restore CS0612, CS0618
+                                     )
         {
             _ioCServiceFactory = ioCServiceFactory;
             _typesListFactoryValidationFailureMethod = typesListFactoryValidationFailureMethod;
@@ -64,6 +71,21 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
 
         #region IIoCServiceFactory Interface Implementation
 
+        /// <summary>
+        /// Creates the type helper.
+        /// </summary>
+        /// <param name="assemblyLocator">The assembly locator.</param>
+        /// <returns></returns>
+        public ITypeHelper CreateTypeHelper(IAssemblyLocator assemblyLocator) =>
+            _ioCServiceFactory.CreateTypeHelper(assemblyLocator);
+
+        /// <summary>
+        /// Creates the type helper.
+        /// </summary>
+        /// <param name="assemblyLocator">The assembly locator.</param>
+        /// <returns></returns>
+        
+
         public IAssemblyLocator CreateAssemblyLocator(Func<IConfiguration> getConfugurationFunc, string entryAssemblyFolder)
         {
             if (_assemblyLocatorMock == null)
@@ -71,8 +93,9 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
 
             return _assemblyLocatorMock;
         }
-
-        public ITypesListFactoryTypeGenerator CreateTypesListFactoryTypeGenerator(ITypeBasedSimpleSerializerAggregator typeBasedSimpleSerializerAggregator)
+      
+        [Obsolete]
+        ITypesListFactoryTypeGenerator IIoCServiceFactory.CreateTypesListFactoryTypeGenerator(ITypeBasedSimpleSerializerAggregator typeBasedSimpleSerializerAggregator)
         {
             if (_typesListFactoryTypeGeneratorMock == null)
                 _typesListFactoryTypeGeneratorMock = new TypesListFactoryTypeGeneratorMock(
@@ -85,6 +108,26 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
         {
             return _ioCServiceFactory.GetProhibitedServiceTypesInServicesElementChecker();
         }
+       
+        public IImplementedTypeValidator ImplementedTypeValidator => _ioCServiceFactory.ImplementedTypeValidator;
+
+        public IInjectedPropertiesValidator InjectedPropertiesValidator => _ioCServiceFactory.InjectedPropertiesValidator;
+        public ICreateInstanceFromTypeAndConstructorParameters CreateInstanceFromTypeAndConstructorParameters => _ioCServiceFactory.CreateInstanceFromTypeAndConstructorParameters;
+        public IIdentifierValidator IdentifierValidator => _ioCServiceFactory.IdentifierValidator;
+        public IPluginAssemblyTypeUsageValidator PluginAssemblyTypeUsageValidator => _ioCServiceFactory.PluginAssemblyTypeUsageValidator;
+        public ISettingValueInitializerHelper SettingValueInitializerHelper => _ioCServiceFactory.SettingValueInitializerHelper;
+        public IDeserializedFromStringValueInitializerHelper CreateDeserializedFromStringValueInitializerHelper(ITypeBasedSimpleSerializerAggregator typeBasedSimpleSerializerAggregator)
+        {
+            return _ioCServiceFactory.CreateDeserializedFromStringValueInitializerHelper(typeBasedSimpleSerializerAggregator);
+        }
+
+        public IClassMemberValueInitializerHelper CreateClassMemberValueInitializerHelper(ITypeHelper typeHelper)
+        {
+            return _ioCServiceFactory.CreateClassMemberValueInitializerHelper(typeHelper);
+        }
+
+        public ITypeMemberLookupHelper TypeMemberLookupHelper => _ioCServiceFactory.TypeMemberLookupHelper;
+        public IValidateServiceUsageInPlugin ValidateServiceUsageInPlugin => _ioCServiceFactory.ValidateServiceUsageInPlugin;
 
         #endregion
 

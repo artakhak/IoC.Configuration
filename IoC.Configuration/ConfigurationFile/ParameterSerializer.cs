@@ -33,7 +33,9 @@ namespace IoC.Configuration.ConfigurationFile
     {
         #region  Constructors
 
-        public ParameterSerializer([NotNull] XmlElement xmlElement, [NotNull] IConfigurationFileElement parent, [NotNull] IAssemblyLocator assemblyLocator) : base(xmlElement, parent, assemblyLocator)
+        public ParameterSerializer([NotNull] XmlElement xmlElement, [NotNull] IConfigurationFileElement parent, [NotNull] ITypeHelper typeHelper,
+                                   [NotNull] ICreateInstanceFromTypeAndConstructorParameters createInstanceFromTypeAndConstructorParameters) :
+            base(xmlElement, parent, typeHelper, createInstanceFromTypeAndConstructorParameters)
         {
         }
 
@@ -41,21 +43,7 @@ namespace IoC.Configuration.ConfigurationFile
 
         #region IParameterSerializer Interface Implementation
 
-        public override void Initialize()
-        {
-            base.Initialize();
-
-            if (!Enabled)
-                MessagesHelper.LogElementDisabledWarning(this, AssemblySetting);
-        }
-
         public ITypeBasedSimpleSerializer Serializer => Instance;
-
-        #endregion
-
-        #region Member Functions
-
-        protected override bool ShouldBeEnabled => false;
 
         #endregion
     }

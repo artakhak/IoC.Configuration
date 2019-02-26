@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using System.Xml;
@@ -32,6 +33,10 @@ namespace IoC.Configuration.ConfigurationFile
     public class ModulesElement : ConfigurationFileElementAbstr, IModulesElement
     {
         #region Member Variables
+
+        [NotNull]
+        [ItemNotNull]
+        private readonly LinkedList<IModuleElement> _allModuleElements = new LinkedList<IModuleElement>();
 
         [NotNull]
         private readonly Dictionary<Type, IModuleElement> _moduleTypeToModuleSetting = new Dictionary<Type, IModuleElement>();
@@ -52,23 +57,19 @@ namespace IoC.Configuration.ConfigurationFile
         {
             base.AddChild(child);
 
-            if (child is IModuleElement)
+            if (child is IModuleElement moduleElement && moduleElement.DiModule != null)
             {
-                var moduleElement = (IModuleElement) child;
+                var moduleType = moduleElement.DiModule.GetType();
 
-                if (moduleElement.Enabled && moduleElement.DiModule != null)
-                {
-                    var moduleType = moduleElement.DiModule.GetType();
+                if (_moduleTypeToModuleSetting.ContainsKey(moduleType))
+                    throw new ConfigurationParseException(moduleElement, $"Multiple occurrences of dependency injection module '{moduleType.FullName}'.", this);
 
-                    if (_moduleTypeToModuleSetting.ContainsKey(moduleType))
-                        throw new ConfigurationParseException(moduleElement, $"Multiple occurrences of dependency injection module '{moduleType.FullName}'.", this);
-
-                    _moduleTypeToModuleSetting[moduleType] = moduleElement;
-                }
+                _moduleTypeToModuleSetting[moduleType] = moduleElement;
+                _allModuleElements.AddLast(moduleElement);
             }
         }
 
-        public IEnumerable<IModuleElement> Modules => _moduleTypeToModuleSetting.Values;
+        public IEnumerable<IModuleElement> Modules => _allModuleElements;
 
         #endregion
     }

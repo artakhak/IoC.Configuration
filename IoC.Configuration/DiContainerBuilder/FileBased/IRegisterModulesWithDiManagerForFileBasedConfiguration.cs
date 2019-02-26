@@ -22,15 +22,17 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 namespace IoC.Configuration.DiContainerBuilder.FileBased
 {
     public interface IRegisterModulesWithDiManagerForFileBasedConfiguration
     {
         #region Current Type Interface
+
         /// <summary>
-        /// Registers the modules.
+        ///     Registers the modules.
         /// </summary>
-        /// <returns>returns an instance of <see cref="IFileBasedContainerStarter"/>.</returns>
+        /// <returns>returns an instance of <see cref="IFileBasedContainerStarter" />.</returns>
         IFileBasedContainerStarter RegisterModules();
 
         #endregion

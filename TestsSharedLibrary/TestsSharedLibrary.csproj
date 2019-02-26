@@ -12,9 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IoC.Configuration" Version="1.0.5" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="2.3.2" />
+    <PackageReference Include="OROptimizer.Shared" Version="2.0.0" />
     <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
-    <PackageReference Include="OROptimizer.Shared" Version="1.0.0" />
+    <!--<PackageReference Include="OROptimizer.Shared" Version="1.0.0" />-->
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
   </ItemGroup>
 </Project>

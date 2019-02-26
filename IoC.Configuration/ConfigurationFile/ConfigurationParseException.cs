@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using JetBrains.Annotations;
 
@@ -31,14 +32,17 @@ namespace IoC.Configuration.ConfigurationFile
     {
         #region  Constructors
 
-        public ConfigurationParseException([NotNull] IConfigurationFileElement configurationFileElement, [NotNull] string message, IConfigurationFileElement parentElement = null) : base(configurationFileElement.GenerateElementError(message, parentElement))
+        public ConfigurationParseException([NotNull] IConfigurationFileElement configurationFileElement, [NotNull] string originalMessage, IConfigurationFileElement parentElement = null, bool generateErrorLocationData = true) :
+            base(generateErrorLocationData ? ErrorHelperAmbientContext.Context.GenerateElementError(configurationFileElement, originalMessage, parentElement) : originalMessage)
         {
             ConfigurationFileElement = configurationFileElement;
             ParentConfigurationFileElement = parentElement;
+            OriginalMessage = originalMessage;
         }
 
-        public ConfigurationParseException([NotNull] string message) : base(message)
+        public ConfigurationParseException([NotNull] string originalMessage) : base(originalMessage)
         {
+            OriginalMessage = originalMessage;
         }
 
         #endregion
@@ -47,6 +51,8 @@ namespace IoC.Configuration.ConfigurationFile
 
         [CanBeNull]
         public IConfigurationFileElement ConfigurationFileElement { get; }
+
+        public string OriginalMessage { get; }
 
         [CanBeNull]
         public IConfigurationFileElement ParentConfigurationFileElement { get; }

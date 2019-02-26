@@ -13,10 +13,19 @@
 
   <PropertyGroup>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <RootNamespace>SharedServices</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IoC.Configuration" Version="1.0.5" />
+    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClassesUsedInDepricatedClassTests\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OROptimizer.Shared" Version="2.0.0" />
   </ItemGroup>
 
 </Project>

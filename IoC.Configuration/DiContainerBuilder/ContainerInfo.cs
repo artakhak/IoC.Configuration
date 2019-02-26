@@ -22,13 +22,14 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using IoC.Configuration.DiContainer;
 using JetBrains.Annotations;
 
 namespace IoC.Configuration.DiContainerBuilder
 {
     /// <summary>
-    /// Container data for the loaded DI
+    ///     Container data for the loaded DI
     /// </summary>
     /// <seealso cref="IoC.Configuration.DiContainerBuilder.IContainerInfo" />
     public class ContainerInfo : IContainerInfo
@@ -53,15 +54,15 @@ namespace IoC.Configuration.DiContainerBuilder
         #region IContainerInfo Interface Implementation
 
         /// <summary>
-        /// An instance of <see cref="T:IoC.Configuration.DiContainer.IDiContainer" /> for the loaded container.
+        ///     An instance of <see cref="T:IoC.Configuration.DiContainer.IDiContainer" /> for the loaded container.
         /// </summary>
         /// <value>
-        /// The di container.
+        ///     The di container.
         /// </value>
         public IDiContainer DiContainer { get; }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public void Dispose()
         {

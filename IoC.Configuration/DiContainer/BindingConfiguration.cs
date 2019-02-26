@@ -22,11 +22,13 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using IoC.Configuration.DiContainer.BindingsForCode;
 using JetBrains.Annotations;
 using OROptimizer;
+using OROptimizer.Diagnostics.Log;
 
 namespace IoC.Configuration.DiContainer
 {
@@ -42,9 +44,10 @@ namespace IoC.Configuration.DiContainer
 
         #endregion
 
-        #region  Constructors        
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="BindingConfiguration{TBindingImplementationConfiguration}"/> class.
+        ///     Initializes a new instance of the <see cref="BindingConfiguration{TBindingImplementationConfiguration}" /> class.
         /// </summary>
         /// <param name="serviceType">Type of the service.</param>
         public BindingConfiguration([NotNull] Type serviceType)
@@ -67,9 +70,10 @@ namespace IoC.Configuration.DiContainer
 
         #endregion
 
-        #region Member Functions        
+        #region Member Functions
+
         /// <summary>
-        /// Adds an implementation.
+        ///     Adds an implementation.
         /// </summary>
         /// <param name="bindingImplementationConfiguration">The binding implementation configuration.</param>
         public void AddImplementation([NotNull] TBindingImplementationConfiguration bindingImplementationConfiguration)
@@ -79,31 +83,34 @@ namespace IoC.Configuration.DiContainer
         }
 
         /// <summary>
-        /// Occurs when <see cref="AddImplementation"/>(TBindingImplementationConfiguration) method is called.
+        ///     Occurs when <see cref="AddImplementation" />(TBindingImplementationConfiguration) method is called.
         /// </summary>
         [CanBeNull]
         public event BindingImplementationConfigurationAddedEventHandler<TBindingImplementationConfiguration> BindingImplementationConfigurationAdded;
 
         /// <summary>
-        /// Gets the implementations.
+        ///     Gets the implementations.
         /// </summary>
         /// <value>
-        /// The implementations.
+        ///     The implementations.
         /// </value>
-        [NotNull, ItemNotNull]
+        [NotNull]
+        [ItemNotNull]
         public IReadOnlyList<TBindingImplementationConfiguration> Implementations => _implementations;
 
         /// <summary>
-        /// Gets a value indicating whether this instance is self bound service.
+        ///     Gets a value indicating whether this instance is self bound service.
         /// </summary>
         /// <value>
-        ///   <c>true</c> if this instance is self bound service; otherwise, <c>false</c>.
+        ///     <c>true</c> if this instance is self bound service; otherwise, <c>false</c>.
         /// </value>
         public bool IsSelfBoundService => _implementations.Count == 1 && _implementations[0].TargetImplementationType == TargetImplementationType.Self;
 
         /// <summary>
-        /// If the value is true, the binding will be registered only if binding for the service <see cref="ServiceType"/> has not been already registered.
-        /// Note, multiple implementations can still be registered using this binding, if the binding for service was not registered.
+        ///     If the value is true, the binding will be registered only if binding for the service <see cref="ServiceType" /> has
+        ///     not been already registered.
+        ///     Note, multiple implementations can still be registered using this binding, if the binding for service was not
+        ///     registered.
         /// </summary>
         public bool RegisterIfNotRegistered
         {
@@ -119,22 +126,22 @@ namespace IoC.Configuration.DiContainer
         }
 
         /// <summary>
-        /// Gets the type of the service.
+        ///     Gets the type of the service.
         /// </summary>
         /// <value>
-        /// The type of the service.
+        ///     The type of the service.
         /// </value>
         [NotNull]
         public Type ServiceType { get; }
 
         /// <summary>
-        /// Validates the binding configuration data.
+        ///     Validates the binding configuration data.
         /// </summary>
         /// <exception cref="Exception">Throws an exception if service binding data is invalid.</exception>
         public void Validate()
         {
             if (_implementations.Count == 0)
-                GlobalsCoreAmbientContext.Context.LogAnErrorAndThrowException(MessagesHelper.GetNoImplementationsForServiceMessage(ServiceType));
+                LogHelper.Context.Log.Warn(MessagesHelper.GetNoImplementationsForServiceMessage(ServiceType));
 
             if (RegisterIfNotRegistered && _implementations.Count > 1)
                 throw new Exception(MessagesHelper.GetMultipleImplementationsWithRegisterIfNotRegisteredOptionMessage($"'{GetType().FullName}.{nameof(RegisterIfNotRegistered)}'"));

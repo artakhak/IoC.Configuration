@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Text;
 using IoC.Configuration.ConfigurationFile;
@@ -32,13 +33,14 @@ using OROptimizer.Serializer;
 namespace IoC.Configuration.DiContainer
 {
     /// <summary>
-    /// A helper class that specific implementations (such as Autofac or Ninject) can use.
+    ///     A helper class that specific implementations (such as Autofac or Ninject) can use.
     /// </summary>
     public class DiManagerImplementationHelper
     {
-        #region Member Functions        
+        #region Member Functions
+
         /// <summary>
-        /// Adds the code for on di container ready method.
+        ///     Adds the code for on DI container ready method.
         /// </summary>
         /// <param name="moduleClassContents">The module class contents.</param>
         public static void AddCodeForOnDiContainerReadyMethod([NotNull] StringBuilder moduleClassContents)
@@ -55,27 +57,28 @@ namespace IoC.Configuration.DiContainer
         }
 
         /// <summary>
-        /// Generates the code for deserialized parameter value.
+        ///     Generates the code for deserialized parameter value.
         /// </summary>
         /// <param name="namedValue">The named value.</param>
-        /// <returns></returns>
+        [Obsolete("Will be removed after 5/31/2019")]
         public static string GenerateCodeForDeserializedParameterValue([NotNull] INamedValue namedValue)
         {
             var code = new StringBuilder();
 
             if (namedValue.ValueAsString == null)
-                code.Append($"default({namedValue.ValueType.FullName})");
+                code.Append($"default({namedValue.ValueTypeInfo.TypeCSharpFullName})");
             else
-                code.Append($"_parameterSerializer.Deserialize<{namedValue.ValueType.FullName}>(\"{namedValue.ValueAsString}\")");
+                code.Append($"_parameterSerializer.Deserialize<{namedValue.ValueTypeInfo.TypeCSharpFullName}>(\"{namedValue.ValueAsString}\")");
 
             return code.ToString();
         }
 
         /// <summary>
-        /// Throws the unsuported enumeration value.
+        ///     Throws the unsupported enumeration value.
         /// </summary>
         /// <param name="enumValue">The enum value.</param>
         /// <exception cref="System.ArgumentException"></exception>
+        [Obsolete("Will be removed after 5/31/2019. Use UnsupportedEnumValueException exception.")]
         public static void ThrowUnsuportedEnumerationValue(Enum enumValue)
         {
             throw new ArgumentException($"Unsupported value: {enumValue}.");
@@ -108,6 +111,7 @@ namespace IoC.Configuration.DiContainer
         /// </summary>
         /// <param name="serviceImplementationElement"></param>
         /// <exception cref="Exception">Always throws this exception.</exception>
+        [Obsolete("Will be removed after 5/31/2019. Use UnsupportedResolutionScopeException exception.")]
         public static void ThrowUnsupportedResolutionScope(BindingImplementationConfigurationForFile serviceImplementationElement)
         {
             throw new ArgumentException($"Unsupported value of '{typeof(DiResolutionScope)}'. The value is '{serviceImplementationElement.ResolutionScope}' for service implementation '{serviceImplementationElement}'.");

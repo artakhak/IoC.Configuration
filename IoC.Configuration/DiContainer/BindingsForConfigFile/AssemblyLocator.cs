@@ -31,12 +31,11 @@ using System.Runtime.Loader;
 using IoC.Configuration.ConfigurationFile;
 using JetBrains.Annotations;
 using OROptimizer.Diagnostics.Log;
-using Assembly = System.Reflection.Assembly;
 
 namespace IoC.Configuration.DiContainer.BindingsForConfigFile
 {
     /// <summary>
-    /// A class for searching and loading assemblies. 
+    ///     A class for searching and loading assemblies.
     /// </summary>
     /// <seealso cref="IoC.Configuration.IAssemblyLocator" />
     public class AssemblyLocator : IAssemblyLocator
@@ -57,14 +56,15 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
         private readonly Func<IConfiguration> _getConfugurationFunc;
 
         [NotNull]
-        private readonly Dictionary<string, Assembly> _loadedAssemblies =
-            new Dictionary<string, Assembly>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, System.Reflection.Assembly> _loadedAssemblies =
+            new Dictionary<string, System.Reflection.Assembly>(StringComparer.OrdinalIgnoreCase);
 
         #endregion
 
-        #region  Constructors        
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="AssemblyLocator"/> class.
+        ///     Initializes a new instance of the <see cref="AssemblyLocator" /> class.
         /// </summary>
         /// <param name="getConfugurationFunc">The get confuguration function.</param>
         /// <param name="entryAssemblyFolder">The entry assembly folder.</param>
@@ -114,7 +114,8 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
         }
 
         /// <summary>
-        ///     This method is similar to <see cref="IAssemblyLocator.FindAssemblyPath" />() in this class, except it searches for assembly in
+        ///     This method is similar to <see cref="IAssemblyLocator.FindAssemblyPath" />() in this class, except it searches for
+        ///     assembly in
         ///     all plugin folders, and does not output searched directories.
         /// </summary>
         /// <param name="assemblyName"></param>
@@ -131,18 +132,27 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
         }
 
         /// <summary>
-        /// Loads the assembly into application domain, if it is not already loaded.
-        /// Looks for the assembly in number of probing directories (see comments for <see cref="FindAssemblyPathInAllPluginFolders" />
-        /// and <see cref="IAssemblyLocator.FindAssemblyPath" /> for more details on how the assembly is searched).
+        ///     Loads the assembly into application domain, if it is not already loaded.
+        ///     Looks for the assembly in number of probing directories (see comments for
+        ///     <see cref="FindAssemblyPathInAllPluginFolders" />
+        ///     and <see cref="IAssemblyLocator.FindAssemblyPath" /> for more details on how the assembly is searched).
         /// </summary>
-        /// <param name="assemblyNameWithExtension">Assembly file name without extension. Examples is "TestProjects.DynamicallyLoadedAssembly1".</param>
-        /// <param name="assemblyFolder">If the value is not null and is not an empty string, the assembly will be loaded from this folder.
-        /// Otherwise, assembly will be searched in multiple directories by name.</param>
+        /// <param name="assemblyNameWithExtension">
+        ///     Assembly file name without extension. Examples is
+        ///     "TestProjects.DynamicallyLoadedAssembly1".
+        /// </param>
+        /// <param name="assemblyFolder">
+        ///     If the value is not null and is not an empty string, the assembly will be loaded from this folder.
+        ///     Otherwise, assembly will be searched in multiple directories by name.
+        /// </param>
         /// <returns>
-        /// Returns the loaded assembly.
+        ///     Returns the loaded assembly.
         /// </returns>
-        /// <exception cref="System.Exception">Throws an exception the assembly was not found, or if the assembly fails to get loaded.</exception>
-        public Assembly LoadAssembly(string assemblyNameWithExtension, string assemblyFolder)
+        /// <exception cref="System.Exception">
+        ///     Throws an exception the assembly was not found, or if the assembly fails to get
+        ///     loaded.
+        /// </exception>
+        public System.Reflection.Assembly LoadAssembly(string assemblyNameWithExtension, string assemblyFolder)
         {
             var assemblyNameWithoutExtension = Path.GetFileNameWithoutExtension(assemblyNameWithExtension);
 
@@ -243,9 +253,13 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
                         allDirectoriesToSearch.Add(probingPath.Path);
 
             if (plugins != null)
+            {
                 foreach (var plugin in plugins)
-                    if (plugin.Enabled)
-                        allDirectoriesToSearch.Add(plugin.GetPluginDirectory());
+                {
+                    //if (plugin.Enabled)
+                    allDirectoriesToSearch.Add(plugin.GetPluginDirectory());
+                }
+            }
 
             var assemblyNameWithExtension = $"{assemblyNameWithoutExtension}.dll";
             foreach (var directory in allDirectoriesToSearch)

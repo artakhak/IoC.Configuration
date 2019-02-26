@@ -22,6 +22,8 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
+using IoC.Configuration.ConfigurationFile;
 using IoC.Configuration.DiContainer;
 using IoC.Configuration.DiContainerBuilder.CodeBased;
 using IoC.Configuration.DiContainerBuilder.FileBased;
@@ -32,14 +34,17 @@ using OROptimizer.Diagnostics.Log;
 namespace IoC.Configuration.DiContainerBuilder
 {
     /// <summary>
-    /// A DI container builder.
+    ///     A DI container builder.
     /// </summary>
     public class DiContainerBuilder
     {
+        #region Member Functions
+
         /// <summary>
-        /// Creates an instance of <see cref="ICodeBasedDiContainerConfigurator"/> for code based dependency injection configuration.
+        ///     Creates an instance of <see cref="ICodeBasedDiContainerConfigurator" /> for code based dependency injection
+        ///     configuration.
         /// </summary>
-        /// <param name="diManager">An instance of <see cref="IDiManager"/></param>
+        /// <param name="diManager">An instance of <see cref="IDiManager" /></param>
         /// <param name="entryAssemblyFolder">The entry assembly folder.</param>
         /// <param name="assemblyProbingPaths">The assembly probing paths.</param>
         /// <returns></returns>
@@ -57,7 +62,8 @@ namespace IoC.Configuration.DiContainerBuilder
         }
 
         /// <summary>
-        /// Creates an instance of <see cref="ICodeBasedDiContainerConfigurator"/> for code based dependency injection configuration.
+        ///     Creates an instance of <see cref="ICodeBasedDiContainerConfigurator" /> for code based dependency injection
+        ///     configuration.
         /// </summary>
         /// <param name="diManagerClassFullName">Should be a full name of a class that implements <see cref="IDiManager" />.</param>
         /// <param name="diManagerClassAssemblyFilePath">
@@ -85,10 +91,13 @@ namespace IoC.Configuration.DiContainerBuilder
         }
 
         /// <summary>
-        /// Creates an instance of <see cref="IFileBasedDiContainerConfigurator"/> for file based dependency injection configuration.
+        ///     Creates an instance of <see cref="IFileBasedDiContainerConfigurator" /> for file based dependency injection
+        ///     configuration.
         /// </summary>
-        /// <param name="configurationFileContentsProvider">The configuration file contents provider.
-        /// An example implementation of <see cref="IConfigurationFileContentsProvider"/> implementation is <see cref="FileBasedConfigurationFileContentsProvider"/>
+        /// <param name="configurationFileContentsProvider">
+        ///     The configuration file contents provider.
+        ///     An example implementation of <see cref="IConfigurationFileContentsProvider" /> implementation is
+        ///     <see cref="FileBasedConfigurationFileContentsProvider" />
         /// </param>
         /// <param name="entryAssemblyFolder">The entry assembly folder.</param>
         /// <param name="configurationFileXmlDocumentLoaded">The configuration file XML document loaded.</param>
@@ -102,19 +111,25 @@ namespace IoC.Configuration.DiContainerBuilder
         }
 
         /// <summary>
-        /// Creates an instance of <see cref="IFileBasedDiContainerConfigurator"/> for file based dependency injection configuration.
+        ///     Creates an instance of <see cref="IFileBasedDiContainerConfigurator" /> for file based dependency injection
+        ///     configuration.
         /// </summary>
-        /// <param name="configurationFileContentsProvider">The configuration file contents provider.
-        /// An example implementation of <see cref="IConfigurationFileContentsProvider"/> implementation is <see cref="FileBasedConfigurationFileContentsProvider"/>
+        /// <param name="configurationFileContentsProvider">
+        ///     The configuration file contents provider.
+        ///     An example implementation of <see cref="IConfigurationFileContentsProvider" /> implementation is
+        ///     <see cref="FileBasedConfigurationFileContentsProvider" />
         /// </param>
         /// <param name="entryAssemblyFolder">The entry assembly folder.</param>
-        /// <param name="loadedConfiguration">Output parameter that returns an instance of <see cref="ConfigurationFile.IConfiguration"/>.</param>
+        /// <param name="loadedConfiguration">
+        ///     Output parameter that returns an instance of
+        ///     <see cref="ConfigurationFile.IConfiguration" />.
+        /// </param>
         /// <param name="configurationFileXmlDocumentLoaded">The configuration file XML document loaded.</param>
         /// <returns></returns>
         /// <exception cref="OROptimizer.Diagnostics.Log.LoggerWasNotInitializedException">Throws this exception.</exception>
         public IFileBasedDiContainerConfigurator StartFileBasedDi([NotNull] IConfigurationFileContentsProvider configurationFileContentsProvider,
                                                                   [NotNull] string entryAssemblyFolder,
-                                                                  out ConfigurationFile.IConfiguration loadedConfiguration,
+                                                                  out IConfiguration loadedConfiguration,
                                                                   [CanBeNull] ConfigurationFileXmlDocumentLoadedEventHandler configurationFileXmlDocumentLoaded = null)
         {
             if (!LogHelper.IsContextInitialized)
@@ -125,5 +140,7 @@ namespace IoC.Configuration.DiContainerBuilder
             loadedConfiguration = configuration.Configuration;
             return new FileBasedDiContainerConfigurator(configuration);
         }
+
+        #endregion
     }
 }

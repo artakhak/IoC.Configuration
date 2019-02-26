@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using JetBrains.Annotations;
 
@@ -29,9 +30,10 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
 {
     public class BindingGeneric<TService> : Binding, IBindingGeneric<TService>
     {
-        #region  Constructors        
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="BindingGeneric{TService}"/> class.
+        ///     Initializes a new instance of the <see cref="BindingGeneric{TService}" /> class.
         /// </summary>
         /// <param name="serviceRegistrationBuilder">The service registration builder.</param>
         /// <param name="bindingConfiguration">The binding configuration.</param>
@@ -43,12 +45,14 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
         #endregion
 
         #region IBindingGeneric<TService> Interface Implementation
+
         /// <summary>
-        /// If called, the binding will be registered only if binding for the service has not been already registered.
-        /// Note, multiple implementations can still be registered using this binding, if the binding for service was not registered.
+        ///     If called, the binding will be registered only if binding for the service has not been already registered.
+        ///     Note, multiple implementations can still be registered using this binding, if the binding for service was not
+        ///     registered.
         /// </summary>
         /// <returns>
-        /// Returns <see cref="T:IoC.Configuration.DiContainer.BindingsForCode.IBindingGeneric`1" />
+        ///     Returns <see cref="T:IoC.Configuration.DiContainer.BindingsForCode.IBindingGeneric`1" />
         /// </returns>
         public IBindingGeneric<TService> OnlyIfNotRegistered()
         {
@@ -57,11 +61,11 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
         }
 
         /// <summary>
-        /// Bind service <typeparamref name="TService" /> to implementation <typeparamref name="TImplementation" />.
+        ///     Bind service <typeparamref name="TService" /> to implementation <typeparamref name="TImplementation" />.
         /// </summary>
         /// <typeparam name="TImplementation">The type of the implementation.</typeparam>
         /// <returns>
-        /// Returns <see cref="T:IoC.Configuration.DiContainer.BindingsForCode.IBindingImplementationGeneric`2" />
+        ///     Returns <see cref="T:IoC.Configuration.DiContainer.BindingsForCode.IBindingImplementationGeneric`2" />
         /// </returns>
         public IBindingImplementationGeneric<TService, TImplementation> To<TImplementation>() where TImplementation : TService
         {
@@ -71,11 +75,12 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
         }
 
         /// <summary>
-        /// Bind service <typeparamref name="TService" /> to the result of function call <paramref name="resolverFunc" />(<see cref="T:IoC.Configuration.DiContainer.IDiContainer" />).
+        ///     Bind service <typeparamref name="TService" /> to the result of function call <paramref name="resolverFunc" />(
+        ///     <see cref="T:IoC.Configuration.DiContainer.IDiContainer" />).
         /// </summary>
         /// <param name="resolverFunc">The resolver function.</param>
         /// <returns>
-        /// Returns <see cref="T:IoC.Configuration.DiContainer.BindingsForCode.IBindingImplementationGeneric`2" />
+        ///     Returns <see cref="T:IoC.Configuration.DiContainer.BindingsForCode.IBindingImplementationGeneric`2" />
         /// </returns>
         public IBindingImplementationGeneric<TService, TService> To(Func<IDiContainer, TService> resolverFunc)
         {
@@ -83,17 +88,20 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
         }
 
         /// <summary>
-        /// Bind service <typeparamref name="TService" /> to the result of function call <paramref name="resolverFunc" />(<see cref="T:IoC.Configuration.DiContainer.IDiContainer" />).
-        /// TImplementation should be either <typeparamref name="TService" />, or a type that implements or derives from
-        /// <typeparamref name="TService" />.
-        /// Note, we can use value of <typeparamref name="TService" /> for <typeparamref name="TImplementation" /> not to restrict what the function
-        /// <paramref name="resolverFunc" /> returns. In other words to enforce that the implementation returns <typeparamref name="TService" />
-        /// or a subclass or implementation of <typeparamref name="TService" />.
+        ///     Bind service <typeparamref name="TService" /> to the result of function call <paramref name="resolverFunc" />(
+        ///     <see cref="T:IoC.Configuration.DiContainer.IDiContainer" />).
+        ///     TImplementation should be either <typeparamref name="TService" />, or a type that implements or derives from
+        ///     <typeparamref name="TService" />.
+        ///     Note, we can use value of <typeparamref name="TService" /> for <typeparamref name="TImplementation" /> not to
+        ///     restrict what the function
+        ///     <paramref name="resolverFunc" /> returns. In other words to enforce that the implementation returns
+        ///     <typeparamref name="TService" />
+        ///     or a subclass or implementation of <typeparamref name="TService" />.
         /// </summary>
         /// <typeparam name="TImplementation">The type of the implementation.</typeparam>
         /// <param name="resolverFunc">The resolver function.</param>
         /// <returns>
-        /// Returns <see cref="T:IoC.Configuration.DiContainer.BindingsForCode.IBindingImplementationGeneric`2" />
+        ///     Returns <see cref="T:IoC.Configuration.DiContainer.BindingsForCode.IBindingImplementationGeneric`2" />
         /// </returns>
         public IBindingImplementationGeneric<TService, TImplementation> To<TImplementation>(Func<IDiContainer, TImplementation> resolverFunc) where TImplementation : TService
         {
@@ -105,10 +113,10 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
         }
 
         /// <summary>
-        /// Bind service <typeparamref name="TService" /> to itself.
+        ///     Bind service <typeparamref name="TService" /> to itself.
         /// </summary>
         /// <returns>
-        /// Returns <see cref="T:IoC.Configuration.DiContainer.BindingsForCode.IBindingImplementationGeneric`2" />
+        ///     Returns <see cref="T:IoC.Configuration.DiContainer.BindingsForCode.IBindingImplementationGeneric`2" />
         /// </returns>
         public IBindingImplementationGeneric<TService, TService> ToSelf()
         {

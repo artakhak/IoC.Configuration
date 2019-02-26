@@ -1,0 +1,332 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+   The XML configuration file is validated against schema file IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd, 
+   which can be found in folder IoC.Configuration.Content in output directory. 
+   The schema file can also be downloaded from 
+   http://oroptimizer.com/ioc.configuration/V2/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd or in source code 
+   project in Github.com.
+   
+   To use Visual Studio code completion based on schema contents, right click Properties on this file in Visual Studio, and in Schemas 
+   field pick the schema IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd.
+
+   Before running the tests make sure to execute IoC.Configuration\Tests\IoC.Configuration.Tests\PostBuildCommands.bat to copy the dlls into 
+   folders specified in this configuration file.
+   Also, modify the batch file to copy the Autofac and Ninject assemblies from Nuget packages folder on machine, where the test is run.
+-->
+
+<iocConfiguration>
+
+  <!--The application should have write permissions to path specified in appDataDir. 
+    This is where dynamically generated DLLs are saved.-->
+  <appDataDir
+    path="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\TestFiles\DynamicFiles_ValueImplementationTests" />
+
+  <plugins pluginsDirPath="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\TestDlls\PluginDlls">
+
+    <!--        
+        Plugin assemblies will be in a folder with similar name under pluginsDirPath folder.
+        The plugin folders will be included in assembly resolution mechanism.        
+        -->
+
+    <!--A folder K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\IoC.Configuration.Tests\TestDlls\PluginDlls\Plugin1 should exist.  -->
+    <plugin name="Plugin1" />
+    <plugin name="Plugin2" enabled="true" />
+    <plugin name="Plugin3" enabled="false" />
+  </plugins>
+
+  <additionalAssemblyProbingPaths>
+    <probingPath
+      path="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\TestDlls\ThirdPartyLibs" />
+    <probingPath
+      path="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\TestDlls\ContainerImplementations\Autofac" />
+    <probingPath
+      path="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\TestDlls\ContainerImplementations\Ninject" />
+    <probingPath
+      path="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\TestDlls\DynamicallyLoadedDlls" />
+  </additionalAssemblyProbingPaths>
+
+  <assemblies>
+    <!--Assemblies should be in one of the following locations:
+        1) Executable's folder
+        2) In folder specified in additionalAssemblyProbingPaths element.
+        3) In one of the plugin folders specified in plugins element (only for assemblies with plugin attribute) -->
+
+    <!--
+        Use "loadAlways" attribute to make sure a reference to assembly is added to dynamically generated assembly for
+        dependencies, even if the assembly is not referenced anywhere in configuration file.
+        In general, this is not necessary, however in case if generating dynamic assembly fails
+        because of missing .NET assemblies, using this field might help.
+        Use "overrideDirectory" attribute, to make the assembly path explicit, rather then searching for
+        an assembly in predefined folders, which also include
+        probing paths specified in additionalAssemblyProbingPaths element.
+        -->
+
+    <assembly name="IoC.Configuration.Autofac" alias="autofac_ext" />
+    <assembly name="IoC.Configuration.Ninject" alias="ninject_ext" />
+
+    <assembly name="TestProjects.Modules" alias="modules" />
+
+    <assembly name="TestProjects.DynamicallyLoadedAssembly1"
+              alias="dynamic1" />
+
+    <assembly name="TestProjects.DynamicallyLoadedAssembly2"
+              alias="dynamic2" />
+
+    <assembly name="TestProjects.TestPluginAssembly1"
+              alias="pluginassm1" plugin="Plugin1" />
+
+    <assembly name="TestProjects.TestPluginAssembly2"
+              alias="pluginassm2" plugin="Plugin2" />
+    
+    <assembly name="TestProjects.TestPluginAssembly3"
+              alias="pluginassm3" plugin="Plugin3" />
+
+    <assembly name="TestProjects.ModulesForPlugin1"
+              alias="modules_plugin1" plugin="Plugin1" />
+
+    <assembly name="TestProjects.SharedServices" alias="shared_services" />
+
+    <assembly name="IoC.Configuration.Tests" alias="tests" />
+  </assemblies>
+
+  <typeDefinitions>
+    <typeDefinition alias="IAppInfo" type="IoC.Configuration.Tests.ValueImplementation.Services.IAppInfo" />
+    <typeDefinition alias="AppInfo" type="IoC.Configuration.Tests.ValueImplementation.Services.AppInfo" />
+  </typeDefinitions>
+
+  <parameterSerializers>
+    <serializers>
+      <parameterSerializer type="TestPluginAssembly1.Implementations.DoorSerializer" />
+    </serializers>
+  </parameterSerializers>
+
+  <!--The value of type attribute should be a type that implements 
+    IoC.Configuration.DiContainer.IDiManager-->
+  <diManagers activeDiManagerName="Autofac">
+    <diManager name="Ninject" type="IoC.Configuration.Ninject.NinjectDiManager"
+               assembly="ninject_ext">
+      <!--
+            Use parameters element to specify constructor parameters,
+            if the type specified in 'type' attribute has non-default constructor.
+            -->
+      <!--<parameters>
+            </parameters>-->
+    </diManager>
+
+    <diManager name="Autofac" type="IoC.Configuration.Autofac.AutofacDiManager"
+               assembly="autofac_ext">
+    </diManager>
+  </diManagers>
+
+  <!--
+    If settingsRequestor element is used, the type in type attribute should 
+    specify a type that implements IoC.Configuration.ISettingsRequestor. 
+    The implementation specifies a collection of required settings that should be present
+    in settings element.
+    Note, the type specified in type attribute is fully integrated into a dependency 
+    injection framework. In other words, constructor parameters will be injected using 
+    bindings specified in dependencyInjection element.
+    -->
+
+  <settings>
+    <int32 name="defaultAppId" value="38" />
+    <string name="defaultAppDescription" value="Deafult App"/>
+    <!--<constructedValue  name="defaultAppInfo" typeRef="AppInfo">
+      <parameters>
+        <int32 name="appId" value="37"/>
+      </parameters>
+    </constructedValue>-->
+    
+  </settings>
+
+  <dependencyInjection>
+    <modules>
+      <!--<module type="IoC.Configuration.Tests.AutoService.AutoServiceTestsModule" />-->
+      <module type="IoC.Configuration.Tests.ValueImplementation.Module1" />
+    </modules>
+    <services>
+      <!--int value is bound to the value of setting defaultAppId.-->
+      <service type="System.Int32">
+        <valueImplementation scope="singleton">
+          <settingValue settingName="defaultAppId"/>
+        </valueImplementation>
+      </service>
+
+      <!--Service IAppInfo is bound to AppInfo constructed using constructedValue element.-->
+      <service typeRef="IAppInfo">
+        <valueImplementation scope="transient">
+          <constructedValue typeRef="AppInfo">
+            <parameters>
+              <settingValue name="appId" settingName="defaultAppId" />
+            </parameters>
+          </constructedValue>
+        </valueImplementation>
+      </service>
+
+      <!--System.Double value is bound to 3.5.-->
+      <service type="System.Double">
+        <valueImplementation scope="singleton">
+          <!--object elements value is initialized by a serializer of type OROptimizer.Serializer.ITypeBasedSimpleSerializer
+          that can be registered in section parameterSerializers.
+          IoC.Configuration provides number of default serializers for some types. 
+          The out of the box serializer for System.Double is OROptimizer.Serializer.TypeBasedSimpleSerializerDouble which is available          
+          in Nuget package OROptimizer.Shared.
+          -->
+          <object type="System.Double" value="3.5"/>
+        </valueImplementation>
+      </service>
+      
+      <!--Examples of using classMember element in valueImplementation-->
+      <service type="IoC.Configuration.Tests.ValueImplementation.Services.IDbConnectionProvider">
+        <implementation type="IoC.Configuration.Tests.ValueImplementation.Services.DbConnectionProvider" scope="singleton">
+          <parameters>
+            <string name="serverName" value="SqlServer1"/>
+            <string name="databaseName" value="Db1"/>
+            <string name="userName" value="restrictedUser"/>
+            <string name="password" value="safePassword123"/>
+          </parameters>
+        </implementation>
+      </service>
+      
+      <!--Type SharedServices.Interfaces.IDbConnection will be bound to a vlue returned by call to
+      IoC.Configuration.Tests.ValueImplementation.Services.IDbConnectionProvider.GetDbConnection().
+      Since IDbConnectionProvider.GetDbConnection() is non-static, an instance of IDbConnectionProvider will be resolved
+      from DI container, and method GetDbConnection() will be called using the resolved instance
+      -->
+      <service type="SharedServices.Interfaces.IDbConnection">
+        <valueImplementation scope="transient">
+          <classMember class="IoC.Configuration.Tests.ValueImplementation.Services.IDbConnectionProvider" memberName="GetDbConnection"/>
+        </valueImplementation>
+      </service>
+      
+      <service type="SharedServices.Interfaces.IActionValidator">
+        <valueImplementation scope="transient">
+          <classMember class="IoC.Configuration.Tests.ValueImplementation.Services.StaticMethods" memberName="GetActionValidator"/>
+        </valueImplementation>
+      </service>
+      
+      <!--Service IReadOnlyList<IoC.Configuration.Tests.ValueImplementation.Services.IAppInfo> is bound to a collection
+      specified in valueImplementation element.-->
+      <service type="System.Collections.Generic.IReadOnlyList[IoC.Configuration.Tests.ValueImplementation.Services.IAppInfo]">
+        <valueImplementation scope="singleton" >
+          <collection>
+            <constructedValue typeRef="AppInfo">
+              <parameters>
+                <int32 name="paramId" value="1"/>
+              </parameters>
+            </constructedValue>
+
+            <constructedValue typeRef="AppInfo">
+              <parameters>
+                <int32 name="paramId" value="2"/>
+              </parameters>
+            </constructedValue>
+          </collection>
+        </valueImplementation>
+      </service>
+
+      <!--
+      The service below will be ignored, since registerIfNotRegistered is true, and we already registered a binding for 
+      System.Collections.Generic.List<IoC.Configuration.Tests.ValueImplementation.Services.IAppInfo> in 
+      IoC.Configuration.Tests.ValueImplementation.Module1.
+      -->
+      <service type="System.Collections.Generic.List[IoC.Configuration.Tests.ValueImplementation.Services.IAppInfo]"
+               registerIfNotRegistered="true">
+        <valueImplementation scope="singleton" >
+          <collection>
+            <constructedValue typeRef="AppInfo">
+              <parameters>
+                <int32 name="paramId" value="15"/>
+              </parameters>
+            </constructedValue>
+          </collection>
+        </valueImplementation>
+      </service>
+    </services>
+
+    <autoGeneratedServices>
+      <!--The scope for autoService implementations is always singleton -->
+      
+    </autoGeneratedServices>
+  </dependencyInjection>
+
+  <startupActions>
+
+  </startupActions>
+
+  <pluginsSetup>
+    <pluginSetup plugin="Plugin1">
+      <!--The type in pluginImplementation should be non-abstract class 
+                that implements IoC.Configuration.IPlugin and which has a public constructor-->
+      <pluginImplementation type="TestPluginAssembly1.Implementations.Plugin1_Simple">
+      </pluginImplementation>
+
+      <settings>
+        <int32 name="Int32Setting1" value="10"/>
+        <string name="StringSetting1" value="Some text"/>
+      </settings>
+
+      <dependencyInjection>
+        <modules>
+        </modules>
+
+        <services>
+          <service type="System.Collections.Generic.IReadOnlyList[TestPluginAssembly1.Interfaces.IDoor]">
+            <valueImplementation scope="singleton">
+              <collection>
+                <object type="TestPluginAssembly1.Interfaces.IDoor" value="4359924‬, 80.3"/>
+                <constructedValue type="TestPluginAssembly1.Implementations.Door">
+                  <parameters>
+                    <int32 name="color" value="4359934"/>
+                    <double name="height" value="85.2" />
+                  </parameters>
+                </constructedValue>
+              </collection>
+            </valueImplementation>
+          </service>
+        </services>
+
+        <autoGeneratedServices>
+          
+        </autoGeneratedServices>
+      </dependencyInjection>
+    </pluginSetup>
+
+    <pluginSetup plugin="Plugin2">
+      <pluginImplementation type="TestPluginAssembly2.Implementations.Plugin2" assembly="pluginassm2">
+        <parameters>
+          <boolean name="param1" value="true" />
+          <double name="param2" value="25.3" />
+          <string name="param3" value="String value" />
+        </parameters>
+      </pluginImplementation>
+      <settings>
+      </settings>
+      <dependencyInjection>
+        <modules>
+        </modules>
+        <services>
+        </services>
+        <autoGeneratedServices>
+        </autoGeneratedServices>
+      </dependencyInjection>
+    </pluginSetup>
+    
+    <pluginSetup plugin="Plugin3">
+      <pluginImplementation type="TestPluginAssembly3.Implementations.Plugin3" assembly="pluginassm3">
+       
+      </pluginImplementation>
+      <settings>
+      </settings>
+      <dependencyInjection>
+        <modules>
+        </modules>
+        <services>
+        </services>
+        <autoGeneratedServices>
+        </autoGeneratedServices>
+      </dependencyInjection>
+    </pluginSetup>
+  </pluginsSetup>
+</iocConfiguration>

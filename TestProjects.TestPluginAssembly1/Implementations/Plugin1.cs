@@ -29,8 +29,8 @@ namespace TestPluginAssembly1.Implementations
 
         protected override void InitializeVirtual()
         {
-            // This call will result the assembly DynamicallyLoadedAssembly3 to be loaded from a probing path, specified
-            // in configuration.
+            // This call will result the assembly TestProjects.AssemblyToTestAssemblyResolution to be loaded from a
+            // probing path, specified in configuration.
             TestingAssemblyResolution.TestAssemblyResolution();
         }
 

@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using JetBrains.Annotations;
 
 namespace IoC.Configuration
@@ -31,10 +32,10 @@ namespace IoC.Configuration
         #region Current Type Interface
 
         /// <summary>
-        /// Gets the name.
+        ///     Gets the name.
         /// </summary>
         /// <value>
-        /// The name.
+        ///     The name.
         /// </value>
         [NotNull]
         string Name { get; }

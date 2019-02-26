@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,7 +30,6 @@ using System.Text;
 using System.Xml;
 using IoC.Configuration.DiContainer;
 using JetBrains.Annotations;
-using OROptimizer;
 using OROptimizer.Diagnostics.Log;
 
 namespace IoC.Configuration.ConfigurationFile
@@ -38,24 +38,31 @@ namespace IoC.Configuration.ConfigurationFile
     {
         #region Member Variables
 
-        private IAssembly _assembly;
-
         [NotNull]
-        private readonly IAssemblyLocator _assemblyLocator;
+        private readonly ICreateInstanceFromTypeAndConstructorParameters _createInstanceFromTypeAndConstructorParameters;
 
         private bool _isDiManagerInactive;
 
         [CanBeNull]
         private IParameters _parameters;
 
+        //private IAssemblyElement _assembly;
+
+        [NotNull]
+        private readonly ITypeHelper _typeHelper;
+
+        private ITypeInfo _typeInfo;
+
         #endregion
 
         #region  Constructors
 
         public ModuleElement([NotNull] XmlElement xmlElement, [CanBeNull] IConfigurationFileElement parent,
-                             [NotNull] IAssemblyLocator assemblyLocator) : base(xmlElement, parent)
+                             [NotNull] ITypeHelper typeHelper,
+                             [NotNull] ICreateInstanceFromTypeAndConstructorParameters createInstanceFromTypeAndConstructorParameters) : base(xmlElement, parent)
         {
-            _assemblyLocator = assemblyLocator;
+            _typeHelper = typeHelper;
+            _createInstanceFromTypeAndConstructorParameters = createInstanceFromTypeAndConstructorParameters;
         }
 
         #endregion
@@ -71,35 +78,29 @@ namespace IoC.Configuration.ConfigurationFile
                 _parameters = (IParameters) child;
 
                 foreach (var parameter in _parameters.AllParameters)
-                    if (parameter.ValueInstantiationType == ValueInstantiationType.ResolveFromDiContext)
+                    if (parameter.IsResolvedFromDiContainer)
                         throw new ConfigurationParseException(parameter, $"Injected parameters cannot be used in element '{ElementName}'", this);
             }
         }
 
         public object DiModule { get; private set; }
 
-        public override bool Enabled => base.Enabled && _assembly.Enabled && !_isDiManagerInactive;
+        public override bool Enabled => base.Enabled && !_isDiManagerInactive;
 
         public override void Initialize()
         {
             base.Initialize();
 
-            var assemblyAlias = this.GetAttributeValue<string>(ConfigurationFileAttributeNames.Assembly);
-
-            _assembly = _configuration.Assemblies.GetAssemblyByAlias(assemblyAlias);
-
-            if (_assembly == null)
-                throw new ConfigurationParseException(this, $"No assembly with alias '{assemblyAlias}' is specified in element '{ConfigurationFileElementNames.Assemblies}'.");
-
+            _typeInfo = _typeHelper.GetTypeInfo(this, ConfigurationFileAttributeNames.Type, ConfigurationFileAttributeNames.Assembly, ConfigurationFileAttributeNames.TypeRef);
             if (OwningPluginElement == null)
             {
-                if (_assembly.Plugin != null)
-                    throw new ConfigurationParseException(this, $"Assembly '{_assembly.Name}' with alias '{assemblyAlias}' belongs to plugin '{_assembly.Plugin.Name}'. The module should be declared under plugin element '{ConfigurationFileElementNames.PluginsSetup}/{ConfigurationFileElementNames.PluginSetup}' for plugin '{_assembly.Plugin.Name}'.");
+                if (_typeInfo.Assembly.Plugin != null)
+                    throw new ConfigurationParseException(this, $"Assembly '{_typeInfo.Assembly.Name}' with alias '{_typeInfo.Assembly.Alias}' belongs to plugin '{_typeInfo.Assembly.Plugin.Name}'. The module should be declared under plugin element '{ConfigurationFileElementNames.PluginsSetup}/{ConfigurationFileElementNames.PluginSetup}' for plugin '{_typeInfo.Assembly.Plugin.Name}'.");
             }
             else
             {
-                if (_assembly.Plugin != OwningPluginElement)
-                    throw new ConfigurationParseException(this, $"Assembly '{_assembly.Name}' with alias '{assemblyAlias}' is not in a folder dedicated for plugin '{OwningPluginElement.Name}'. To use this module in plugin '{OwningPluginElement.Name}', move the assembly to plugin folder: '{Path.Combine(OwningPluginElement.Configuration.Plugins.PluginsDirectory, OwningPluginElement.Name)}'");
+                if (_typeInfo.Assembly.Plugin != OwningPluginElement)
+                    throw new ConfigurationParseException(this, $"Assembly '{_typeInfo.Assembly.Name}' with alias '{_typeInfo.Assembly.Alias}' is not in a folder dedicated for plugin '{OwningPluginElement.Name}'. To use this module in plugin '{OwningPluginElement.Name}', move the assembly to plugin folder: '{Path.Combine(OwningPluginElement.Configuration.Plugins.PluginsDirectory, OwningPluginElement.Name)}'");
             }
         }
 
@@ -107,74 +108,63 @@ namespace IoC.Configuration.ConfigurationFile
         {
             base.ValidateAfterChildrenAdded();
 
-            if (Enabled)
+            Type validBaseType = null;
+
+            if (typeof(IDiModule).IsAssignableFrom(_typeInfo.Type))
             {
-                var moduleType = Helpers.GetTypeInAssembly(_assemblyLocator, this, _assembly,
-                    this.GetAttributeValue<string>(ConfigurationFileAttributeNames.Type));
+                validBaseType = typeof(IDiModule);
+            }
+            else if (_configuration.DiManagers.ActiveDiManagerElement.DiManager.ModuleType.IsAssignableFrom(_typeInfo.Type))
+            {
+                validBaseType = _configuration.DiManagers.ActiveDiManagerElement.DiManager.ModuleType;
+            }
+            else
+            {
+                _isDiManagerInactive = true;
 
-                Type validBaseType = null;
+                // If this is a native module, lets see if there is any non-active dependency manager module,
+                // for which the type is correct.
 
-                if (typeof(IDiModule).IsAssignableFrom(moduleType))
+                IDiManagerElement ownerDiManagerElement = null;
+
+                var validModuleTypes = new List<Type>();
+                foreach (var diManagerElement in _configuration.DiManagers.AllDiManagers)
                 {
-                    validBaseType = typeof(IDiModule);
-                }
-                else if (_configuration.DiManagers.ActiveDiManagerElement.DiManager.ModuleType.IsAssignableFrom(moduleType))
-                {
-                    validBaseType = _configuration.DiManagers.ActiveDiManagerElement.DiManager.ModuleType;
-                }
-                else
-                {
-                    _isDiManagerInactive = true;
+                    validModuleTypes.Add(diManagerElement.DiManager.ModuleType);
 
-                    // If this is a native module, lets see if there is any non-active dependency manager module,
-                    // for which the type is correct.
+                    if (diManagerElement == _configuration.DiManagers.ActiveDiManagerElement)
+                        continue;
 
-                    IDiManagerElement ownerDiManagerElement = null;
-
-                    var validModuleTypes = new List<Type>();
-                    foreach (var diManagerElement in _configuration.DiManagers.AllDiManagers)
+                    if (diManagerElement.DiManager.ModuleType.IsAssignableFrom(_typeInfo.Type))
                     {
-                        if (!diManagerElement.Enabled)
-                            continue;
-
-                        validModuleTypes.Add(diManagerElement.DiManager.ModuleType);
-
-                        if (diManagerElement == _configuration.DiManagers.ActiveDiManagerElement)
-                            continue;
-
-                        if (diManagerElement.DiManager.ModuleType.IsAssignableFrom(moduleType))
-                        {
-                            ownerDiManagerElement = diManagerElement;
-                            validBaseType = diManagerElement.DiManager.ModuleType;
-                            break;
-                        }
+                        ownerDiManagerElement = diManagerElement;
+                        validBaseType = diManagerElement.DiManager.ModuleType;
+                        break;
                     }
-
-                    if (ownerDiManagerElement == null)
-                    {
-                        var errorMessage = new StringBuilder();
-                        errorMessage.Append($"Invalid type for module: '{moduleType.FullName}'.The type used as a module should be one of the following types or a subclass of any of these types: '{typeof(IDiModule).FullName}'");
-
-                        foreach (var valdModuleType in validModuleTypes)
-                            errorMessage.Append($", '{valdModuleType.FullName}'");
-
-                        errorMessage.Append(".");
-
-                        throw new ConfigurationParseException(this, errorMessage.ToString());
-                    }
-
-                    LogHelper.Context.Log.DebugFormat("Note, the module '{0}' is disabled since dependency injection manager '{1}' that handles the module is not the active dependency injection manager. The active dependency injection manager is '{2}'.",
-                        moduleType.FullName, ownerDiManagerElement.Name, _configuration.DiManagers.ActiveDiManagerElement.Name);
                 }
 
-                if (validBaseType != null && !_isDiManagerInactive)
+                if (ownerDiManagerElement == null)
                 {
-                    DiModule = GlobalsCoreAmbientContext.Context.CreateInstance(validBaseType, moduleType, _parameters == null ? new ParameterInfo[0] : _parameters.GetParameterValues(), out var errorMessage) ??
-                               throw new ConfigurationParseException(this, errorMessage); 
+                    var errorMessage = new StringBuilder();
+                    errorMessage.Append($"Invalid type for module: '{_typeInfo.TypeCSharpFullName}'.The type used as a module should be one of the following types or a subclass of any of these types: '{typeof(IDiModule).FullName}'");
 
-                    LogHelper.Context.Log.InfoFormat("Created an instance of dependency injection module: {0}.",
-                        moduleType.FullName);
+                    foreach (var valdModuleType in validModuleTypes)
+                        errorMessage.Append($", '{valdModuleType.FullName}'");
+
+                    errorMessage.Append(".");
+
+                    throw new ConfigurationParseException(this, errorMessage.ToString());
                 }
+
+                LogHelper.Context.Log.DebugFormat("Note, the module '{0}' is disabled since dependency injection manager '{1}' that handles the module is not the active dependency injection manager. The active dependency injection manager is '{2}'.",
+                    _typeInfo.TypeCSharpFullName, ownerDiManagerElement.Name, _configuration.DiManagers.ActiveDiManagerElement.Name);
+            }
+
+            if (validBaseType != null && !_isDiManagerInactive)
+            {
+                DiModule = _createInstanceFromTypeAndConstructorParameters.CreateInstance(this, validBaseType, _typeInfo.Type, _parameters?.AllParameters ?? new IParameterElement[0]);
+
+                LogHelper.Context.Log.InfoFormat("Created an instance of dependency injection module: {0}.", _typeInfo.TypeCSharpFullName);
             }
         }
 

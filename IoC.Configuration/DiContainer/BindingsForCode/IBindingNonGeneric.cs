@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using JetBrains.Annotations;
 
@@ -30,35 +31,36 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
     public interface IBindingNonGeneric
     {
         #region Current Type Interface
+
         /// <summary>
-        /// If called, the binding will be registered only if binding for the service has not been already registered.
-        /// Note, multiple implementations can still be registered using this binding, if the binding for service was not registered.
+        ///     If called, the binding will be registered only if binding for the service has not been already registered.
+        ///     Note, multiple implementations can still be registered using this binding, if the binding for service was not
+        ///     registered.
         /// </summary>
-        /// <returns>Returns <see cref="IBindingNonGeneric"/></returns>
+        /// <returns>Returns <see cref="IBindingNonGeneric" /></returns>
         [NotNull]
         IBindingNonGeneric OnlyIfNotRegistered();
 
         /// <summary>
-        /// Bind service to implementation of type <paramref name="implementationType"/>.
+        ///     Bind service to implementation of type <paramref name="implementationType" />.
         /// </summary>
         /// <param name="implementationType">The type of the implementation</param>
-        /// <returns>Returns <see cref="BindingImplementationNonGeneric"/></returns>
-
+        /// <returns>Returns <see cref="BindingImplementationNonGeneric" /></returns>
         [NotNull]
         BindingImplementationNonGeneric To([NotNull] Type implementationType);
 
         /// <summary>
-        /// Bind the service to the result of function call <paramref name="resolverFunc"/>(<see cref="IDiContainer"/>).
+        ///     Bind the service to the result of function call <paramref name="resolverFunc" />(<see cref="IDiContainer" />).
         /// </summary>
         /// <param name="resolverFunc">The resolver function.</param>
-        /// <returns>Returns <see cref="BindingImplementationNonGeneric"/></returns>
+        /// <returns>Returns <see cref="BindingImplementationNonGeneric" /></returns>
         [NotNull]
         BindingImplementationNonGeneric To([NotNull] Func<IDiContainer, object> resolverFunc);
 
         /// <summary>
-        /// Bind the service  to itself.
+        ///     Bind the service  to itself.
         /// </summary>
-        /// <returns>Returns <see cref="IBindingImplementationNonGeneric"/></returns>
+        /// <returns>Returns <see cref="IBindingImplementationNonGeneric" /></returns>
         [NotNull]
         IBindingImplementationNonGeneric ToSelf();
 

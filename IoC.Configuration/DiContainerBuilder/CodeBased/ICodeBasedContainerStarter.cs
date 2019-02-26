@@ -22,15 +22,17 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 namespace IoC.Configuration.DiContainerBuilder.CodeBased
 {
     public interface ICodeBasedContainerStarter
     {
         #region Current Type Interface
+
         /// <summary>
-        /// Loads the DI container.
+        ///     Loads the DI container.
         /// </summary>
-        /// <returns>Returns an instance of <see cref="IContainerInfo"/>.</returns>
+        /// <returns>Returns an instance of <see cref="IContainerInfo" />.</returns>
         IContainerInfo Start();
 
         #endregion

@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -94,14 +95,14 @@ namespace IoC.Configuration.ConfigurationFile
             base.ValidateOnTreeConstructed();
 
             foreach (var child in Children)
-                if (child is IPluginElement)
+            {
+                if (child is IPluginElement pluginElement)
                 {
-                    var pluginElement = (IPluginElement) child;
-
                     // Lets see if there is a plugin in PluginsSetup
                     if (pluginElement.Enabled && _configuration.PluginsSetup?.GetPluginSetup(pluginElement.Name) == null)
                         throw new ConfigurationParseException(pluginElement, $"No plugin definition found under element '{ConfigurationFileElementNames.PluginsSetup}' for plugin '{pluginElement.Name}'.", this);
                 }
+            }
         }
 
         #endregion

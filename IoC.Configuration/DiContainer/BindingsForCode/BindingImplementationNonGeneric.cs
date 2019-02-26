@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using JetBrains.Annotations;
 
@@ -29,8 +30,10 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
 {
     public class BindingImplementationNonGeneric : BindingImplementation, IBindingImplementationNonGeneric
     {
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="BindingImplementationNonGeneric"/> class.
+        ///     Initializes a new instance of the <see cref="BindingImplementationNonGeneric" /> class.
         /// </summary>
         /// <param name="serviceRegistrationBuilder">The service registration builder.</param>
         /// <param name="bindingImplementationConfiguration">The binding implementation configuration.</param>
@@ -42,17 +45,20 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
             Service = serviceBinding;
         }
 
-        /// <summary>
-        /// Use this member to add multiple implementations for the same service.
-        /// </summary>
-        public IBindingNonGeneric Service { get; }
+        #endregion
+
+        #region IBindingImplementationNonGeneric Interface Implementation
 
         /// <summary>
-        /// React to an event that occurs when the implementation is instantiated.
+        ///     React to an event that occurs when the implementation is instantiated.
         /// </summary>
-        /// <param name="onImplementationActivated"><see cref="T:System.Action" /> that will be executed on implementation activated event.</param>
+        /// <param name="onImplementationActivated">
+        ///     <see cref="T:System.Action" /> that will be executed on implementation
+        ///     activated event.
+        /// </param>
         /// <returns>
-        /// Returns an instance of <see cref="T:IoC.Configuration.DiContainer.BindingsForCode.IBindingImplementationNonGeneric" />
+        ///     Returns an instance of
+        ///     <see cref="T:IoC.Configuration.DiContainer.BindingsForCode.IBindingImplementationNonGeneric" />
         /// </returns>
         public IBindingImplementationNonGeneric OnImplementationObjectActivated(Action<IDiContainer, object> onImplementationActivated)
         {
@@ -61,7 +67,12 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
         }
 
         /// <summary>
-        /// Sets the resolution scope.
+        ///     Use this member to add multiple implementations for the same service.
+        /// </summary>
+        public IBindingNonGeneric Service { get; }
+
+        /// <summary>
+        ///     Sets the resolution scope.
         /// </summary>
         /// <param name="resolutionScope">The resolution scope.</param>
         /// <returns></returns>
@@ -70,6 +81,8 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
             BindingImplementationConfiguration.ResolutionScope = resolutionScope;
             return this;
         }
+
+        #endregion
 
 #if DEBUG
 // Will enable this code in release mode when Autofac implementation for this feature is available.
@@ -80,7 +93,7 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
         //            ConditionalInjectionType.WhenInjectedExactlyInto, targetType);
         //    return this;
         //}
-        
+
         //public IBindingImplementationNonGeneric WhenInjectedInto<T>(bool considerAlsoTargetTypeSubclasses)
         //{
         //    this.BindingImplementationConfiguration.SetWhenInjectedIntoData(

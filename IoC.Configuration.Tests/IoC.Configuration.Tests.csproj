@@ -29,19 +29,32 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="IoC.Configuration" Version="1.0.5" />
     <PackageReference Include="JetBrains.Annotations" Version="10.2.1" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="2.3.2" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
     <PackageReference Include="Moq" Version="4.8.1" />
     <PackageReference Include="MSTest.TestAdapter" Version="1.1.18" />
     <PackageReference Include="MSTest.TestFramework" Version="1.1.18" />
+    <PackageReference Include="OROptimizer.Shared" Version="2.0.0" />
     <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
     <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
     <ProjectReference Include="..\TestsSharedLibrary\TestsSharedLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System">
+      <HintPath>System</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="TypeParserTests.cs">
+      <SubType>Component</SubType>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -69,10 +82,40 @@
     <None Update="App.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="IoCConfiguration1.xml">
+    <None Update="IoCConfiguration_autoService.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IoCConfiguration_valueImplementation.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IoCConfiguration_constructedValue.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IoCConfiguration_settingValue_ReferencingInConfiguration.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IoCConfiguration_classMember.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IoCConfiguration_proxyService.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IoCConfiguration_GenericTypesAndTypeReUse.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DeprecatedCodeTests\IoCConfiguration_DeprecatedTypeFactoryTests.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IoCConfiguration_Overview.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="IoCConfiguration2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="IoCConfiguration_collection.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="TestTemplateFiles\IoCConfiguration_TestTemplate.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

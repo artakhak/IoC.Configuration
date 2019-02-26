@@ -1,7 +1,6 @@
-﻿using IoC.Configuration.DiContainer;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OROptimizer.Diagnostics.Log;
+using System.IO;
 using TestsSharedLibrary.Diagnostics.Log;
 
 namespace IoC.Configuration.Tests.DocumentationTests
@@ -22,7 +21,7 @@ namespace IoC.Configuration.Tests.DocumentationTests
             using (var containerInfo = new DiContainerBuilder.DiContainerBuilder()
                   .StartFileBasedDi(
                                 new FileBasedConfigurationFileContentsProvider(
-                                    Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration1.xml")),
+                                    Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")),
                                     Helpers.TestsEntryAssemblyFolder,
                                     (sender, e) => { })
                     .WithoutPresetDiContainer()

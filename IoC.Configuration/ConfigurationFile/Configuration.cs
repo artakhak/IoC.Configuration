@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System.Xml;
 using JetBrains.Annotations;
 
@@ -44,13 +45,15 @@ namespace IoC.Configuration.ConfigurationFile
             base.AddChild(child);
 
             if (child is IApplicationDataDirectory)
-                ApplicationDataDirectory = (IApplicationDataDirectory)child;
+                ApplicationDataDirectory = (IApplicationDataDirectory) child;
             else if (child is IPlugins)
-                Plugins = (IPlugins)child;
+                Plugins = (IPlugins) child;
             else if (child is IAdditionalAssemblyProbingPaths)
                 AdditionalAssemblyProbingPaths = (IAdditionalAssemblyProbingPaths) child;
             else if (child is IAssemblies)
                 Assemblies = (IAssemblies) child;
+            else if (child is ITypeDefinitionsElement)
+                TypeDefinitions = (ITypeDefinitionsElement) child;
             else if (child is IParameterSerializers)
                 ParameterSerializers = (IParameterSerializers) child;
             else if (child is IDiManagersElement)
@@ -58,7 +61,7 @@ namespace IoC.Configuration.ConfigurationFile
             else if (child is ISettingsElement)
                 SettingsElement = (ISettingsElement) child;
             else if (child is IWebApi)
-                WebApi = (IWebApi)child;
+                WebApi = (IWebApi) child;
             else if (child is IDependencyInjection)
                 DependencyInjection = (IDependencyInjection) child;
             else if (child is ISettingsRequestorImplementationElement)
@@ -80,40 +83,14 @@ namespace IoC.Configuration.ConfigurationFile
 
         public void ProcessTree(ProcessConfigurationFileElement processConfigurationFileElement)
         {
-            var stopProcessing = false;
-            ProcessTree(this, processConfigurationFileElement, ref stopProcessing);
+            this.ProcessConfigurationFileElementAndChildren(processConfigurationFileElement);
         }
 
         public ISettingsElement SettingsElement { get; private set; }
-        public IWebApi WebApi { get; private set; }
         public ISettingsRequestorImplementationElement SettingsRequestor { get; private set; }
         public IStartupActionsElement StartupActions { get; private set; }
-
-        #endregion
-
-        #region Member Functions
-
-        private void ProcessTree(IConfigurationFileElement configurationFileElement, ProcessConfigurationFileElement processConfigurationFileElement, ref bool stopProcessing)
-        {
-            if (stopProcessing && !configurationFileElement.Enabled)
-                return;
-
-            processConfigurationFileElement(configurationFileElement, ref stopProcessing);
-
-            if (stopProcessing)
-                return;
-
-            foreach (var childElement in configurationFileElement.Children)
-            {
-                if (!childElement.Enabled)
-                    continue;
-
-                ProcessTree(childElement, processConfigurationFileElement, ref stopProcessing);
-
-                if (stopProcessing)
-                    return;
-            }
-        }
+        public ITypeDefinitionsElement TypeDefinitions { get; private set; }
+        public IWebApi WebApi { get; private set; }
 
         #endregion
     }

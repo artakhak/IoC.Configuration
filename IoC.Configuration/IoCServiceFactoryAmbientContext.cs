@@ -22,16 +22,18 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using OROptimizer;
 
 namespace IoC.Configuration
 {
     /// <summary>
-    /// This class is used in code that loads the configuration. To provide your own implementation for some of the services used
-    /// replace the value of <see cref="IoCServiceFactoryAmbientContext" />.Context with your own implementation of <see cref="IIoCServiceFactory" />.
+    ///     This class is used in code that loads the configuration. To provide your own implementation for some of the
+    ///     services used
+    ///     replace the value of <see cref="IoCServiceFactoryAmbientContext" />.Context with your own implementation of
+    ///     <see cref="IIoCServiceFactory" />.
     /// </summary>
     public class IoCServiceFactoryAmbientContext : AmbientContext<IIoCServiceFactory, IoCServiceFactory>
     {
-        
     }
 }

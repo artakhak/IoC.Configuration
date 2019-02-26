@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -38,6 +39,7 @@ using ParameterInfo = System.Reflection.ParameterInfo;
 
 namespace IoC.Configuration.DynamicCode
 {
+    [Obsolete("Will be removed after 5/31/2019")]
     public class TypesListFactoryTypeGenerator : ITypesListFactoryTypeGenerator
     {
         #region Member Variables
@@ -56,27 +58,32 @@ namespace IoC.Configuration.DynamicCode
 
         #endregion
 
-        #region ITypesListFactoryTypeGenerator Interface Implementation        
+        #region ITypesListFactoryTypeGenerator Interface Implementation
+
         /// <summary>
-        /// Generates a C# file for a type that is an implementation of interface specified in
-        /// <paramref name="interfaceToImplement" /> parameter.
-        /// Calls <see cref="M:OROptimizer.DynamicCode.IDynamicAssemblyBuilder.AddCSharpFile(System.String)" /> to add the generated C# file to an assembly being
-        /// built.
-        /// Interface <paramref name="interfaceToImplement" /> should have exactly one method that has arbitrary number
-        /// of parameters, and returns <see cref="T:System.Collections.Generic.IEnumerable`1" />, where T is an interface.
+        ///     Generates a C# file for a type that is an implementation of interface specified in
+        ///     <paramref name="interfaceToImplement" /> parameter.
+        ///     Calls <see cref="M:OROptimizer.DynamicCode.IDynamicAssemblyBuilder.AddCSharpFile(System.String)" /> to add the
+        ///     generated C# file to an assembly being
+        ///     built.
+        ///     Interface <paramref name="interfaceToImplement" /> should have exactly one method that has arbitrary number
+        ///     of parameters, and returns <see cref="T:System.Collections.Generic.IEnumerable`1" />, where T is an interface.
         /// </summary>
         /// <param name="dynamicAssemblyBuilder">The dynamic assembly builder.</param>
         /// <param name="interfaceToImplement">The interface to implement.</param>
         /// <param name="dynamicImplementationsNamespace">Namespace to use for generated classes.</param>
         /// <param name="returnedInstanceTypesForDefaultCase">The returned instance types for default case.</param>
         /// <param name="selectorParameterValues">The selector parameter values.</param>
-        /// <param name="returnedInstanceTypesForSelectorParameterValues">The returned instance types for selector parameter values.</param>
+        /// <param name="returnedInstanceTypesForSelectorParameterValues">
+        ///     The returned instance types for selector parameter
+        ///     values.
+        /// </param>
         /// <returns>
-        /// Returns generated type information, such as class full name and C# file contents.
+        ///     Returns generated type information, such as class full name and C# file contents.
         /// </returns>
         /// <exception cref="System.Exception">
-        /// selectorParameterValues
-        /// or
+        ///     selectorParameterValues
+        ///     or
         /// </exception>
         public IGeneratedTypeInfo GenerateType(IDynamicAssemblyBuilder dynamicAssemblyBuilder, Type interfaceToImplement,
                                                string dynamicImplementationsNamespace,
@@ -94,7 +101,7 @@ namespace IoC.Configuration.DynamicCode
                     throw new Exception(errorMessage);
 
                 if (returnedInstanceTypesForDefaultCase == null)
-                    throw new Exception($"Some types should be provided to handle the default case.");
+                    throw new Exception("Some types should be provided to handle the default case.");
 
                 if (selectorParameterValues?.Count() != returnedInstanceTypesForSelectorParameterValues?.Count())
                     throw new Exception($"The values of parameters  {nameof(selectorParameterValues)} and {nameof(returnedInstanceTypesForSelectorParameterValues)} should either be both nulls, or they should be collections that contain similar number of items.");
@@ -135,7 +142,7 @@ namespace IoC.Configuration.DynamicCode
         }
 
         /// <summary>
-        /// Validates the implemented interface.
+        ///     Validates the implemented interface.
         /// </summary>
         /// <param name="interfaceToImplement">The interface to implement.</param>
         /// <param name="implementedMethodInfo">The implemented method information.</param>
@@ -187,7 +194,7 @@ namespace IoC.Configuration.DynamicCode
         }
 
         /// <summary>
-        /// Validates the parameter values.
+        ///     Validates the parameter values.
         /// </summary>
         /// <param name="implementedMethodInfo">The implemented method information.</param>
         /// <param name="selectorParameterValues">The selector parameter values.</param>
@@ -264,7 +271,7 @@ namespace IoC.Configuration.DynamicCode
         }
 
         /// <summary>
-        /// Validates the type of the returned.
+        ///     Validates the type of the returned.
         /// </summary>
         /// <param name="specifiedReturnedType">Specified type of the returned.</param>
         /// <param name="returnedItemsType">Type of the returned items.</param>
@@ -322,11 +329,11 @@ namespace IoC.Configuration.DynamicCode
             classStrBldr.AppendLine($"public class {className}: {interfaceToImplement.FullName}");
             classStrBldr.AppendLine("{");
 
-            classStrBldr.AppendLine($"private List<object[]> _selectorValues;");
+            classStrBldr.AppendLine("private List<object[]> _selectorValues;");
             classStrBldr.AppendLine($"private {typeof(IDiContainer).FullName} _diContainer;");
             classStrBldr.AppendLine($"public {className}({typeof(IDiContainer).FullName} diContainer, {typeof(ITypeBasedSimpleSerializerAggregator).FullName} serializerAggregator)");
             classStrBldr.AppendLine("{");
-            classStrBldr.AppendLine($"_diContainer = diContainer;");
+            classStrBldr.AppendLine("_diContainer = diContainer;");
             classStrBldr.AppendLine($"_selectorValues = new List<object[]>({serializedSelectorParameterValues.Count});");
 
             classStrBldr.AppendLine("object deserializedValue;");

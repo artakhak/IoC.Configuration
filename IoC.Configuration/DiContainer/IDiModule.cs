@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System.Collections.Generic;
 using IoC.Configuration.DiContainer.BindingsForCode;
 using JetBrains.Annotations;
@@ -38,9 +39,10 @@ namespace IoC.Configuration.DiContainer
     /// </summary>
     public interface IDiModule
     {
-        #region Current Type Interface        
+        #region Current Type Interface
+
         /// <summary>
-        /// Initializes the specified service registration builder.
+        ///     Initializes the specified service registration builder.
         /// </summary>
         /// <param name="serviceRegistrationBuilder">The service registration builder.</param>
         void Init([NotNull] IServiceRegistrationBuilder serviceRegistrationBuilder);
@@ -51,12 +53,13 @@ namespace IoC.Configuration.DiContainer
         void Load();
 
         /// <summary>
-        /// Gets the service binding configurations.
+        ///     Gets the service binding configurations.
         /// </summary>
         /// <value>
-        /// The service binding configurations.
+        ///     The service binding configurations.
         /// </value>
-        [NotNull, ItemNotNull]
+        [NotNull]
+        [ItemNotNull]
         IReadOnlyList<BindingConfigurationForCode> ServiceBindingConfigurations { get; }
 
         #endregion

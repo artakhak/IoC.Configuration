@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using JetBrains.Annotations;
 
 namespace IoC.Configuration.ConfigurationFile
@@ -44,7 +45,7 @@ namespace IoC.Configuration.ConfigurationFile
 
         [NotNull]
         IDiManagersElement DiManagers { get; }
-         
+
         [NotNull]
         IParameterSerializers ParameterSerializers { get; }
 
@@ -60,13 +61,16 @@ namespace IoC.Configuration.ConfigurationFile
         ISettingsElement SettingsElement { get; }
 
         [CanBeNull]
-        IWebApi WebApi { get; }
-
-        [CanBeNull]
         ISettingsRequestorImplementationElement SettingsRequestor { get; }
 
         [CanBeNull]
         IStartupActionsElement StartupActions { get; }
+
+        [CanBeNull]
+        ITypeDefinitionsElement TypeDefinitions { get; }
+
+        [CanBeNull]
+        IWebApi WebApi { get; }
 
         #endregion
     }

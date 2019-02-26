@@ -22,9 +22,11 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using IoC.Configuration.ConfigurationFile;
 using JetBrains.Annotations;
+using OROptimizer.DynamicCode;
 
 namespace IoC.Configuration.DiContainer.BindingsForConfigFile
 {
@@ -37,9 +39,10 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
 
         #endregion
 
-        #region  Constructors        
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="NamedValue"/> class.
+        ///     Initializes a new instance of the <see cref="NamedValue" /> class.
         /// </summary>
         /// <param name="namedValueElement">The named value element.</param>
         protected NamedValue([NotNull] INamedValueElement namedValueElement)
@@ -49,34 +52,64 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
 
         #endregion
 
-        #region INamedValue Interface Implementation        
+        #region INamedValue Interface Implementation
+
+        public string GenerateValueCSharp(IDynamicAssemblyBuilder dynamicAssemblyBuilder)
+        {
+            return _namedValueElement.GenerateValueCSharp(dynamicAssemblyBuilder);
+        }
+
         /// <summary>
-        /// Gets the name.
+        ///     Gets the name.
         /// </summary>
         /// <value>
-        /// The name.
+        ///     The name.
         /// </value>
         public string Name => _namedValueElement.Name;
 
         /// <summary>
-        /// Gets the value as string. Examples are "2", "true", etc.
+        ///     Gets the value as string. Examples are "2", "true", etc.
         /// </summary>
         /// <value>
-        /// The value as string.
+        ///     The value as string.
         /// </value>
-        public string ValueAsString => _namedValueElement.ValueAsString;
+        [Obsolete("Will be removed after 5/31/2019")]
+        string INamedValue.ValueAsString
+        {
+            get
+            {
+                if (_namedValueElement is IDeserializedValue deserializedValue)
+                    return deserializedValue.ValueAsString;
+
+                return string.Empty;
+            }
+        }
 
         /// <summary>
-        /// Normally for injectedObject element this value is <see cref="ValueInstantiationType.ResolveFromDiContext" />, for
-        /// other elements (i.e., int16, int32, etc), the overridden value will be <see cref="ValueInstantiationType.DeserializeFromStringValue" />
+        ///     Can be null only if the parameter is declared with either 'object' or injectedObject elements, and the object type
+        ///     referenced is in a disabled assembly.
         /// </summary>
+        public ITypeInfo ValueTypeInfo => _namedValueElement.ValueTypeInfo;
+
+        #endregion
+
+        #region Member Functions
+
+        public bool IsResolvedFromDiContainer => _namedValueElement.IsResolvedFromDiContainer;
+
+        /// <summary>
+        ///     Normally for injectedObject element this value is <see cref="ValueInstantiationType.ResolveFromDiContext" />, for
+        ///     other elements (i.e., int16, int32, etc), the overridden value will be
+        ///     <see cref="ValueInstantiationType.DeserializeFromStringValue" />
+        /// </summary>
+        [Obsolete("Will be removed after 5/31/2019")]
         public ValueInstantiationType ValueInstantiationType => _namedValueElement.ValueInstantiationType;
 
         /// <summary>
-        /// Can be null only if the parameter is declared with either 'object' or injectedObject elements, and the object type
-        /// referenced is in a disabled assembly.
+        ///     Can be null only if the parameter is declared with either 'object' or injectedObject elements, and the object type
+        ///     referenced is in a disabled assembly.
         /// </summary>
-        public Type ValueType => _namedValueElement.ValueType;
+        public Type ValueType => _namedValueElement.ValueTypeInfo.Type;
 
         #endregion
     }

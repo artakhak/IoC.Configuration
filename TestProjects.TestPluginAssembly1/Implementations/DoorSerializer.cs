@@ -17,20 +17,19 @@ namespace TestPluginAssembly1.Implementations
 
             if (items.Length != 2)
                 return false;
-
-            if (int.TryParse(items[0], out var color) && double.TryParse(items[1], out var height))
+            
+            if (int.TryParse(items[0].Trim('\u202c'), out var color) && double.TryParse(items[1].Trim(), out var height))
             {
                 deserializedValue = new Door(color, height);
                 return true;
             }
 
-            return true;
+            return false;
         }
 
         public bool TrySerialize(object valueToSerialize, out string serializedValue)
         {
             serializedValue = string.Empty;
-
 
             var door = valueToSerialize as IDoor;
             if (door == null)

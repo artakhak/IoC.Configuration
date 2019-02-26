@@ -40,7 +40,11 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
         ///     to a <see cref="IoCServiceFactoryMock" /> object. The <see cref="Dispose" />() method switches
         ///     the context back to the default value.
         /// </summary>
-        public IoCServiceFactoryStaticContextMockSwicth(TypesListFactoryTypeGeneratorMock.ValidationFailureMethod typesListFactoryValidationFailureMethod)
+        public IoCServiceFactoryStaticContextMockSwicth(
+#pragma warning disable CS0612, CS0618
+        TypesListFactoryTypeGeneratorMock.ValidationFailureMethod typesListFactoryValidationFailureMethod
+#pragma warning restore CS0612, CS0618
+        )
         {
             IoCServiceFactoryAmbientContext.Context = new IoCServiceFactoryMock(IoCServiceFactoryAmbientContext.Context, typesListFactoryValidationFailureMethod);
         }

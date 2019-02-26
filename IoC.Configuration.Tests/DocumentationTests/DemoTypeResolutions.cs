@@ -24,7 +24,7 @@ namespace IoC.Configuration.Tests.DocumentationTests
             var diContainerBuilder = new DiContainerBuilder.DiContainerBuilder();
             using (var containerInfo = new DiContainerBuilder.DiContainerBuilder().StartFileBasedDi(
                                                    new FileBasedConfigurationFileContentsProvider(
-                                                       Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration1.xml")),
+                                                       Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")),
                                                    Helpers.TestsEntryAssemblyFolder,
                                                    (sender, e) =>
                                                    {

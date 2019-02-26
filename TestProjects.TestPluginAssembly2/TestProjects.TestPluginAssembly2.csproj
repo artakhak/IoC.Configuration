@@ -5,10 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IoC.Configuration" Version="1.0.5" />
+    <PackageReference Include="OROptimizer.Shared" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
     <ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly1\TestProjects.DynamicallyLoadedAssembly1.csproj" />
     <ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly2\TestProjects.DynamicallyLoadedAssembly2.csproj" />
     <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
@@ -23,6 +24,7 @@
 
   <PropertyGroup>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <RootNamespace>TestPluginAssembly2</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

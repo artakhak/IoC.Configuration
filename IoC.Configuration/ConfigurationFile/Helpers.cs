@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.IO;
 using System.Text;
@@ -65,12 +66,41 @@ namespace IoC.Configuration.ConfigurationFile
         /// </exception>
         internal static IAssembly GetAssemblySettingByAssemblyAlias([NotNull] IConfigurationFileElement requestorFileElement, [NotNull] string assemblyAlias)
         {
-            var assemblySetting = requestorFileElement.Configuration.Assemblies.GetAssemblyByAlias(assemblyAlias);
+            var assemblyElement = requestorFileElement.Configuration.Assemblies.GetAssemblyByAlias(assemblyAlias);
 
-            if (assemblySetting == null)
+            if (assemblyElement == null)
                 throw new ConfigurationParseException(requestorFileElement, $"No assembly with alias '{assemblyAlias}' is declared in '{ConfigurationFileElementNames.Assemblies}' element.");
 
-            return assemblySetting;
+            return assemblyElement;
+        }
+
+        internal static T GetAttributeEnumValue<T>(this IConfigurationFileElement configurationFileElement, string attributeName) where T : struct
+        {
+            var typeOfT = typeof(T);
+
+            if (!typeOfT.IsEnum)
+                throw new ConfigurationParseException(configurationFileElement, $"Type '{typeOfT.FullName}' is not an enum type.");
+
+            var attributeValue = configurationFileElement.GetAttributeValue(attributeName)?.Trim();
+
+            if (attributeValue == null)
+                attributeValue = string.Empty;
+
+            if (attributeValue.Length > 0)
+            {
+                var attributeValueCapitalized = $"{char.ToUpper(attributeValue[0])}{attributeValue.Substring(1)}";
+
+                if (attributeValue.Length == 1)
+                    attributeValueCapitalized = attributeValue.ToUpper();
+                else
+                    attributeValueCapitalized = $"{char.ToUpper(attributeValue[0])}{attributeValue.Substring(1)}";
+
+                var enumValue = default(T);
+                if (Enum.TryParse(attributeValueCapitalized, out enumValue))
+                    return enumValue;
+            }
+
+            throw new ConfigurationParseException(configurationFileElement, $"Could not parse value '{attributeValue}' to an enum value of type '{typeof(T).FullName}'.");
         }
 
         /// <summary>
@@ -87,38 +117,43 @@ namespace IoC.Configuration.ConfigurationFile
         {
             var typeOfConvertedValue = typeof(T);
 
-            var attributeValue = configurationFileElement.GetAttributeValue(attributeName)?.Trim();
+            var attributeValue = configurationFileElement.GetAttributeValue(attributeName);
+
+            if (typeOfConvertedValue == typeof(string))
+                return (T) (object) attributeValue;
 
             try
             {
-                if (!string.IsNullOrEmpty(attributeValue))
+                if (typeOfConvertedValue == typeof(double) || typeOfConvertedValue == typeof(float))
+                    return (T) (object) double.Parse(attributeValue);
+
+                if (typeOfConvertedValue == typeof(long))
+                    return (T) (object) long.Parse(attributeValue);
+
+                if (typeOfConvertedValue == typeof(int))
+                    return (T) (object) int.Parse(attributeValue);
+
+                if (typeOfConvertedValue == typeof(short))
+                    return (T) (object) short.Parse(attributeValue);
+
+                if (typeOfConvertedValue == typeof(byte))
+                    return (T) (object) short.Parse(attributeValue);
+
+                if (typeOfConvertedValue == typeof(bool))
                 {
-                    if (typeOfConvertedValue == typeof(double) || typeOfConvertedValue == typeof(float))
-                        return (T) (object) double.Parse(attributeValue);
+                    if (attributeValue.Equals("1"))
+                        return (T) (object) true;
 
-                    if (typeOfConvertedValue == typeof(long))
-                        return (T) (object) long.Parse(attributeValue);
+                    if (attributeValue.Equals("0"))
+                        return (T) (object) false;
 
-                    if (typeOfConvertedValue == typeof(int))
-                        return (T) (object) int.Parse(attributeValue);
-
-                    if (typeOfConvertedValue == typeof(short))
-                        return (T) (object) short.Parse(attributeValue);
-
-                    if (typeOfConvertedValue == typeof(byte))
-                        return (T) (object) short.Parse(attributeValue);
-
-                    if (typeOfConvertedValue == typeof(bool))
-                        return (T) (object) bool.Parse(attributeValue);
-
-                    if (typeOfConvertedValue == typeof(DateTime))
-                        return (T) (object) DateTime.Parse(attributeValue);
-
-                    if (typeOfConvertedValue == typeof(string))
-                        return (T) (object) attributeValue;
-
-                    LogHelper.Context.Log.WarnFormat("Unhandled type '{0}' in '{1}.{2}().'", typeOfConvertedValue, typeof(Helpers).FullName, nameof(GetAttributeValue));
+                    return (T) (object) bool.Parse(attributeValue);
                 }
+
+                if (typeOfConvertedValue == typeof(DateTime))
+                    return (T) (object) DateTime.Parse(attributeValue);
+
+                LogHelper.Context.Log.WarnFormat("Unhandled type '{0}' in '{1}.{2}().'", typeOfConvertedValue, typeof(Helpers).FullName, nameof(GetAttributeValue));
             }
             catch
             {
@@ -159,6 +194,7 @@ namespace IoC.Configuration.ConfigurationFile
         /// <param name="typeFullName"></param>
         /// <returns></returns>
         /// <exception cref="ConfigurationParseException">Throws this exception if the type is not in an assembly.</exception>
+        [Obsolete("Use ITypeHelper.GetTypeInfo(). Will be removed after 5/31/2019.")]
         internal static Type GetTypeInAssembly([NotNull] IAssemblyLocator assemblyLocator, [NotNull] IConfigurationFileElement requestorFileElement, [NotNull] IAssembly assemblyElement, [NotNull] string typeFullName)
         {
             System.Reflection.Assembly assembly = null;
@@ -178,40 +214,6 @@ namespace IoC.Configuration.ConfigurationFile
                 throw new ConfigurationParseException(requestorFileElement, $"Type '{typeFullName}' was not found in an assembly '{assemblyElement.AbsolutePath}'. Assembly is specified in an element '{ConfigurationFileElementNames.Assembly}' with the value of attribute '{ConfigurationFileAttributeNames.Alias}' equal to '{assemblyElement.Alias}'.");
 
             return type;
-        }
-
-        internal static void ValidateIdentifier(this IConfigurationFileElement configurationFileElement, string attributeName)
-        {
-            var attributeValue = configurationFileElement.GetAttributeValue<string>(attributeName);
-
-            var isValidIdentifier = attributeValue.Length > 0;
-
-            // TODO: Replace with RegEx or 
-            for (var i = 0; i < attributeValue.Length; ++i)
-            {
-                var currChar = attributeValue[i];
-
-                if (currChar == '_')
-                    continue;
-
-                if (char.IsNumber(currChar))
-                {
-                    if (i == 0)
-                    {
-                        isValidIdentifier = false;
-                        break;
-                    }
-                }
-                else if (!(currChar >= 'a' && currChar <= 'z' || currChar >= 'A' && currChar <= 'Z'))
-                {
-                    isValidIdentifier = false;
-                    break;
-                }
-            }
-
-            if (!isValidIdentifier)
-                throw new ConfigurationParseException(configurationFileElement,
-                    $"The value of attribute '{attributeName}' is not a valid identifier. Valid identifier chould contain only alphanumeric characters or underscore '_' and should not start with a number.");
         }
 
         public static string XmlElementToString(this XmlElement xmlElement)

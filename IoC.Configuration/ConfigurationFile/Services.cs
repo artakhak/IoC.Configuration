@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using System.Xml;
@@ -33,6 +34,9 @@ namespace IoC.Configuration.ConfigurationFile
     public class Services : ConfigurationFileElementAbstr, IServices
     {
         #region Member Variables
+
+        [NotNull]
+        private readonly LinkedList<IServiceElement> _allServices = new LinkedList<IServiceElement>();
 
         [NotNull]
         private readonly Dictionary<Type, IServiceElement> _serviceTypeToServiceMap = new Dictionary<Type, IServiceElement>();
@@ -53,31 +57,29 @@ namespace IoC.Configuration.ConfigurationFile
         {
             base.AddChild(child);
 
-            if (child is IServiceElement)
-                if (child.Enabled)
-                {
-                    var serviceElement = (IServiceElement) child;
+            if (child is IServiceElement serviceElement)
+            {
+                if (_serviceTypeToServiceMap.ContainsKey(serviceElement.ServiceTypeInfo.Type))
+                    throw new ConfigurationParseException(child, $"Multiple occurrences of service with the value of attribute '{ConfigurationFileAttributeNames.Type}' equal to '{serviceElement.ServiceTypeInfo.TypeCSharpFullName}'.", this);
 
-                    if (_serviceTypeToServiceMap.ContainsKey(serviceElement.ServiceType))
-                        throw new ConfigurationParseException(child, $"Multiple occurrences of service with the value of attribute '{ConfigurationFileAttributeNames.Type}' equal to '{serviceElement.ServiceType.FullName}'.", this);
+                if (serviceElement.ServiceTypeInfo.Type == typeof(ISettingsRequestor))
+                    ThrowOnProhibitedServiceType(serviceElement, $"/{ConfigurationFileElementNames.RootElement}/{ConfigurationFileElementNames.SettingsRequestor}");
 
-                    if (serviceElement.ServiceType == typeof(ISettingsRequestor))
-                        ThrowOnProhibitedServiceType(serviceElement, $"/{ConfigurationFileElementNames.RootElement}/{ConfigurationFileElementNames.SettingsRequestor}");
+                if (serviceElement.ServiceTypeInfo.Type == typeof(IStartupAction) || serviceElement.ServiceTypeInfo.Type == typeof(IEnumerable<IStartupAction>))
+                    ThrowOnProhibitedServiceType(serviceElement, $"/{ConfigurationFileElementNames.RootElement}/{ConfigurationFileElementNames.StartupActions}/{ConfigurationFileElementNames.StartupAction}");
 
-                    if (serviceElement.ServiceType == typeof(IStartupAction))
-                        ThrowOnProhibitedServiceType(serviceElement, $"/{ConfigurationFileElementNames.RootElement}/{ConfigurationFileElementNames.StartupActions}/{ConfigurationFileElementNames.StartupAction}");
+                if (serviceElement.ServiceTypeInfo.Type == typeof(IPlugin))
+                    ThrowOnProhibitedServiceType(serviceElement, $"/{ConfigurationFileElementNames.RootElement}/{ConfigurationFileElementNames.PluginsSetup}/{ConfigurationFileElementNames.PluginSetup}/{ConfigurationFileElementNames.PluginImplementation}");
 
-                    if (serviceElement.ServiceType == typeof(IPlugin))
-                        ThrowOnProhibitedServiceType(serviceElement, $"/{ConfigurationFileElementNames.RootElement}/{ConfigurationFileElementNames.PluginsSetup}/{ConfigurationFileElementNames.PluginSetup}/{ConfigurationFileElementNames.PluginImplementation}");
+                if (!IoCServiceFactoryAmbientContext.Context.GetProhibitedServiceTypesInServicesElementChecker().IsServiceTypeAllowed(serviceElement.ServiceTypeInfo.Type))
+                    throw new ConfigurationParseException(serviceElement, $"Type '{serviceElement.ServiceTypeInfo.TypeCSharpFullName}' cannot be used a service type in 'service' element.");
 
-                    if (!IoCServiceFactoryAmbientContext.Context.GetProhibitedServiceTypesInServicesElementChecker().IsServiceTypeAllowed(serviceElement.ServiceType))
-                        throw new ConfigurationParseException(serviceElement, $"Type '{serviceElement.ServiceType.FullName}' cannot be used a service type in 'service' element.");
-
-                    _serviceTypeToServiceMap[serviceElement.ServiceType] = serviceElement;
-                }
+                _serviceTypeToServiceMap[serviceElement.ServiceTypeInfo.Type] = serviceElement;
+                _allServices.AddLast(serviceElement);
+            }
         }
 
-        public IEnumerable<IServiceElement> AllServices => _serviceTypeToServiceMap.Values;
+        public IEnumerable<IServiceElement> AllServices => _allServices;
 
         public IServiceElement GetServiceByServiceType(Type serviceType)
         {
@@ -95,7 +97,7 @@ namespace IoC.Configuration.ConfigurationFile
         /// <exception cref="ConfigurationParseException">Always throws this exception.</exception>
         private string ThrowOnProhibitedServiceType([NotNull] IServiceElement serviceElement, string serviceImplementatipnLocation)
         {
-            throw new ConfigurationParseException(serviceElement, $"Type '{serviceElement.ServiceType.FullName}' cannot be used a service type in 'service' element. An implementation for interface '{serviceElement.ServiceType.FullName}'should be defined in element '{serviceImplementatipnLocation}'.", this);
+            throw new ConfigurationParseException(serviceElement, $"Type '{serviceElement.ServiceTypeInfo.TypeCSharpFullName}' cannot be used a service type in 'service' element. An implementation for interface '{serviceElement.ServiceTypeInfo.TypeCSharpFullName}'should be defined in element '{serviceImplementatipnLocation}'.", this);
         }
 
         #endregion

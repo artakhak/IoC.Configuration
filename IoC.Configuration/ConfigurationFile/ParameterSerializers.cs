@@ -22,12 +22,12 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using JetBrains.Annotations;
-using OROptimizer;
 using OROptimizer.Diagnostics.Log;
 using OROptimizer.Serializer;
 
@@ -38,7 +38,7 @@ namespace IoC.Configuration.ConfigurationFile
         #region Member Variables
 
         [NotNull]
-        private readonly IAssemblyLocator _assemblyLocator;
+        private readonly ICreateInstanceFromTypeAndConstructorParameters _createInstanceFromTypeAndConstructorParameters;
 
         [NotNull]
         private static readonly Dictionary<Type, ITypeBasedSimpleSerializer> _defaultSerializersThatCannotBeOverridden = new Dictionary<Type, ITypeBasedSimpleSerializer>();
@@ -51,6 +51,9 @@ namespace IoC.Configuration.ConfigurationFile
 
         [NotNull]
         private Type _serializerAggregatorType;
+
+        [NotNull]
+        private readonly ITypeHelper _typeHelper;
 
         #endregion
 
@@ -82,9 +85,11 @@ namespace IoC.Configuration.ConfigurationFile
         }
 
         public ParameterSerializers([NotNull] XmlElement xmlElement, [NotNull] IConfigurationFileElement parent,
-                                    [NotNull] IAssemblyLocator assemblyLocator) : base(xmlElement, parent)
+                                    [NotNull] ITypeHelper typeHelper,
+                                    [NotNull] ICreateInstanceFromTypeAndConstructorParameters createInstanceFromTypeAndConstructorParameters) : base(xmlElement, parent)
         {
-            _assemblyLocator = assemblyLocator;
+            _typeHelper = typeHelper;
+            _createInstanceFromTypeAndConstructorParameters = createInstanceFromTypeAndConstructorParameters;
         }
 
         #endregion
@@ -105,37 +110,18 @@ namespace IoC.Configuration.ConfigurationFile
         {
             base.Initialize();
 
-            if (_xmlElement.HasAttribute(ConfigurationFileAttributeNames.Assembly) && _xmlElement.HasAttribute(ConfigurationFileAttributeNames.SerializerAggregatorType))
+            if (_xmlElement.HasAttribute(ConfigurationFileAttributeNames.SerializerAggregatorType) ||
+                _xmlElement.HasAttribute(ConfigurationFileAttributeNames.Assembly) ||
+                _xmlElement.HasAttribute(ConfigurationFileAttributeNames.SerializerAggregatorTypeRef))
             {
-                var serializerAggregatorAssembly = Helpers.GetAssemblySettingByAssemblyAlias(this,
-                    this.GetAttributeValue<string>(ConfigurationFileAttributeNames.Assembly));
-
-                if (!serializerAggregatorAssembly.Enabled)
-                    throw new ConfigurationParseException(this, $"Assembly '{serializerAggregatorAssembly.Alias}' used in element '{ConfigurationFileElementNames.ParameterSerializers}' is disabled.");
-
-                _serializerAggregatorType = Helpers.GetTypeInAssembly(_assemblyLocator, this, serializerAggregatorAssembly, this.GetAttributeValue<string>(ConfigurationFileAttributeNames.SerializerAggregatorType));
+                _serializerAggregatorType = _typeHelper.GetTypeInfo(this, ConfigurationFileAttributeNames.SerializerAggregatorType,
+                    ConfigurationFileAttributeNames.Assembly,
+                    ConfigurationFileAttributeNames.SerializerAggregatorTypeRef).Type;
             }
             else
             {
-                string presentAttributeName = null;
-                string missingAttributeName = null;
-
-                if (_xmlElement.HasAttribute(ConfigurationFileAttributeNames.Assembly))
-                {
-                    presentAttributeName = ConfigurationFileAttributeNames.Assembly;
-                    missingAttributeName = ConfigurationFileAttributeNames.SerializerAggregatorType;
-                }
-                else if (_xmlElement.HasAttribute(ConfigurationFileAttributeNames.SerializerAggregatorType))
-                {
-                    presentAttributeName = ConfigurationFileAttributeNames.SerializerAggregatorType;
-                    missingAttributeName = ConfigurationFileAttributeNames.Assembly;
-                }
-
-                if (presentAttributeName != null)
-                    throw new ConfigurationParseException(this, $" Attribute '{presentAttributeName}' is present while attribute '{missingAttributeName}' is missing. Either both '{presentAttributeName}' and '{missingAttributeName}' attributes should be present, or both should be omitted.");
-
-                // Use default aggregator.
-                _serializerAggregatorType = OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator.GetDefaultSerializerAggregator().GetType();
+                _serializerAggregatorType =
+                    OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator.GetDefaultSerializerAggregator().GetType();
 
                 LogHelper.Context.Log.InfoFormat("Since both attributes '{0}' and '{1}' are missing, falling back to default aggregator '{2}'.",
                     ConfigurationFileAttributeNames.SerializerAggregatorType, ConfigurationFileAttributeNames.Assembly, _serializerAggregatorType.FullName);
@@ -149,10 +135,8 @@ namespace IoC.Configuration.ConfigurationFile
         {
             base.ValidateAfterChildrenAdded();
 
-            var serializerAggregatorObject = GlobalsCoreAmbientContext.Context.CreateInstance(typeof(ITypeBasedSimpleSerializerAggregator), _serializerAggregatorType, _parameters == null ? new ParameterInfo[0] : _parameters.GetParameterValues(), out var errorMessage);
-
-            if (serializerAggregatorObject == null)
-                throw new ConfigurationParseException(this, errorMessage);
+            var serializerAggregatorObject = _createInstanceFromTypeAndConstructorParameters.CreateInstance(this,
+                typeof(ITypeBasedSimpleSerializerAggregator), _serializerAggregatorType, _parameters?.AllParameters ?? new IParameterElement[0]);
 
             TypeBasedSimpleSerializerAggregator = (ITypeBasedSimpleSerializerAggregator) serializerAggregatorObject;
 
@@ -182,7 +166,6 @@ namespace IoC.Configuration.ConfigurationFile
                     TypeBasedSimpleSerializerAggregator.Register(parameterSerializer.Serializer);
                 }
             }
-
 
             var defaultSerializer = OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator.GetDefaultSerializerAggregator();
 

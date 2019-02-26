@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 namespace IoC.Configuration.ConfigurationFile
 {
     public static class ConfigurationFileAttributeNames
@@ -31,18 +32,38 @@ namespace IoC.Configuration.ConfigurationFile
         public const string ActiveDiManagerName = "activeDiManagerName";
         public const string Alias = "alias";
         public const string Assembly = "assembly";
+        public const string CollectionType = "collectionType";
+
+        public const string DeclaringClass = "class";
+        public const string DeclaringClassRef = "classRef";
+        public const string DeclaringInterface = "declaringInterface";
         public const string Enabled = "enabled";
         public const string Interface = "interface";
+        public const string InterfaceRef = "interfaceRef";
+
+        public const string ItemType = "itemType";
+        public const string ItemTypeAssembly = "itemTypeAssembly";
+        public const string ItemTypeRef = "itemTypeRef";
         public const string LoadAssemblyAlways = "loadAlways";
+        public const string MemberName = "memberName";
         public const string Name = "name";
         public const string OverrideDirectory = "overrideDirectory";
+        public const string ParamName = "paramName";
         public const string Path = "path";
         public const string Plugin = "plugin";
         public const string PluginsDirPath = "pluginsDirPath";
         public const string RegisterIfNotRegistered = "registerIfNotRegistered";
+
+        public const string ReturnType = "returnType";
+        public const string ReturnTypeRef = "returnTypeRef";
+        public const string ReuseValue = "reuseValue";
         public const string Scope = "scope";
         public const string SerializerAggregatorType = "serializerAggregatorType";
+        public const string SerializerAggregatorTypeRef = "serializerAggregatorTypeRef";
+
+        public const string SettingName = "settingName";
         public const string Type = "type";
+        public const string TypeRef = "typeRef";
         public const string Value = "value";
 
         #endregion

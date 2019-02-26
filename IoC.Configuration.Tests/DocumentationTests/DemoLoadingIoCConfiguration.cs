@@ -31,7 +31,7 @@ namespace IoC.Configuration.Tests.DocumentationTests
             using (var containerInfo = new DiContainerBuilder.DiContainerBuilder()
                   .StartFileBasedDi(
                                 new FileBasedConfigurationFileContentsProvider(
-                                    Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration1.xml")),
+                                    Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")),
                                     // Provide the entry assembly folder. Normally this is the folder,
                                     // where the executable file is. However for test projects this might not
                                     // be the case. This folder will be used in assembly resolution.

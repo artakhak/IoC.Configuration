@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using IoC.Configuration.DiContainer;
@@ -29,11 +30,12 @@ using IoC.Configuration.DiContainer.BindingsForCode;
 using JetBrains.Annotations;
 using OROptimizer;
 using OROptimizer.Diagnostics.Log;
+using OROptimizer.Serializer;
 
 namespace IoC.Configuration.DiContainerBuilder
 {
     /// <summary>
-    /// A class that stores data for building dependency injection container.
+    ///     A class that stores data for building dependency injection container.
     /// </summary>
     /// <seealso cref="System.IDisposable" />
     public abstract class DiContainerBuilderConfiguration : IDisposable
@@ -109,9 +111,10 @@ namespace IoC.Configuration.DiContainerBuilder
 
         #endregion
 
-        #region Member Functions        
+        #region Member Functions
+
         /// <summary>
-        /// Adds DI modules of type <see cref="IDiContainer"/> to container builder.
+        ///     Adds DI modules of type <see cref="IDiContainer" /> to container builder.
         /// </summary>
         /// <param name="diModules">The DI modules.</param>
         public void AddDiModules([NotNull] [ItemNotNull] params IDiModule[] diModules)
@@ -124,7 +127,7 @@ namespace IoC.Configuration.DiContainerBuilder
         }
 
         /// <summary>
-        /// Adds native (such as Autofac or Ninject) modules to container builder.
+        ///     Adds native (such as Autofac or Ninject) modules to container builder.
         /// </summary>
         /// <param name="nativeModules">The native modules.</param>
         public void AddNativeModules([NotNull] [ItemNotNull] params object[] nativeModules)
@@ -159,10 +162,10 @@ namespace IoC.Configuration.DiContainerBuilder
         }
 
         /// <summary>
-        /// Gets the DI container.
+        ///     Gets the DI container.
         /// </summary>
         /// <value>
-        /// The DI container.
+        ///     The DI container.
         /// </value>
         [CanBeNull]
         public IDiContainer DiContainer
@@ -175,11 +178,14 @@ namespace IoC.Configuration.DiContainerBuilder
             }
         }
 
+        [Obsolete("This property should be used only in dynamically generated code. In all other cases either inject dependencies in constructors, or use IContainerInfo object returned by DiContainerBuilderConfiguration.StartContainer() (normally only in application entry code when the container is created).")]
+        public static IDiContainer DiContainerStatic { get; private set; }
+
         /// <summary>
-        /// Gets or sets the DI manager.
+        ///     Gets or sets the DI manager.
         /// </summary>
         /// <value>
-        /// The DI manager.
+        ///     The DI manager.
         /// </value>
         [CanBeNull]
         public IDiManager DiManager
@@ -195,7 +201,8 @@ namespace IoC.Configuration.DiContainerBuilder
         /// <summary>
         ///     List of native module objects (such as Autofac or Ninject modules), as well as <see cref="IDiModule" /> objects
         /// </summary>
-        [NotNull, ItemNotNull]
+        [NotNull]
+        [ItemNotNull]
         protected IReadOnlyList<object> NativeAndDiModules => _nativeAndDiModules;
 
         private void NotifyModulesOnContainerReady([NotNull] [ItemNotNull] IEnumerable<object> nativeModules, [NotNull] IDiContainer diContainer)
@@ -210,7 +217,7 @@ namespace IoC.Configuration.DiContainerBuilder
         }
 
         /// <summary>
-        /// Registers the modules with DI manager.
+        ///     Registers the modules with DI manager.
         /// </summary>
         public void RegisterModulesWithDiManager()
         {
@@ -239,8 +246,11 @@ namespace IoC.Configuration.DiContainerBuilder
             }
         }
 
+        [Obsolete("This property should be used only in dynamically generated code. In all other cases either inject dependencies in constructors, or use IContainerInfo object returned by DiContainerBuilderConfiguration.StartContainer() (normally only in application entry code when the container is created).")]
+        public static ITypeBasedSimpleSerializerAggregator SerializerAggregatorStatic { get; private set; }
+
         /// <summary>
-        /// Starts the container.
+        ///     Starts the container.
         /// </summary>
         /// <returns></returns>
         public IContainerInfo StartContainer()
@@ -252,10 +262,17 @@ namespace IoC.Configuration.DiContainerBuilder
                 DiManager.StartServiceProvider(_diContainer);
                 _diContainer.StartMainLifeTimeScope();
 
+                // NOTE, It is important that DiContainerStatic and SerializerAggregatorStatic are initialized first thing after 
+                // _diContainer.StartMainLifeTimeScope() is called, since this objects might be needed when resolving services in other
+                // method calls that follow.
+#pragma warning disable CS0612, CS0618
+                DiContainerStatic = _diContainer;
+                SerializerAggregatorStatic = _diContainer.Resolve<ITypeBasedSimpleSerializerAggregator>();
+#pragma warning restore CS0612, CS0618
+
                 NotifyModulesOnContainerReady(_generatedNativeModules, _diContainer);
 
                 OnContainerStarted();
-
                 return new ContainerInfo(this);
             }
             catch (LoggerWasNotInitializedException)

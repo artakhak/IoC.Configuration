@@ -22,19 +22,15 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
-using JetBrains.Annotations;
+
 using OROptimizer.Serializer;
 
 namespace IoC.Configuration.ConfigurationFile
 {
-    public interface IParameterSerializer : IConfigurationFileElement
+    public interface IParameterSerializer : IConfigurationFileElement, ITypedItem
     {
         #region Current Type Interface
 
-        /// <summary>
-        ///     Can be null only if Enabled is false.
-        /// </summary>
-        [CanBeNull]
         ITypeBasedSimpleSerializer Serializer { get; }
 
         #endregion

@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using System.Xml;
@@ -30,19 +31,18 @@ using JetBrains.Annotations;
 
 namespace IoC.Configuration.ConfigurationFile
 {
-    public abstract class KnownServiceImplementationElement : ServiceImplementationElementAbstr, IServiceElement
+    public abstract class KnownServiceImplementationElement : TypeBasedServiceImplementationElementAbstr, IServiceElement
     {
-        #region Member Variables
-
-        #endregion
-
         #region  Constructors
 
         public KnownServiceImplementationElement([NotNull] XmlElement xmlElement, [NotNull] IConfigurationFileElement parent,
                                                  [NotNull] Type implementedServiceType,
-                                                 [NotNull] IAssemblyLocator assemblyLocator) : base(xmlElement, parent, assemblyLocator)
+                                                 [NotNull] IImplementedTypeValidator implementedTypeValidator,
+                                                 [NotNull] IInjectedPropertiesValidator injectedPropertiesValidator,
+                                                 [NotNull] ITypeHelper typeHelper) :
+            base(xmlElement, parent, implementedTypeValidator, injectedPropertiesValidator, typeHelper)
         {
-            ServiceType = implementedServiceType;
+            ServiceTypeInfo = TypeInfo.CreateNonArrayTypeInfo(implementedServiceType, Configuration.Assemblies.IoCConfigurationAssembly, null);
             Implementations = new IServiceImplementationElement[] {this};
         }
 
@@ -56,15 +56,15 @@ namespace IoC.Configuration.ConfigurationFile
         {
             base.Initialize();
 
-            if (Enabled)
-                if (!ServiceType.IsAssignableFrom(ImplementationType))
-                    throw new ConfigurationParseException(this, $"Class '{ImplementationType.FullName}' does not implement interface '{ServiceType.FullName}'.");
+            if (!ServiceTypeInfo.Type.IsAssignableFrom(ValueTypeInfo.Type))
+                throw new ConfigurationParseException(this, $"Class '{ValueTypeInfo.TypeCSharpFullName}' does not implement interface '{ServiceTypeInfo.TypeCSharpFullName}'.");
         }
 
         public bool RegisterIfNotRegistered => false;
+        Type IServiceElement.ServiceType => ServiceTypeInfo.Type;
 
         [NotNull]
-        public Type ServiceType { get; }
+        public ITypeInfo ServiceTypeInfo { get; }
 
         #endregion
 

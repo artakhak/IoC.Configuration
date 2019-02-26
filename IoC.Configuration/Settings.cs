@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using IoC.Configuration.ConfigurationFile;
@@ -47,9 +48,10 @@ namespace IoC.Configuration
 
         #endregion
 
-        #region  Constructors        
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Settings"/> class.
+        ///     Initializes a new instance of the <see cref="Settings" /> class.
         /// </summary>
         public Settings([NotNull] ISettingsElement settingsElement, [NotNull] ITypeBasedSimpleSerializerAggregator typeBasedSimpleSerializerAggregator)
         {
@@ -61,19 +63,20 @@ namespace IoC.Configuration
 
         #endregion
 
-        #region ISettings Interface Implementation        
+        #region ISettings Interface Implementation
+
         /// <summary>
-        /// A collection of all settings loading from configuration file.
+        ///     A collection of all settings loading from configuration file.
         /// </summary>
         public IEnumerable<ISetting> AllSettings => _settingNameToSettingMap.Values;
 
         /// <summary>
-        /// Returns an object of type <see cref="ISetting" /> with data loaded from a setting in configuration file.
+        ///     Returns an object of type <see cref="ISetting" /> with data loaded from a setting in configuration file.
         /// </summary>
         /// <param name="name">Setting name in configuration file.</param>
         /// <returns>
-        /// Returns an instance of <see cref="ISetting"/>, if there is a setting named <paramref name="name"/>.
-        /// Returns null otherwise.
+        ///     Returns an instance of <see cref="ISetting" />, if there is a setting named <paramref name="name" />.
+        ///     Returns null otherwise.
         /// </returns>
         public ISetting GetSetting(string name)
         {
@@ -81,17 +84,19 @@ namespace IoC.Configuration
         }
 
         /// <summary>
-        /// Gets the value of a setting, if the setting is present in configuration file and has the specified type.
-        /// Otherwise, returns the specified default value.
+        ///     Gets the value of a setting, if the setting is present in configuration file and has the specified type.
+        ///     Otherwise, returns the specified default value.
         /// </summary>
         /// <typeparam name="T">Setting type in configuration file.</typeparam>
         /// <param name="name">Setting name in configuration file.</param>
-        /// <param name="defaultValue">A value to return, if the setting is not in configuration file, or if it is not of
-        /// type <typeparamref name="T" />.</param>
+        /// <param name="defaultValue">
+        ///     A value to return, if the setting is not in configuration file, or if it is not of
+        ///     type <typeparamref name="T" />.
+        /// </param>
         /// <param name="value">Setting value.</param>
         /// <returns>
-        /// Returns true, if setting of type <typeparamref name="T" /> is present in configuration file. Returns false
-        /// otherwise.
+        ///     Returns true, if setting of type <typeparamref name="T" /> is present in configuration file. Returns false
+        ///     otherwise.
         /// </returns>
         public bool GetSettingValue<T>(string name, T defaultValue, out T value)
         {
@@ -101,21 +106,9 @@ namespace IoC.Configuration
             if (setting != null)
             {
                 var convertedToType = typeof(T);
-                if (!convertedToType.IsAssignableFrom(setting.ValueType))
+                if (!convertedToType.IsTypeAssignableFrom(setting.ValueTypeInfo.Type))
                 {
-                    var errorMessage = string.Format("Trying to convert the value of setting '{0}' of type '{1}' to a wrong type '{2}'.",
-                        setting.Name, setting.ValueType, convertedToType);
-
-                    if (_typeBasedSimpleSerializerAggregator.TryDeserialize(setting.ValueAsString, defaultValue, out var deserializedValue))
-                    {
-                        value = deserializedValue;
-                        LogHelper.Context.Log.WarnFormat(errorMessage);
-                    }
-                    else
-                    {
-                        value = defaultValue;
-                        LogHelper.Context.Log.ErrorFormat(errorMessage);
-                    }
+                    LogHelper.Context.Log.ErrorFormat("Trying to convert the value of setting '{0}' of type '{1}' to a wrong type '{2}'.", setting.Name, setting.ValueTypeInfo.Type, convertedToType);
 
                     return false;
                 }
@@ -130,13 +123,13 @@ namespace IoC.Configuration
         }
 
         /// <summary>
-        /// Gets the value of a setting if the setting is present in configuration file and has the specified type.
-        /// Otherwise, throws an exception.
+        ///     Gets the value of a setting if the setting is present in configuration file and has the specified type.
+        ///     Otherwise, throws an exception.
         /// </summary>
         /// <typeparam name="T">Setting type in configuration file.</typeparam>
         /// <param name="name">Setting name in configuration file</param>
         /// <returns>
-        /// Returns setting value.
+        ///     Returns setting value.
         /// </returns>
         public T GetSettingValueOrThrow<T>(string name)
         {
@@ -145,11 +138,11 @@ namespace IoC.Configuration
             if (setting == null)
                 GlobalsCoreAmbientContext.Context.LogAnErrorAndThrowException(
                     $"Setting '{name}' does not exist in settings section.");
-            //throw new Exception($"Setting '{name}' does not exist in settings section.");
 
-            if (setting.ValueType != typeof(T))
+            var convertedToType = typeof(T);
+            if (!convertedToType.IsTypeAssignableFrom(setting.ValueTypeInfo.Type))
                 GlobalsCoreAmbientContext.Context.LogAnErrorAndThrowException(
-                    $"The setting value type for setting '{name}' is '{setting.ValueType.FullName}'. Expected setting value type is '{typeof(T).FullName}'.");
+                    $"The setting value type for setting '{name}' is '{setting.ValueTypeInfo.TypeCSharpFullName}'. Expected setting value type is '{convertedToType.FullName}'.");
 
             T settingValue;
 

@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using IoC.Configuration.DiContainer;
@@ -33,14 +34,15 @@ using OROptimizer.Serializer;
 namespace IoC.Configuration.DiContainerBuilder.CodeBased
 {
     /// <summary>
-    /// A class that stores data for building dependency injection container using code based configuration.
+    ///     A class that stores data for building dependency injection container using code based configuration.
     /// </summary>
     /// <seealso cref="IoC.Configuration.DiContainerBuilder.DiContainerBuilderConfiguration" />
     public class CodeBasedConfiguration : DiContainerBuilderConfiguration
     {
         #region Member Variables
 
-        [NotNull, ItemNotNull]
+        [NotNull]
+        [ItemNotNull]
         private readonly LinkedList<string> _assemblyProbingPaths = new LinkedList<string>();
 
         [NotNull]
@@ -49,9 +51,9 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         #endregion
 
         #region  Constructors
-       
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="CodeBasedConfiguration"/> class.
+        ///     Initializes a new instance of the <see cref="CodeBasedConfiguration" /> class.
         /// </summary>
         /// <param name="diManager">The DI manager.</param>
         /// <param name="entryAssemblyFolder">
@@ -103,7 +105,7 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         }
 
         /// <summary>
-        /// Releases unmanaged and - optionally - managed resources.
+        ///     Releases unmanaged and - optionally - managed resources.
         /// </summary>
         public override void Dispose()
         {

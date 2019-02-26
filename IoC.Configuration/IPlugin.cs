@@ -22,12 +22,13 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 
 namespace IoC.Configuration
 {
     /// <summary>
-    /// Represents a plugin object in configuration file.
+    ///     Represents a plugin object in configuration file.
     /// </summary>
     /// <seealso cref="IoC.Configuration.ISettingsRequestor" />
     /// <seealso cref="System.IDisposable" />
@@ -36,7 +37,7 @@ namespace IoC.Configuration
         #region Current Type Interface
 
         /// <summary>
-        /// Initializes this instance.
+        ///     Initializes this instance.
         /// </summary>
         void Initialize();
 

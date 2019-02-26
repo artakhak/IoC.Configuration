@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
@@ -41,7 +42,7 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
         #region IServiceRegistrationBuilder Interface Implementation
 
         /// <summary>
-        /// Creates a generic binding.
+        ///     Creates a generic binding.
         /// </summary>
         /// <typeparam name="TService">The type of the service.</typeparam>
         /// <returns></returns>
@@ -55,7 +56,7 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
         }
 
         /// <summary>
-        /// Creates a non-generic binding.
+        ///     Creates a non-generic binding.
         /// </summary>
         /// <param name="serviceType">Type of the service.</param>
         /// <returns></returns>
@@ -67,16 +68,16 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
         }
 
         /// <summary>
-        /// Occurs when a binding for service is added.
+        ///     Occurs when a binding for service is added.
         /// </summary>
         public event BindingConfigurationAddedEventHandler BindingConfigurationAdded;
 
         /// <summary>
-        /// Determines whether there is a binding for the specified service type.
+        ///     Determines whether there is a binding for the specified service type.
         /// </summary>
         /// <param name="serviceType">Type of the service.</param>
         /// <returns>
-        /// <c>true</c> if the specified service type has binding; otherwise, <c>false</c>.
+        ///     <c>true</c> if the specified service type has binding; otherwise, <c>false</c>.
         /// </returns>
         public bool HasBinding(Type serviceType)
         {

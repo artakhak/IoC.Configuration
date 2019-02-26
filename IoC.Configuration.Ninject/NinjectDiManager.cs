@@ -22,16 +22,17 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using IoC.Configuration.DiContainer;
 using IoC.Configuration.DiContainer.BindingsForConfigFile;
 using JetBrains.Annotations;
 using Ninject;
 using Ninject.Modules;
+using OROptimizer;
 using OROptimizer.DynamicCode;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace IoC.Configuration.Ninject
 {
@@ -75,7 +76,7 @@ namespace IoC.Configuration.Ninject
             moduleClassContents.AppendLine("{");
 
             foreach (var service in moduleServiceConfigurationElements)
-                AddServiceBindings(moduleClassContents, service);
+                AddServiceBindings(moduleClassContents, service, dynamicAssemblyBuilder);
 
             moduleClassContents.AppendLine("}");
             // End Load() method
@@ -107,51 +108,58 @@ namespace IoC.Configuration.Ninject
 
         #region Member Functions
 
-        private void AddServiceBindings([NotNull] StringBuilder moduleClassContents, [NotNull] BindingConfigurationForFile serviceElement)
+        private void AddServiceBindings([NotNull] StringBuilder moduleClassContents, [NotNull] BindingConfigurationForFile serviceElement, [NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder)
         {
             if (serviceElement.RegisterIfNotRegistered)
             {
-                moduleClassContents.AppendLine($"if (!Kernel.GetBindings(typeof({serviceElement.ServiceType.FullName})).Any())");
+                moduleClassContents.AppendLine($"if (!Kernel.GetBindings(typeof({serviceElement.ServiceType.GetTypeNameInCSharpClass()})).Any())");
                 moduleClassContents.AppendLine("{");
             }
 
             foreach (var serviceImplementation in serviceElement.Implementations)
             {
-                moduleClassContents.Append($"Bind<{serviceElement.ServiceType.FullName}>()");
+                moduleClassContents.Append($"Bind<{serviceElement.ServiceType.GetTypeNameInCSharpClass()}>()");
 
-                if (serviceImplementation.Parameters == null)
+                ITypeBasedBindingImplementationConfigurationForFile typeBasedBindingImplementationConfigurationForFile = null;
+                if (serviceImplementation is ITypeBasedBindingImplementationConfigurationForFile)
                 {
-                    if (serviceElement.IsSelfBoundService)
-                        moduleClassContents.Append(".ToSelf()");
-                    else
-                        moduleClassContents.Append($".To<{serviceImplementation.ImplementationType.FullName}>()");
-                }
-                else
-                {
-                    moduleClassContents.Append($".ToMethod(context => new {serviceImplementation.ImplementationType.FullName}(");
+                    typeBasedBindingImplementationConfigurationForFile = (ITypeBasedBindingImplementationConfigurationForFile)serviceImplementation;
 
-                    for (var i = 0; i < serviceImplementation.Parameters.Length; ++i)
+                    if (typeBasedBindingImplementationConfigurationForFile.Parameters == null)
                     {
-                        if (i > 0)
-                            moduleClassContents.Append(", ");
+                        if (serviceElement.IsSelfBoundService)
+                            moduleClassContents.Append(".ToSelf()");
+                        else
+                            moduleClassContents.Append($".To<{typeBasedBindingImplementationConfigurationForFile.ImplementationType.GetTypeNameInCSharpClass()}>()");
+                    }
+                    else
+                    {
+                        moduleClassContents.Append($".ToMethod(context => new {typeBasedBindingImplementationConfigurationForFile.ImplementationType.GetTypeNameInCSharpClass()}(");
 
-                        var parameter = serviceImplementation.Parameters[i];
-
-                        switch (parameter.ValueInstantiationType)
+                        for (var i = 0; i < typeBasedBindingImplementationConfigurationForFile.Parameters.Length; ++i)
                         {
-                            case ValueInstantiationType.ResolveFromDiContext:
-                                moduleClassContents.Append($"({parameter.ValueType.FullName})context.Kernel.GetService(typeof({parameter.ValueType.FullName}))");
-                                break;
-                            case ValueInstantiationType.DeserializeFromStringValue:
-                                moduleClassContents.Append(DiManagerImplementationHelper.GenerateCodeForDeserializedParameterValue(parameter));
-                                break;
-                            default:
-                                DiManagerImplementationHelper.ThrowUnsuportedEnumerationValue(parameter.ValueInstantiationType);
-                                break;
+                            if (i > 0)
+                                moduleClassContents.Append(", ");
+
+                            var parameter = typeBasedBindingImplementationConfigurationForFile.Parameters[i];
+
+                            moduleClassContents.Append(parameter.GenerateValueCSharp(
+                                //(serviceType) => $"({serviceType.FullName})context.Kernel.GetService(typeof({serviceType.FullName}))", 
+                                dynamicAssemblyBuilder));
                         }
+
+                        moduleClassContents.Append("))");
                     }
 
-                    moduleClassContents.Append("))");
+                }
+                else if (serviceImplementation is ValueBasedBindingImplementationConfigurationForFile valueBasedBindingImplementationConfigurationForFile)
+                {
+                    moduleClassContents.Append($".ToMethod(context => {valueBasedBindingImplementationConfigurationForFile.ValueInitializer.GenerateValueCSharp(dynamicAssemblyBuilder)})");
+                }
+                else if (serviceImplementation is IServiceToProxyBindingImplementationConfigurationForFile serviceToProxyBindingImplementationConfigurationForFile)
+                {
+                    moduleClassContents.AppendFormat(".ToMethod(context => ({0})context.Kernel.GetService(typeof({0})))",
+                        serviceImplementation.ImplementationType.GetTypeNameInCSharpClass());
                 }
 
                 // Add WhenInjected code as in example below
@@ -161,14 +169,13 @@ namespace IoC.Configuration.Ninject
                         // No conditional injection.
                         break;
                     case ConditionalInjectionType.WhenInjectedInto:
-                        moduleClassContents.Append($".WhenInjectedInto<{serviceImplementation.WhenInjectedIntoType.FullName}>()");
+                        moduleClassContents.Append($".WhenInjectedInto<{serviceImplementation.WhenInjectedIntoType.GetTypeNameInCSharpClass()}>()");
                         break;
                     case ConditionalInjectionType.WhenInjectedExactlyInto:
-                        moduleClassContents.Append($".WhenInjectedExactlyInto<{serviceImplementation.WhenInjectedIntoType.FullName}>()");
+                        moduleClassContents.Append($".WhenInjectedExactlyInto<{serviceImplementation.WhenInjectedIntoType.GetTypeNameInCSharpClass()}>()");
                         break;
                     default:
-                        DiManagerImplementationHelper.ThrowUnsuportedEnumerationValue(serviceImplementation.ConditionalInjectionType);
-                        break;
+                        throw new UnsupportedEnumValueException(serviceImplementation.ConditionalInjectionType);
                 }
 
                 // Add resolution
@@ -184,43 +191,36 @@ namespace IoC.Configuration.Ninject
                     case DiResolutionScope.ScopeLifetime:
                         moduleClassContents.Append($"InScope(context => _diContainer.CurrentLifeTimeScope)");
                         break;
-                    // Thread scope is not supported by AUtofac, and therefore not used in Ninject as well.
+                    // Thread scope is not supported by Autofac, and therefore not used in Ninject as well.
                     //case DiResolutionScope.Thread:
                     //    moduleClassContents.Append("InThreadScope()");
                     //    break;
                     default:
-                        DiManagerImplementationHelper.ThrowUnsupportedResolutionScope(serviceImplementation);
-                        break;
+                        throw new UnsupportedResolutionScopeException(serviceImplementation);
                 }
 
                 // Add injected properties
-                if (serviceImplementation.InjectedProperties?.Any() ?? false)
+                if (typeBasedBindingImplementationConfigurationForFile != null)
                 {
-                    moduleClassContents.AppendLine($".OnActivation<{serviceImplementation.ImplementationType.FullName}>(activatedObject =>");
-                    moduleClassContents.AppendLine("{");
-
-                    foreach (var injectedProperty in serviceImplementation.InjectedProperties)
+                    if (typeBasedBindingImplementationConfigurationForFile.InjectedProperties?.Any() ?? false)
                     {
-                        moduleClassContents.Append($"activatedObject.{injectedProperty.Name}=");
+                        moduleClassContents.AppendLine($".OnActivation<{typeBasedBindingImplementationConfigurationForFile.ImplementationType.GetTypeNameInCSharpClass()}>(activatedObject =>");
+                        moduleClassContents.AppendLine("{");
 
-                        switch (injectedProperty.ValueInstantiationType)
+                        foreach (var injectedProperty in typeBasedBindingImplementationConfigurationForFile.InjectedProperties)
                         {
-                            case ValueInstantiationType.ResolveFromDiContext:
-                                moduleClassContents.Append($"_diContainer.Resolve<{injectedProperty.ValueType.FullName}>();");
-                                break;
-                            case ValueInstantiationType.DeserializeFromStringValue:
-                                moduleClassContents.Append(DiManagerImplementationHelper.GenerateCodeForDeserializedParameterValue(injectedProperty));
-                                moduleClassContents.Append(";");
-                                break;
-                            default:
-                                DiManagerImplementationHelper.ThrowUnsuportedEnumerationValue(injectedProperty.ValueInstantiationType);
-                                break;
+                            moduleClassContents.Append($"activatedObject.{injectedProperty.Name}=");
+
+                            moduleClassContents.Append(injectedProperty.GenerateValueCSharp(//(serviceType) => $"_diContainer.Resolve<{serviceType.FullName}>()",
+                                dynamicAssemblyBuilder));
+
+                            moduleClassContents.Append(";");
+
+                            moduleClassContents.AppendLine();
                         }
 
-                        moduleClassContents.AppendLine();
+                        moduleClassContents.Append("})");
                     }
-
-                    moduleClassContents.Append("})");
                 }
 
                 moduleClassContents.AppendLine(";");

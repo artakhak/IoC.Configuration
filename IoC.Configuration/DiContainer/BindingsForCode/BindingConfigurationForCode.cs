@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using JetBrains.Annotations;
 
@@ -29,9 +30,10 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
 {
     public sealed class BindingConfigurationForCode : BindingConfiguration<BindingImplementationConfigurationForCode>
     {
-        #region  Constructors        
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="BindingConfigurationForCode"/> class.
+        ///     Initializes a new instance of the <see cref="BindingConfigurationForCode" /> class.
         /// </summary>
         /// <param name="serviceType">Type of the service.</param>
         public BindingConfigurationForCode([NotNull] Type serviceType) : base(serviceType)

@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using JetBrains.Annotations;
 
@@ -29,6 +30,16 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
 {
     public interface IBindingImplementationNonGeneric : IBindingImplementation
     {
+        #region Current Type Interface
+
+        /// <summary>
+        ///     React to an event that occurs when the implementation is instantiated.
+        /// </summary>
+        /// <param name="onImplementationActivated"><see cref="Action" /> that will be executed on implementation activated event.</param>
+        /// <returns>Returns an instance of <see cref="IBindingImplementationNonGeneric" /></returns>
+        [NotNull]
+        IBindingImplementationNonGeneric OnImplementationObjectActivated([NotNull] Action<IDiContainer, object> onImplementationActivated);
+
         /// <summary>
         ///     Use this member to add multiple implementations for the same service.
         /// </summary>
@@ -36,20 +47,14 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
         IBindingNonGeneric Service { get; }
 
         /// <summary>
-        /// React to an event that occurs when the implementation is instantiated.
-        /// </summary>
-        /// <param name="onImplementationActivated"><see cref="Action"/> that will be executed on implementation activated event.</param>
-        /// <returns>Returns an instance of <see cref="IBindingImplementationNonGeneric"/></returns>
-        [NotNull]
-        IBindingImplementationNonGeneric OnImplementationObjectActivated([NotNull] Action<IDiContainer, object> onImplementationActivated);
-
-        /// <summary>
-        /// Sets the resolution scope.
+        ///     Sets the resolution scope.
         /// </summary>
         /// <param name="resolutionScope">The resolution scope.</param>
         /// <returns></returns>
         [NotNull]
         IBindingImplementationNonGeneric SetResolutionScope(DiResolutionScope resolutionScope);
+
+        #endregion
 
 #if DEBUG
         //[NotNull]

@@ -73,7 +73,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             return _assemblyLocator.FindAssemblyPathInAllPluginFolders(assemblyName, requestingAssemblyFolder);
         }
 
-        public Assembly LoadAssembly(string assemblyNameWithExtension, string assemblyFolder = null)
+        public System.Reflection.Assembly LoadAssembly(string assemblyNameWithExtension, string assemblyFolder = null)
         {
             if (_assemblyNamesWithoutExtensionToFailToLoad != null && _assemblyNamesWithoutExtensionToFailToLoad.Contains(Path.GetFileNameWithoutExtension(assemblyNameWithExtension)))
                 throw new Exception();

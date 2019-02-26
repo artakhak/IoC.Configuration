@@ -22,12 +22,13 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using JetBrains.Annotations;
 
 namespace IoC.Configuration
 {
     /// <summary>
-    /// Represents a setting in configuration file.
+    ///     Represents a setting in configuration file.
     /// </summary>
     /// <seealso cref="IoC.Configuration.INamedValue" />
     public interface ISetting : INamedValue
@@ -35,7 +36,7 @@ namespace IoC.Configuration
         #region Current Type Interface
 
         /// <summary>
-        ///     The value deserialized from ValueAsString to type in property <see cref="INamedValue.ValueType" />
+        ///     The deserialized value.
         /// </summary>
         [CanBeNull]
         object DeserializedValue { get; }

@@ -22,10 +22,12 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Text;
 using IoC.Configuration.ConfigurationFile;
 using JetBrains.Annotations;
+using OROptimizer;
 using OROptimizer.Diagnostics.Log;
 
 namespace IoC.Configuration
@@ -33,6 +35,21 @@ namespace IoC.Configuration
     public static class MessagesHelper
     {
         #region Member Functions
+
+        public static string GenerateProxyServiceExample([NotNull] Type proxyServiceType, [NotNull] Type proxiedServiceType)
+        {
+            var message = new StringBuilder();
+            message.AppendLine("An example on how to proxy a service is: ");
+            message.AppendFormat("<{0} {1}='{2}'>",
+                ConfigurationFileElementNames.ProxyService, ConfigurationFileAttributeNames.Type, proxyServiceType.GetTypeNameInCSharpClass());
+            message.AppendLine();
+
+            message.AppendFormat("  <{0} {1}='{2}' />",
+                ConfigurationFileElementNames.ServiceToProxy, ConfigurationFileAttributeNames.Type, proxiedServiceType.GetTypeNameInCSharpClass());
+            message.AppendLine($"<{ConfigurationFileElementNames.ProxyService} />");
+
+            return message.ToString();
+        }
 
         /// <summary>
         ///     Returns a string: The value of <paramref name="registerIfNotRegisteredSubjectName" /> can be true only if there is
@@ -54,22 +71,22 @@ namespace IoC.Configuration
         [NotNull]
         public static string GetServiceImplmenentationTypeAssemblyBelongsToPluginMessage([NotNull] Type implementationType, [NotNull] string assemblyAlias, [NotNull] string pluginName)
         {
-            return $"The settings requestor type '{implementationType.FullName}' is defined in assembly '{assemblyAlias}' which belongs to plugin '{pluginName}'. The assembly where the type is defined should not be associated with any plugin.";
+            return $"The type '{implementationType.FullName}' is defined in assembly '{assemblyAlias}' which belongs to plugin '{pluginName}'. The assembly where the type is defined should not be associated with any plugin.";
         }
 
-        
-        public static void LogElementDisabledWarning([NotNull]IConfigurationFileElement configurationFileElement, [CanBeNull] IAssembly assembly, bool logInfo = false)
+
+        public static void LogElementDisabledWarning([NotNull] IConfigurationFileElement configurationFileElement, [CanBeNull] IAssembly assembly, bool logInfo = false)
         {
             if (configurationFileElement.Enabled)
                 return;
 
             // Lets see if this element is a child of PluginSetup element, in which case we do not want to log any warning
             // since we already logged a warning for plugin is disabled.
-            if (configurationFileElement.GetParentPluginSetupElement() != null)
+            if (configurationFileElement.GetPluginSetupElement() != null)
                 return;
 
             var warning = new StringBuilder();
-            warning.AppendLine($"Element '{configurationFileElement.ToString()}' is disabled.");
+            warning.AppendLine($"Element '{configurationFileElement}' is disabled.");
 
             var pluginElement = assembly?.Plugin ?? configurationFileElement.OwningPluginElement;
 
@@ -81,6 +98,7 @@ namespace IoC.Configuration
             else
                 LogHelper.Context.Log.Warn(warning.ToString());
         }
+
         #endregion
     }
 }

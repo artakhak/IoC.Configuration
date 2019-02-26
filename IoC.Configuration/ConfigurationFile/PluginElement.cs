@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System.IO;
 using System.Xml;
 using JetBrains.Annotations;
@@ -34,15 +35,20 @@ namespace IoC.Configuration.ConfigurationFile
         #region Member Variables
 
         [NotNull]
+        private readonly IIdentifierValidator _identifierValidator;
+
+        [NotNull]
         private readonly IPlugins _plugins;
 
         #endregion
 
         #region  Constructors
 
-        public PluginElement([NotNull] XmlElement xmlElement, [NotNull] IPlugins parent) : base(xmlElement, parent)
+        public PluginElement([NotNull] XmlElement xmlElement, [NotNull] IPlugins parent,
+                             [NotNull] IIdentifierValidator identifierValidator) : base(xmlElement, parent)
         {
             _plugins = parent;
+            _identifierValidator = identifierValidator;
         }
 
         #endregion
@@ -60,7 +66,7 @@ namespace IoC.Configuration.ConfigurationFile
 
             Name = this.GetNameAttributeValue();
 
-            this.ValidateIdentifier(ConfigurationFileAttributeNames.Name);
+            _identifierValidator.Validate(this, ConfigurationFileAttributeNames.Name, Name);
 
             if (string.IsNullOrWhiteSpace(_plugins.PluginsDirectory))
                 throw new ConfigurationParseException(this,
@@ -69,15 +75,11 @@ namespace IoC.Configuration.ConfigurationFile
 
             var pluginDirectory = GetPluginDirectory();
 
-            if (Enabled)
-            {
-                if (!Directory.Exists(pluginDirectory))
-                    throw new ConfigurationParseException(this, $"Plugin directory '{pluginDirectory}' does not exist.");
-            }
-            else
-            {
-                LogHelper.Context.Log.WarnFormat("Plugin '{0}' is disabled. All configuration items that use this plugin will be ignored. This among others includes assemblies, types in assemblies, settings, dependency injection configurations, etc.", Name);
-            }
+            if (!Directory.Exists(pluginDirectory))
+                throw new ConfigurationParseException(this, $"Plugin directory '{pluginDirectory}' does not exist.");
+
+            if (!Enabled)
+                LogHelper.Context.Log.WarnFormat("Plugin '{0}' is disabled. Services, service implementations, settings, web API controllers and other configuration defined in this plugin will be ignored.", Name);
         }
 
         public string Name { get; private set; }

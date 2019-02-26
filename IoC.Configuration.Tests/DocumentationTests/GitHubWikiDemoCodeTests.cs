@@ -21,11 +21,10 @@ namespace IoC.Configuration.Tests
         [TestMethod]
         public void FileConfigurationExample1()
         {
-            OROptimizer.Diagnostics.Log.LogHelper.RegisterContext(new LogHelper4TestsContext());
             TestsSharedLibrary.TestsHelper.SetupLogger();
 
             var configurationFileContentsProvider = new FileBasedConfigurationFileContentsProvider(
-                Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration1.xml"));
+                Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml"));
 
             using (var containerInfo = new DiContainerBuilder.DiContainerBuilder()
                            .StartFileBasedDi(configurationFileContentsProvider,

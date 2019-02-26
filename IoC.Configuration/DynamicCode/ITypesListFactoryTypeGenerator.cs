@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -30,9 +31,11 @@ using OROptimizer.DynamicCode;
 
 namespace IoC.Configuration.DynamicCode
 {
+    [Obsolete("Will be removed after 5/31/2019")]
     public interface ITypesListFactoryTypeGenerator
     {
         #region Current Type Interface
+
         /// <summary>
         ///     Generates a C# file for a type that is an implementation of interface specified in
         ///     <paramref name="interfaceToImplement" /> parameter.
@@ -46,9 +49,13 @@ namespace IoC.Configuration.DynamicCode
         /// <param name="dynamicImplementationsNamespace">Namespace to use for generated classes.</param>
         /// <param name="returnedInstanceTypesForDefaultCase">The returned instance types for default case.</param>
         /// <param name="selectorParameterValues">The selector parameter values.</param>
-        /// <param name="returnedInstanceTypesForSelectorParameterValues">The returned instance types for selector parameter values.</param>
+        /// <param name="returnedInstanceTypesForSelectorParameterValues">
+        ///     The returned instance types for selector parameter
+        ///     values.
+        /// </param>
         /// <returns>Returns generated type information, such as class full name and C# file contents.</returns>
-        /// /// <exception cref="System.Exception">Throws exception if the implementation generation fails.</exception>
+        /// ///
+        /// <exception cref="System.Exception">Throws exception if the implementation generation fails.</exception>
         [NotNull]
         IGeneratedTypeInfo GenerateType([NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder, [NotNull] Type interfaceToImplement,
                                         [NotNull] string dynamicImplementationsNamespace,
@@ -57,7 +64,7 @@ namespace IoC.Configuration.DynamicCode
                                         [CanBeNull] [ItemNotNull] IEnumerable<IEnumerable<Type>> returnedInstanceTypesForSelectorParameterValues);
 
         /// <summary>
-        /// Validates the implemented interface.
+        ///     Validates the implemented interface.
         /// </summary>
         /// <param name="interfaceToImplement">The interface to implement.</param>
         /// <param name="implementedMethodInfo">The implemented method information.</param>
@@ -67,8 +74,9 @@ namespace IoC.Configuration.DynamicCode
         bool ValidateImplementedInterface([NotNull] Type interfaceToImplement,
                                           out MethodInfo implementedMethodInfo, out Type returnedItemsType,
                                           out string errorMessage);
+
         /// <summary>
-        /// Validates the parameter values.
+        ///     Validates the parameter values.
         /// </summary>
         /// <param name="implementedMethodInfo">The implemented method information.</param>
         /// <param name="selectorParameterValues">The selector parameter values.</param>
@@ -77,7 +85,7 @@ namespace IoC.Configuration.DynamicCode
         bool ValidateParameterValues(MethodInfo implementedMethodInfo, IEnumerable<string> selectorParameterValues, out string errorMessage);
 
         /// <summary>
-        /// Validates the type of the returned.
+        ///     Validates the type of the returned.
         /// </summary>
         /// <param name="specifiedReturnedType">Specified type of the returned.</param>
         /// <param name="returnedItemsType">Type of the returned items.</param>

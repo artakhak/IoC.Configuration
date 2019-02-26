@@ -58,6 +58,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{A34794
 	ProjectSection(SolutionItems) = preProject
 		docs\GitHub\IoC.Configuration.Description.md = docs\GitHub\IoC.Configuration.Description.md
 		docs\GitHub\IoC.Configuration.Documentation.md = docs\GitHub\IoC.Configuration.Documentation.md
+		ReleaseNotes_IoC.Configuraion_2.0.0.txt = ReleaseNotes_IoC.Configuraion_2.0.0.txt
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{3ACBE6AD-995F-4935-B55A-7A4900BB2151}"
@@ -115,6 +116,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdPartyLibs", "ThirdPart
 	ProjectSection(SolutionItems) = preProject
 		IoC.Configuration.Tests\TestDlls\ThirdPartyLibs\README.md = IoC.Configuration.Tests\TestDlls\ThirdPartyLibs\README.md
 	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProjects.Plugin1WebApiControllers", "TestProjects.Plugin1WebApiControllers\TestProjects.Plugin1WebApiControllers.csproj", "{BE99EE2A-FB55-4FCA-906C-016127B6048B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -182,6 +185,10 @@ Global
 		{1FA30D83-4F50-41E9-A6E3-A2AA9852AA33}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FA30D83-4F50-41E9-A6E3-A2AA9852AA33}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FA30D83-4F50-41E9-A6E3-A2AA9852AA33}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE99EE2A-FB55-4FCA-906C-016127B6048B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE99EE2A-FB55-4FCA-906C-016127B6048B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE99EE2A-FB55-4FCA-906C-016127B6048B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE99EE2A-FB55-4FCA-906C-016127B6048B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -216,6 +223,7 @@ Global
 		{69AE6A98-8564-4014-9E7A-A5D66E4F7A8A} = {A6FF2F78-1946-4E58-93A1-9E6158A8D2E7}
 		{FEF35B1D-48B6-4129-A572-B3AC86FB274D} = {37C6A85F-32F8-4463-BFD8-C2BC522F8D43}
 		{7E6E7FC7-A2F4-4E31-995B-F7FD10655EDA} = {37C6A85F-32F8-4463-BFD8-C2BC522F8D43}
+		{BE99EE2A-FB55-4FCA-906C-016127B6048B} = {7F5DA0D6-7EBC-43A7-812D-3363089F05F5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1A1C25FA-E067-48BA-A479-2F251496CF15}

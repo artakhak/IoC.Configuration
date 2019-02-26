@@ -32,10 +32,25 @@ namespace IoC.Configuration.ConfigurationFile
     {
         #region Current Type Interface
 
-        [NotNull] [ItemNotNull] IEnumerable<IAssembly> AllAssemblies { get; }
+        [NotNull]
+        [ItemNotNull]
+        IEnumerable<IAssembly> AllAssemblies { get; }
+
+        [NotNull]
+        [ItemNotNull]
+        IEnumerable<IoC.Configuration.IAssembly> AllAssembliesIncludingAssembliesNotInConfiguration { get; }
 
         [CanBeNull]
         IAssembly GetAssemblyByAlias([NotNull] string alias);
+
+        [NotNull]
+        IoC.Configuration.IAssembly IoCConfigurationAssembly { get; }
+
+        [NotNull]
+        IoC.Configuration.IAssembly MsCorlibAssembly { get; }
+
+        [NotNull]
+        IoC.Configuration.IAssembly OROptimizerSharedAssembly { get; }
 
         #endregion
     }

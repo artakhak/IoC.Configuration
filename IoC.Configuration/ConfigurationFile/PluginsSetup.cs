@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using System.Xml;
@@ -32,6 +33,8 @@ namespace IoC.Configuration.ConfigurationFile
     public class PluginsSetup : ConfigurationFileElementAbstr, IPluginsSetup
     {
         #region Member Variables
+
+        private readonly LinkedList<IPluginSetup> _allPluginSetups = new LinkedList<IPluginSetup>();
 
         private readonly Dictionary<string, IPluginSetup> _pluginNameToPluginSetupMap = new Dictionary<string, IPluginSetup>(StringComparer.OrdinalIgnoreCase);
         private readonly Dictionary<Type, IPluginSetup> _pluginTypeToPluginSetupMap = new Dictionary<Type, IPluginSetup>();
@@ -56,21 +59,21 @@ namespace IoC.Configuration.ConfigurationFile
             {
                 var pluginSetup = (IPluginSetup) child;
 
+                if (_pluginNameToPluginSetupMap.ContainsKey(pluginSetup.Plugin.Name))
+                    throw new ConfigurationParseException(pluginSetup, $"Multiple occurrences of '{pluginSetup.ElementName}' for the same plugin name '{pluginSetup.Plugin.Name}'.", this);
+
+                _pluginNameToPluginSetupMap[pluginSetup.Plugin.Name] = pluginSetup;
+
+                if (_pluginTypeToPluginSetupMap.ContainsKey(pluginSetup.PluginImplementationElement.ValueTypeInfo.Type))
+                    throw new ConfigurationParseException(pluginSetup.PluginImplementationElement, $"Multiple occurrences of '{pluginSetup.PluginImplementationElement.ElementName}' for the same plugin type '{pluginSetup.PluginImplementationElement.ValueTypeInfo.TypeCSharpFullName}'.", this);
+                _pluginTypeToPluginSetupMap[pluginSetup.PluginImplementationElement.ValueTypeInfo.Type] = pluginSetup;
+
                 if (pluginSetup.Enabled)
-                {
-                    if (_pluginNameToPluginSetupMap.ContainsKey(pluginSetup.Plugin.Name))
-                        throw new ConfigurationParseException(pluginSetup, $"Multiple occurrences of '{pluginSetup.ElementName}' for the same plugin name '{pluginSetup.Plugin.Name}'.", this);
-
-                    _pluginNameToPluginSetupMap[pluginSetup.Plugin.Name] = pluginSetup;
-
-                    if (_pluginTypeToPluginSetupMap.ContainsKey(pluginSetup.PluginImplementationElement.ImplementationType))
-                        throw new ConfigurationParseException(pluginSetup.PluginImplementationElement, $"Multiple occurrences of '{pluginSetup.PluginImplementationElement.ElementName}' for the same plugin type '{pluginSetup.PluginImplementationElement.ImplementationType.FullName}'.", this);
-                    _pluginTypeToPluginSetupMap[pluginSetup.PluginImplementationElement.ImplementationType] = pluginSetup;
-                }
+                    _allPluginSetups.AddLast(pluginSetup);
             }
         }
 
-        public IEnumerable<IPluginSetup> AllPluginSetups => _pluginNameToPluginSetupMap.Values;
+        public IEnumerable<IPluginSetup> AllPluginSetups => _allPluginSetups;
 
         public IPluginSetup GetPluginSetup(string pluginName)
         {

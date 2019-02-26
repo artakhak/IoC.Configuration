@@ -22,9 +22,10 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.IO;
-using System.Linq;
+using System.Text;
 using System.Xml;
 using JetBrains.Annotations;
 using OROptimizer.Diagnostics.Log;
@@ -38,13 +39,18 @@ namespace IoC.Configuration.ConfigurationFile
         [NotNull]
         private readonly IAssemblyLocator _assemblyLocator;
 
+        [NotNull]
+        private readonly IIdentifierValidator _identifierValidator;
+
         #endregion
 
         #region  Constructors
 
-        public Assembly([NotNull] XmlElement xmlElement, IConfigurationFileElement parent, [NotNull] IAssemblyLocator assemblyLocator) : base(xmlElement, parent)
+        public Assembly([NotNull] XmlElement xmlElement, IConfigurationFileElement parent, [NotNull] IAssemblyLocator assemblyLocator,
+                        [NotNull] IIdentifierValidator identifierValidator) : base(xmlElement, parent)
         {
             _assemblyLocator = assemblyLocator;
+            _identifierValidator = identifierValidator;
         }
 
         #endregion
@@ -54,8 +60,6 @@ namespace IoC.Configuration.ConfigurationFile
         public string AbsolutePath { get; private set; }
 
         public string Alias { get; private set; }
-
-        public override bool Enabled => base.Enabled && (Plugin?.Enabled ?? true);
 
         public override void Initialize()
         {
@@ -71,6 +75,8 @@ namespace IoC.Configuration.ConfigurationFile
 
             Alias = this.GetAttributeValue<string>(ConfigurationFileAttributeNames.Alias);
 
+            _identifierValidator.Validate(this, ConfigurationFileAttributeNames.Alias, Alias);
+
             if (_xmlElement.HasAttribute(ConfigurationFileAttributeNames.Plugin))
             {
                 var pluginName = this.GetAttributeValue<string>(ConfigurationFileAttributeNames.Plugin);
@@ -83,54 +89,56 @@ namespace IoC.Configuration.ConfigurationFile
                 Plugin = plugin;
             }
 
-            if (Enabled)
+            string assemblyPath = null;
+
+            if (_xmlElement.HasAttribute(ConfigurationFileAttributeNames.OverrideDirectory))
             {
-                string assemblyPath = null;
+                assemblyPath = Path.Combine(this.GetAttributeValue<string>(ConfigurationFileAttributeNames.OverrideDirectory), $"{Name}.dll");
 
-                if (_xmlElement.HasAttribute(ConfigurationFileAttributeNames.OverrideDirectory))
-                {
-                    assemblyPath = Path.Combine(this.GetAttributeValue<string>(ConfigurationFileAttributeNames.OverrideDirectory), $"{Name}.dll");
-
-                    if (!File.Exists(assemblyPath))
-                        throw new ConfigurationParseException(this, $"Could not find assembly '{Name}'.");
-                }
-                else
-                {
-                    assemblyPath = _assemblyLocator.FindAssemblyPath(Name, Plugin?.Name, out var searchedDirectories);
-
-                    if (string.IsNullOrWhiteSpace(assemblyPath))
-                        throw new ConfigurationParseException(this, $"Could not find assembly '{Name}'. The following directories were searched: {string.Join<string>(",", from directory in searchedDirectories select "'" + directory + "'")}.");
-                }
-
-                AbsolutePath = assemblyPath;
-
-                LogHelper.Context.Log.InfoFormat("Resolved assembly '{0}' as '{1}'", Name, assemblyPath);
-
-                if (Plugin != null)
-                {
-                    var assemblyDirectory = Path.GetDirectoryName(assemblyPath);
-
-                    if (string.Compare(assemblyDirectory, Plugin.GetPluginDirectory(), StringComparison.OrdinalIgnoreCase) != 0)
-                        throw new ConfigurationParseException(this, $"The assembly '{Name}' is configured as a plugin assembly for plugin '{Plugin.Name}'. Therefore the resolved assembly file should be in plugin directory '{Plugin.GetPluginDirectory()}'. Either remove the '{ConfigurationFileAttributeNames.Plugin}' attribute, or make sure that the assembly is in plugin directory and no other assembly with the same name exists in other probing folders.");
-                }
-
-                if (_xmlElement.HasAttribute(ConfigurationFileAttributeNames.LoadAssemblyAlways) &&
-                    this.GetAttributeValue<bool>(ConfigurationFileAttributeNames.LoadAssemblyAlways))
-                    try
-                    {
-                        LogHelper.Context.Log.InfoFormat("The value of attribute '{0}' is true. Loading assembly {1}.", ConfigurationFileAttributeNames.LoadAssemblyAlways, assemblyPath);
-                        _assemblyLocator.LoadAssembly(Path.GetFileName(assemblyPath), Path.GetDirectoryName(assemblyPath));
-                    }
-                    catch (Exception e)
-                    {
-                        LogHelper.Context.Log.Warn(e.Message, e);
-                        throw new ConfigurationParseException(this, $"Failed to load the assembly '{assemblyPath}'.");
-                    }
+                if (!File.Exists(assemblyPath))
+                    throw new ConfigurationParseException(this, $"Could not find assembly '{Name}'.");
             }
             else
             {
-                LogHelper.Context.Log.WarnFormat("Assembly '{0}' is disabled. All configuration items that use this assembly will be ignored. This, among others includes types, settings, dependency injection configurations, etc.", Name);
-                AbsolutePath = Name;
+                assemblyPath = _assemblyLocator.FindAssemblyPath(Name, Plugin?.Name, out var searchedDirectories);
+
+                if (string.IsNullOrWhiteSpace(assemblyPath))
+                {
+                    var errorMessage = new StringBuilder();
+                    errorMessage.AppendLine($"Could not find assembly '{Name}'. The following directories were searched:");
+
+                    foreach (var searchedDiretory in searchedDirectories)
+                        errorMessage.AppendLine($"  '{searchedDiretory}'");
+
+                    throw new ConfigurationParseException(this, errorMessage.ToString());
+                }
+            }
+
+            AbsolutePath = assemblyPath;
+
+            LogHelper.Context.Log.InfoFormat("Resolved assembly '{0}' as '{1}'", Name, assemblyPath);
+
+            if (Plugin != null)
+            {
+                var assemblyDirectory = Path.GetDirectoryName(assemblyPath);
+
+                if (string.Compare(assemblyDirectory, Plugin.GetPluginDirectory(), StringComparison.OrdinalIgnoreCase) != 0)
+                    throw new ConfigurationParseException(this, $"The assembly '{Name}' is configured as a plugin assembly for plugin '{Plugin.Name}'. Therefore the resolved assembly file should be in plugin directory '{Plugin.GetPluginDirectory()}'. Either remove the '{ConfigurationFileAttributeNames.Plugin}' attribute, or make sure that the assembly is in plugin directory and no other assembly with the same name exists in other probing folders.");
+            }
+
+            if (_xmlElement.HasAttribute(ConfigurationFileAttributeNames.LoadAssemblyAlways) &&
+                this.GetAttributeValue<bool>(ConfigurationFileAttributeNames.LoadAssemblyAlways))
+            {
+                try
+                {
+                    LogHelper.Context.Log.InfoFormat("The value of attribute '{0}' is true. Loading assembly {1}.", ConfigurationFileAttributeNames.LoadAssemblyAlways, assemblyPath);
+                    _assemblyLocator.LoadAssembly(Path.GetFileName(assemblyPath), Path.GetDirectoryName(assemblyPath));
+                }
+                catch (Exception e)
+                {
+                    LogHelper.Context.Log.Warn(e.Message, e);
+                    throw new ConfigurationParseException(this, $"Failed to load the assembly '{assemblyPath}'.");
+                }
             }
         }
 

@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System.Xml;
 using JetBrains.Annotations;
 
@@ -29,12 +30,6 @@ namespace IoC.Configuration.ConfigurationFile
 {
     public class PluginSetup : ConfigurationFileElementAbstr, IPluginSetup
     {
-        #region Member Variables
-
-        private bool? _isPluginImplementationEnabled;
-
-        #endregion
-
         #region  Constructors
 
         public PluginSetup([NotNull] XmlElement xmlElement, [NotNull] IConfigurationFileElement parent) : base(xmlElement, parent)
@@ -49,28 +44,29 @@ namespace IoC.Configuration.ConfigurationFile
         {
             base.AddChild(child);
 
-            if (child is IPluginImplementationElement)
+            if (child is IPluginImplementationElement pluginImplementationElement)
             {
-                PluginImplementationElement = (IPluginImplementationElement) child;
-                _isPluginImplementationEnabled = child.Enabled;
+                PluginImplementationElement = pluginImplementationElement;
             }
-            else if (child is ISettingsElement)
+            else if (child is ITypeDefinitionsElement typeDefinitionsElement)
             {
-                SettingsElement = (ISettingsElement) child;
+                TypeDefinitions = typeDefinitionsElement;
             }
-            else if (child is IWebApi)
+            else if (child is ISettingsElement settingsElement)
             {
-                WebApi = (IWebApi)child;
+                SettingsElement = settingsElement;
             }
-            else if (child is IDependencyInjection)
+            else if (child is IWebApi webApi)
             {
-                DependencyInjection = (IDependencyInjection) child;
+                WebApi = webApi;
+            }
+            else if (child is IDependencyInjection dependencyInjection)
+            {
+                DependencyInjection = dependencyInjection;
             }
         }
 
         public IDependencyInjection DependencyInjection { get; private set; }
-
-        public override bool Enabled => base.Enabled && (_isPluginImplementationEnabled ?? true);
 
         public override void Initialize()
         {
@@ -88,8 +84,7 @@ namespace IoC.Configuration.ConfigurationFile
         public IPluginElement Plugin { get; private set; }
         public IPluginImplementationElement PluginImplementationElement { get; private set; }
         public ISettingsElement SettingsElement { get; private set; }
-
-        public IWebApi WebApi { get; private set; }
+        public ITypeDefinitionsElement TypeDefinitions { get; private set; }
 
         public override void ValidateAfterChildrenAdded()
         {
@@ -97,10 +92,9 @@ namespace IoC.Configuration.ConfigurationFile
 
             if (PluginImplementationElement == null)
                 throw new ConfigurationParseException(this, $"The value of '{GetType().FullName}.{nameof(PluginImplementationElement)}' cannot be null.");
-
-            if (!PluginImplementationElement.Assembly.Enabled && Plugin.Enabled)
-                throw new ConfigurationParseException(PluginImplementationElement, $"The assembly '{PluginImplementationElement.Assembly.Alias}' used by plugin is disabled while the plugin is enabled. Either disable plugin or enable the assembly.", this);
         }
+
+        public IWebApi WebApi { get; private set; }
 
         #endregion
     }

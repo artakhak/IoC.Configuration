@@ -34,7 +34,7 @@ namespace IoC.Configuration.Tests
     {
         #region Member Variables
 
-        private readonly List<TService> _implmentations;
+        private readonly List<TService> _implementations;
 
         #endregion
 
@@ -42,7 +42,7 @@ namespace IoC.Configuration.Tests
 
         public ClassToTestServicesInjection([NotNull] IEnumerable<TService> services)
         {
-            _implmentations = new List<TService>(services);
+            _implementations = new List<TService>(services);
         }
 
         #endregion
@@ -50,28 +50,28 @@ namespace IoC.Configuration.Tests
         #region Member Functions
 
         [NotNull]
-        public IList<TService> Implmentations => _implmentations;
+        public IList<TService> Implementations => _implementations;
 
         public Type ServiceType => typeof(TService);
 
         public void ValidateDoesNotHaveImplementation(string implementationType)
         {
-            Assert.IsFalse(_implmentations.Any(x => x.GetType().FullName.Equals(implementationType, StringComparison.Ordinal)));
+            Assert.IsFalse(_implementations.Any(x => x.GetType().FullName.Equals(implementationType, StringComparison.Ordinal)));
         }
 
         public void ValidateHasImplementation(Type implementationType)
         {
-            Assert.IsTrue(_implmentations.Where(x => x.GetType() == implementationType).ToList().Count == 1);
+            Assert.IsTrue(_implementations.Where(x => x.GetType() == implementationType).ToList().Count == 1);
         }
 
         public void ValidateImplementationTypes(IEnumerable<string> implementationTypeNames)
         {
             var implementationTypeNamesList = new List<string>(implementationTypeNames);
 
-            Assert.AreEqual(implementationTypeNamesList.Count, Implmentations.Count);
+            Assert.AreEqual(implementationTypeNamesList.Count, Implementations.Count);
 
-            for (var i = 0; i < _implmentations.Count; ++i)
-                Assert.AreEqual(_implmentations[i].GetType().FullName, implementationTypeNamesList[i], false);
+            for (var i = 0; i < _implementations.Count; ++i)
+                Assert.AreEqual(_implementations[i].GetType().FullName, implementationTypeNamesList[i], false);
         }
 
         #endregion

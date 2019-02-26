@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using IoC.Configuration.ConfigurationFile;
 using IoC.Configuration.DiContainer.BindingsForConfigFile;
 using JetBrains.Annotations;
@@ -29,7 +30,7 @@ using JetBrains.Annotations;
 namespace IoC.Configuration
 {
     /// <summary>
-    ///  Represents a setting in configuration file.
+    ///     Represents a setting in configuration file.
     /// </summary>
     /// <seealso cref="IoC.Configuration.DiContainer.BindingsForConfigFile.NamedValue" />
     /// <seealso cref="IoC.Configuration.ISetting" />
@@ -42,9 +43,10 @@ namespace IoC.Configuration
 
         #endregion
 
-        #region  Constructors        
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Setting"/> class.
+        ///     Initializes a new instance of the <see cref="Setting" /> class.
         /// </summary>
         public Setting([NotNull] ISettingElement settingElement) : base(settingElement)
         {
@@ -53,9 +55,10 @@ namespace IoC.Configuration
 
         #endregion
 
-        #region ISetting Interface Implementation        
+        #region ISetting Interface Implementation
+
         /// <summary>
-        /// The value deserialized from ValueAsString to type in property <see cref="INamedValue.ValueType" />
+        ///     The value de-serialized from ValueAsString to type in property <see cref="ITypedItem.ValueTypeInfo" />.Type.
         /// </summary>
         public object DeserializedValue => _settingElement.DeserializedValue;
 

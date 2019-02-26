@@ -1,3 +1,5 @@
-﻿Dependency on IoC.Configuration.Autofac and IoC.Configuration.Ninject was added only to make sure the packages are loaded by Visual Studio.
-These pacakages are copied from nuget location by PostBuildCommands.bat in IoC.Configuration.Tests project, into a dll folder,
-referenced in configuration file, when IoC.Configuration.Tests is built.
+﻿This assembly is referenced in project TestProjects.TestPluginAssembly1.
+However, TestProjects.TestPluginAssembly1 will be loaded from Plugin1 folder by IoC.Configuration, and
+the assembly TestProjects.AssemblyToTestAssemblyResolution will be in a different folder, that is included in 
+additionalAssemblyProbingPaths element in IoC.Configuration file.
+This project is used to test that assembly resolution works.

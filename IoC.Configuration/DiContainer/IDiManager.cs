@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using IoC.Configuration.DiContainer.BindingsForConfigFile;
@@ -33,8 +34,9 @@ namespace IoC.Configuration.DiContainer
     public interface IDiManager
     {
         #region Current Type Interface
+
         /// <summary>
-        /// This method registers modules with service provider.
+        ///     This method registers modules with service provider.
         /// </summary>
         /// <param name="diContainer">The DI container.</param>
         /// <param name="modules">The modules to register.</param>
@@ -44,30 +46,37 @@ namespace IoC.Configuration.DiContainer
         /// <summary>
         ///     Creates a native container object of type <see cref="IDiContainer" />. The object can be used to pass as a
         ///     parameter in class constructors, however it might not be in a state to be used to resolve services.
-        ///     Before services can be resolved, call the method <see cref="BuildServiceProvider(IDiContainer, IEnumerable{object})" /> and then <see cref="StartServiceProvider(IDiContainer)"/>.
+        ///     Before services can be resolved, call the method
+        ///     <see cref="BuildServiceProvider(IDiContainer, IEnumerable{object})" /> and then
+        ///     <see cref="StartServiceProvider(IDiContainer)" />.
         /// </summary>
         /// <returns></returns>
         IDiContainer CreateDiContainer();
 
         /// <summary>
-        /// DI container name, such as Autofac or Nnject.
+        ///     DI container name, such as Autofac or Nnject.
         /// </summary>
         string DiContainerName { get; }
 
         /// <summary>
         ///     Generates a C# file contents for a native module, such as Autofac or Ninject module.
         ///     The generated class should have a parameterless constructor. If the generated module class has a public
-        ///     method <see cref="HelpersIoC.OnDiContainerReadyMethodName" />(IoC.Configuration.DiContainer.IDiContainer diContainer),
+        ///     method <see cref="HelpersIoC.OnDiContainerReadyMethodName" />(IoC.Configuration.DiContainer.IDiContainer
+        ///     diContainer),
         ///     it will be executed with a parameter <see cref="IDiContainer" /> when the container is ready to resolve services.
         /// </summary>
         /// <param name="dynamicAssemblyBuilder">
-        /// The dynamic assembly builder.
-        /// The implementation can use this parameter to add referenced files to dynamically generated assembly which will contain the generated module class.
+        ///     The dynamic assembly builder.
+        ///     The implementation can use this parameter to add referenced files to dynamically generated assembly which will
+        ///     contain the generated module class.
         /// </param>
         /// <param name="assemblyLocator">The assembly locator.</param>
         /// <param name="moduleClassNamespace">The module class namespace.</param>
         /// <param name="moduleClassName">Name of the module class.</param>
-        /// <param name="moduleServiceConfigurationElements">Collection of all binding configurations for services to use when building the module.</param>
+        /// <param name="moduleServiceConfigurationElements">
+        ///     Collection of all binding configurations for services to use when
+        ///     building the module.
+        /// </param>
         /// <returns>Returns a C# file contents for a native module, such as Autofac or Ninject module.</returns>
         /// <exception cref="Exception">Throw this exception if module fails to get generated.</exception>
         [NotNull]

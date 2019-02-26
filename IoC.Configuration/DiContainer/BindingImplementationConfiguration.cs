@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
@@ -29,17 +30,59 @@ using OROptimizer;
 
 namespace IoC.Configuration.DiContainer
 {
-    public class BindingImplementationConfiguration
+    public interface IBindingImplementationConfiguration
     {
+        #region Current Type Interface
+
+        ConditionalInjectionType ConditionalInjectionType { get; }
+
+        /// <summary>
+        ///     Gets the type of the implementation.
+        /// </summary>
+        /// <value>
+        ///     The type of the implementation.
+        /// </value>
+        [CanBeNull]
+        Type ImplementationType { get; }
+
+        /// <summary>
+        ///     If not set, will default to <see cref="DiResolutionScope.Singleton" />.
+        /// </summary>
+        [CanBeNull]
+        DiResolutionScope ResolutionScope { get; }
+
+        /// <summary>
+        ///     Gets the type of the target implementation.
+        /// </summary>
+        /// <value>
+        ///     The type of the target implementation.
+        /// </value>
+        TargetImplementationType TargetImplementationType { get; }
+
+        // Autofac: https://stackoverflow.com/questions/7664912/autofac-equivalent-of-ninjects-wheninjectedinto
+        [CanBeNull]
+        Type WhenInjectedIntoType { get; }
+
+        #endregion
+    }
+
+    public class BindingImplementationConfiguration : IBindingImplementationConfiguration
+    {
+        #region Member Variables
+
+        [CanBeNull]
+        private DiResolutionScope? _resolutionScope;
+
         [NotNull]
         [ItemNotNull]
         private readonly HashSet<string> _setPropertyNames = new HashSet<string>(StringComparer.Ordinal);
 
+        #endregion
 
-        [CanBeNull]
-        private DiResolutionScope? _resolutionScope;
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="BindingImplementationConfiguration"/> class.
+        ///     Initializes a new instance of the <see cref="BindingImplementationConfiguration" /> class.
         /// </summary>
         /// <param name="targetImplementationType">Type of the target implementation.</param>
         /// <param name="implementationType">Type of the implementation.</param>
@@ -50,17 +93,18 @@ namespace IoC.Configuration.DiContainer
             ImplementationType = implementationType;
         }
 
-        /// <summary>
-        /// Gets the type of the target implementation.
-        /// </summary>
-        /// <value>
-        /// The type of the target implementation.
-        /// </value>
-        public TargetImplementationType TargetImplementationType { get; }
+        #endregion
 
-        /// <summary>
-        ///     If not set, will default to <see cref="DiResolutionScope.Singleton" />.
-        /// </summary>
+        #region IBindingImplementationConfiguration Interface Implementation
+
+        /// <inheritdoc />
+        public ConditionalInjectionType ConditionalInjectionType { get; } = ConditionalInjectionType.None;
+
+        /// <inheritdoc />
+        [CanBeNull]
+        public Type ImplementationType { get; }
+
+        /// <inheritdoc />
         [CanBeNull]
         public DiResolutionScope ResolutionScope
         {
@@ -72,20 +116,34 @@ namespace IoC.Configuration.DiContainer
             }
         }
 
-        /// <summary>
-        /// Gets the type of the implementation.
-        /// </summary>
-        /// <value>
-        /// The type of the implementation.
-        /// </value>
-        [CanBeNull]
-        public Type ImplementationType { get; }
+        /// <inheritdoc />
+        public TargetImplementationType TargetImplementationType { get; }
 
         // Autofac: https://stackoverflow.com/questions/7664912/autofac-equivalent-of-ninjects-wheninjectedinto
+        /// <inheritdoc />
         [CanBeNull]
-        public Type WhenInjectedIntoType { get; private set; }
+        public Type WhenInjectedIntoType { get; }
 
-        public ConditionalInjectionType ConditionalInjectionType { get; } = ConditionalInjectionType.None;
+        #endregion
+
+        #region Current Type Interface
+
+        /// <summary>
+        ///     Validates the binding configuration
+        /// </summary>
+        /// <exception cref="Exception">
+        ///     Throws an exception if service binding data is invalid. Example of invalid data is invalid
+        ///     implementation type.
+        /// </exception>
+        public virtual void Validate()
+        {
+            if (ConditionalInjectionType == ConditionalInjectionType.None != (WhenInjectedIntoType == null))
+                GlobalsCoreAmbientContext.Context.LogAnErrorAndThrowException($"If '{GetType().FullName}.{nameof(ConditionalInjectionType)}' is '{ConditionalInjectionType.None}' then the value of '{GetType().FullName}.{nameof(WhenInjectedIntoType)}' should be null. Otherwise, '{GetType().FullName}.{nameof(WhenInjectedIntoType)}' cannot be null.");
+        }
+
+        #endregion
+
+        #region Member Functions
 
         //#if DEBUG
         //// Will enable this code in release mode when Autofac implementation for this feature is available.
@@ -99,7 +157,7 @@ namespace IoC.Configuration.DiContainer
         //#endif
 
         /// <summary>
-        /// Checks the value not null and set once.
+        ///     Checks the value not null and set once.
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>
         /// <param name="value">The value.</param>
@@ -114,17 +172,6 @@ namespace IoC.Configuration.DiContainer
             _setPropertyNames.Add(propertyName);
         }
 
-        /// <summary>
-        /// Validates the binding configuration
-        /// </summary>
-        /// <exception cref="Exception">
-        ///     Throws an exception if service binding data is invalid. Example of invalid data is invalid
-        ///     implementation type.
-        /// </exception>
-        public virtual void Validate()
-        {
-            if (ConditionalInjectionType == ConditionalInjectionType.None != (WhenInjectedIntoType == null))
-                GlobalsCoreAmbientContext.Context.LogAnErrorAndThrowException($"If '{GetType().FullName}.{nameof(ConditionalInjectionType)}' is '{ConditionalInjectionType.None}' then the value of '{GetType().FullName}.{nameof(WhenInjectedIntoType)}' should be null. Otherwise, '{GetType().FullName}.{nameof(WhenInjectedIntoType)}' cannot be null.");
-        }
+        #endregion
     }
 }

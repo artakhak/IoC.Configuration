@@ -22,15 +22,17 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using JetBrains.Annotations;
 
 namespace IoC.Configuration.DiContainerBuilder.CodeBased
 {
     public class CodeBasedContainerStarter : CodeBasedConfiguratorAbstr, ICodeBasedContainerStarter
     {
-        #region  Constructors        
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="CodeBasedContainerStarter"/> class.
+        ///     Initializes a new instance of the <see cref="CodeBasedContainerStarter" /> class.
         /// </summary>
         /// <param name="codeBasedConfiguration">The code based configuration.</param>
         public CodeBasedContainerStarter([NotNull] CodeBasedConfiguration codeBasedConfiguration) : base(codeBasedConfiguration)
@@ -39,11 +41,12 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
 
         #endregion
 
-        #region ICodeBasedContainerStarter Interface Implementation        
+        #region ICodeBasedContainerStarter Interface Implementation
+
         /// <summary>
-        /// Loads the DI container.
+        ///     Loads the DI container.
         /// </summary>
-        /// <returns>Returns an instance of <see cref="IContainerInfo"/>.</returns>
+        /// <returns>Returns an instance of <see cref="IContainerInfo" />.</returns>
         public IContainerInfo Start()
         {
             return _codeBasedConfiguration.StartContainer();

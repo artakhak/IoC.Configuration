@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using IoC.Configuration.DiContainer;
 using JetBrains.Annotations;
 
@@ -29,9 +30,10 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 {
     public class FileBasedDiModulesConfigurator : FileBasedConfiguratorAbstr, IFileBasedDiModulesConfigurator
     {
-        #region  Constructors        
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileBasedDiModulesConfigurator"/> class.
+        ///     Initializes a new instance of the <see cref="FileBasedDiModulesConfigurator" /> class.
         /// </summary>
         /// <param name="fileBasedConfiguration">The file based configuration.</param>
         public FileBasedDiModulesConfigurator([NotNull] FileBasedConfiguration fileBasedConfiguration) : base(fileBasedConfiguration)
@@ -40,12 +42,13 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 
         #endregion
 
-        #region IFileBasedDiModulesConfigurator Interface Implementation        
+        #region IFileBasedDiModulesConfigurator Interface Implementation
+
         /// <summary>
-        /// Adds the additional <see cref="IDiModule"/> modules to be loaded into a container.
+        ///     Adds the additional <see cref="IDiModule" /> modules to be loaded into a container.
         /// </summary>
-        /// <param name="diModules">The <see cref="IDiModule"/> modules to be loaded into a container.</param>
-        /// <returns>Returns an instance of <see cref="IFileBasedDiModulesConfigurator"/></returns>
+        /// <param name="diModules">The <see cref="IDiModule" /> modules to be loaded into a container.</param>
+        /// <returns>Returns an instance of <see cref="IFileBasedDiModulesConfigurator" /></returns>
         public IFileBasedDiModulesConfigurator AddAdditionalDiModules(params IDiModule[] diModules)
         {
             _fileBasedConfiguration.AddDiModules(diModules);
@@ -53,10 +56,10 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         }
 
         /// <summary>
-        /// Add native modules, such as Autofac or Ninject modules to be loaded into a container.
+        ///     Add native modules, such as Autofac or Ninject modules to be loaded into a container.
         /// </summary>
         /// <param name="nativeModules">The native modules, such as Autofac or Ninject modules to be loaded into a container.</param>
-        /// <returns>Returns an instance of <see cref="IFileBasedDiModulesConfigurator"/></returns>
+        /// <returns>Returns an instance of <see cref="IFileBasedDiModulesConfigurator" /></returns>
         public IFileBasedDiModulesConfigurator AddNativeModules(params object[] nativeModules)
         {
             _fileBasedConfiguration.AddNativeModules(nativeModules);
@@ -64,9 +67,9 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         }
 
         /// <summary>
-        /// Registers the modules.
+        ///     Registers the modules.
         /// </summary>
-        /// <returns>returns an instance of <see cref="IFileBasedContainerStarter"/>.</returns>
+        /// <returns>returns an instance of <see cref="IFileBasedContainerStarter" />.</returns>
         public IFileBasedContainerStarter RegisterModules()
         {
             _fileBasedConfiguration.RegisterModulesWithDiManager();

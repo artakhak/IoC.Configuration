@@ -22,49 +22,49 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Xml;
 using JetBrains.Annotations;
 
 namespace IoC.Configuration.ConfigurationFile
 {
+    [Obsolete("Will be removed after 5/31/2019")]
     public class TypeFactoryReturnedType : ConfigurationFileElementAbstr, ITypeFactoryReturnedType
     {
         #region Member Variables
 
-        [NotNull]
-        private readonly IAssemblyLocator _assemblyLocator;
+        private ITypeInfo _returnedTypeInfo;
 
-        private IAssembly _assemblySetting;
+        [NotNull]
+        private readonly ITypeHelper _typeHelper;
 
         #endregion
 
         #region  Constructors
 
         public TypeFactoryReturnedType([NotNull] XmlElement xmlElement, [NotNull] IConfigurationFileElement parent,
-                                       [NotNull] IAssemblyLocator assemblyLocator) : base(xmlElement, parent)
+                                       [NotNull] ITypeHelper typeHelper) : base(xmlElement, parent)
         {
-            _assemblyLocator = assemblyLocator;
+            _typeHelper = typeHelper;
         }
 
         #endregion
 
         #region ITypeFactoryReturnedType Interface Implementation
 
-        public override bool Enabled => base.Enabled && _assemblySetting.Enabled;
+        public override bool Enabled => base.Enabled && ((_returnedTypeInfo.Assembly as IAssembly)?.Enabled ?? true);
 
         public override void Initialize()
         {
             base.Initialize();
 
-            _assemblySetting = Helpers.GetAssemblySettingByAssemblyAlias(this, this.GetAttributeValue<string>(ConfigurationFileAttributeNames.Assembly));
+            _returnedTypeInfo = _typeHelper.GetTypeInfo(this, ConfigurationFileAttributeNames.Type, ConfigurationFileAttributeNames.Assembly, ConfigurationFileAttributeNames.TypeRef);
 
-            var serviceTypeName = this.GetAttributeValue<string>(ConfigurationFileAttributeNames.Type);
+            ReturnedType = _returnedTypeInfo.Type;
 
-            if (Enabled)
-                ReturnedType = Helpers.GetTypeInAssembly(_assemblyLocator, this, _assemblySetting, serviceTypeName);
-            else
-                MessagesHelper.LogElementDisabledWarning(this, _assemblySetting, true);
+            if (!Enabled)
+                MessagesHelper.LogElementDisabledWarning(this, _returnedTypeInfo.Assembly, true);
         }
 
         public Type ReturnedType { get; private set; }

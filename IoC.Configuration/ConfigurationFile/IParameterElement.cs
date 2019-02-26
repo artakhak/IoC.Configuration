@@ -22,6 +22,8 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
+using System;
 using JetBrains.Annotations;
 
 namespace IoC.Configuration.ConfigurationFile
@@ -31,8 +33,9 @@ namespace IoC.Configuration.ConfigurationFile
         #region Current Type Interface
 
         /// <summary>
-        ///     The value deserialized from ValueAsString to type in property <see cref="INamedValue.ValueType" />
+        ///     The value de-serialized from ValueAsString to type in property <see cref="ITypedItem.ValueTypeInfo" />.Type
         /// </summary>
+        [Obsolete("This property was deprecated since this does not apply to all parameters. Use IDeserializedValue.DeserializedValue for parameters that are instances of IDeserializedValue.")]
         [CanBeNull]
         object DeserializedValue { get; }
 

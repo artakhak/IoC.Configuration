@@ -22,34 +22,35 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
 namespace IoC.Configuration
 {
     /// <summary>
-    /// Default implementation of <see cref="ISettingsRequestor"/> that does not enforce any required settings in configuration file.
-    /// Specify your own implementation in element iocConfiguration/settingsRequestor to change the default behaviour.
+    ///     Default implementation of <see cref="ISettingsRequestor" /> that does not enforce any required settings in
+    ///     configuration file.
+    ///     Specify your own implementation in element iocConfiguration/settingsRequestor to change the default behaviour.
     /// </summary>
     /// <seealso cref="IoC.Configuration.ISettingsRequestor" />
     public class SettingsRequestorDefault : ISettingsRequestor
     {
         #region Member Variables
 
-        [NotNull]
-        [ItemNotNull]
-        private readonly IEnumerable<SettingInfo> _requiredSettings = new List<SettingInfo>();
-
         #endregion
 
-        #region ISettingsRequestor Interface Implementation        
+        #region ISettingsRequestor Interface Implementation
+
         /// <summary>
-        /// Gets the collection of settings, that should be present in configuration file.
+        ///     Gets the collection of settings, that should be present in configuration file.
         /// </summary>
         /// <value>
-        /// The required settings.
+        ///     The required settings.
         /// </value>
-        public IEnumerable<SettingInfo> RequiredSettings => _requiredSettings;
+        [NotNull]
+        [ItemNotNull]
+        public IEnumerable<SettingInfo> RequiredSettings { get; } = new List<SettingInfo>();
 
         #endregion
     }

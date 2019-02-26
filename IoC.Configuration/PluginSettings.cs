@@ -22,16 +22,19 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using IoC.Configuration.ConfigurationFile;
 using JetBrains.Annotations;
+using OROptimizer;
 using OROptimizer.Serializer;
 
 namespace IoC.Configuration
 {
     /// <summary>
-    /// Stored plugin settings loaded from element iocConfiguration/pluginsSetup/pluginSetup/settings in configuration file.
+    ///     Stored plugin settings loaded from element iocConfiguration/pluginsSetup/pluginSetup/settings in configuration
+    ///     file.
     /// </summary>
     /// <seealso cref="IoC.Configuration.ISettings" />
     public class PluginSettings : ISettings
@@ -49,9 +52,10 @@ namespace IoC.Configuration
 
         #endregion
 
-        #region  Constructors        
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="PluginSettings"/> class.
+        ///     Initializes a new instance of the <see cref="PluginSettings" /> class.
         /// </summary>
         public PluginSettings([NotNull] ISettings globalSettings, ISettingsElement pluginSettingsElementElement,
                               [NotNull] ITypeBasedSimpleSerializerAggregator typeBasedSimpleSerializerAggregator)
@@ -69,22 +73,24 @@ namespace IoC.Configuration
 
         #endregion
 
-        #region ISettings Interface Implementation        
+        #region ISettings Interface Implementation
+
         /// <summary>
-        /// A collection of all settings loading from configuration file for the plugin, as well as settings from general settings element,
-        /// that are not in element iocConfiguration/pluginsSetup/pluginSetup/settings.
+        ///     A collection of all settings loading from configuration file for the plugin, as well as settings from general
+        ///     settings element,
+        ///     that are not in element iocConfiguration/pluginsSetup/pluginSetup/settings.
         /// </summary>
         public IEnumerable<ISetting> AllSettings => _settingNameToSettingMap.Values;
 
         /// <summary>
-        /// Returns an object of type <see cref="ISetting" /> with data loaded from a setting in configuration file.
-        /// Note, if the setting is not in plugin section for the plugin, the setting will be looked up
-        /// in global settings in iocConfiguration/settings as well.
+        ///     Returns an object of type <see cref="ISetting" /> with data loaded from a setting in configuration file.
+        ///     Note, if the setting is not in plugin section for the plugin, the setting will be looked up
+        ///     in global settings in iocConfiguration/settings as well.
         /// </summary>
         /// <param name="name">Setting name in configuration file.</param>
         /// <returns>
-        /// Returns an instance of <see cref="ISetting"/>, if there is a setting named <paramref name="name"/>.
-        /// Returns null otherwise.
+        ///     Returns an instance of <see cref="ISetting" />, if there is a setting named <paramref name="name" />.
+        ///     Returns null otherwise.
         /// </returns>
         public ISetting GetSetting(string name)
         {
@@ -97,19 +103,21 @@ namespace IoC.Configuration
         }
 
         /// <summary>
-        /// Gets the value of a setting, if the setting is present in configuration file and has the specified type.
-        /// Otherwise, returns the specified default value.
-        /// Note, if the setting is not in plugin section for the plugin, the setting will be looked up
-        /// in global settings in iocConfiguration/settings as well.
+        ///     Gets the value of a setting, if the setting is present in configuration file and has the specified type.
+        ///     Otherwise, returns the specified default value.
+        ///     Note, if the setting is not in plugin section for the plugin, the setting will be looked up
+        ///     in global settings in iocConfiguration/settings as well.
         /// </summary>
         /// <typeparam name="T">Setting type in configuration file.</typeparam>
         /// <param name="name">Setting name in configuration file.</param>
-        /// <param name="defaultValue">A value to return, if the setting is not in configuration file, or if it is not of
-        /// type <typeparamref name="T" />.</param>
+        /// <param name="defaultValue">
+        ///     A value to return, if the setting is not in configuration file, or if it is not of
+        ///     type <typeparamref name="T" />.
+        /// </param>
         /// <param name="value">Setting value.</param>
         /// <returns>
-        /// Returns true, if setting of type <typeparamref name="T" /> is present in configuration file. Returns false
-        /// otherwise.
+        ///     Returns true, if setting of type <typeparamref name="T" /> is present in configuration file. Returns false
+        ///     otherwise.
         /// </returns>
         public bool GetSettingValue<T>(string name, T defaultValue, out T value)
         {
@@ -120,25 +128,28 @@ namespace IoC.Configuration
         }
 
         /// <summary>
-        /// Gets the value of a setting if the setting is present in configuration file and has the specified type.
-        /// Otherwise, throws an exception.
-        /// Note, if the setting is not in plugin section for the plugin, the setting will be looked up
-        /// in global settings in iocConfiguration/settings as well.
+        ///     Gets the value of a setting if the setting is present in configuration file and has the specified type.
+        ///     Otherwise, throws an exception.
+        ///     Note, if the setting is not in plugin section for the plugin, the setting will be looked up
+        ///     in global settings in iocConfiguration/settings as well.
         /// </summary>
         /// <typeparam name="T">Setting type in configuration file.</typeparam>
         /// <param name="name">Setting name in configuration file</param>
         /// <returns>
-        /// Returns setting value.
+        ///     Returns setting value.
         /// </returns>
         public T GetSettingValueOrThrow<T>(string name)
         {
             var setting = _pluginSettings.GetSetting(name);
 
-            var settingValueType = typeof(T);
+            if (setting != null)
+            {
+                var settingValueType = typeof(T);
 
-            // If the setting is in plugin settings, use it
-            if (setting?.ValueType == settingValueType)
-                return _pluginSettings.GetSettingValueOrThrow<T>(name);
+                // If the setting is in plugin settings, use it
+                if (settingValueType.IsTypeAssignableFrom(setting.ValueTypeInfo.Type))
+                    return _pluginSettings.GetSettingValueOrThrow<T>(name);
+            }
 
             return _globalSettings.GetSettingValueOrThrow<T>(name);
         }

@@ -48,8 +48,8 @@ namespace IoC.Configuration
         /// </summary>
         /// <param name="name">Setting name in configuration file.</param>
         /// <returns>
-        /// Returns an instance of <see cref="ISetting"/>, if there is a setting named <paramref name="name"/>.
-        /// Returns null otherwise.
+        ///     Returns an instance of <see cref="ISetting" />, if there is a setting named <paramref name="name" />.
+        ///     Returns null otherwise.
         /// </returns>
         [CanBeNull]
         ISetting GetSetting([NotNull] string name);

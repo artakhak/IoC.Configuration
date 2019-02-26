@@ -12,12 +12,18 @@ namespace TestsSharedLibrary
 {
     public static class TestsHelper
     {
-        #region Member Functions
-
+        #region Member Functions        
+        /// <summary>
+        /// Sets ups the logger and sets the log level to <see cref="LogLevel.Error"/>.
+        /// Also, resets the test statistics
+        /// </summary>
         public static void SetupLogger()
         {
-            if (!LogHelper.IsContextInitialized)
-                LogHelper.RegisterContext(new LogHelper4TestsContext());
+            LogHelper.RemoveContext();
+            //if (!LogHelper.IsContextInitialized)
+            LogHelper.RegisterContext(new LogHelper4TestsContext());
+            Log4Tests.LogLevel = LogLevel.Error;
+            Log4Tests.ResetLogStatistics();
         }
 
         /// <summary>

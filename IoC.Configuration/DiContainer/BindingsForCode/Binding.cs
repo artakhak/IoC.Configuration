@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using JetBrains.Annotations;
 
 namespace IoC.Configuration.DiContainer.BindingsForCode
@@ -38,9 +39,10 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
 
         #endregion
 
-        #region  Constructors        
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Binding"/> class.
+        ///  Initializes a new instance of the <see cref="Binding" /> class.
         /// </summary>
         /// <param name="serviceRegistrationBuilder">The service registration builder.</param>
         /// <param name="bindingConfiguration">The binding configuration.</param>

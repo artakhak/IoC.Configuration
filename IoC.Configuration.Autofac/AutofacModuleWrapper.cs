@@ -62,43 +62,58 @@ namespace IoC.Configuration.Autofac
             base.Load(builder);
 
             foreach (var serviceBindingConfiguration in _module.ServiceBindingConfigurations)
-            foreach (var implementationConfiguration in serviceBindingConfiguration.Implementations)
-                switch (implementationConfiguration.TargetImplementationType)
+            {
+                foreach (var implementationConfiguration in serviceBindingConfiguration.Implementations)
                 {
-                    case TargetImplementationType.Type:
-                    case TargetImplementationType.Self:
+                    switch (implementationConfiguration.TargetImplementationType)
                     {
-                        var registration = builder.RegisterType(implementationConfiguration.ImplementationType);
+                        case TargetImplementationType.Type:
+                        case TargetImplementationType.Self:
+                            {
+                                var registration = builder.RegisterType(implementationConfiguration.ImplementationType);
 
-                        SetResolutionScope(registration, implementationConfiguration.ResolutionScope);
-                        SetInstanceActivatedAction(registration, implementationConfiguration.OnImplementationObjectActivated);
+                                SetResolutionScope(registration, implementationConfiguration.ResolutionScope);
+                                SetInstanceActivatedAction(registration, implementationConfiguration.OnImplementationObjectActivated);
 
-                        if (implementationConfiguration.TargetImplementationType == TargetImplementationType.Type)
+                                if (implementationConfiguration.TargetImplementationType == TargetImplementationType.Type)
+                                    registration.As(serviceBindingConfiguration.ServiceType);
+                                else
+                                    registration.AsSelf();
+
+                                SetRegisterIfNotRegistered(registration, serviceBindingConfiguration);
+                            }
+
+                            break;
+
+                        case TargetImplementationType.Delegate:
+                            {
+                                var registration = builder.Register(context =>
+                                    implementationConfiguration.ImplementationGeneratorFunction(_diContainer));
+
+                                SetResolutionScope(registration, implementationConfiguration.ResolutionScope);
+                                SetInstanceActivatedAction(registration, implementationConfiguration.OnImplementationObjectActivated);
+                                registration.As(serviceBindingConfiguration.ServiceType);
+
+                                SetRegisterIfNotRegistered(registration, serviceBindingConfiguration);
+                            }
+
+                            break;
+
+                        case TargetImplementationType.ProxiedType:
+                        {
+                            var registration = builder.Register(context => context.Resolve(implementationConfiguration.ImplementationType));
+
+                            SetResolutionScope(registration, implementationConfiguration.ResolutionScope);
                             registration.As(serviceBindingConfiguration.ServiceType);
-                        else
-                            registration.AsSelf();
+                            SetRegisterIfNotRegistered(registration, serviceBindingConfiguration);
+                        }
+                            break;
 
-                        SetRegisterIfNotRegistered(registration, serviceBindingConfiguration);
+                        default:
+                            throw new Exception($"Unhandled value '{implementationConfiguration.TargetImplementationType}'.");
                     }
-
-                        break;
-
-                    case TargetImplementationType.Delegate:
-                    {
-                        var registration = builder.Register(context =>
-                            implementationConfiguration.ImplementationGeneratorFunction(_diContainer));
-
-                        SetResolutionScope(registration, implementationConfiguration.ResolutionScope);
-                        SetInstanceActivatedAction(registration, implementationConfiguration.OnImplementationObjectActivated);
-                        registration.As(serviceBindingConfiguration.ServiceType);
-
-                        SetRegisterIfNotRegistered(registration, serviceBindingConfiguration);
-                    }
-
-                        break;
-                    default:
-                        throw new Exception($"Unhandled value '{implementationConfiguration.TargetImplementationType}'.");
                 }
+            }
         }
 
         public void OnDiContainerReady(IDiContainer diContainer)

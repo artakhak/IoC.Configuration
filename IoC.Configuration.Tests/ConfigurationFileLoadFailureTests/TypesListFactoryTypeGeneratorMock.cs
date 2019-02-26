@@ -32,6 +32,7 @@ using OROptimizer.DynamicCode;
 
 namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
 {
+    [Obsolete("Will be removed after 5/31/2019")]
     public class TypesListFactoryTypeGeneratorMock : ITypesListFactoryTypeGenerator
     {
         #region Member Variables

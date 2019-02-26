@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -61,7 +62,7 @@ namespace IoC.Configuration.OnApplicationStart
 
         #endregion
 
-        #region IDisposable Interface Implementation
+        #region IOnApplicationsStarted Interface Implementation
 
         public void Dispose()
         {
@@ -70,10 +71,6 @@ namespace IoC.Configuration.OnApplicationStart
             foreach (var pluginData in _pluginDataRepository.Plugins)
                 pluginData.Plugin.Dispose();
         }
-
-        #endregion
-
-        #region IOnApplicationsStarted Interface Implementation
 
         public void StartStartupActions()
         {
@@ -104,6 +101,10 @@ namespace IoC.Configuration.OnApplicationStart
                 _applicationsStarted = true;
             }
         }
+
+        #endregion
+
+        #region Member Functions
 
         protected void StopStartupActions(int maxMillisecondsToWait, Action onAllStartupActionsStopped)
         {

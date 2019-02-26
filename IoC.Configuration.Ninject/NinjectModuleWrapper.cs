@@ -101,6 +101,11 @@ namespace IoC.Configuration.Ninject
                             ninjectImplementationConfiguration = ninjectServiceBindingConfiguration.ToMethod(context =>
                                 implementationConfiguration.ImplementationGeneratorFunction(_diContainer));
                             break;
+
+                        case TargetImplementationType.ProxiedType:
+                            ninjectImplementationConfiguration = ninjectServiceBindingConfiguration.ToMethod(context =>
+                                _diContainer.Resolve(implementationConfiguration.ImplementationType));
+                            break;
                         default:
                             throw new Exception($"Unhandled value '{implementationConfiguration.TargetImplementationType}'.");
                     }

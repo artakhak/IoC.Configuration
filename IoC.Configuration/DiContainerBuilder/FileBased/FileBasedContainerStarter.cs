@@ -22,15 +22,17 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using JetBrains.Annotations;
 
 namespace IoC.Configuration.DiContainerBuilder.FileBased
 {
     public class FileBasedContainerStarter : FileBasedConfiguratorAbstr, IFileBasedContainerStarter
     {
-        #region  Constructors        
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileBasedContainerStarter"/> class.
+        ///     Initializes a new instance of the <see cref="FileBasedContainerStarter" /> class.
         /// </summary>
         /// <param name="fileBasedConfiguration">The file based configuration.</param>
         public FileBasedContainerStarter([NotNull] FileBasedConfiguration fileBasedConfiguration) : base(fileBasedConfiguration)
@@ -39,11 +41,12 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 
         #endregion
 
-        #region IFileBasedContainerStarter Interface Implementation        
+        #region IFileBasedContainerStarter Interface Implementation
+
         /// <summary>
-        ///  Loads the DI container from the configuration file.
+        ///     Loads the DI container from the configuration file.
         /// </summary>
-        /// <returns>Returns an instance of <see cref="IContainerInfo"/>.</returns>
+        /// <returns>Returns an instance of <see cref="IContainerInfo" />.</returns>
         public IContainerInfo Start()
         {
             return _fileBasedConfiguration.StartContainer();

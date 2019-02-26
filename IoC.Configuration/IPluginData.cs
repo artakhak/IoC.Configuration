@@ -22,41 +22,43 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using JetBrains.Annotations;
 
 namespace IoC.Configuration
 {
     /// <summary>
-    /// Stores plugin related data
+    ///     Stores plugin related data
     /// </summary>
     public interface IPluginData
     {
         #region Current Type Interface
 
         /// <summary>
-        /// Gets the plugin defined in configuration file.
+        ///     Gets the plugin defined in configuration file.
         /// </summary>
         /// <value>
-        /// The plugin.
+        ///     The plugin.
         /// </value>
         [NotNull]
         IPlugin Plugin { get; }
 
         /// <summary>
-        /// Gets the name of the plugin.
+        ///     Gets the name of the plugin.
         /// </summary>
         /// <value>
-        /// The name of the plugin.
+        ///     The name of the plugin.
         /// </value>
         [NotNull]
         string PluginName { get; }
 
         /// <summary>
-        /// Gets the settings for the plugin that are either specified in element iocConfiguration\pluginsSetup\pluginSetup\settings or
-        /// in element iocConfiguration\settings.
+        ///     Gets the settings for the plugin that are either specified in element
+        ///     iocConfiguration\pluginsSetup\pluginSetup\settings or
+        ///     in element iocConfiguration\settings.
         /// </summary>
         /// <value>
-        /// The settings.
+        ///     The settings.
         /// </value>
         [NotNull]
         ISettings Settings { get; }

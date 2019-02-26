@@ -13,6 +13,11 @@ namespace Modules.IoC
             Property1 = param1;
         }
 
+        public DiModule1(IInterface1 param1)
+        {
+            Property2 = param1;
+        }
+
         #endregion
 
         #region Member Functions
@@ -24,6 +29,8 @@ namespace Modules.IoC
         }
 
         public int Property1 { get; }
+
+        public IInterface1 Property2 { get; }
 
         #endregion
     }

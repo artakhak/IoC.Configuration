@@ -1,0 +1,431 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+   The XML configuration file is validated against schema file IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd, 
+   which can be found in folder IoC.Configuration.Content in output directory. 
+   The schema file can also be downloaded from 
+   http://oroptimizer.com/ioc.configuration/V2/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd or in source code 
+   project in Github.com.
+   
+   To use Visual Studio code completion based on schema contents, right click Properties on this file in Visual Studio, and in Schemas 
+   field pick the schema IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd.
+
+   Before running the tests make sure to execute IoC.Configuration\Tests\IoC.Configuration.Tests\PostBuildCommands.bat to copy the dlls into 
+   folders specified in this configuration file.
+   Also, modify the batch file to copy the Autofac and Ninject assemblies from Nuget packages folder on machine, where the test is run.
+-->
+
+<iocConfiguration>
+
+  <!--The application should have write permissions to path specified in appDataDir. 
+    This is where dynamically generated DLLs are saved.-->
+  <appDataDir
+    path="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\bin\TestFiles\DynamicFiles_ClassMemberTests" />
+
+  <plugins pluginsDirPath="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\TestDlls\PluginDlls">
+
+    <!--        
+        Plugin assemblies will be in a folder with similar name under pluginsDirPath folder.
+        The plugin folders will be included in assembly resolution mechanism.        
+        -->
+
+    <!--A folder K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\Tests\IoC.Configuration.Tests\TestDlls\PluginDlls\Plugin1 should exist.  -->
+    <plugin name="Plugin1" />
+    <plugin name="Plugin2" enabled="true" />
+    <plugin name="Plugin3" enabled="false" />
+  </plugins>
+
+  <additionalAssemblyProbingPaths>
+    <probingPath
+      path="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\TestDlls\ThirdPartyLibs" />
+    <probingPath
+      path="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\TestDlls\ContainerImplementations\Autofac" />
+    <probingPath
+      path="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\TestDlls\ContainerImplementations\Ninject" />
+    <probingPath
+      path="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests\TestDlls\DynamicallyLoadedDlls" />
+  </additionalAssemblyProbingPaths>
+
+  <assemblies>
+    <!--Assemblies should be in one of the following locations:
+        1) Executable's folder
+        2) In folder specified in additionalAssemblyProbingPaths element.
+        3) In one of the plugin folders specified in plugins element (only for assemblies with plugin attribute) -->
+
+    <!--
+        Use "loadAlways" attribute to make sure a reference to assembly is added to dynamically generated assembly for
+        dependencies, even if the assembly is not referenced anywhere in configuration file.
+        In general, this is not necessary, however in case if generating dynamic assembly fails
+        because of missing .NET assemblies, using this field might help.
+        Use "overrideDirectory" attribute, to make the assembly path explicit, rather then searching for
+        an assembly in predefined folders, which also include
+        probing paths specified in additionalAssemblyProbingPaths element.
+        -->
+
+    <assembly name="IoC.Configuration.Autofac" alias="autofac_ext" />
+    <assembly name="IoC.Configuration.Ninject" alias="ninject_ext" />
+
+    <assembly name="TestProjects.Modules" alias="modules" />
+
+    <assembly name="TestProjects.DynamicallyLoadedAssembly1"
+              alias="dynamic1" />
+
+    <assembly name="TestProjects.DynamicallyLoadedAssembly2"
+              alias="dynamic2" />
+
+    <assembly name="TestProjects.TestPluginAssembly1"
+              alias="pluginassm1" plugin="Plugin1" />
+
+    <assembly name="TestProjects.TestPluginAssembly2"
+              alias="pluginassm2" plugin="Plugin2" />
+    
+    <assembly name="TestProjects.TestPluginAssembly3"
+              alias="pluginassm3" plugin="Plugin3" />
+
+    <assembly name="TestProjects.ModulesForPlugin1"
+              alias="modules_plugin1" plugin="Plugin1" />
+
+    <assembly name="TestProjects.SharedServices" alias="shared_services" />
+
+    <assembly name="IoC.Configuration.Tests" alias="tests" />
+  </assemblies>
+
+  <typeDefinitions>
+    <typeDefinition alias="ConstAndStaticAppIds" type="IoC.Configuration.Tests.ClassMember.Services.ConstAndStaticAppIds" />
+    <typeDefinition alias="IAppIds" type="IoC.Configuration.Tests.ClassMember.Services.IAppIds" />
+    <typeDefinition alias="AppTypes" type="IoC.Configuration.Tests.ClassMember.Services.AppTypes" />
+    <typeDefinition alias="AppInfo" type="IoC.Configuration.Tests.ClassMember.Services.AppInfo" />
+  </typeDefinitions>
+
+  <parameterSerializers>
+    <serializers></serializers>
+  </parameterSerializers>
+
+  <!--The value of type attribute should be a type that implements 
+    IoC.Configuration.DiContainer.IDiManager-->
+  <diManagers activeDiManagerName="Autofac">
+    <diManager name="Ninject" type="IoC.Configuration.Ninject.NinjectDiManager"
+               assembly="ninject_ext">
+      <!--
+            Use parameters element to specify constructor parameters,
+            if the type specified in 'type' attribute has non-default constructor.
+            -->
+      <!--<parameters>
+            </parameters>-->
+    </diManager>
+
+    <diManager name="Autofac" type="IoC.Configuration.Autofac.AutofacDiManager"
+               assembly="autofac_ext">
+    </diManager>
+  </diManagers>
+
+  <!--
+    If settingsRequestor element is used, the type in type attribute should 
+    specify a type that implements IoC.Configuration.ISettingsRequestor. 
+    The implementation specifies a collection of required settings that should be present
+    in settings element.
+    Note, the type specified in type attribute is fully integrated into a dependency 
+    injection framework. In other words, constructor parameters will be injected using 
+    bindings specified in dependencyInjection element.
+    -->
+
+  <settings>
+    
+  </settings>
+
+  <dependencyInjection>
+    <modules>
+      <!--<module type="IoC.Configuration.Tests.AutoService.AutoServiceTestsModule" />-->
+      <module type="IoC.Configuration.Tests.ClassMember.Module1">
+        <parameters>
+          <classMember name="param1" classRef="ConstAndStaticAppIds" memberName="DefaultAppId" />
+        </parameters>
+      </module>
+    </modules>
+    <services>
+      <service type="System.Int32">
+        <valueImplementation scope="singleton">
+          <!--Example of classMember in valueImplementation. Since IAppIds.DefaultAppId is non-static,
+          IAppIds will be resolved from dependency injection container, and the value of property DefaultAppId of
+          resolved object will be bound to System.Int32
+          -->
+          <classMember classRef="IAppIds" memberName="DefaultAppId" />
+        </valueImplementation>
+      </service>
+      
+      <service type="System.String">
+        <valueImplementation scope="singleton">
+          <!--Example of classMember in valueImplementation. Since IAppIds.DefaultAppDescription is non-static,
+          IAppIds will be resolved from dependency injection container, and the value of property DefaultAppDescription of 
+          resolved object will be bound to System.Int32
+          -->
+          <classMember classRef="IAppIds" memberName="DefaultAppDescription" />
+        </valueImplementation>
+      </service>
+      
+      <service type="IoC.Configuration.Tests.ClassMember.Services.IAppInfo">
+        <!--The DI will try to construct IoC.Configuration.Tests.ClassMember.Services.AppInfo using the constructor
+        with max number of parameters: AppInfo(int appId, string appDescription).
+        Since we bound System.Int32, and System.String to IoC.Configuration.Tests.ClassMember.Services.IAppIds.DefaultAppId,
+        and IoC.Configuration.Tests.ClassMember.Services.IAppIds.DefaultAppDescription, the values of injected 
+        appId and appDescription will be IoC.Configuration.Tests.ClassMember.Services.IAppIds.DefaultAppId and
+        IoC.Configuration.Tests.ClassMember.Services.IAppIds.DefaultAppDescription.
+        -->
+        <implementation typeRef="AppInfo" scope="singleton">
+        </implementation>
+      </service>
+      
+      <service type="System.Collections.Generic.IReadOnlyList[System.Int32]" >
+        <valueImplementation scope="singleton">
+          <collection>
+            <!--Demo of classMember in collection element.-->
+            <classMember classRef="ConstAndStaticAppIds" memberName="AppId1"/>
+            <classMember classRef="IAppIds" memberName="DefaultAppId"/>
+          </collection>
+        </valueImplementation>
+      </service>
+    </services>
+
+    <autoGeneratedServices>
+      
+      <!--The scope for autoService implementations is always singleton -->
+      <autoService interfaceRef="IAppIds">
+        <autoProperty name="DefaultAppId" returnType="System.Int32">
+          <!--Example of using classMember attribute in auto property.-->
+          <classMember class="System.Int32" memberName="MaxValue"/>
+        </autoProperty>
+
+        <autoProperty name="DefaultAppDescription" returnType="System.String">
+          <!--Example of using classMember attribute in auto property.-->
+          <classMember classRef="ConstAndStaticAppIds" memberName="DefaultAppDescription"/>
+        </autoProperty>
+      </autoService>
+
+      <autoService interface="IoC.Configuration.Tests.ClassMember.Services.IAppInfos">
+        <autoProperty name="AllAppInfos" returnType="System.Collections.Generic.IReadOnlyList[IoC.Configuration.Tests.ClassMember.Services.IAppInfo]" >
+          <collection>
+            <constructedValue typeRef="AppInfo">
+              <parameters>
+                <!--Property IoC.Configuration.Tests.ClassMember.Services.IAppIds.DefaultAppId is non-static, therefore
+                IoC.Configuration.Tests.ClassMember.Services.IAppIds will be resolved from dependency injection container,
+                and the value of property DefaultAppId in resolved object will be used as parameter value appId-->
+                <classMember name="appId" classRef="IAppIds" memberName="DefaultAppId" />
+              </parameters>
+              <injectedProperties>
+                <!--Property IoC.Configuration.Tests.ClassMember.Services.IAppIds.DefaultAppId is non-static, therefore
+                IoC.Configuration.Tests.ClassMember.Services.IAppIds will be resolved from dependency injection container,
+                and the value of property DefaultAppId in resolved object will be used as parameter value appId-->
+                <classMember name="AppDescription" classRef="IAppIds" memberName="DefaultAppDescription" />
+              </injectedProperties>
+            </constructedValue>
+
+            <constructedValue typeRef="AppInfo">
+              <parameters>
+                <!--Method IoC.Configuration.Tests.ClassMember.Services.IAppIds.GetAppId() is non-static, therefore
+                IoC.Configuration.Tests.ClassMember.Services.IAppIds will be resolved from dependency injection container,
+                and the value returned by method IAppIds.GetAppId() will be used as parameter value appId-->
+                <classMember name="appId" classRef="IAppIds" memberName="GetAppId" />
+              </parameters>
+            </constructedValue>
+
+            <constructedValue typeRef="AppInfo">
+              <parameters>
+                <!--Variable IoC.Configuration.Tests.ClassMember.Services.AppIdVars.NonStaticAppIdVar is non-static/non-constant, therefore
+                IoC.Configuration.Tests.ClassMember.Services.AppIdVars will be resolved from dependency injection container,
+                and the value variable NonStaticAppIdVarin resolved object will be used as parameter value appId
+                NOTE, no need to add a self bound service for IoC.Configuration.Tests.ClassMember.Services.AppIdVars, since 
+                IoC.Configuration will generated one.
+                -->
+                <classMember name="appId" class="IoC.Configuration.Tests.ClassMember.Services.AppIdVars" memberName="NonStaticAppIdVar" />
+              </parameters>
+            </constructedValue>
+
+            <constructedValue typeRef="AppInfo">
+              <parameters>
+                <!--IoC.Configuration.Tests.ClassMember.Services.ConstAndStaticAppIds.AppId1 is a constant value.-->
+                <classMember name="appId" classRef="ConstAndStaticAppIds" memberName="AppId1" />
+
+                <!--IoC.Configuration.Tests.ClassMember.Services.ConstAndStaticAppIds.App1Description is a constant value.-->
+                <classMember name="appDescription" classRef="ConstAndStaticAppIds" memberName="App1Description" />
+              </parameters>
+            </constructedValue>
+
+            <constructedValue typeRef="AppInfo">
+              <parameters>
+                <!--IoC.Configuration.Tests.ClassMember.Services.ConstAndStaticAppIds.AppId2 is a static variable.-->
+                <classMember name="appId" classRef="ConstAndStaticAppIds" memberName="AppId2" />
+
+                <!--IoC.Configuration.Tests.ClassMember.Services.ConstAndStaticAppIds.App2Description is a static variable.-->
+                <classMember name="appDescription" classRef="ConstAndStaticAppIds" memberName="App2Description" />
+              </parameters>
+            </constructedValue>
+
+            <constructedValue typeRef="AppInfo">
+              <parameters>
+                <!--IoC.Configuration.Tests.ClassMember.Services.ConstAndStaticAppIds.AppId3 is a static property.-->
+                <classMember name="appId" classRef="ConstAndStaticAppIds" memberName="AppId3" />
+
+                <!--IoC.Configuration.Tests.ClassMember.Services.ConstAndStaticAppIds.GetApp3Description is a static function-->
+                <classMember name="appDescription" classRef="ConstAndStaticAppIds" memberName="GetApp3Description" />
+              </parameters>
+            </constructedValue>
+
+            <constructedValue typeRef="AppInfo">
+              <parameters>
+                <!--IoC.Configuration.Tests.ClassMember.Services.ConstAndStaticAppIds.GetAppId4() is a static method.-->
+                <classMember name="appId" classRef="ConstAndStaticAppIds" memberName="GetAppId4" />
+
+                <string name="appDescription" value="App 4"/>
+              </parameters>
+            </constructedValue>
+
+            <constructedValue typeRef="AppInfo">
+              <parameters>
+                <!--IoC.Configuration.Tests.ClassMember.Services.AppTypes.App1 is an enum value.-->
+                <classMember name="appId" classRef="AppTypes" memberName="App1" />
+              </parameters>
+            </constructedValue>
+          </collection>
+        </autoProperty>
+      </autoService>
+      
+      <autoService interface="IoC.Configuration.Tests.ClassMember.Services.IAppIdToPriority">
+        <autoMethod name="GetPriority" returnType="System.Int32">
+          <methodSignature>
+            <int32 paramName="appId"/>
+          </methodSignature>
+
+          <!--Property IoC.Configuration.Tests.ClassMember.Services.IAppIds.DefaultAppId is non-static, therefore
+            IoC.Configuration.Tests.ClassMember.Services.IAppIds will be resolved from dependency injection container,
+            and the value of property DefaultAppId in resolved object will be used in if condition-->
+          <if parameter1="_classMember:IAppIds.DefaultAppId">
+            <int32 value="14" />
+          </if>
+
+          <!--Method IoC.Configuration.Tests.ClassMember.Services.IAppIds.GetAppId() is non-static, therefore
+            IoC.Configuration.Tests.ClassMember.Services.IAppIds will be resolved from dependency injection container,
+            and the value returned by method IAppIds.GetAppId()  will be used in if condition-->
+          <if parameter1="_classMember:IAppIds.GetAppId">
+            <int32 value="25" />
+          </if>
+
+          <!--Variable IoC.Configuration.Tests.ClassMember.Services.AppIdVars.NonStaticAppIdVar is non-static/non-constant, therefore
+             IoC.Configuration.Tests.ClassMember.Services.AppIdVars will be resolved from dependency injection container,
+             and the value variable NonStaticAppIdVarin resolved object will be used in if condition.
+             NOTE, no need to add a self bound service for IoC.Configuration.Tests.ClassMember.Services.AppIdVars, since 
+             IoC.Configuration will generated one. -->
+          <if parameter1="_classMember:IoC.Configuration.Tests.ClassMember.Services.AppIdVars.NonStaticAppIdVar">
+            <int32 value="23" />
+          </if>
+
+          <!--IoC.Configuration.Tests.ClassMember.Services.ConstAndStaticAppIds.AppId1 is a constant value.-->
+          <if parameter1="_classMember:ConstAndStaticAppIds.AppId1">
+            <int32 value="4" />
+          </if>
+
+          <!--IoC.Configuration.Tests.ClassMember.Services.ConstAndStaticAppIds.AppId2 is a static variable.-->
+          <if parameter1="_classMember:ConstAndStaticAppIds.AppId2">
+            <int32 value="7" />
+          </if>
+
+          <!--IoC.Configuration.Tests.ClassMember.Services.ConstAndStaticAppIds.AppId3 is a static property.-->
+          <if parameter1="_classMember:ConstAndStaticAppIds.AppId3">
+            <int32 value="8" />
+          </if>
+
+          <!--IoC.Configuration.Tests.ClassMember.Services.ConstAndStaticAppIds.GetAppId4() is a static method.-->
+          <if parameter1="_classMember:ConstAndStaticAppIds.GetAppId4">
+            <int32 value="5" />
+          </if>
+
+          <default>
+            <int32 value="0"/>
+          </default>
+        </autoMethod>
+        
+        <autoMethod name="GetPriority" returnType="System.Int32">
+          <methodSignature>
+            <object paramName="appType" type="IoC.Configuration.Tests.ClassMember.Services.AppTypes"/>
+          </methodSignature>
+          <!--Example of using _classMember in If statement to reference enum value.-->
+          <if parameter1="_classMember:IoC.Configuration.Tests.ClassMember.Services.AppTypes.App1">
+            <int32 value="8"/>
+          </if>
+          
+          <!--Example of using _classMember in If statement to reference enum value.-->
+          <if parameter1="_classMember:IoC.Configuration.Tests.ClassMember.Services.AppTypes.App2">
+            <int32 value="9"/>
+          </if>
+          <default>
+            <int32 value="1"/>
+          </default>
+        </autoMethod>
+      </autoService>
+    </autoGeneratedServices>
+  </dependencyInjection>
+
+  <startupActions>
+
+  </startupActions>
+
+  <pluginsSetup>
+    <pluginSetup plugin="Plugin1">
+      <!--The type in pluginImplementation should be non-abstract class 
+                that implements IoC.Configuration.IPlugin and which has a public constructor-->
+      <pluginImplementation type="TestPluginAssembly1.Implementations.Plugin1_Simple">
+      </pluginImplementation>
+
+      <settings>
+        <int32 name="Int32Setting1" value="10"/>
+        <string name="StringSetting1" value="Some text"/>
+      </settings>
+
+      <dependencyInjection>
+        <modules>
+        </modules>
+
+        <services>
+        </services>
+
+        <autoGeneratedServices>
+        </autoGeneratedServices>
+      </dependencyInjection>
+    </pluginSetup>
+
+    <pluginSetup plugin="Plugin2">
+      <pluginImplementation type="TestPluginAssembly2.Implementations.Plugin2" assembly="pluginassm2">
+        <parameters>
+          <boolean name="param1" value="true" />
+          <double name="param2" value="25.3" />
+          <string name="param3" value="String value" />
+        </parameters>
+      </pluginImplementation>
+      <settings>
+      </settings>
+      <dependencyInjection>
+        <modules>
+        </modules>
+        <services>
+        </services>
+        <autoGeneratedServices>
+        </autoGeneratedServices>
+      </dependencyInjection>
+    </pluginSetup>
+    
+    <pluginSetup plugin="Plugin3">
+      <pluginImplementation type="TestPluginAssembly3.Implementations.Plugin3" assembly="pluginassm3">
+       
+      </pluginImplementation>
+      <settings>
+      </settings>
+      <dependencyInjection>
+        <modules>
+        </modules>
+        <services>
+        </services>
+        <autoGeneratedServices>
+        </autoGeneratedServices>
+      </dependencyInjection>
+    </pluginSetup>
+  </pluginsSetup>
+</iocConfiguration>

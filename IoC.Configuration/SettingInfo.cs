@@ -22,13 +22,14 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using JetBrains.Annotations;
 
 namespace IoC.Configuration
 {
     /// <summary>
-    /// Setting metadata for a setting in configuration file.
+    ///     Setting metadata for a setting in configuration file.
     /// </summary>
     public class SettingInfo
     {
@@ -45,19 +46,19 @@ namespace IoC.Configuration
         #region Member Functions
 
         /// <summary>
-        /// Gets the setting name.
+        ///     Gets the setting name.
         /// </summary>
         /// <value>
-        /// The setting name.
+        ///     The setting name.
         /// </value>
         [NotNull]
         public string Name { get; }
 
         /// <summary>
-        /// Gets the type of the value data.
+        ///     Gets the type of the value data.
         /// </summary>
         /// <value>
-        /// The type of the value data.
+        ///     The type of the value data.
         /// </value>
         [NotNull]
         public Type ValueDataType { get; }

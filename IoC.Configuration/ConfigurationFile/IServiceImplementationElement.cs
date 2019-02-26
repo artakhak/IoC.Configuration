@@ -22,29 +22,26 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using IoC.Configuration.DiContainer;
 using JetBrains.Annotations;
 
 namespace IoC.Configuration.ConfigurationFile
 {
-    public interface IServiceImplementationElement : IConfigurationFileElement
+    public interface IServiceImplementationElement : IConfigurationFileElement, ITypedItem
     {
         #region Current Type Interface
 
+        [Obsolete("Use ImplementationTypeInfo.Assembly. Will be removed after 5/31/2019. Use ITypedItem.ValueTypeInfo.Assembly")]
         [NotNull]
         IAssembly Assembly { get; }
 
         ConditionalInjectionType ConditionalInjectionType { get; }
 
+        [Obsolete("Use ImplementationTypeInfo. Will be removed after 5/31/2019. Use ITypedItem.ValueTypeInfo.Type")]
         [NotNull]
         Type ImplementationType { get; }
-
-        [CanBeNull]
-        IInjectedProperties InjectedProperties { get; }
-
-        [CanBeNull]
-        IParameters Parameters { get; }
 
         DiResolutionScope ResolutionScope { get; }
 

@@ -138,8 +138,11 @@ namespace IoC.Configuration.Tests
                     yield return (XmlElement) node;
         }
 
-        public static XmlElement SetAttributeValue(this XmlElement xmlElement, string attributeName, string newValue)
+        public static XmlElement SetAttributeValue(this XmlElement xmlElement, string attributeName, string newValue, string attributeToReplace = null)
         {
+            if (attributeToReplace != null)
+                xmlElement.RemoveAttribute(attributeToReplace);
+
             xmlElement.SetAttribute(attributeName, newValue);
             return xmlElement;
         }

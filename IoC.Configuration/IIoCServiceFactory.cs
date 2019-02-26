@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using IoC.Configuration.ConfigurationFile;
 using IoC.Configuration.DynamicCode;
@@ -31,7 +32,7 @@ using OROptimizer.Serializer;
 namespace IoC.Configuration
 {
     /// <summary>
-    /// A service factory.
+    ///     A service factory.
     /// </summary>
     public interface IIoCServiceFactory
     {
@@ -45,17 +46,59 @@ namespace IoC.Configuration
         ///     <see cref="IConfiguration" />
         /// </param>
         /// <param name="entryAssemblyFolder"></param>
+        [NotNull]
         IAssemblyLocator CreateAssemblyLocator([NotNull] Func<IConfiguration> getConfugurationFunc, [NotNull] string entryAssemblyFolder);
+
+        [NotNull]
+        IClassMemberValueInitializerHelper CreateClassMemberValueInitializerHelper([NotNull] ITypeHelper typeHelper);
+
+        [NotNull]
+        IDeserializedFromStringValueInitializerHelper CreateDeserializedFromStringValueInitializerHelper([NotNull] ITypeBasedSimpleSerializerAggregator typeBasedSimpleSerializerAggregator);
+
+        [NotNull]
+        ICreateInstanceFromTypeAndConstructorParameters CreateInstanceFromTypeAndConstructorParameters { get; }
+
+        /// <summary>
+        ///     Creates the type helper.
+        /// </summary>
+        /// <param name="assemblyLocator">The assembly locator.</param>
+        /// <returns></returns>
+        [NotNull]
+        ITypeHelper CreateTypeHelper([NotNull] IAssemblyLocator assemblyLocator);
 
         /// <summary>
         ///     Creates an instance of <see cref="ITypesListFactoryTypeGenerator" />
         /// </summary>
+        [NotNull]
+        [Obsolete("Will be removed after 5/31/2019")]
         ITypesListFactoryTypeGenerator CreateTypesListFactoryTypeGenerator([NotNull] ITypeBasedSimpleSerializerAggregator typeBasedSimpleSerializerAggregator);
 
         /// <summary>
         ///     Returns instance of <see cref="IProhibitedServiceTypesInServicesElementChecker" />.
         /// </summary>
+        [NotNull]
         IProhibitedServiceTypesInServicesElementChecker GetProhibitedServiceTypesInServicesElementChecker();
+
+        [NotNull]
+        IIdentifierValidator IdentifierValidator { get; }
+
+        [NotNull]
+        IImplementedTypeValidator ImplementedTypeValidator { get; }
+
+        [NotNull]
+        IInjectedPropertiesValidator InjectedPropertiesValidator { get; }
+
+        [NotNull]
+        IPluginAssemblyTypeUsageValidator PluginAssemblyTypeUsageValidator { get; }
+
+        [NotNull]
+        ISettingValueInitializerHelper SettingValueInitializerHelper { get; }
+
+        [NotNull]
+        ITypeMemberLookupHelper TypeMemberLookupHelper { get; }
+
+        [NotNull]
+        IValidateServiceUsageInPlugin ValidateServiceUsageInPlugin { get; }
 
         #endregion
     }

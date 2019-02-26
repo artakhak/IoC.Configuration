@@ -7,7 +7,6 @@ namespace TestPluginAssembly1.Implementations
         #region IInterface5 Interface Implementation
 
         public int Property1 => 15;
-
         #endregion
     }
 }

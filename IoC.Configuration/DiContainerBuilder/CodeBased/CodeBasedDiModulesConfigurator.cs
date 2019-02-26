@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using IoC.Configuration.DiContainer;
 using JetBrains.Annotations;
 using OROptimizer;
@@ -30,9 +31,10 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
 {
     public class CodeBasedDiModulesConfigurator : CodeBasedConfiguratorAbstr, ICodeBasedDiModulesConfigurator
     {
-        #region  Constructors        
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="CodeBasedDiModulesConfigurator"/> class.
+        ///     Initializes a new instance of the <see cref="CodeBasedDiModulesConfigurator" /> class.
         /// </summary>
         /// <param name="codeBasedConfiguration">The code based configuration.</param>
         public CodeBasedDiModulesConfigurator([NotNull] CodeBasedConfiguration codeBasedConfiguration) : base(codeBasedConfiguration)
@@ -42,11 +44,12 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         #endregion
 
         #region ICodeBasedDiModulesConfigurator Interface Implementation
+
         /// <summary>
-        /// Adds the additional <see cref="IDiModule"/> modules to be loaded into a container.
+        ///     Adds the additional <see cref="IDiModule" /> modules to be loaded into a container.
         /// </summary>
-        /// <param name="diModules">The <see cref="IDiModule"/> modules to be loaded into a container.</param>
-        /// <returns>Returns an instance of <see cref="ICodeBasedDiModulesConfigurator"/></returns>
+        /// <param name="diModules">The <see cref="IDiModule" /> modules to be loaded into a container.</param>
+        /// <returns>Returns an instance of <see cref="ICodeBasedDiModulesConfigurator" /></returns>
         public ICodeBasedDiModulesConfigurator AddDiModules(params IDiModule[] diModules)
         {
             _codeBasedConfiguration.AddDiModules(diModules);
@@ -54,12 +57,12 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         }
 
         /// <summary>
-        ///  Add native module, such as Autofac or Ninject module to be loaded into a container.
+        ///     Add native module, such as Autofac or Ninject module to be loaded into a container.
         /// </summary>
         /// <param name="nativeModuleClassFullName">Full name of the native module class.</param>
         /// <param name="nativeModuleClassAssemblyFilePath">The native module class assembly file path.</param>
         /// <param name="nativeModuleConstructorParameters">The native module constructor parameters.</param>
-        /// <returns>Returns an instance of <see cref="ICodeBasedDiModulesConfigurator"/></returns>
+        /// <returns>Returns an instance of <see cref="ICodeBasedDiModulesConfigurator" /></returns>
         public ICodeBasedDiModulesConfigurator AddNativeModule(string nativeModuleClassFullName, string nativeModuleClassAssemblyFilePath, ParameterInfo[] nativeModuleConstructorParameters)
         {
             _codeBasedConfiguration.AddNativeModule(nativeModuleClassFullName, nativeModuleClassAssemblyFilePath, nativeModuleConstructorParameters);
@@ -67,10 +70,10 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         }
 
         /// <summary>
-        /// Add native modules, such as Autofac or Ninject modules to be loaded into a container.
+        ///     Add native modules, such as Autofac or Ninject modules to be loaded into a container.
         /// </summary>
         /// <param name="nativeModules">The native modules, such as Autofac or Ninject modules to be loaded into a container.</param>
-        /// <returns>Returns an instance of <see cref="ICodeBasedDiModulesConfigurator"/></returns>
+        /// <returns>Returns an instance of <see cref="ICodeBasedDiModulesConfigurator" /></returns>
         public ICodeBasedDiModulesConfigurator AddNativeModules(params object[] nativeModules)
         {
             _codeBasedConfiguration.AddNativeModules(nativeModules);
@@ -78,7 +81,7 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         }
 
         /// <summary>
-        /// Registers the modules.
+        ///     Registers the modules.
         /// </summary>
         /// <returns></returns>
         public ICodeBasedContainerStarter RegisterModules()

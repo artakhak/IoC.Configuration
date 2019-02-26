@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using IoC.Configuration.DiContainer.BindingsForCode;
@@ -75,7 +76,7 @@ namespace IoC.Configuration.DiContainer
         protected abstract void AddServiceRegistrations();
 
         /// <summary>
-        /// Adds bindings and validates the added bindings.
+        ///     Adds bindings and validates the added bindings.
         /// </summary>
         public virtual void Load()
         {
@@ -91,9 +92,10 @@ namespace IoC.Configuration.DiContainer
 
         #endregion
 
-        #region Member Functions        
+        #region Member Functions
+
         /// <summary>
-        /// Creates a binding for service <typeparamref name="TService"/>.
+        ///     Creates a binding for service <typeparamref name="TService" />.
         /// </summary>
         /// <typeparam name="TService">The type of the service.</typeparam>
         /// <returns></returns>
@@ -104,7 +106,7 @@ namespace IoC.Configuration.DiContainer
         }
 
         /// <summary>
-        /// Creates a binding for service <paramref name="serviceType"/>.
+        ///     Creates a binding for service <paramref name="serviceType" />.
         /// </summary>
         /// <param name="serviceType">Type of the service.</param>
         /// <returns></returns>

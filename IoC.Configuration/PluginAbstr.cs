@@ -22,15 +22,17 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System.Collections.Generic;
 using System.Linq;
 
 namespace IoC.Configuration
 {
     /// <summary>
-    /// Base abstract implementation of <see cref="IPlugin"/>.
-    /// Plugin implementation s specified in element iocConfiguration/pluginsSetup/pluginSetup/pluginImplementation can use this class
-    /// as a parent class to use re-use some implementations of <see cref="IPlugin"/>. 
+    ///     Base abstract implementation of <see cref="IPlugin" />.
+    ///     Plugin implementation s specified in element iocConfiguration/pluginsSetup/pluginSetup/pluginImplementation can use
+    ///     this class
+    ///     as a parent class to use re-use some implementations of <see cref="IPlugin" />.
     /// </summary>
     /// <seealso cref="IoC.Configuration.IPlugin" />
     public abstract class PluginAbstr : IPlugin
@@ -42,11 +44,12 @@ namespace IoC.Configuration
 
         #endregion
 
-        #region IPlugin Interface Implementation        
+        #region IPlugin Interface Implementation
+
         /// <summary>
-        /// Sets/gets the <see cref="IPluginData" /> object corresponding to plugin, retrieved from configuration.
-        /// The implementation should ensure that the plugin data can be set only once, when the configuration is loaded.
-        /// The implementation can subclass from <see cref="PluginAbstr" /> to re-use this implementation.
+        ///     Sets/gets the <see cref="IPluginData" /> object corresponding to plugin, retrieved from configuration.
+        ///     The implementation should ensure that the plugin data can be set only once, when the configuration is loaded.
+        ///     The implementation can subclass from <see cref="PluginAbstr" /> to re-use this implementation.
         /// </summary>
         public IPluginData PluginData
         {
@@ -66,23 +69,24 @@ namespace IoC.Configuration
 
         #endregion
 
-        #region Current Type Interface        
+        #region Current Type Interface
+
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public abstract void Dispose();
 
         /// <summary>
-        /// Initializes this instance.
+        ///     Initializes this instance.
         /// </summary>
         public abstract void Initialize();
 
         /// <summary>
-        /// Gets the collection of settings, that should be present in configuration file in element
-        /// iocConfiguration/pluginsSetup/pluginSetup/settings.
+        ///     Gets the collection of settings, that should be present in configuration file in element
+        ///     iocConfiguration/pluginsSetup/pluginSetup/settings.
         /// </summary>
         /// <value>
-        /// The required settings.
+        ///     The required settings.
         /// </value>
         public virtual IEnumerable<SettingInfo> RequiredSettings => Enumerable.Empty<SettingInfo>();
 

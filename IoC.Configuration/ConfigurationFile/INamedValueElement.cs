@@ -22,9 +22,23 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
+using System;
+
 namespace IoC.Configuration.ConfigurationFile
 {
-    public interface INamedValueElement : INamedValue, IConfigurationFileElement
+    public interface INamedValueElement : INamedItem, IValueInitializerElement
     {
+        #region Current Type Interface
+
+        /// <summary>
+        ///     Normally for injectedObject element this value is <see cref="ValueInstantiationType.ResolveFromDiContext" />, for
+        ///     other elements (i.e., int16, int32, etc), the overridden value will be
+        ///     <see cref="ValueInstantiationType.DeserializeFromStringValue" />
+        /// </summary>
+        [Obsolete("Will be removed after 5/31/2019")]
+        ValueInstantiationType ValueInstantiationType { get; }
+
+        #endregion
     }
 }

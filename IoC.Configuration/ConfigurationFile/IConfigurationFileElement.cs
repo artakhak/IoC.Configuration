@@ -22,6 +22,8 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
+using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 
@@ -31,11 +33,9 @@ namespace IoC.Configuration.ConfigurationFile
     {
         #region Current Type Interface
 
-        /// <summary>
-        /// </summary>
-        /// <param name="child"></param>
-        /// <exception cref="ConfigurationParseException"></exception>
         void AddChild([NotNull] IConfigurationFileElement child);
+
+        void BeforeChildInitialize([NotNull] IConfigurationFileElement child);
 
         [NotNull]
         [ItemNotNull]
@@ -49,10 +49,20 @@ namespace IoC.Configuration.ConfigurationFile
 
         bool Enabled { get; }
 
+        [Obsolete("Will be removed after 5/31/2019. Use ErrorHelperAmbientContext.Context.GenerateElementError")]
         string GenerateElementError([NotNull] string message, IConfigurationFileElement parentElement = null);
 
         [CanBeNull]
         string GetAttributeValue([NotNull] string attributeName);
+
+        [Obsolete("Will be removed after 5/31/2019. Use GetPluginSetupElement")]
+        [CanBeNull]
+        IPluginSetup GetParentPluginSetupElement();
+
+        [CanBeNull]
+        IPluginSetup GetPluginSetupElement();
+
+        bool HasAttribute([NotNull] string attributeName);
 
         /// <summary>
         /// </summary>
@@ -65,9 +75,6 @@ namespace IoC.Configuration.ConfigurationFile
         /// </summary>
         [CanBeNull]
         IPluginElement OwningPluginElement { get; }
-
-        [CanBeNull]
-        IPluginSetup GetParentPluginSetupElement();
 
         [CanBeNull]
         IConfigurationFileElement Parent { get; }

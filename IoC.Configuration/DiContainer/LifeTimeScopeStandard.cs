@@ -22,27 +22,30 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 namespace IoC.Configuration.DiContainer
 {
     /// <summary>
-    /// Default implementation of <see cref="ILifeTimeScope"/>.
+    ///     Default implementation of <see cref="ILifeTimeScope" />.
     /// </summary>
     /// <seealso cref="IoC.Configuration.DiContainer.ILifeTimeScope" />
     public class LifeTimeScopeStandard : ILifeTimeScope
     {
-        #region ILifeTimeScope Interface Implementation        
+        #region ILifeTimeScope Interface Implementation
+
         /// <summary>
-        /// Occurs when current life time scope is terminated. Example of using this event is as follows:
-        /// <see cref="T:IoC.Configuration.DiContainer.IDiContainer" /> diContainer;
-        /// diContainer.MainLifeTimeScope.LifeTimeScopeTerminated += (sender, e) =&gt; { // do something. }
+        ///     Occurs when current life time scope is terminated. Example of using this event is as follows:
+        ///     <see cref="T:IoC.Configuration.DiContainer.IDiContainer" /> diContainer;
+        ///     diContainer.MainLifeTimeScope.LifeTimeScopeTerminated += (sender, e) =&gt; { // do something. }
         /// </summary>
         public event LifeTimeScopeTerminatedEventHandler LifeTimeScopeTerminated;
 
         #endregion
 
-        #region Current Type Interface        
+        #region Current Type Interface
+
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
         public virtual void Dispose()
         {

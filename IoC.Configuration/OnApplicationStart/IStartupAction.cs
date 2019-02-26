@@ -22,26 +22,28 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 namespace IoC.Configuration.OnApplicationStart
 {
     /// <summary>
-    /// Startup action.
+    ///     Startup action.
     /// </summary>
     public interface IStartupAction
     {
-        #region Current Type Interface        
+        #region Current Type Interface
+
         /// <summary>
-        /// If <c>true</c>, the action was successfully stopped.
+        ///     If <c>true</c>, the action was successfully stopped.
         /// </summary>
         bool ActionExecutionCompleted { get; }
 
         /// <summary>
-        /// Starts the action.
+        ///     Starts the action.
         /// </summary>
         void Start();
 
         /// <summary>
-        ///  Stops the action.
+        ///     Stops the action.
         /// </summary>
         void Stop();
 

@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System.Xml;
 using IoC.Configuration.DiContainer;
 using JetBrains.Annotations;
@@ -30,10 +31,22 @@ namespace IoC.Configuration.ConfigurationFile
 {
     public class DiManagerElement : ObjectInstanceElementAbstr<IDiManager>, IDiManagerElement
     {
+        #region Member Variables
+
+        [NotNull]
+        private readonly IValidateDiManagerCompatibility _validateDiManagerCompatibility;
+
+        #endregion
+
         #region  Constructors
 
-        public DiManagerElement([NotNull] XmlElement xmlElement, [NotNull] IConfigurationFileElement parent, [NotNull] IAssemblyLocator assemblyLocator) : base(xmlElement, parent, assemblyLocator)
+        public DiManagerElement([NotNull] XmlElement xmlElement, [NotNull] IConfigurationFileElement parent,
+                                [NotNull] ITypeHelper typeHelper,
+                                [NotNull] ICreateInstanceFromTypeAndConstructorParameters createInstanceFromTypeAndConstructorParameters,
+                                [NotNull] IValidateDiManagerCompatibility validateDiManagerCompatibility) :
+            base(xmlElement, parent, typeHelper, createInstanceFromTypeAndConstructorParameters)
         {
+            _validateDiManagerCompatibility = validateDiManagerCompatibility;
         }
 
         #endregion
@@ -49,6 +62,13 @@ namespace IoC.Configuration.ConfigurationFile
         }
 
         public string Name { get; private set; }
+
+        public override void ValidateAfterChildrenAdded()
+        {
+            base.ValidateAfterChildrenAdded();
+
+            _validateDiManagerCompatibility.Validate(this);
+        }
 
         #endregion
     }

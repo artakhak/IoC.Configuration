@@ -22,14 +22,15 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using JetBrains.Annotations;
 
 namespace IoC.Configuration.DiContainer
 {
     /// <summary>
-    /// A DI container abstraction used to resolve services. An example implementations of this interface can be found in
-    /// IoC.Configuration.Autofac and IoC.Configuration.Ninject Nuget packages. 
+    ///     A DI container abstraction used to resolve services. An example implementations of this interface can be found in
+    ///     IoC.Configuration.Autofac and IoC.Configuration.Ninject Nuget packages.
     /// </summary>
     /// <seealso cref="System.IDisposable" />
     public interface IDiContainer : IDisposable
@@ -37,19 +38,19 @@ namespace IoC.Configuration.DiContainer
         #region Current Type Interface
 
         /// <summary>
-        /// Gets the current life time scope.
+        ///     Gets the current life time scope.
         /// </summary>
         /// <value>
-        /// The current life time scope.
+        ///     The current life time scope.
         /// </value>
         [CanBeNull]
         ILifeTimeScope CurrentLifeTimeScope { get; }
 
         /// <summary>
-        /// Gets the main life time scope.
+        ///     Gets the main life time scope.
         /// </summary>
         /// <value>
-        /// The main life time scope.
+        ///     The main life time scope.
         /// </value>
         [CanBeNull]
         ILifeTimeScope MainLifeTimeScope { get; }
@@ -92,7 +93,7 @@ namespace IoC.Configuration.DiContainer
         object Resolve(Type type, ILifeTimeScope lifeTimeScope);
 
         /// <summary>
-        /// Starts a new life time scope.
+        ///     Starts a new life time scope.
         /// </summary>
         /// <returns></returns>
         [NotNull]

@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using IoC.Configuration.ConfigurationFile;
 using JetBrains.Annotations;
 using OROptimizer.Serializer;
@@ -29,13 +30,14 @@ using OROptimizer.Serializer;
 namespace IoC.Configuration
 {
     /// <summary>
-    /// Stores plugin related data
+    ///     Stores plugin related data
     /// </summary>
     public class PluginData : IPluginData
     {
-        #region  Constructors        
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="PluginData"/> class.
+        ///     Initializes a new instance of the <see cref="PluginData" /> class.
         /// </summary>
         public PluginData([NotNull] IPluginSetup pluginSetup, [NotNull] IPlugin plugin,
                           [NotNull] ISettings globalSettings,
@@ -48,29 +50,31 @@ namespace IoC.Configuration
 
         #endregion
 
-        #region IPluginData Interface Implementation        
+        #region IPluginData Interface Implementation
+
         /// <summary>
-        ///  Gets the plugin defined in configuration file.
+        ///     Gets the plugin defined in configuration file.
         /// </summary>
         /// <value>
-        /// The plugin.
+        ///     The plugin.
         /// </value>
         public IPlugin Plugin { get; }
 
         /// <summary>
-        /// Gets the name of the plugin.
+        ///     Gets the name of the plugin.
         /// </summary>
         /// <value>
-        /// The name of the plugin.
+        ///     The name of the plugin.
         /// </value>
         public string PluginName { get; }
 
         /// <summary>
-        /// Gets the settings for the plugin that are either specified in element iocConfiguration\pluginsSetup\pluginSetup\settings or
-        /// in element iocConfiguration\settings.
+        ///     Gets the settings for the plugin that are either specified in element
+        ///     iocConfiguration\pluginsSetup\pluginSetup\settings or
+        ///     in element iocConfiguration\settings.
         /// </summary>
         /// <value>
-        /// The settings.
+        ///     The settings.
         /// </value>
         public ISettings Settings { get; }
 

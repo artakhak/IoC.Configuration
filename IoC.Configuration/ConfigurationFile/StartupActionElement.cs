@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System.Xml;
 using IoC.Configuration.OnApplicationStart;
 using JetBrains.Annotations;
@@ -32,8 +33,11 @@ namespace IoC.Configuration.ConfigurationFile
     {
         #region  Constructors
 
-        public StartupActionElement([NotNull] XmlElement xmlElement, [NotNull] IConfigurationFileElement parent, [NotNull] IAssemblyLocator assemblyLocator)
-            : base(xmlElement, parent, typeof(IStartupAction), assemblyLocator)
+        public StartupActionElement([NotNull] XmlElement xmlElement, [NotNull] IConfigurationFileElement parent,
+                                    [NotNull] IImplementedTypeValidator implementedTypeValidator,
+                                    [NotNull] IInjectedPropertiesValidator injectedPropertiesValidator,
+                                    [NotNull] ITypeHelper typeHelper)
+            : base(xmlElement, parent, typeof(IStartupAction), implementedTypeValidator, injectedPropertiesValidator, typeHelper)
         {
         }
 
@@ -45,16 +49,10 @@ namespace IoC.Configuration.ConfigurationFile
         {
             base.Initialize();
 
-            if (Enabled)
-            {
-                if (Assembly.Plugin != null)
-                    throw new ConfigurationParseException(this,
-                        MessagesHelper.GetServiceImplmenentationTypeAssemblyBelongsToPluginMessage(ImplementationType, Assembly.Alias, Assembly.Plugin.Name));
-            }
-            else
-            {
-                MessagesHelper.LogElementDisabledWarning(this, Assembly);
-            }
+            if (ValueTypeInfo.Assembly.Plugin != null)
+                throw new ConfigurationParseException(this,
+                    MessagesHelper.GetServiceImplmenentationTypeAssemblyBelongsToPluginMessage(ValueTypeInfo.Type, ValueTypeInfo.Assembly.Alias,
+                        ValueTypeInfo.Assembly.Plugin.Name));
         }
 
         #endregion

@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using IoC.Configuration.DiContainer;
 using JetBrains.Annotations;
 
@@ -29,9 +30,10 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
 {
     public class CodeBasedDiContainerConfigurator : CodeBasedConfiguratorAbstr, ICodeBasedDiContainerConfigurator
     {
-        #region  Constructors        
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="CodeBasedDiContainerConfigurator"/> class.
+        ///     Initializes a new instance of the <see cref="CodeBasedDiContainerConfigurator" /> class.
         /// </summary>
         /// <param name="codeBasedConfiguration">The code based configuration.</param>
         public CodeBasedDiContainerConfigurator([NotNull] CodeBasedConfiguration codeBasedConfiguration) : base(codeBasedConfiguration)
@@ -40,13 +42,15 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
 
         #endregion
 
-        #region ICodeBasedDiContainerConfigurator Interface Implementation        
+        #region ICodeBasedDiContainerConfigurator Interface Implementation
+
         /// <summary>
-        /// Creates an instance of <see cref="ICodeBasedDiModulesConfigurator"/> using a preset instance of <see cref="IDiContainer"/>.
-        /// Use the method <see cref="WithDiContainer(IDiContainer)"/> if possible.
+        ///     Creates an instance of <see cref="ICodeBasedDiModulesConfigurator" /> using a preset instance of
+        ///     <see cref="IDiContainer" />.
+        ///     Use the method <see cref="WithDiContainer(IDiContainer)" /> if possible.
         /// </summary>
-        /// <param name="diContainer">An instance of <see cref="IDiContainer"/>.</param>
-        /// <returns>Returns an instance of <see cref="ICodeBasedDiModulesConfigurator"/></returns>
+        /// <param name="diContainer">An instance of <see cref="IDiContainer" />.</param>
+        /// <returns>Returns an instance of <see cref="ICodeBasedDiModulesConfigurator" /></returns>
         public ICodeBasedDiModulesConfigurator WithDiContainer(IDiContainer diContainer)
         {
             _codeBasedConfiguration.DiContainer = diContainer;
@@ -54,10 +58,10 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         }
 
         /// <summary>
-        /// This is the preferred method. An instance of <see cref="IDiContainer"/> will be initialized using the
-        /// method <see cref="IDiManager.CreateDiContainer"/>() in <see cref="IDiManager"/>.
+        ///     This is the preferred method. An instance of <see cref="IDiContainer" /> will be initialized using the
+        ///     method <see cref="IDiManager.CreateDiContainer" />() in <see cref="IDiManager" />.
         /// </summary>
-        /// <returns>Returns an instance of <see cref="ICodeBasedDiModulesConfigurator"/></returns>
+        /// <returns>Returns an instance of <see cref="ICodeBasedDiModulesConfigurator" /></returns>
         public ICodeBasedDiModulesConfigurator WithoutPresetDiContainer()
         {
             return new CodeBasedDiModulesConfigurator(_codeBasedConfiguration);
@@ -65,9 +69,10 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
 
         #endregion
 
-        #region Member Functions        
+        #region Member Functions
+
         /// <summary>
-        /// Registers the modules.
+        ///     Registers the modules.
         /// </summary>
         /// <returns></returns>
         public ICodeBasedContainerStarter RegisterModules()

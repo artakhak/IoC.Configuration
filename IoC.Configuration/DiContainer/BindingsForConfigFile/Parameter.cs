@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using IoC.Configuration.ConfigurationFile;
 using JetBrains.Annotations;
 
@@ -29,9 +30,10 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
 {
     public class Parameter : NamedValue, IParameter
     {
-        #region  Constructors        
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Parameter"/> class.
+        ///     Initializes a new instance of the <see cref="Parameter" /> class.
         /// </summary>
         /// <param name="parameterElement">The parameter element.</param>
         public Parameter([NotNull] IParameterElement parameterElement) : base(parameterElement)

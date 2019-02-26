@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
@@ -29,14 +30,14 @@ using JetBrains.Annotations;
 namespace IoC.Configuration
 {
     /// <summary>
-    /// A repository for data loaded from configuration file for plugins.
+    ///     A repository for data loaded from configuration file for plugins.
     /// </summary>
     public interface IPluginDataRepository
     {
         #region Current Type Interface
 
         /// <summary>
-        /// Gets the plugin data for plugin with name <paramref name="pluginName"/>.
+        ///     Gets the plugin data for plugin with name <paramref name="pluginName" />.
         /// </summary>
         /// <param name="pluginName">Name of the plugin.</param>
         /// <returns></returns>
@@ -44,8 +45,9 @@ namespace IoC.Configuration
         IPluginData GetPluginData([NotNull] string pluginName);
 
         /// <summary>
-        /// Gets the plugin data for the plugin with implementation <typeparamref name="TPluginImplementation"/>. Note, the plugin implementation
-        /// type can be found in element iocConfiguration/pluginsSetup/pluginSetup/pluginImplementation.
+        ///     Gets the plugin data for the plugin with implementation <typeparamref name="TPluginImplementation" />. Note, the
+        ///     plugin implementation
+        ///     type can be found in element iocConfiguration/pluginsSetup/pluginSetup/pluginImplementation.
         /// </summary>
         /// <typeparam name="TPluginImplementation">The type of the plugin implementation.</typeparam>
         /// <returns></returns>
@@ -53,8 +55,10 @@ namespace IoC.Configuration
         IPluginData GetPluginData<TPluginImplementation>();
 
         /// <summary>
-        /// Gets the plugin data for the plugin with implementation specified in parameter <paramref name="pluginImplementationType" />.
-        /// Note, the plugin implementation type can be found in element iocConfiguration/pluginsSetup/pluginSetup/pluginImplementation.
+        ///     Gets the plugin data for the plugin with implementation specified in parameter
+        ///     <paramref name="pluginImplementationType" />.
+        ///     Note, the plugin implementation type can be found in element
+        ///     iocConfiguration/pluginsSetup/pluginSetup/pluginImplementation.
         /// </summary>
         /// <param name="pluginImplementationType">Type of the plugin implementation.</param>
         /// <returns></returns>
@@ -62,12 +66,13 @@ namespace IoC.Configuration
         IPluginData GetPluginData(Type pluginImplementationType);
 
         /// <summary>
-        /// Gets the plugin data objects for all enabled plugins in configuration file.
+        ///     Gets the plugin data objects for all enabled plugins in configuration file.
         /// </summary>
         /// <value>
-        /// The plugins.
+        ///     The plugins.
         /// </value>
-        [NotNull, ItemNotNull]
+        [NotNull]
+        [ItemNotNull]
         IEnumerable<IPluginData> Plugins { get; }
 
         #endregion

@@ -173,10 +173,10 @@ namespace IoC.Configuration.Tests.SuccessfullDiModuleLoadTests
         public void TestRegisterIfNotRegistered()
         {
             var servicesInjectionTesterForInterface5 = _diContainer.Resolve<ClassToTestServicesInjection<IInterface5>>();
-            Assert.AreEqual(2, servicesInjectionTesterForInterface5.Implmentations.Count);
+            Assert.AreEqual(2, servicesInjectionTesterForInterface5.Implementations.Count);
 
             var servicesInjectionTesterForInterface4 = _diContainer.Resolve<ClassToTestServicesInjection<IInterface4>>();
-            Assert.AreEqual(1, servicesInjectionTesterForInterface4.Implmentations.Count);
+            Assert.AreEqual(1, servicesInjectionTesterForInterface4.Implementations.Count);
 
             var service = _diContainer.Resolve<IInterface4>();
             Assert.IsInstanceOfType(service, typeof(Interface4_Impl1));
@@ -189,8 +189,8 @@ namespace IoC.Configuration.Tests.SuccessfullDiModuleLoadTests
             var servicesInjectionTesterForClass4 = _diContainer.Resolve<ClassToTestServicesInjection<Class4>>();
             var servicesInjectionTesterForClass5 = _diContainer.Resolve<ClassToTestServicesInjection<Class5>>();
 
-            Assert.AreEqual(2, servicesInjectionTesterForClass4.Implmentations.Count);
-            Assert.AreEqual(1, servicesInjectionTesterForClass5.Implmentations.Count);
+            Assert.AreEqual(2, servicesInjectionTesterForClass4.Implementations.Count);
+            Assert.AreEqual(1, servicesInjectionTesterForClass5.Implementations.Count);
 
             // Lets make sure that the binding with singletone scope was selected.
             TestSingletoneScope(typeof(Class5));

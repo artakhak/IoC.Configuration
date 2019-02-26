@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using System.Xml;
@@ -29,7 +30,7 @@ using JetBrains.Annotations;
 
 namespace IoC.Configuration.ConfigurationFile
 {
-    public class ParameterSerializersCollection : ConfigurationFileElementAbstr, IParameterSerializersCollection
+    public class ParameterSerializersCollection : ConfigurationFileElementAbstr, IParameterSerializersCollection, ICanHaveChildElementsThatUsePluginTypeInNonPluginSection
     {
         #region Member Variables
 
@@ -52,18 +53,13 @@ namespace IoC.Configuration.ConfigurationFile
         {
             base.AddChild(child);
 
-            if (child is IParameterSerializer)
+            if (child is IParameterSerializer parameterSerializer)
             {
-                var parameterSerializer = (IParameterSerializer) child;
+                if (_typeHandledBySerializerToSerializer.TryGetValue(parameterSerializer.Serializer.SerializedType, out var serializer))
+                    throw new ConfigurationParseException(parameterSerializer,
+                        $"Invalid serializer '{parameterSerializer.Serializer.GetType()}'. Configuration file has another serializer '{serializer.GetType().FullName}' for the same type '{parameterSerializer.Serializer.SerializedType.FullName}'.", this);
 
-                if (parameterSerializer.Enabled)
-                {
-                    if (_typeHandledBySerializerToSerializer.TryGetValue(parameterSerializer.Serializer.SerializedType, out var serializer))
-                        throw new ConfigurationParseException(parameterSerializer,
-                            $"Invalid serializer '{parameterSerializer.Serializer.GetType()}'. Configuration file has another serializer '{serializer.GetType().FullName}' for the same type '{parameterSerializer.Serializer.SerializedType.FullName}'.", this);
-
-                    _typeHandledBySerializerToSerializer[parameterSerializer.Serializer.SerializedType] = parameterSerializer;
-                }
+                _typeHandledBySerializerToSerializer[parameterSerializer.Serializer.SerializedType] = parameterSerializer;
             }
         }
 

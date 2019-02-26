@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using IoC.Configuration.DiContainer;
-using IoC.Configuration.DiContainerBuilder;
 using SharedServices.Implementations;
 using SharedServices.Interfaces;
 using AutofacModule = Autofac.Module;
@@ -25,7 +24,6 @@ namespace Modules.Autofac
         protected override void Load(ContainerBuilder builder)
         {
             base.Load(builder);
-
             builder.RegisterType<Interface1_Impl1>().As<IInterface1>().SingleInstance();
         }
 

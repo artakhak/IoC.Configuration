@@ -22,9 +22,9 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Xml;
 using JetBrains.Annotations;
 
@@ -64,7 +64,12 @@ namespace IoC.Configuration.ConfigurationFile
             }
         }
 
-        public IEnumerable<ISettingElement> AllSettings => _settingNameToSettingMap.Values.Where(x => x.Enabled);
+        public IEnumerable<ISettingElement> AllSettings => _settingNameToSettingMap.Values;
+
+        public ISettingElement GetSettingElement(string settingName)
+        {
+            return _settingNameToSettingMap.TryGetValue(settingName, out var settingElement) ? settingElement : null;
+        }
 
         #endregion
     }

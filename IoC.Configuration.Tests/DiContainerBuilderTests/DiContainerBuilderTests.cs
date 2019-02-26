@@ -220,7 +220,7 @@ namespace IoC.Configuration.Tests.DiContainerBuilderTests
 
                 using (var containerInfo = diContainerBuilder.StartFileBasedDi(
                                                                  new FileBasedConfigurationFileContentsProvider(
-                                                                     Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration1.xml")), Helpers.TestsEntryAssemblyFolder,
+                                                                     Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")), Helpers.TestsEntryAssemblyFolder,
                                                                  (sender, e) => ConfigurationFileXmlDocumentLoadedEventHandler(diImplementationType, e))
                                                              .WithDiContainer(diContainer)
                                                              .AddAdditionalDiModules(new DiModule1())
@@ -249,7 +249,7 @@ namespace IoC.Configuration.Tests.DiContainerBuilderTests
                 var diContainerBuilder = new DiContainerBuilder.DiContainerBuilder();
                 using (var containerInfo = diContainerBuilder.StartFileBasedDi(
                                                                  new FileBasedConfigurationFileContentsProvider(
-                                                                     Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration1.xml")), Helpers.TestsEntryAssemblyFolder,
+                                                                     Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")), Helpers.TestsEntryAssemblyFolder,
                                                                  (sender, e) => ConfigurationFileXmlDocumentLoadedEventHandler(diImplementationType, e))
                                                              .WithoutPresetDiContainer()
                                                              .AddAdditionalDiModules(new DiModule1())

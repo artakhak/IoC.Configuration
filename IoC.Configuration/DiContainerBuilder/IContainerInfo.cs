@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using IoC.Configuration.DiContainer;
 using JetBrains.Annotations;
@@ -29,17 +30,18 @@ using JetBrains.Annotations;
 namespace IoC.Configuration.DiContainerBuilder
 {
     /// <summary>
-    /// Container data for the loaded DI
+    ///     Container data for the loaded DI
     /// </summary>
     /// <seealso cref="IoC.Configuration.DiContainerBuilder.IContainerInfo" />
     public interface IContainerInfo : IDisposable
     {
-        #region Current Type Interface        
+        #region Current Type Interface
+
         /// <summary>
-        /// An instance of <see cref="IDiContainer"/> for the loaded container.
+        ///     An instance of <see cref="IDiContainer" /> for the loaded container.
         /// </summary>
         /// <value>
-        /// The di container.
+        ///     The di container.
         /// </value>
         [NotNull]
         IDiContainer DiContainer { get; }

@@ -76,19 +76,26 @@ namespace IoC.Configuration.Tests
             {
                 // Lets make sure the disabled plugin cannot be accessed in the first place, which means
                 // the controller assembles cannot be used.
-                Assert.IsNull(loadedConfiguration.PluginsSetup.GetPluginSetup("Plugin1"));
-                Assert.IsNull(loadedConfiguration.PluginsSetup.AllPluginSetups.FirstOrDefault(x => "Plugin1".Equals(x.Plugin.Name, StringComparison.Ordinal)));
+                Assert.IsNull(loadedConfiguration.PluginsSetup.GetPluginSetup("Plugin3"));
+                Assert.IsNull(loadedConfiguration.PluginsSetup.AllPluginSetups.FirstOrDefault(x => "Plugin3".Equals(x.Plugin.Name, StringComparison.Ordinal)));
+               
+                // Lets make sure that the assembly TestProjects.Plugin1WebApiControllers is not loaded into current domain.
+                // TODO: Enable the next lines once we make improvements to load the configuration in two phases.
+                // The first phase will load even the disabled plugin assemblies for validation purposes.
+                // The second phase will load only enabled plugin assemblies.
+                //Assert.IsNull(AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => "TestProjects.Plugin3WebApiControllers".Equals(x.GetName().Name, StringComparison.OrdinalIgnoreCase)));
             },
             (sender, e) =>
             {
                 //var element = e.XmlDocument.SelectElement("/iocConfiguration/plugins/plugin", x => x.GetAttribute(ConfigurationFileAttributeNames.Name) == "Plugin1");
                 //element.SetAttributeValue(ConfigurationFileAttributeNames.Enabled, "false");
 
-                e.XmlDocument.SelectElement("/iocConfiguration/plugins/plugin",
-                    (element => element.GetAttribute(ConfigurationFileAttributeNames.Name).Equals("Plugin1", StringComparison.Ordinal)))
-                    .SetAttributeValue(ConfigurationFileAttributeNames.Enabled, "false");
+                //e.XmlDocument.SelectElement("/iocConfiguration/plugins/plugin",
+                //    (element => element.GetAttribute(ConfigurationFileAttributeNames.Name).Equals("Plugin2", StringComparison.Ordinal)))
+                //    .SetAttributeValue(ConfigurationFileAttributeNames.Enabled, "false");
 
-                // Remove Plugin1 parameter serializers since the configuration will fail if there are parameter serializers for disabled plugin
+                // Remove all Plugin2 parameter serializers since the configuration will fail if there are parameter serializers for disabled plugin
+             
             });
         }
 
@@ -98,7 +105,7 @@ namespace IoC.Configuration.Tests
             var diContainerBuilder = new DiContainerBuilder.DiContainerBuilder();
             using (var containerInfo = diContainerBuilder.StartFileBasedDi(
                                                    new FileBasedConfigurationFileContentsProvider(
-                                                   Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration1.xml")),
+                                                   Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")),
                                                    Helpers.TestsEntryAssemblyFolder,
                                                    out var loadedConfiguration,
                                                    configurationFileXmlDocumentLoaded)

@@ -22,9 +22,8 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
-using System.Xml;
+
 using JetBrains.Annotations;
-using OROptimizer.Serializer;
 
 namespace IoC.Configuration.ConfigurationFile
 {
@@ -32,7 +31,7 @@ namespace IoC.Configuration.ConfigurationFile
     {
         #region  Constructors
 
-        public InjectedPropertyElement([NotNull] XmlElement xmlElement, IConfigurationFileElement parent, [NotNull] ITypeBasedSimpleSerializerAggregator typeBasedSimpleSerializerAggregator, [NotNull] IAssemblyLocator assemblyLocator) : base(xmlElement, parent, typeBasedSimpleSerializerAggregator, assemblyLocator)
+        public InjectedPropertyElement([NotNull] IValueInitializerElement decoratedValueInitializerElement) : base(decoratedValueInitializerElement)
         {
         }
 

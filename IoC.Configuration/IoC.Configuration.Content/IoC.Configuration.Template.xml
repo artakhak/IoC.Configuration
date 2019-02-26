@@ -6,19 +6,18 @@ Sample license text.
 <!--
    This is a simple sample configuration file to use with IoC.Configuration library.
    Some elements and attributes in this XML file should be modified per specific project.
-   For more complete example, look at files IoCConfiguration1.xml and IoCConfiguration2.xml in test project 
+   For more complete example, look at files IoCConfiguration_Overview.xml and IoCConfiguration2.xml in test project 
    IoC.Configuration.Tests (the test project will be Github.com soon).
    
    The XML configuration file is validated against schema file IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd, 
    which can be found in folder IoC.Configuration.Content in output directory. 
    The schema file can also be downloaded from 
-   http://oroptimizer.com/ioc.configuration/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd or in source code 
+   http://oroptimizer.com/ioc.configuration/V2/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd or in source code 
    project in Github.com.
 
    To use Visual Studio code completion based on schema contents, right click Properties on this file in Visual Studio, and in Schemas 
    field pick the schema IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd.
 -->
-
 
 <iocConfiguration>
   
@@ -51,8 +50,7 @@ Sample license text.
         <assembly name="IoC.Configuration.Ninject" alias="ninject_ext" />
     </assemblies>
 
-    <parameterSerializers serializerAggregatorType="OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator"
-                          assembly="oroptimizer_shared">
+    <parameterSerializers serializerAggregatorType="OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator">
         <!--
         Use parameters element to specify constructor parameters, if the type specified in 'serializerAggregatorType' attribute
         has non-default constructor.
@@ -65,7 +63,7 @@ Sample license text.
 
     <!--The value of type attribute should be a type that implements IoC.Configuration.DiContainer.IDiManager-->
     <diManagers activeDiManagerName="Autofac">
-        <diManager name="Ninject" type="IoC.Configuration.Ninject.NinjectDiManager" assembly="ninject_ext">
+        <diManager name="Ninject" type="IoC.Configuration.Ninject.NinjectDiManager">
             <!--
             Use parameters element to specify constructor parameters, if the type specified in 'type' attribute
             has non-default constructor.
@@ -73,7 +71,7 @@ Sample license text.
             <!--<parameters>
             </parameters>-->
         </diManager>
-        <diManager name="Autofac" type="IoC.Configuration.Autofac.AutofacDiManager" assembly="autofac_ext">
+        <diManager name="Autofac" type="IoC.Configuration.Autofac.AutofacDiManager">
         </diManager>
     </diManagers>
 
@@ -84,7 +82,7 @@ Sample license text.
     Note, the type specified in type attribute is fully integrated into a dependency injection framework. In other words, constructor
     parameters will be injected using bindings specified in dependencyInjection element.
     -->
-    <!--<settingsRequestor type="MySettingsRequestor" assembly="my_assembly">
+    <!--<settingsRequestor type="MySettingsRequestor">
     </settingsRequestor>-->
 
     <settings>

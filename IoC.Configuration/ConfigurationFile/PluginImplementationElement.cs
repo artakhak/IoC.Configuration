@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System.Xml;
 using JetBrains.Annotations;
 
@@ -31,8 +32,11 @@ namespace IoC.Configuration.ConfigurationFile
     {
         #region  Constructors
 
-        public PluginImplementationElement([NotNull] XmlElement xmlElement, [NotNull] IConfigurationFileElement parent, [NotNull] IAssemblyLocator assemblyLocator)
-            : base(xmlElement, parent, typeof(IPlugin), assemblyLocator)
+        public PluginImplementationElement([NotNull] XmlElement xmlElement, [NotNull] IConfigurationFileElement parent,
+                                           [NotNull] IImplementedTypeValidator implementedTypeValidator,
+                                           [NotNull] IInjectedPropertiesValidator injectedPropertiesValidator,
+                                           [NotNull] ITypeHelper typeHelper)
+            : base(xmlElement, parent, typeof(IPlugin), implementedTypeValidator, injectedPropertiesValidator, typeHelper)
         {
         }
 
@@ -44,11 +48,8 @@ namespace IoC.Configuration.ConfigurationFile
         {
             base.Initialize();
 
-            if (Enabled)
-            {
-                if (Assembly.Plugin != OwningPluginElement)
-                    throw new ConfigurationParseException(this, $"The plugin implementation type '{ImplementationType.FullName}' is defined in an assembly '{Assembly.Alias}' which does not belong to plugin '{OwningPluginElement.Name}'.");
-            }
+            if (ValueTypeInfo.Assembly.Plugin != OwningPluginElement)
+                throw new ConfigurationParseException(this, $"The plugin implementation type '{ValueTypeInfo.TypeCSharpFullName}' is defined in an assembly '{ValueTypeInfo.Assembly.Alias}' which does not belong to plugin '{OwningPluginElement.Name}'.");
         }
 
         #endregion

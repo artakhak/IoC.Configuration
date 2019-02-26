@@ -22,16 +22,17 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using IoC.Configuration.DiContainer;
 using IoC.Configuration.DiContainer.BindingsForConfigFile;
 using JetBrains.Annotations;
+using OROptimizer;
 using OROptimizer.DynamicCode;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace IoC.Configuration.Autofac
 {
@@ -84,7 +85,9 @@ namespace IoC.Configuration.Autofac
             moduleClassContents.AppendLine("base.Load(builder);");
 
             foreach (var service in moduleServiceConfigurationElements)
-                AddServiceBindings(moduleClassContents, service);
+            {
+                AddServiceBindings(moduleClassContents, service, dynamicAssemblyBuilder);
+            }
 
             moduleClassContents.AppendLine("}");
             // End Load() method
@@ -123,52 +126,56 @@ namespace IoC.Configuration.Autofac
         #endregion
 
         #region Member Functions
-
-        private void AddServiceBindings([NotNull] StringBuilder moduleClassContents, [NotNull] BindingConfigurationForFile serviceElement)
+        private void AddServiceBindings([NotNull] StringBuilder moduleClassContents, [NotNull] BindingConfigurationForFile serviceElement, [NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder)
         {
             foreach (var serviceImplementation in serviceElement.Implementations)
             {
                 moduleClassContents.Append("builder.");
-                if (serviceImplementation.Parameters == null)
-                {
-                    moduleClassContents.Append($"RegisterType<{serviceImplementation.ImplementationType.FullName}>()");
-                }
-                else
-                {
-                    moduleClassContents.Append($"Register(context => new {serviceImplementation.ImplementationType.FullName}(");
 
-                    for (var i = 0; i < serviceImplementation.Parameters.Length; ++i)
+                ITypeBasedBindingImplementationConfigurationForFile typeBasedBindingImplementationConfigurationForFile = null;
+
+                if (serviceImplementation is ITypeBasedBindingImplementationConfigurationForFile)
+                {
+                    typeBasedBindingImplementationConfigurationForFile = (ITypeBasedBindingImplementationConfigurationForFile)serviceImplementation;
+
+                    if (typeBasedBindingImplementationConfigurationForFile.Parameters == null)
                     {
-                        if (i > 0)
-                            moduleClassContents.Append(", ");
-
-                        var parameter = serviceImplementation.Parameters[i];
-
-                        switch (parameter.ValueInstantiationType)
-                        {
-                            case ValueInstantiationType.ResolveFromDiContext:
-                                moduleClassContents.Append($"context.Resolve<{parameter.ValueType.FullName}>()");
-                                break;
-                            case ValueInstantiationType.DeserializeFromStringValue:
-                                moduleClassContents.Append(DiManagerImplementationHelper.GenerateCodeForDeserializedParameterValue(parameter));
-                                break;
-                            default:
-                                DiManagerImplementationHelper.ThrowUnsuportedEnumerationValue(parameter.ValueInstantiationType);
-                                break;
-                        }
+                        moduleClassContents.Append($"RegisterType<{typeBasedBindingImplementationConfigurationForFile.ImplementationType.GetTypeNameInCSharpClass()}>()");
                     }
+                    else
+                    {
+                        moduleClassContents.Append($"Register(context => new {typeBasedBindingImplementationConfigurationForFile.ImplementationType.GetTypeNameInCSharpClass()}(");
 
-                    moduleClassContents.Append("))");
+                        for (var i = 0; i < typeBasedBindingImplementationConfigurationForFile.Parameters.Length; ++i)
+                        {
+                            if (i > 0)
+                                moduleClassContents.Append(", ");
+
+                            var parameter = typeBasedBindingImplementationConfigurationForFile.Parameters[i];
+
+                            moduleClassContents.Append(parameter.GenerateValueCSharp(dynamicAssemblyBuilder));
+                        }
+
+                        moduleClassContents.Append("))");
+                    }
+                }
+                else if (serviceImplementation is IValueBasedBindingImplementationConfigurationForFile valueBasedBindingImplementationConfigurationForFile)
+                {
+                    moduleClassContents.Append($"Register(context => {valueBasedBindingImplementationConfigurationForFile.ValueInitializer.GenerateValueCSharp(dynamicAssemblyBuilder)})");
+                }
+                else if (serviceImplementation is IServiceToProxyBindingImplementationConfigurationForFile serviceToProxyBindingImplementationConfigurationForFile)
+                {
+                    moduleClassContents.AppendFormat("Register(context => context.Resolve<{0}>())", serviceImplementation.ImplementationType.GetTypeNameInCSharpClass());
                 }
 
                 // Add service
                 if (serviceElement.IsSelfBoundService)
                     moduleClassContents.Append(".AsSelf()");
                 else
-                    moduleClassContents.Append($".As<{serviceElement.ServiceType.FullName}>()");
+                    moduleClassContents.Append($".As<{serviceElement.ServiceType.GetTypeNameInCSharpClass()}>()");
 
                 if (serviceElement.RegisterIfNotRegistered)
-                    moduleClassContents.Append($".IfNotRegistered(typeof({serviceElement.ServiceType.FullName}))");
+                    moduleClassContents.Append($".IfNotRegistered(typeof({serviceElement.ServiceType.GetTypeNameInCSharpClass()}))");
 
                 // Add resolution
                 moduleClassContents.Append(".");
@@ -184,40 +191,34 @@ namespace IoC.Configuration.Autofac
                         moduleClassContents.Append("InstancePerLifetimeScope()");
                         break;
                     default:
-                        DiManagerImplementationHelper.ThrowUnsupportedResolutionScope(serviceImplementation);
-                        break;
+                        throw new UnsupportedResolutionScopeException(serviceImplementation);
                 }
 
                 // Add injected properties
-
-                if (serviceImplementation.InjectedProperties?.Any() ?? false)
+                if (typeBasedBindingImplementationConfigurationForFile != null)
                 {
-                    moduleClassContents.AppendLine(".OnActivated(e =>");
-                    moduleClassContents.AppendLine("{");
-
-                    foreach (var injectedProperty in serviceImplementation.InjectedProperties)
+                    if (typeBasedBindingImplementationConfigurationForFile.InjectedProperties?.Any() ?? false)
                     {
-                        moduleClassContents.Append($"e.Instance.{injectedProperty.Name}=");
+                        moduleClassContents.AppendLine(".OnActivated(e =>");
+                        moduleClassContents.AppendLine("{");
 
-                        switch (injectedProperty.ValueInstantiationType)
+                        foreach (var injectedProperty in typeBasedBindingImplementationConfigurationForFile.InjectedProperties)
                         {
-                            case ValueInstantiationType.ResolveFromDiContext:
-                                moduleClassContents.Append($"e.Context.Resolve<{injectedProperty.ValueType.FullName}>();");
-                                break;
-                            case ValueInstantiationType.DeserializeFromStringValue:
-                                moduleClassContents.Append(DiManagerImplementationHelper.GenerateCodeForDeserializedParameterValue(injectedProperty));
-                                moduleClassContents.Append(";");
-                                break;
-                            default:
-                                DiManagerImplementationHelper.ThrowUnsuportedEnumerationValue(injectedProperty.ValueInstantiationType);
-                                break;
+                            moduleClassContents.Append($"e.Instance.{injectedProperty.Name}=");
+
+                            moduleClassContents.Append(injectedProperty.GenerateValueCSharp(
+                                //(serviceType) => $"e.Context.Resolve<{serviceType.FullName}>()",
+                                dynamicAssemblyBuilder));
+
+                            moduleClassContents.Append(";");
+
+                            moduleClassContents.AppendLine();
                         }
 
-                        moduleClassContents.AppendLine();
+                        moduleClassContents.Append("})");
                     }
-
-                    moduleClassContents.Append("})");
                 }
+
 
                 moduleClassContents.AppendLine(";");
             }

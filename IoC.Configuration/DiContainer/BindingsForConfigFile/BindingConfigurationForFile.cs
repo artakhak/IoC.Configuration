@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using IoC.Configuration.ConfigurationFile;
@@ -45,7 +46,14 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
                 if (!serviceImplementation.Enabled)
                     continue;
 
-                AddImplementation(new BindingImplementationConfigurationForFile(serviceImplementation));
+                if (serviceImplementation is ITypeBasedServiceImplementationElement typeBasedServiceImplementationElement)
+                    AddImplementation(new TypeBasedBindingImplementationConfigurationForFile(typeBasedServiceImplementationElement));
+                else if (serviceImplementation is IValueBasedServiceImplementationElement valueBasedServiceImplementationElement)
+                    AddImplementation(new ValueBasedBindingImplementationConfigurationForFile(valueBasedServiceImplementationElement));
+                else if (serviceImplementation is IServiceToProxyImplementationElement proxiedTypeServiceImplementationElement)
+                    AddImplementation(new ServiceToProxyBindingImplementationConfigurationForFile(proxiedTypeServiceImplementationElement));
+                else
+                    throw new Exception($"Invalid type: '{serviceImplementation.GetType().FullName}'. Expects either '{typeof(ITypeBasedServiceImplementationElement).FullName}' or '{typeof(IValueBasedServiceImplementationElement).FullName}'.");
             }
 
             if (Implementations.Count == 0)
@@ -54,9 +62,10 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
 
         #endregion
 
-        #region Member Functions        
+        #region Member Functions
+
         /// <summary>
-        /// Creates the binding configuration for file.
+        ///     Creates the binding configuration for file.
         /// </summary>
         /// <param name="serviceType">Type of the service.</param>
         /// <param name="registerOnlyIfNotRegistered">if set to <c>true</c> [register only if not registered].</param>

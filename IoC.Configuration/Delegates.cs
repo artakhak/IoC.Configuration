@@ -22,6 +22,8 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
+using System;
 using IoC.Configuration.ConfigurationFile;
 using IoC.Configuration.DiContainer;
 using IoC.Configuration.DiContainer.BindingsForCode;
@@ -29,6 +31,8 @@ using JetBrains.Annotations;
 
 namespace IoC.Configuration
 {
+    public delegate void ProcessTypeInfo(ITypeInfo typeInfo, ref bool stopProcessing);
+
     public delegate void ProcessConfigurationFileElement(IConfigurationFileElement configurationFileElement, ref bool stopProcessing);
 
     public delegate void LifeTimeScopeTerminatedEventHandler([CanBeNull] object sender, [NotNull] LifeTimeScopeTerminatedEventArgs e);
@@ -39,4 +43,11 @@ namespace IoC.Configuration
                                                                                                                   [NotNull] BindingImplementationConfigurationAddedEventArgs<TBindingImplementationConfiguration> e) where TBindingImplementationConfiguration : BindingImplementationConfiguration;
 
     public delegate void ConfigurationFileXmlDocumentLoadedEventHandler([CanBeNull] object sender, [NotNull] ConfigurationFileXmlDocumentLoadedEventArgs e);
+
+    /// <summary>
+    ///     Returns a code to resolves service specified in parameter "service" to implementation.
+    /// </summary>
+    [NotNull]
+    [ItemNotNull]
+    public delegate string GenerateCodeToResolveRequiredDependency([NotNull] [ItemNotNull] Type serviceType);
 }

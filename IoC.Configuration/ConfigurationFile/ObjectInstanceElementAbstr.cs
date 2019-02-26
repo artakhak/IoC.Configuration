@@ -22,9 +22,10 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
+using System.Linq;
 using System.Xml;
 using JetBrains.Annotations;
-using OROptimizer;
 
 namespace IoC.Configuration.ConfigurationFile
 {
@@ -33,28 +34,25 @@ namespace IoC.Configuration.ConfigurationFile
         #region Member Variables
 
         [NotNull]
-        private readonly IAssemblyLocator _assemblyLocator;
-
-        private IAssembly _assemblySetting;
+        private readonly ICreateInstanceFromTypeAndConstructorParameters _createInstanceFromTypeAndConstructorParameters;
 
         [CanBeNull]
         private IParameters _parameters;
+
+        [NotNull]
+        private readonly ITypeHelper _typeHelper;
 
         #endregion
 
         #region  Constructors
 
         public ObjectInstanceElementAbstr([NotNull] XmlElement xmlElement, [NotNull] IConfigurationFileElement parent,
-                                          [NotNull] IAssemblyLocator assemblyLocator) : base(xmlElement, parent)
+                                          [NotNull] ITypeHelper typeHelper,
+                                          [NotNull] ICreateInstanceFromTypeAndConstructorParameters createInstanceFromTypeAndConstructorParameters) : base(xmlElement, parent)
         {
-            _assemblyLocator = assemblyLocator;
+            _typeHelper = typeHelper;
+            _createInstanceFromTypeAndConstructorParameters = createInstanceFromTypeAndConstructorParameters;
         }
-
-        #endregion
-
-        #region Current Type Interface
-
-        protected virtual bool ShouldBeEnabled => true;
 
         #endregion
 
@@ -69,44 +67,36 @@ namespace IoC.Configuration.ConfigurationFile
                 _parameters = (IParameters) child;
 
                 foreach (var parameter in _parameters.AllParameters)
-                    if (parameter.ValueInstantiationType == ValueInstantiationType.ResolveFromDiContext)
+                    if (parameter.IsResolvedFromDiContainer)
                         throw new ConfigurationParseException(parameter, $"Injected parameters cannot be used in element '{ElementName}'", this);
             }
         }
 
-        public override bool Enabled => base.Enabled && _assemblySetting.Enabled;
-
         public override void Initialize()
         {
             base.Initialize();
-            _assemblySetting = Helpers.GetAssemblySettingByAssemblyAlias(this, this.GetAttributeValue<string>(ConfigurationFileAttributeNames.Assembly));
 
-            if (!Enabled && ShouldBeEnabled)
-                throw new ConfigurationParseException(this, $"The element '{this.ToString()}' is disabled. Either make sure the assembly '{_assemblySetting}' is enabled, or delete this element.");
+            ValueTypeInfo = _typeHelper.GetTypeInfo(this, ConfigurationFileAttributeNames.Type, ConfigurationFileAttributeNames.Assembly, ConfigurationFileAttributeNames.TypeRef);
+
+            if (OwningPluginElement == null)
+            {
+                var disabledPluginTypeInfo = ValueTypeInfo.GetUniquePluginTypes().FirstOrDefault(x => !x.Assembly.Plugin.Enabled);
+
+                if (disabledPluginTypeInfo != null)
+                    throw new DisabledPluginTypeUsedConfigurationParseException(this, ValueTypeInfo, disabledPluginTypeInfo);
+            }
         }
 
         protected TInstantiatedType Instance { get; private set; }
-
-        protected IAssembly AssemblySetting => _assemblySetting;
 
         public override void ValidateAfterChildrenAdded()
         {
             base.ValidateAfterChildrenAdded();
 
-            var typeFullName = this.GetAttributeValue<string>(ConfigurationFileAttributeNames.Type);
-
-            if (Enabled)
-            {
-                var typeInAssembly = Helpers.GetTypeInAssembly(_assemblyLocator, this, _assemblySetting, typeFullName);
-
-                var instance = GlobalsCoreAmbientContext.Context.CreateInstance(typeof(TInstantiatedType), typeInAssembly, _parameters == null ? new ParameterInfo[0] : _parameters.GetParameterValues(), out var errorMessage);
-
-                if (instance == null)
-                    throw new ConfigurationParseException(this, errorMessage);
-
-                Instance = (TInstantiatedType)instance;
-            }
+            Instance = (TInstantiatedType) _createInstanceFromTypeAndConstructorParameters.CreateInstance(this, typeof(TInstantiatedType), ValueTypeInfo.Type, _parameters?.AllParameters ?? new IParameterElement[0]);
         }
+
+        public ITypeInfo ValueTypeInfo { get; private set; }
 
         #endregion
     }

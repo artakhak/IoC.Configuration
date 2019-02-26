@@ -31,9 +31,10 @@ using OROptimizer.Diagnostics.Log;
 namespace IoC.Configuration
 {
     /// <summary>
-    ///     An implementation of <see cref="IConfigurationFileContentsProvider"/>, that loads configuration file contents form a file
+    ///     An implementation of <see cref="IConfigurationFileContentsProvider" />, that loads configuration file contents form
+    ///     a file
     /// </summary>
-    /// <seealso cref="IConfigurationFileContentsProvider"/>
+    /// <seealso cref="IConfigurationFileContentsProvider" />
     public class FileBasedConfigurationFileContentsProvider : IConfigurationFileContentsProvider
     {
         #region  Constructors
@@ -62,11 +63,12 @@ namespace IoC.Configuration
 
 
         /// <summary>
-        /// Returns IoC configuration file content as a string. The content should be a valid XML document and
-        /// should be successfully validated using the schema file IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd.
+        ///     Returns IoC configuration file content as a string. The content should be a valid XML document and
+        ///     should be successfully validated using the schema file
+        ///     IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd.
         /// </summary>
         /// <returns>
-        /// Returns a <see cref="Stream" /> object for the configuration file contents.
+        ///     Returns a <see cref="Stream" /> object for the configuration file contents.
         /// </returns>
         /// <exception cref="Exception">File failed to load.</exception>
         public string LoadConfigurationFileContents()

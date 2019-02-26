@@ -22,51 +22,84 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
-using System.Xml;
+
+using System;
+using IoC.Configuration.DiContainerBuilder.FileBased;
 using JetBrains.Annotations;
-using OROptimizer.Serializer;
+using OROptimizer.DynamicCode;
 
 namespace IoC.Configuration.ConfigurationFile
 {
     public class SettingElement : ParameterElement, ISettingElement
     {
+        #region Member Variables
+
+        [NotNull]
+        private readonly IIdentifierValidator _identifierValidator;
+
+        #endregion
+
         #region  Constructors
 
-        public SettingElement([NotNull] XmlElement xmlElement, [NotNull] IConfigurationFileElement parent,
-                              [NotNull] ITypeBasedSimpleSerializerAggregator typeBasedSimpleSerializerAggregator,
-                              [NotNull] IAssemblyLocator assemblyLocator) : base(xmlElement, parent, typeBasedSimpleSerializerAggregator, assemblyLocator)
+        public SettingElement([NotNull] IValueInitializerElement decoratedValueInitializerElement,
+                              [NotNull] IIdentifierValidator identifierValidator) : base(decoratedValueInitializerElement)
         {
+            _identifierValidator = identifierValidator;
         }
 
         #endregion
 
         #region ISettingElement Interface Implementation
 
+        public object DeserializedValue { get; private set; }
+
         public override void Initialize()
         {
             base.Initialize();
 
-            var assemblyAttributeValue = GetAttributeValue(ConfigurationFileAttributeNames.Assembly)?.Trim();
-            
-            if (!string.IsNullOrEmpty(assemblyAttributeValue))
-            {
-                var assemblySetting = Helpers.GetAssemblySettingByAssemblyAlias(this, assemblyAttributeValue);
+            _identifierValidator.Validate(this, ConfigurationFileAttributeNames.Name, Name);
 
-                var parentPluginSetupElement = this.GetParentPluginSetupElement();
-
-                if (parentPluginSetupElement == null)
-                {
-                    if (assemblySetting.OwningPluginElement != null)
-                        throw new ConfigurationParseException(this, $"Assembly '{assemblySetting.Alias}' belongs to plugin  '{assemblySetting.OwningPluginElement.Name}' and cannot be used in general settings.");
-                }
-                else if (assemblySetting.OwningPluginElement != null && assemblySetting.OwningPluginElement != parentPluginSetupElement.Plugin)
-                {
-                    throw new ConfigurationParseException(this, $"Assembly '{assemblySetting.Alias}' belongs to plugin  '{assemblySetting.OwningPluginElement.Name}' and cannot be used in settings for plugin '{parentPluginSetupElement.Plugin.Name}'.");
-                }
-            }
-
-            if (ValueInstantiationType == ValueInstantiationType.ResolveFromDiContext)
+            if (IsResolvedFromDiContainer)
                 throw new ConfigurationParseException(this, $"Settings cannot use '{ConfigurationFileElementNames.ValueInjectedObject}' element.");
+        }
+
+        public override void ValidateAfterChildrenAdded()
+        {
+            base.ValidateAfterChildrenAdded();
+            DeserializedValue = GenerateValue();
+        }
+
+        [Obsolete("Will be removed after 5/31/2019. This property was deprecated since this does not apply to all parameters. Use IDeserializedValue.ValueAsString for parameters that are instances of IDeserializedValue.")]
+        string INamedValue.ValueAsString
+        {
+            get
+            {
+                if (DecoratedValueInitializerElement is IDeserializedValue deserializedValue)
+                    return deserializedValue.ValueAsString;
+
+                return string.Empty;
+            }
+        }
+
+        #endregion
+
+        #region Member Functions
+
+        protected override void AddCodeOnGenerateValueCSharp(IDynamicAssemblyBuilder dynamicAssemblyBuilder)
+        {
+            var dynamicallyGeneratedClass = dynamicAssemblyBuilder.GetDynamicallyGeneratedClass(GetSettingsClassName());
+            dynamicallyGeneratedClass.AddCodeLine($"public static {ValueTypeInfo.TypeCSharpFullName} {DynamicCodeGenerationHelpers.GetSettingValuePropertyName(Name)} {{ get; }} = {DecoratedValueInitializerElement.GenerateValueCSharp(dynamicAssemblyBuilder)};");
+        }
+
+        protected override string DoGenerateValueCSharp(IDynamicAssemblyBuilder dynamicAssemblyBuilder)
+        {
+            var dynamicallyGeneratedClass = dynamicAssemblyBuilder.GetDynamicallyGeneratedClass(GetSettingsClassName());
+            return $"{dynamicallyGeneratedClass.ClassFullName}.{DynamicCodeGenerationHelpers.GetSettingValuePropertyName(Name)}";
+        }
+
+        private string GetSettingsClassName()
+        {
+            return OwningPluginElement == null ? DynamicCodeGenerationHelpers.SettingValuesClassName : DynamicCodeGenerationHelpers.GetPluginSettingValuesClassName(OwningPluginElement.Name);
         }
 
         #endregion

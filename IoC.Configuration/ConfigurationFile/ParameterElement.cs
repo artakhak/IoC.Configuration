@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright Â© 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -22,119 +22,69 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
-using System.Xml;
 using JetBrains.Annotations;
-using OROptimizer.Serializer;
 
 namespace IoC.Configuration.ConfigurationFile
 {
-    public class ParameterElement : ConfigurationFileElementAbstr, IParameterElement
+    public class ParameterElement : ValueInitializerElementDecorator, IParameterElement
     {
         #region Member Variables
 
         [NotNull]
-        private readonly IAssemblyLocator _assemblyLocator;
-
-        [NotNull]
-        private readonly ITypeBasedSimpleSerializerAggregator _typeBasedSimpleSerializerAggregator;
+        private readonly IValueInitializerElement _decoratedValueInitializerElement;
 
         #endregion
 
         #region  Constructors
 
-        public ParameterElement([NotNull] XmlElement xmlElement, IConfigurationFileElement parent,
-                                [NotNull] ITypeBasedSimpleSerializerAggregator typeBasedSimpleSerializerAggregator,
-                                [NotNull] IAssemblyLocator assemblyLocator) : base(xmlElement, parent)
+        public ParameterElement([NotNull] IValueInitializerElement decoratedValueInitializerElement) : base(decoratedValueInitializerElement)
         {
-            _typeBasedSimpleSerializerAggregator = typeBasedSimpleSerializerAggregator;
-            _assemblyLocator = assemblyLocator;
+            _decoratedValueInitializerElement = decoratedValueInitializerElement;
         }
 
         #endregion
 
         #region IParameterElement Interface Implementation
 
-        public object DeserializedValue { get; private set; }
+        [Obsolete("Will be removed after 5/31/2019")]
+        object IParameterElement.DeserializedValue
+        {
+            get
+            {
+                if (_decoratedValueInitializerElement is IDeserializedValue deserializedValue)
+                    return deserializedValue.DeserializedValue;
 
-        public override bool Enabled => base.Enabled && ValueType != null;
+                return null;
+            }
+        }
 
         public override void Initialize()
         {
             base.Initialize();
-
             Name = this.GetNameAttributeValue();
-            ValueInstantiationType = ValueInstantiationType.DeserializeFromStringValue;
-
-            if (_xmlElement.Name.Equals(ConfigurationFileElementNames.ValueObject, StringComparison.OrdinalIgnoreCase) ||
-                _xmlElement.Name.Equals(ConfigurationFileElementNames.ValueInjectedObject, StringComparison.OrdinalIgnoreCase))
-            {
-                ValueAsString = _xmlElement.GetAttribute(ConfigurationFileAttributeNames.Value).Trim();
-
-                var assemblySetting = Helpers.GetAssemblySettingByAssemblyAlias(this, this.GetAttributeValue<string>(ConfigurationFileAttributeNames.Assembly));
-
-                var parentPluginSetupElement = this.GetParentPluginSetupElement();
-
-                // Disable using one plugin in  another
-                if (parentPluginSetupElement != null && 
-                    assemblySetting.OwningPluginElement != null && assemblySetting.OwningPluginElement != parentPluginSetupElement.Plugin)
-                    throw new ConfigurationParseException(this, $"Assembly '{assemblySetting.Alias}' belongs to plugin  '{assemblySetting.OwningPluginElement.Name}' and cannot be used in plugin '{parentPluginSetupElement.Plugin.Name}'.");
-
-                if (assemblySetting.Enabled)
-                {
-                    ValueType = Helpers.GetTypeInAssembly(_assemblyLocator, this, assemblySetting, this.GetAttributeValue<string>(ConfigurationFileAttributeNames.Type));
-                }
-                else if (Parent?.Enabled ?? false && (parentPluginSetupElement == null || parentPluginSetupElement.Enabled))
-                {
-                    // Do not fail if the parameter is under disabled plugin is disabled.
-                    throw new ConfigurationParseException(this, $"The referenced assembly with alias '{assemblySetting.Alias}' is disabled.");
-                }
-
-                if (_xmlElement.Name.Equals(ConfigurationFileElementNames.ValueInjectedObject, StringComparison.OrdinalIgnoreCase))
-                    ValueInstantiationType = ValueInstantiationType.ResolveFromDiContext;
-            }
-            else
-            {
-                ValueAsString = this.GetAttributeValue<string>(ConfigurationFileAttributeNames.Value);
-
-                if (_xmlElement.Name.Equals(ConfigurationFileElementNames.ValueByte, StringComparison.OrdinalIgnoreCase))
-                    ValueType = typeof(byte);
-                else if (_xmlElement.Name.Equals(ConfigurationFileElementNames.ValueInt16, StringComparison.OrdinalIgnoreCase))
-                    ValueType = typeof(short);
-                else if (_xmlElement.Name.Equals(ConfigurationFileElementNames.ValueInt32, StringComparison.OrdinalIgnoreCase))
-                    ValueType = typeof(int);
-                else if (_xmlElement.Name.Equals(ConfigurationFileElementNames.ValueInt64, StringComparison.OrdinalIgnoreCase))
-                    ValueType = typeof(long);
-                else if (_xmlElement.Name.Equals(ConfigurationFileElementNames.ValueDouble, StringComparison.OrdinalIgnoreCase))
-                    ValueType = typeof(double);
-                else if (_xmlElement.Name.Equals(ConfigurationFileElementNames.ValueBoolean, StringComparison.OrdinalIgnoreCase))
-                    ValueType = typeof(bool);
-                else if (_xmlElement.Name.Equals(ConfigurationFileElementNames.ValueString, StringComparison.OrdinalIgnoreCase))
-                    ValueType = typeof(string);
-                else if (_xmlElement.Name.Equals(ConfigurationFileElementNames.ValueDateTime, StringComparison.OrdinalIgnoreCase))
-                    ValueType = typeof(DateTime);
-                else
-                    throw new ConfigurationParseException(this, $"Unknown type element '{_xmlElement.Name}'.");
-            }
-
-            if (ValueType != null && ValueInstantiationType != ValueInstantiationType.ResolveFromDiContext)
-            {
-                if (!_typeBasedSimpleSerializerAggregator.TryDeserialize(ValueType, ValueAsString, out var deserializedValue))
-                {
-                    if (!_typeBasedSimpleSerializerAggregator.HasSerializerForType(ValueType))
-                        throw new ConfigurationParseException(this, $"No serializer for type '{ValueType.FullName}' was registered in '{ConfigurationFileElementNames.ParameterSerializers}' element.");
-
-                    throw new ConfigurationParseException(this, $"The parameter serializer '{_typeBasedSimpleSerializerAggregator.GetSerializerForType(ValueType).GetType().FullName}' failed to convert '{ValueAsString}' to type '{ValueType.FullName}'.");
-                }
-
-                DeserializedValue = deserializedValue;
-            }
         }
 
         public string Name { get; private set; }
-        public string ValueAsString { get; private set; }
-        public ValueInstantiationType ValueInstantiationType { get; private set; }
-        public Type ValueType { get; private set; }
+
+        [Obsolete("Will be removed after 5/31/2019")]
+        ValueInstantiationType INamedValueElement.ValueInstantiationType
+        {
+            get
+            {
+                if (IsResolvedFromDiContainer)
+                    return ValueInstantiationType.ResolveFromDiContext;
+
+                if (_decoratedValueInitializerElement is INamedValueElement namedValueElement)
+                    return namedValueElement.ValueInstantiationType;
+
+                if (_decoratedValueInitializerElement is IDeserializedValue deserializedValue)
+                    return ValueInstantiationType.DeserializeFromStringValue;
+
+                return ValueInstantiationType.Other;
+            }
+        }
 
         #endregion
     }

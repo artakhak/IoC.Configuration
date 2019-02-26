@@ -22,10 +22,12 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using System.Xml;
 using JetBrains.Annotations;
+using OROptimizer;
 
 namespace IoC.Configuration.ConfigurationFile
 {
@@ -36,6 +38,10 @@ namespace IoC.Configuration.ConfigurationFile
         [NotNull]
         private readonly Dictionary<string, IAssembly> _aliasToAssemblyMap = new Dictionary<string, IAssembly>(StringComparer.OrdinalIgnoreCase);
 
+
+        [NotNull]
+        private readonly List<IoC.Configuration.IAssembly> _allAssembliesIncludingAssembliesNotInConfiguration = new List<IoC.Configuration.IAssembly>();
+
         [NotNull]
         private readonly Dictionary<string, IAssembly> _nameToAssemblyMap = new Dictionary<string, IAssembly>(StringComparer.OrdinalIgnoreCase);
 
@@ -45,6 +51,19 @@ namespace IoC.Configuration.ConfigurationFile
 
         public Assemblies([NotNull] XmlElement xmlElement, [CanBeNull] IConfigurationFileElement parent) : base(xmlElement, parent)
         {
+            string generateAssemblyAlias(System.Reflection.Assembly assemblyParam)
+            {
+                return $"{assemblyParam.GetName().Name}_{GlobalsCoreAmbientContext.Context.GenerateUniqueId()}";
+            }
+
+            var assembly = typeof(int).Assembly;
+            MsCorlibAssembly = new IoC.Configuration.Assembly(assembly.Location, generateAssemblyAlias(assembly), null);
+
+            assembly = typeof(Configuration).Assembly;
+            IoCConfigurationAssembly = new IoC.Configuration.Assembly(assembly.Location, generateAssemblyAlias(assembly), null);
+
+            assembly = typeof(IGlobalsCore).Assembly;
+            OROptimizerSharedAssembly = new IoC.Configuration.Assembly(assembly.Location, generateAssemblyAlias(assembly), null);
         }
 
         #endregion
@@ -65,16 +84,50 @@ namespace IoC.Configuration.ConfigurationFile
 
                 _nameToAssemblyMap[assembly.Name] = assembly;
                 _aliasToAssemblyMap[assembly.Alias] = assembly;
+
+                if (MsCorlibAssembly.Name.Equals(assembly.Name, StringComparison.OrdinalIgnoreCase))
+                    MsCorlibAssembly = assembly;
+                else if (IoCConfigurationAssembly.Name.Equals(assembly.Name, StringComparison.OrdinalIgnoreCase))
+                    IoCConfigurationAssembly = assembly;
+                else if (OROptimizerSharedAssembly.Name.Equals(assembly.Name, StringComparison.OrdinalIgnoreCase))
+                    OROptimizerSharedAssembly = assembly;
             }
 
             base.AddChild(child);
         }
 
+
         public IEnumerable<IAssembly> AllAssemblies => _nameToAssemblyMap.Values;
+        public IEnumerable<IoC.Configuration.IAssembly> AllAssembliesIncludingAssembliesNotInConfiguration => _allAssembliesIncludingAssembliesNotInConfiguration;
 
         public IAssembly GetAssemblyByAlias(string alias)
         {
             return _aliasToAssemblyMap.TryGetValue(alias, out var assembly) ? assembly : null;
+        }
+
+        [NotNull]
+        public IoC.Configuration.IAssembly IoCConfigurationAssembly { get; private set; }
+
+        [NotNull]
+        public IoC.Configuration.IAssembly MsCorlibAssembly { get; private set; }
+
+        [NotNull]
+        public IoC.Configuration.IAssembly OROptimizerSharedAssembly { get; private set; }
+
+        public override void ValidateAfterChildrenAdded()
+        {
+            base.ValidateAfterChildrenAdded();
+
+            _allAssembliesIncludingAssembliesNotInConfiguration.AddRange(_nameToAssemblyMap.Values);
+
+            if (!_nameToAssemblyMap.ContainsKey(MsCorlibAssembly.Name))
+                _allAssembliesIncludingAssembliesNotInConfiguration.Add(MsCorlibAssembly);
+
+            if (!_nameToAssemblyMap.ContainsKey(IoCConfigurationAssembly.Name))
+                _allAssembliesIncludingAssembliesNotInConfiguration.Add(IoCConfigurationAssembly);
+
+            if (!_nameToAssemblyMap.ContainsKey(OROptimizerSharedAssembly.Name))
+                _allAssembliesIncludingAssembliesNotInConfiguration.Add(OROptimizerSharedAssembly);
         }
 
         #endregion

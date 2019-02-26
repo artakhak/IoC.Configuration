@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using IoC.Configuration.ConfigurationFile;
@@ -31,23 +32,24 @@ using OROptimizer.Serializer;
 namespace IoC.Configuration
 {
     /// <summary>
-    /// A repository for data loaded from configuration file for plugins.
+    ///     A repository for data loaded from configuration file for plugins.
     /// </summary>
     public class PluginDataRepository : IPluginDataRepository
     {
         #region Member Variables
+
         [NotNull]
         private readonly Dictionary<string, IPluginData> _pluginNameToPluginData = new Dictionary<string, IPluginData>(StringComparer.Ordinal);
-
 
         [NotNull]
         private readonly Dictionary<Type, IPluginData> _pluginTypeToPluginData = new Dictionary<Type, IPluginData>();
 
         #endregion
 
-        #region  Constructors        
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="PluginDataRepository"/> class.
+        ///     Initializes a new instance of the <see cref="PluginDataRepository" /> class.
         /// </summary>
         /// <exception cref="Exception"></exception>
         public PluginDataRepository([NotNull] IPluginsSetup pluginsSetup, [NotNull] [ItemNotNull] IEnumerable<IPlugin> plugins,
@@ -68,22 +70,23 @@ namespace IoC.Configuration
                 if (!pluginSetup.Enabled)
                     continue;
 
-                var plugin = typeToPluginMap[pluginSetup.PluginImplementationElement.ImplementationType];
+                var plugin = typeToPluginMap[pluginSetup.PluginImplementationElement.ValueTypeInfo.Type];
                 IPluginData pluginData = new PluginData(pluginSetup,
                     plugin, globalSettings,
                     typeBasedSimpleSerializerAggregator);
                 plugin.PluginData = pluginData;
 
                 _pluginNameToPluginData[pluginSetup.Plugin.Name] = pluginData;
-                _pluginTypeToPluginData[pluginSetup.PluginImplementationElement.ImplementationType] = pluginData;
+                _pluginTypeToPluginData[pluginSetup.PluginImplementationElement.ValueTypeInfo.Type] = pluginData;
             }
         }
 
         #endregion
 
-        #region IPluginDataRepository Interface Implementation        
+        #region IPluginDataRepository Interface Implementation
+
         /// <summary>
-        /// Gets the plugin data for plugin with name <paramref name="pluginName" />.
+        ///     Gets the plugin data for plugin with name <paramref name="pluginName" />.
         /// </summary>
         /// <param name="pluginName">Name of the plugin.</param>
         /// <returns></returns>
@@ -93,8 +96,9 @@ namespace IoC.Configuration
         }
 
         /// <summary>
-        /// Gets the plugin data for the plugin with implementation <typeparamref name="TPluginImplementation" />. Note, the plugin implementation
-        /// type can be found in element iocConfiguration/pluginsSetup/pluginSetup/pluginImplementation.
+        ///     Gets the plugin data for the plugin with implementation <typeparamref name="TPluginImplementation" />. Note, the
+        ///     plugin implementation
+        ///     type can be found in element iocConfiguration/pluginsSetup/pluginSetup/pluginImplementation.
         /// </summary>
         /// <typeparam name="TPluginImplementation">The type of the plugin implementation.</typeparam>
         /// <returns></returns>
@@ -104,8 +108,10 @@ namespace IoC.Configuration
         }
 
         /// <summary>
-        /// Gets the plugin data for the plugin with implementation specified in parameter <paramref name="pluginImplementationType" />.
-        /// Note, the plugin implementation type can be found in element iocConfiguration/pluginsSetup/pluginSetup/pluginImplementation.
+        ///     Gets the plugin data for the plugin with implementation specified in parameter
+        ///     <paramref name="pluginImplementationType" />.
+        ///     Note, the plugin implementation type can be found in element
+        ///     iocConfiguration/pluginsSetup/pluginSetup/pluginImplementation.
         /// </summary>
         /// <param name="pluginImplementationType">Type of the plugin implementation.</param>
         /// <returns></returns>
@@ -115,10 +121,10 @@ namespace IoC.Configuration
         }
 
         /// <summary>
-        /// Gets the plugin data objects for all enabled plugins in configuration file.
+        ///     Gets the plugin data objects for all enabled plugins in configuration file.
         /// </summary>
         /// <value>
-        /// The plugins.
+        ///     The plugins.
         /// </value>
         public IEnumerable<IPluginData> Plugins => _pluginNameToPluginData.Values;
 

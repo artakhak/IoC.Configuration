@@ -4,7 +4,7 @@ Source code can be found at [https://github.com/artakhak/IoC.Configuration](http
 
 There is a test project **IoC.Configuration.Tests** at this location, demonstrating how to do file and code based configuration of dependency injection (the examples use **IoC.Configuration.Autofac** and **IoC.Configuration.Ninject** extensions available in NuGet).
 The test project has a sample XML configuration file for type bindings (and for providing some other functionality), which demonstrates most features of **IoC.Configuration**. 
-The sample configuration file can be downloaded at [https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests/IoCConfiguration1.xml](https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests/IoCConfiguration1.xml).
+The sample configuration file can be downloaded at [https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests/IoCConfiguration_Overview.xml](https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests/IoCConfiguration_Overview.xml).
 
 The XML configuration file is validated against schema file **IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd**.
 The schema file along with a template XML configuration file can be found in folder

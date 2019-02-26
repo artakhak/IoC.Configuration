@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Collections.Generic;
 using System.Xml;
@@ -57,23 +58,19 @@ namespace IoC.Configuration.ConfigurationFile
         {
             base.AddChild(child);
 
-            if (child is IParameterElement)
+            if (child is IParameterElement parameterElement)
             {
-                var parameter = (IParameterElement) child;
+                if (_parameterNameToParameterMap.ContainsKey(parameterElement.Name))
+                    throw new ConfigurationParseException(parameterElement, $"Multiple occurrences of parameter with name '{parameterElement.Name}'.", this);
 
-                if (parameter.Enabled)
-                {
-                    if (_parameterNameToParameterMap.ContainsKey(parameter.Name))
-                        throw new ConfigurationParseException(parameter, $"Multiple occurrences of parameter with name '{parameter.Name}'.", this);
-
-                    _parameterNameToParameterMap[parameter.Name] = parameter;
-                    _parameters.Add(parameter);
-                }
+                _parameterNameToParameterMap[parameterElement.Name] = parameterElement;
+                _parameters.Add(parameterElement);
             }
         }
 
         public IEnumerable<IParameterElement> AllParameters => _parameters;
 
+        [Obsolete("Will be removed after 5/31/2019.")]
         public ParameterInfo[] GetParameterValues()
         {
             var parameterInfos = new ParameterInfo[_parameters.Count];
@@ -81,7 +78,7 @@ namespace IoC.Configuration.ConfigurationFile
             for (var i = 0; i < _parameters.Count; ++i)
             {
                 var parameter = _parameters[i];
-                parameterInfos[i] = new ParameterInfo(parameter.ValueType, parameter.DeserializedValue);
+                parameterInfos[i] = new ParameterInfo(parameter.ValueTypeInfo.Type, parameter.DeserializedValue);
             }
 
             return parameterInfos;

@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using JetBrains.Annotations;
 
@@ -29,9 +30,11 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
 {
     public class BindingImplementationConfigurationAddedEventArgs<TBindingImplementationConfiguration> : EventArgs where TBindingImplementationConfiguration : BindingImplementationConfiguration
     {
-        #region  Constructors        
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="BindingImplementationConfigurationAddedEventArgs{TBindingImplementationConfiguration}"/> class.
+        ///     Initializes a new instance of the
+        ///     <see cref="BindingImplementationConfigurationAddedEventArgs{TBindingImplementationConfiguration}" /> class.
         /// </summary>
         /// <param name="bindingImplementationConfiguration">The binding implementation configuration.</param>
         public BindingImplementationConfigurationAddedEventArgs([NotNull] TBindingImplementationConfiguration bindingImplementationConfiguration)
@@ -41,12 +44,13 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
 
         #endregion
 
-        #region Member Functions        
+        #region Member Functions
+
         /// <summary>
-        /// Gets the binding implementation configuration.
+        ///     Gets the binding implementation configuration.
         /// </summary>
         /// <value>
-        /// The binding implementation configuration.
+        ///     The binding implementation configuration.
         /// </value>
         [NotNull]
         public TBindingImplementationConfiguration BindingImplementationConfiguration { get; }

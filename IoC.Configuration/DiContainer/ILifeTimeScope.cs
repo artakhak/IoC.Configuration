@@ -22,17 +22,19 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 
 namespace IoC.Configuration.DiContainer
 {
     public interface ILifeTimeScope : IDisposable
     {
-        #region Current Type Interface        
+        #region Current Type Interface
+
         /// <summary>
-        /// Occurs when current life time scope is terminated. Example of using this event is as follows:
-        /// <see cref="IDiContainer"/> diContainer;
-        /// diContainer.MainLifeTimeScope.LifeTimeScopeTerminated += (sender, e) => { // do something. }
+        ///     Occurs when current life time scope is terminated. Example of using this event is as follows:
+        ///     <see cref="IDiContainer" /> diContainer;
+        ///     diContainer.MainLifeTimeScope.LifeTimeScopeTerminated += (sender, e) => { // do something. }
         /// </summary>
         event LifeTimeScopeTerminatedEventHandler LifeTimeScopeTerminated;
 

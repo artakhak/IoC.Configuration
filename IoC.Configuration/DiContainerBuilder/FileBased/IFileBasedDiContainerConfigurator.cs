@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using IoC.Configuration.DiContainer;
 using JetBrains.Annotations;
 
@@ -30,19 +31,20 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
     public interface IFileBasedDiContainerConfigurator : IRegisterModulesWithDiManagerForFileBasedConfiguration
     {
         #region Current Type Interface
+
         /// <summary>
-        /// Will use <see cref="IDiContainer"/> instance passed as a parameter when configuring the container.
-        /// Use the method <see cref="WithDiContainer(IDiContainer)"/> if possible.
+        ///     Will use <see cref="IDiContainer" /> instance passed as a parameter when configuring the container.
+        ///     Use the method <see cref="WithDiContainer(IDiContainer)" /> if possible.
         /// </summary>
-        /// <param name="diContainer">An instance of <see cref="IDiContainer"/>.</param>
-        /// <returns>Returns an instance of <see cref="IFileBasedDiModulesConfigurator"/></returns>
+        /// <param name="diContainer">An instance of <see cref="IDiContainer" />.</param>
+        /// <returns>Returns an instance of <see cref="IFileBasedDiModulesConfigurator" /></returns>
         IFileBasedDiModulesConfigurator WithDiContainer([NotNull] IDiContainer diContainer);
 
         /// <summary>
         ///     The container will be automatically created. This is the preferred way to build a container.
         ///     Use <see cref="WithDiContainer" /> only if the application already has a container, and we need to use it.
         /// </summary>
-        /// <returns>Returns an instance of <see cref="IFileBasedDiModulesConfigurator"/></returns>
+        /// <returns>Returns an instance of <see cref="IFileBasedDiModulesConfigurator" /></returns>
         IFileBasedDiModulesConfigurator WithoutPresetDiContainer();
 
         #endregion

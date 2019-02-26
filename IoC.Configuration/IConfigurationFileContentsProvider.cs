@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.IO;
 using JetBrains.Annotations;
@@ -38,14 +39,15 @@ namespace IoC.Configuration
         /// <summary>
         ///     Some details of the source, where the configuration file contents are loaded from. Examples are: file path or
         ///     database record id, that has the configuration. The value of this property might be used for diagnostics purposes,
-        ///     if the configuration fails to be loaded. 
+        ///     if the configuration fails to be loaded.
         /// </summary>
         [NotNull]
         string ConfigurationFileSourceDetails { get; }
 
         /// <summary>
         ///     Returns IoC configuration file content as a string. The content should be a valid XML document and
-        ///     should be successfully validated using the schema file IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd.
+        ///     should be successfully validated using the schema file
+        ///     IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd.
         /// </summary>
         /// <returns>Returns a <see cref="Stream" /> object for the configuration file contents.</returns>
         /// <exception cref="Exception">Throws an exception if the stream fails to be created.</exception>

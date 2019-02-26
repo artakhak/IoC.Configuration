@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using System.Linq;
 using System.Text;
@@ -81,6 +82,12 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
 
                     ImplementationGeneratorFunction = implementationGeneratorFunction;
                     break;
+
+                case TargetImplementationType.ProxiedType:
+                    GlobalsCoreAmbientContext.Context.LogAnErrorAndThrowException(
+                        string.Format("{0}.{1} is not yet supported in code based configuration",
+                            typeof(TargetImplementationType).FullName, nameof(implementationType)));
+                    break;
             }
 
             switch (TargetImplementationType)
@@ -99,9 +106,10 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
 
         #endregion
 
-        #region Member Functions        
+        #region Member Functions
+
         /// <summary>
-        /// Creates the delegate based implementation configuration.
+        ///     Creates the delegate based implementation configuration.
         /// </summary>
         /// <param name="serviceType">Type of the service.</param>
         /// <param name="implementationGeneratorFunction">The implementation generator function.</param>
@@ -112,7 +120,7 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
         }
 
         /// <summary>
-        /// Creates the self implementation configuration.
+        ///     Creates the self implementation configuration.
         /// </summary>
         /// <param name="serviceType">Type of the service.</param>
         /// <returns></returns>
@@ -122,7 +130,7 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
         }
 
         /// <summary>
-        /// Creates the type based implementation configuration.
+        ///     Creates the type based implementation configuration.
         /// </summary>
         /// <param name="serviceType">Type of the service.</param>
         /// <param name="implementationType">Type of the implementation.</param>
@@ -133,10 +141,10 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
         }
 
         /// <summary>
-        /// Gets the implementation generator function.
+        ///     Gets the implementation generator function.
         /// </summary>
         /// <value>
-        /// The implementation generator function.
+        ///     The implementation generator function.
         /// </value>
         [CanBeNull]
         public Func<IDiContainer, object> ImplementationGeneratorFunction { get; }

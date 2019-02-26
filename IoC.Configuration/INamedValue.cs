@@ -22,36 +22,25 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using JetBrains.Annotations;
 
 namespace IoC.Configuration
 {
-    public interface INamedValue : INamedItem
+    public interface INamedValue : INamedItem, IValueInitializer
     {
         #region Current Type Interface
 
         /// <summary>
-        /// Gets the value as string. Examples are "2", "true", etc.
+        ///     Gets the value as string. Examples are "2", "true", etc.
         /// </summary>
         /// <value>
-        /// The value as string.
+        ///     The value as string.
         /// </value>
+        [Obsolete("Will be removed after 5/31/2019. This property was deprecated since this does not apply to all parameters. Use IDeserializedValue.ValueAsString for parameters that are instances of IDeserializedValue.")]
         [CanBeNull]
         string ValueAsString { get; }
-
-        /// <summary>
-        ///     Normally for injectedObject element this value is <see cref="ValueInstantiationType.ResolveFromDiContext" />, for
-        ///     other elements (i.e., int16, int32, etc), the overridden value will be <see cref="ValueInstantiationType.DeserializeFromStringValue" />
-        /// </summary>
-        ValueInstantiationType ValueInstantiationType { get; }
-
-        /// <summary>
-        ///     Can be null only if the parameter is declared with either 'object' or injectedObject elements, and the object type
-        ///     referenced is in a disabled assembly.
-        /// </summary>
-        [NotNull]
-        Type ValueType { get; }
 
         #endregion
     }

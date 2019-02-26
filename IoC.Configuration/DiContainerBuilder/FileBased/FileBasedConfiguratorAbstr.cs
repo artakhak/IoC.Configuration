@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using JetBrains.Annotations;
 
 namespace IoC.Configuration.DiContainerBuilder.FileBased
@@ -35,9 +36,10 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 
         #endregion
 
-        #region  Constructors        
+        #region  Constructors
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="FileBasedConfiguratorAbstr"/> class.
+        ///     Initializes a new instance of the <see cref="FileBasedConfiguratorAbstr" /> class.
         /// </summary>
         /// <param name="fileBasedConfiguration">The file based configuration.</param>
         public FileBasedConfiguratorAbstr([NotNull] FileBasedConfiguration fileBasedConfiguration)
