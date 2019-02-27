@@ -23,7 +23,7 @@ This is a Sphinx project for IoC.Configuration documentation.
 ### Create the documentation project with sphinx
     -In command window run the following commands:
     
-    cd "k:\..\IoC.Configuration.Documentation" 
+    cd "k:\..\IoC.Configuration\docs" 
     sphinx-quickstart #this will build the Sphinx doc project. 
         Here are non-default responses:
             Separate source and build directories: Y.
@@ -31,8 +31,8 @@ This is a Sphinx project for IoC.Configuration documentation.
             Do you want to use the epub builder: N
 ### Building the docs
 
-      -In k:\..\IoC.Configuration.Documentation\source\conf.py set the value of html_theme to 'bizstyle'
-      -In command window change to "k:\..\IoC.Configuration.Documentation directory" (see the section above), and
+      -In k:\..\IoC.Configuration\docs\conf.py set the value of html_theme to 'bizstyle'
+      -In command window change to "k:\..\IoC.Configuration\docs" directory (see the section above), and
         run the following command:
         make html
        

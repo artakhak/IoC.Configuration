@@ -1,6 +1,10 @@
 IoC.Configuration
 =================
 
+.. note::
+    The documentation currently includes only the features IoC.Configuration 1.0.6. 
+    The documentation will be updated soon to include features in IoC.Configuration 2.0.0 as well.
+
 **IoC.Configuration** is a container agnostic configuration of dependency injection.
 
 `IoC.Configuration <https://www.nuget.org/packages/IoC.Configuration/>`_ is a wrapper around popular **IoC** containers, with additional functionality (see below). Currently `Ninject <https://www.nuget.org/packages/Ninject>`_ and `Autofac <https://www.nuget.org/packages/Autofac>`_ are supported through the usage of Nuget extension packages `IoC.Configuration.Ninject <https://www.nuget.org/packages/IoC.Configuration.Ninject>`_ and `IoC.Configuration.Autofac <https://www.nuget.org/packages/IoC.Configuration.Autofac>`_.
