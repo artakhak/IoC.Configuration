@@ -1,24 +1,21 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup Label="Globals">
     <SccProjectName>SAK</SccProjectName>
     <SccProvider>SAK</SccProvider>
     <SccAuxPath>SAK</SccAuxPath>
     <SccLocalPath>SAK</SccLocalPath>
   </PropertyGroup>
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>IoC.Configuration.Autofac</RootNamespace>
     <AssemblyName>IoC.Configuration.Autofac</AssemblyName>
   </PropertyGroup>
-
   <PropertyGroup>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <Version>2.0.0</Version>
     <Company>OROptimizer</Company>
     <Authors>Artak Hakobyan</Authors>
-    <Description>An Autofac extension for IoC.Configuration.
+    <Description>An Autofac extension for IoC.Configuration 2.
 Detailed documentation on IoC.Configuration is available at http://iocconfiguration.readthedocs.io
 Look at http://iocconfiguration.readthedocs.io/</Description>
     <Copyright>Copyright 2018 (c) OROptimizer. All rights reserved.</Copyright>
@@ -28,31 +25,24 @@ Look at http://iocconfiguration.readthedocs.io/</Description>
     <RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
     <PackageReleaseNotes>Changes to support IoC.Configuration 2.</PackageReleaseNotes>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\IoC.Configuration.Autofac.xml</DocumentationFile>
     <NoWarn>1701;1702;1705;1591;</NoWarn>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
-
   <ItemGroup>
     <None Include="..\IoC.Configuration.licenseheader" Link="IoC.Configuration.licenseheader" />
   </ItemGroup>
-  
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.5.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />
-    <!--<PackageReference Include="IoC.Configuration" Version="1.0.3" />-->
     <PackageReference Include="JetBrains.Annotations" Version="10.2.1" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="2.3.2" />
     <PackageReference Include="OROptimizer.Shared" Version="2.0.0" />
   </ItemGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
   </ItemGroup>
-
 </Project>

@@ -1,32 +1,28 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup Label="Globals">
     <SccProjectName>SAK</SccProjectName>
     <SccProvider>SAK</SccProvider>
     <SccAuxPath>SAK</SccAuxPath>
     <SccLocalPath>SAK</SccLocalPath>
   </PropertyGroup>
-
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
-  
   <PropertyGroup>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <RootNamespace>ModulesForPlugin1</RootNamespace>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.5.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />
     <PackageReference Include="Ninject" Version="3.3.0" />
     <PackageReference Include="OROptimizer.Shared" Version="2.0.0" />
   </ItemGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
     <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
     <ProjectReference Include="..\TestProjects.TestPluginAssembly1\TestProjects.TestPluginAssembly1.csproj" />
+    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+    <ProjectReference Include="..\IoC.Configuration.Autofac\IoC.Configuration.Autofac.csproj" />
+    <ProjectReference Include="..\IoC.Configuration.Ninject\IoC.Configuration.Ninject.csproj" />
   </ItemGroup>
-
 </Project>

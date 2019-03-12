@@ -6,8 +6,8 @@ Sample license text.
 <!--
    This is a simple sample configuration file to use with IoC.Configuration library.
    Some elements and attributes in this XML file should be modified per specific project.
-   For more complete example, look at files IoCConfiguration_Overview.xml and IoCConfiguration2.xml in test project 
-   IoC.Configuration.Tests (the test project will be Github.com soon).
+   For more complete example, look at files IoCConfiguration_Overview.xml and some ther configuration files in test project 
+   IoC.Configuration.Tests at https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.Tests.
    
    The XML configuration file is validated against schema file IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd, 
    which can be found in folder IoC.Configuration.Content in output directory. 

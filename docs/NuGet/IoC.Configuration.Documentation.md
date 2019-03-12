@@ -1,5 +1,6 @@
 Detailed documentation on IoC.Configuration is available at [http://iocconfiguration.readthedocs.io](http://iocconfiguration.readthedocs.io).
-
+   Note, details on V2.0.0 features will be added soon in [http://iocconfiguration.readthedocs.io](http://iocconfiguration.readthedocs.io).
+   
 Source code can be found at [https://github.com/artakhak/IoC.Configuration](https://github.com/artakhak/IoC.Configuration).
 
 There is a test project **IoC.Configuration.Tests** at this location, demonstrating how to do file and code based configuration of dependency injection (the examples use **IoC.Configuration.Autofac** and **IoC.Configuration.Ninject** extensions available in NuGet).

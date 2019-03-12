@@ -1,0 +1,82 @@
+===============================
+Element **valueImplementation**
+===============================
+
+Element **valueImplementation** can be used under element **iocConfiguration/dependencyInjection/services/service** (or **iocConfiguration/pluginsSetup/pluginSetup/dependencyInjection/services/service** for plugin section), to bind the service to a value specified using a value initialization element (e.g.,
+such elements as **int32**, **int64** **collection**, **settingValue**, **classMember**, **object**, **constructedValue**).
+
+.. note::
+   Refer to :doc:`./value-initialization-elements/index` for details on value initialization elements.
+
+.. note::
+    Refer to :doc:`../sample-files/IoCConfiguration_valueImplementation` for more examples on **valueImplementation** element.
+
+Example 1: Using **valueImplementation** to bind **System.Int32** to a setting value
+====================================================================================
+
+.. code-block:: xml
+    :linenos:
+
+    <service type="System.Int32">
+        <valueImplementation scope="singleton">
+          <settingValue settingName="defaultAppId"/>
+        </valueImplementation>
+    </service>
+
+Example 2: Using **valueImplementation** to bind **System.Double** to 3.5
+=========================================================================
+
+.. code-block:: xml
+    :linenos:
+
+    <service type="System.Double">
+        <valueImplementation scope="singleton">
+            <!--
+                The out of the box serializer for System.Double is
+                OROptimizer.Serializer.TypeBasedSimpleSerializerDouble
+                which is available in Nuget package OROptimizer.Shared.
+            -->
+            <object type="System.Double" value="3.5"/>
+        </valueImplementation>
+    </service>
+
+Example 3: Using **valueImplementation** to bind service to class member
+========================================================================
+
+.. code-block:: xml
+    :linenos:
+
+    <service type="SharedServices.Interfaces.IDbConnection">
+        <valueImplementation scope="transient">
+            <classMember
+                class="IoC.Configuration.Tests.ValueImplementation.Services.IDbConnectionProvider"
+                memberName="GetDbConnection"/>
+        </valueImplementation>
+    </service>
+
+
+Example 4: Using **valueImplementation** to bind service to collection
+======================================================================
+
+.. code-block:: xml
+    :linenos:
+
+    <service
+        type="System.Collections.Generic.IReadOnlyList[IoC.Configuration.Tests.ValueImplementation.Services.IAppInfo]">
+
+        <valueImplementation scope="singleton" >
+            <collection>
+                <constructedValue typeRef="AppInfo">
+                  <parameters>
+                    <int32 name="paramId" value="1"/>
+                  </parameters>
+                </constructedValue>
+
+                <constructedValue typeRef="AppInfo">
+                  <parameters>
+                    <int32 name="paramId" value="2"/>
+                  </parameters>
+                </constructedValue>
+            </collection>
+        </valueImplementation>
+    </service>

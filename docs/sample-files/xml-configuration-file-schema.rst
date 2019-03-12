@@ -2,7 +2,10 @@
 XML Configuration File Schema
 =============================
 
-XML Configuration file is validated against the schema file **IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd** below, when the file is loaded by **IoC.Configuration**. This file can be found also in folder "IoC.Configuration.Content", under the folder where Nuget package **IoC.Configuration** is downloaded (see the screenshot below).
+XML Configuration file is validated against the schema file **IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd** below, when the file is loaded by **IoC.Configuration**.
+
+This file can be found also in folder "IoC.Configuration.Content", under the folder where Nuget package **IoC.Configuration** is downloaded (see the screenshot below),
+or can also be downloaded from `2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/IoC.Configuration.Content/IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd>`_.
 
 .. image:: ioc.configuration-files.jpg
 

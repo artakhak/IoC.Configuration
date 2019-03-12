@@ -2,7 +2,8 @@
 Loading from XML Configuration File
 ===================================
 
-An example of XML configuration file can be found at :doc:`../sample-files/sample-xml-configuration-file`. This file is used in test project `IoC.Configuration.Tests <https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.Tests>`_.
+An example of XML configuration file can be found at :doc:`../sample-files/IoCConfiguration_Overview`. This file is used in test project `IoC.Configuration.Tests <https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.Tests>`_.
+
 -The XML Configuration file is validated against XML schema file **IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd** (see :doc:`../sample-files/xml-configuration-file-schema`).
 -A template XML Configuration file **IoC.Configuration.Template.xml** can be found in folder **IoC.Configuration.Content**, where the Nuget package **IoC.Configuration** is installed (see :doc:`../sample-files/xml-configuration-template`).
 
@@ -15,7 +16,7 @@ To load the IoC configuration from XML configuration file use method **IoC.Confi
             new DiContainerBuilder.DiContainerBuilder()
                 .StartFileBasedDi(
                             new FileBasedConfigurationFileContentsProvider(
-                                Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration1.xml")),
+                                Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")),
                                 // Provide the entry assembly folder. Normally this is the folder,
                                 // where the executable file is. However for test projects this might not be the case.
                                 // This folder will be used in assembly resolution.

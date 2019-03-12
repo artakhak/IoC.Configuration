@@ -11,7 +11,7 @@ Here is an example of loading from XML Configuration file:
 .. sourcecode:: csharp
 
     var configurationFileContentsProvider = new FileBasedConfigurationFileContentsProvider(
-                Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration1.xml"));
+                Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml"));
 
     using (var containerInfo = new DiContainerBuilder.DiContainerBuilder()
                    .StartFileBasedDi(configurationFileContentsProvider,

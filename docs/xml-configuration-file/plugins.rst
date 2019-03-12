@@ -39,13 +39,13 @@ To add a plugin do the following:
 - Here is an example of **iocConfiguration/pluginsSetup/pluginSetup** element with explanation of some elements in **pluginSetup** element.
 
 .. code-block:: xml
+    :linenos:
 
     <pluginsSetup>
         <pluginSetup plugin="Plugin1">
             <!--The type in pluginImplementation should be non-abstract class
-                that implements IoC.Configuration.IPlugin and which has a public constructor-->
-            <pluginImplementation type="TestPluginAssembly1.Implementations.Plugin1"
-                                  assembly="pluginassm1">
+                      that implements IoC.Configuration.IPlugin and which has a public constructor-->
+            <pluginImplementation type="TestPluginAssembly1.Implementations.Plugin1">
                 <parameters>
                     <int64 name="param1" value="25" />
                 </parameters>
@@ -53,39 +53,47 @@ To add a plugin do the following:
                     <int64 name="Property2" value="35"/>
                 </injectedProperties>
             </pluginImplementation>
+
             <settings>
                 <int32 name="Int32Setting1" value="25" />
                 <int64 name="Int64Setting1" value="38" />
                 <string name="StringSetting1" value="String Value 1" />
             </settings>
+
+            <webApi>
+                <controllerAssemblies>
+                    <!--
+                    Specify assemblies with API controllers.
+                    The user of IoC.Configuration should add the assemblies to MVC using
+                    IMvcBuilder.AddApplicationPart(System.Reflection.Assembly)
+                    -->
+                    <controllerAssembly assembly="pluginassm1" />
+                    <controllerAssembly assembly="plugin1api" />
+                </controllerAssemblies>
+            </webApi>
+
             <dependencyInjection>
                 <modules>
-                    <module type="ModulesForPlugin1.Ninject.NinjectModule1"
-                            assembly="modules_plugin1">
+                    <module type="ModulesForPlugin1.Ninject.NinjectModule1">
                         <parameters>
                             <int32 name="param1" value="101" />
                         </parameters>
                     </module>
-
-                    <module type="ModulesForPlugin1.Autofac.AutofacModule1"
-                            assembly="modules_plugin1">
+                    <module type="ModulesForPlugin1.Autofac.AutofacModule1">
                         <parameters>
                             <int32 name="param1" value="102" />
                         </parameters>
                     </module>
-
-                    <module type="ModulesForPlugin1.IoC.DiModule1"
-                            assembly="modules_plugin1">
+                    <module type="ModulesForPlugin1.IoC.DiModule1">
                         <parameters>
                             <int32 name="param1" value="103" />
                         </parameters>
                     </module>
                 </modules>
+
                 <services>
-                    <service type="TestPluginAssembly1.Interfaces.IDoor"
-                             assembly="pluginassm1">
+                    <service type="TestPluginAssembly1.Interfaces.IDoor">
                         <implementation type="TestPluginAssembly1.Implementations.Door"
-                                        assembly="pluginassm1"
                                         scope="transient">
                             <parameters>
                                 <int32 name="Color" value="3" />
@@ -93,53 +101,51 @@ To add a plugin do the following:
                             </parameters>
                         </implementation>
                     </service>
-                    <service type="TestPluginAssembly1.Interfaces.IRoom" assembly="pluginassm1">
+
+                    <service type="TestPluginAssembly1.Interfaces.IRoom">
                         <implementation type="TestPluginAssembly1.Implementations.Room"
-                                        assembly="pluginassm1"
                                         scope="transient">
                             <parameters>
                                 <object name="door1" type="TestPluginAssembly1.Interfaces.IDoor"
-                                        assembly="pluginassm1"
                                         value="5,185.1" />
-                                <injectedObject name="door2" type="TestPluginAssembly1.Interfaces.IDoor"
-                                                assembly="pluginassm1" />
+                                <injectedObject name="door2" type="TestPluginAssembly1.Interfaces.IDoor" />
                             </parameters>
                             <injectedProperties>
                                 <object name="Door2" type="TestPluginAssembly1.Interfaces.IDoor"
-                                        assembly="pluginassm1"
                                         value="7,187.3" />
                             </injectedProperties>
                         </implementation>
                     </service>
                 </services>
+
                 <autoGeneratedServices>
-                    <!--The scope for typeFactory implementations is always singleton -->
-                    <!--The function in TestPluginAssembly1.Interfaces.IResourceAccessValidatorFactory that this configuration
-                        implements has the following signature
-                        IEnumerable<TestPluginAssembly1.Interfaces.IResourceAccessValidator> GetValidators(string resourceName);
-                        The type attribute value in returnedType element should be a concrete class (non-abstract and non-interface),
-                        that implements TestPluginAssembly1.Interfaces.IResourceAccessValidator.
-                        Attribute parameter1 can be set to specify conditions when specific type instances will be returned.
-                    -->
-                    <typeFactory interface="TestPluginAssembly1.Interfaces.IResourceAccessValidatorFactory"
-                                 assembly="pluginassm1">
-                        <if parameter1="public_pages">
-                            <returnedType type="TestPluginAssembly1.Interfaces.ResourceAccessValidator1"
-                                          assembly="pluginassm1" />
-                        </if>
-                        <if parameter1="admin_pages">
-                            <returnedType type="TestPluginAssembly1.Interfaces.ResourceAccessValidator1"
-                                          assembly="pluginassm1" />
-                            <returnedType type="TestPluginAssembly1.Interfaces.ResourceAccessValidator2"
-                                          assembly="pluginassm1" />
-                        </if>
-                        <default>
-                            <returnedType type="TestPluginAssembly1.Interfaces.ResourceAccessValidator2"
-                                          assembly="pluginassm1" />
-                            <returnedType type="TestPluginAssembly1.Interfaces.ResourceAccessValidator1"
-                                          assembly="pluginassm1" />
-                        </default>
-                    </typeFactory>
+                    <!--The scope for autoService implementations is always singleton -->
+                    <autoService interface="TestPluginAssembly1.Interfaces.IResourceAccessValidatorFactory">
+                        <autoMethod name="GetValidators"
+                                    returnType="System.Collections.Generic.IEnumerable[TestPluginAssembly1.Interfaces.IResourceAccessValidator]"
+                                    reuseValue="true" >
+                            <methodSignature>
+                                <string paramName="resourceName"/>
+                            </methodSignature>
+                            <if parameter1="public_pages">
+                                <collection>
+                                    <injectedObject type="TestPluginAssembly1.Interfaces.ResourceAccessValidator1"/>
+                                </collection>
+                            </if>
+                            <if parameter1="admin_pages">
+                                <collection>
+                                    <injectedObject type="TestPluginAssembly1.Interfaces.ResourceAccessValidator1"/>
+                                    <injectedObject type="TestPluginAssembly1.Interfaces.ResourceAccessValidator2"/>
+                                </collection>
+                            </if>
+                            <default>
+                                <collection>
+                                    <injectedObject type="TestPluginAssembly1.Interfaces.ResourceAccessValidator2"/>
+                                    <injectedObject type="TestPluginAssembly1.Interfaces.ResourceAccessValidator1"/>
+                                </collection>
+                            </default>
+                        </autoMethod>
+                    </autoService>
                 </autoGeneratedServices>
             </dependencyInjection>
         </pluginSetup>
@@ -206,6 +212,43 @@ An example is demonstrated below:
         }
     }
 
+Element **typeDefinition** in plugin section
+=============================================
+
+Element **iocConfiguration/pluginsSetup/pluginSetup/typeDefinitions/typeDefinition** can be used in plugin section to reference types by type alias, the same way this element is used in non-plugin section.
+
+Refer to :doc:`./using-types-in-configuration` for more details on **typeDefinition** element.
+
+Example of **typeDefintion** elements in **pluginSetup** element:
+-----------------------------------------------------------------
+
+.. code-block:: xml
+    :linenos:
+
+    <pluginsSetup>
+        <pluginSetup plugin="Plugin1">
+            <pluginImplementation type="TestPluginAssembly1.Implementations.Plugin1_Simple" />
+            <typeDefinitions>
+                <!--Generic1_1_of_Interface1_Impl1 type definition overrides the
+                    definition in non-plugins section.-->
+                <typeDefinition alias="ReadOnlyListOfGenericType"
+                                type="System.Collections.Generic.IReadOnlyList" assembly="corlib">
+                    <genericTypeParameters>
+                        <typeDefinition type="SharedServices.Implementations.Generic.Generic3_1" >
+                            <genericTypeParameters>
+                                <typeDefinition
+                                    type="SharedServices.Implementations.Interface1_Impl1" />
+                            </genericTypeParameters>
+                        </typeDefinition>
+                    </genericTypeParameters>
+                </typeDefinition>
+                <typeDefinition alias="IDoor" type="TestPluginAssembly1.Interfaces.IDoor" />
+                <typeDefinition alias="Door" type="TestPluginAssembly1.Implementations.Door" />
+                <typeDefinition alias="plugin1Module" type="ModulesForPlugin1.IoC.DiModule2" />
+            </typeDefinitions>
+        </pluginSetup>
+    <pluginsSetup>
+
 Plugin Settings
 ===============
 
@@ -261,6 +304,7 @@ Example 1: Plugin Specific Implementation for non Plugin Type
 -------------------------------------------------------------
 
 Here is an example of binding a non-plugin service **SharedServices.Interfaces.IInterface5** to plugin specific type **TestPluginAssembly1.Implementations.Interface5_Plugin1Impl**.
+
 
 .. code-block:: xml
 
@@ -321,45 +365,60 @@ Here is an example of binding a plugin service **TestPluginAssembly1.Interfaces.
         <!--...-->
     <iocConfiguration>
 
+Plugin types in **collection** in non-plugin section
+====================================================
+
+Plugin types can be used in value initializer elements for specifying items in **collection** element plugin as well as in non-plugin section.
+
+.. note::
+   Refer to :doc:`./value-initialization-elements/collection` for more details on **collection** element.
+
+.. note::
+   Refer to :doc:`./value-initialization-elements/index` for more details on value intialization elements.
+
+If value of plugin type is used in a collection item in non-plugin section, and the plugin is disabled by setting the value of attribute **enabled** in element **iocConfiguration/plugins/plugin** for the specific plugin, the item will not be included in a collection generated by **IoC.Configuration**.
+
 Autogenerated Services
 ======================
 
-An interface with auto-generated implementations can be specified in element **iocConfiguration/pluginsSetup/pluginSetup/dependencyInjection/autoGeneratedServices**. For more information on autogenerated services see :doc:`./autogenerated-services`.
+An interface with auto-generated implementations can be specified in element **iocConfiguration/pluginsSetup/pluginSetup/dependencyInjection/autoGeneratedServices**. For more information on autogenerated services see :doc:`./autogenerated-services/index`.
 
 Here is an example of **autoGeneratedServices** for a plugin. In this example, **IoC.Configuration** will generate an implementation of **TestPluginAssembly1.Interfaces.IResourceAccessValidatorFactory** and will configure a type binding, that ,apts the interface **IResourceAccessValidatorFactory** to auto-generated type.
 
 .. code-block:: xml
+    :linenos:
 
-        <autoGeneratedServices>
-            <!--The scope for typeFactory implementations is always singleton -->
-            <!--The method in TestPluginAssembly1.Interfaces.IResourceAccessValidatorFactory that this configuration
-                implements has the following signature:
-                IEnumerable<TestPluginAssembly1.Interfaces.IResourceAccessValidator> GetValidators(string resourceName);
+    <autoGeneratedServices>
+        <autoService interface="TestPluginAssembly1.Interfaces.IResourceAccessValidatorFactory">
+            <autoMethod name="GetValidators"
+                        returnType="System.Collections.Generic.IEnumerable[TestPluginAssembly1.Interfaces.IResourceAccessValidator]"
+                        reuseValue="true" >
+                <methodSignature>
+                    <string paramName="resourceName"/>
+                </methodSignature>
 
-                The type attribute value in returnedType element should be a concrete
-                class (non-abstract and non-interface), that implements TestPluginAssembly1.Interfaces.IResourceAccessValidator.
-                Attribute parameter1 maps values of parameter resourceName in GetValidators() method to returned values.
-            -->
-            <typeFactory interface="TestPluginAssembly1.Interfaces.IResourceAccessValidatorFactory"
-                         assembly="pluginassm1">
                 <if parameter1="public_pages">
-                    <returnedType type="TestPluginAssembly1.Interfaces.ResourceAccessValidator1"
-                                  assembly="pluginassm1" />
+                    <collection>
+                        <injectedObject type="TestPluginAssembly1.Interfaces.ResourceAccessValidator1"/>
+                    </collection>
                 </if>
+
                 <if parameter1="admin_pages">
-                    <returnedType type="TestPluginAssembly1.Interfaces.ResourceAccessValidator1"
-                                  assembly="pluginassm1" />
-                    <returnedType type="TestPluginAssembly1.Interfaces.ResourceAccessValidator2"
-                                  assembly="pluginassm1" />
+                    <collection>
+                        <injectedObject type="TestPluginAssembly1.Interfaces.ResourceAccessValidator1"/>
+                        <injectedObject type="TestPluginAssembly1.Interfaces.ResourceAccessValidator2"/>
+                    </collection>
                 </if>
+
                 <default>
-                    <returnedType type="TestPluginAssembly1.Interfaces.ResourceAccessValidator2"
-                                  assembly="pluginassm1" />
-                    <returnedType type="TestPluginAssembly1.Interfaces.ResourceAccessValidator1"
-                                  assembly="pluginassm1" />
+                    <collection>
+                        <injectedObject type="TestPluginAssembly1.Interfaces.ResourceAccessValidator2"/>
+                        <injectedObject type="TestPluginAssembly1.Interfaces.ResourceAccessValidator1"/>
+                    </collection>
                 </default>
-            </typeFactory>
-        </autoGeneratedServices>
+            </autoMethod>
+        </autoService>
+    </autoGeneratedServices>
 
 The definition of interface **IResourceAccessValidatorFactory** is shown below
 

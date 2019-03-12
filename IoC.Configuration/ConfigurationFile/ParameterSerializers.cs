@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 using JetBrains.Annotations;
+using OROptimizer;
 using OROptimizer.Diagnostics.Log;
 using OROptimizer.Serializer;
 
@@ -183,6 +184,27 @@ namespace IoC.Configuration.ConfigurationFile
                     }
                 }
             }
+
+            LogSerializersData();
+        }
+
+        #endregion
+
+        #region Member Functions
+
+        private void LogSerializersData()
+        {
+            if (!LogHelper.Context.Log.IsInfoEnabled)
+                return;
+
+            var serializersLog = new StringBuilder();
+
+            serializersLog.AppendLine("Registered type serializers:");
+
+            foreach (var serializer in TypeBasedSimpleSerializerAggregator.GetRegisteredSerializers())
+                serializersLog.AppendLine($"Serializer for type '{serializer.SerializedType.GetTypeNameInCSharpClass()}' is '{serializer.GetType().GetTypeNameInCSharpClass()}'.");
+
+            LogHelper.Context.Log.Info(serializersLog.ToString());
         }
 
         #endregion

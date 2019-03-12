@@ -9,5 +9,7 @@ Service Bindings
 
     element-service.rst
     element-self-bound-service.rst
+    element-proxy-service.rst
+    element-value-implementation.rst
     implementation-constructor-parameters.rst
     property-injection.rst

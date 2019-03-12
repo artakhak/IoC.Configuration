@@ -341,7 +341,7 @@
           </default>
         </autoMethod>
 
-        <!--Overloaded method GetValidators uses parameters of types System.Int2 and System.string, instead of
+        <!--Overloaded method GetValidators uses parameters of types System.Int32 and System.string, instead of
         SharedServices.DataContracts.ActionTypes and System.Guid, as in case above.-->
         <autoMethod name="GetValidators" 
                     returnType="System.Collections.Generic.IReadOnlyList[SharedServices.Interfaces.IActionValidator]">
@@ -407,7 +407,7 @@
         <!--
         This method is declared in IMemberAmbiguityDemo_Parent3, which is a base interface for IMemberAmbiguityDemo.
         We can provide implementation for this interface, even though it has a similar signature and return type as the method 
-        method IoC.Configuration.Tests.AutoService.Services.IMemberAmbiguityDemo.GetIntValues.
+        IoC.Configuration.Tests.AutoService.Services.IMemberAmbiguityDemo.GetIntValues.
         By using the attribute 'declaringInterface', we make a distinction between these two.
         -->
         <autoMethod name="GetIntValues" returnType="System.Collections.Generic.IReadOnlyList[System.Int32]" 

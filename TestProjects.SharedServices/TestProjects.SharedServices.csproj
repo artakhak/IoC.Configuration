@@ -1,31 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup Label="Globals">
     <SccProjectName>SAK</SccProjectName>
     <SccProvider>SAK</SccProvider>
     <SccAuxPath>SAK</SccAuxPath>
     <SccLocalPath>SAK</SccLocalPath>
   </PropertyGroup>
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
   <PropertyGroup>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <RootNamespace>SharedServices</RootNamespace>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
-  </ItemGroup>
-
   <ItemGroup>
     <Folder Include="ClassesUsedInDepricatedClassTests\" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\2.0.0\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <PackageReference Include="OROptimizer.Shared" Version="2.0.0" />
   </ItemGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+  </ItemGroup>
 </Project>

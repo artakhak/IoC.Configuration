@@ -3,6 +3,7 @@ XML Configuration Template
 ==========================
 
 Here is a template XML configuration file that can be used to get started. This file can be found also in folder **IoC.Configuration.Content**, under the folder, where Nuget package **IoC.Configuration** is downloaded (see the screenshot below).
+This file can also be downloaded from `IoC.Configuration.Template.xml <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/IoC.Configuration.Content/IoC.Configuration.Template.xml>`_
 
 .. image:: ioc.configuration-files.jpg
 
@@ -15,8 +16,8 @@ Here is a template XML configuration file that can be used to get started. This 
         <!--
            This is a simple sample configuration file to use with IoC.Configuration library.
            Some elements and attributes in this XML file should be modified per specific project.
-           For more complete example, look at files IoCConfiguration1.xml and IoCConfiguration2.xml in test project
-           IoC.Configuration.Tests (the test project will be Github.com soon).
+           For more complete example, look at files IoCConfiguration_Overview.xml and some ther configuration files in test project
+           IoC.Configuration.Tests at https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.Tests.
 
            The XML configuration file is validated against schema file IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd,
            which can be found in folder IoC.Cnfiguration.Content in output directory.
@@ -27,7 +28,6 @@ Here is a template XML configuration file that can be used to get started. This 
            To use Visual Studio code completion based on schema contents, right click Properties on this file in Visual Studio, and in Schemas
            field pick the schema IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd.
         -->
-
 
         <iocConfiguration>
 

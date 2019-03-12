@@ -152,7 +152,7 @@
         <serviceToProxy type="IoC.Configuration.Tests.ProxyService.Services.IAppManager_Extension" />
       </proxyService>
       
-      <!--IoC.Configuration.Tests.ProxyService.Services.IAppManager will also be resolved to
+      <!--IoC.Configuration.Tests.ProxyService.Services.IAppManager2 will also be resolved to
           IoC.Configuration.Tests.ProxyService.Services.IAppManager_Extension.-->
       <proxyService type="IoC.Configuration.Tests.ProxyService.Services.IAppManager2" >
         <serviceToProxy type="IoC.Configuration.Tests.ProxyService.Services.IAppManager_Extension"/>

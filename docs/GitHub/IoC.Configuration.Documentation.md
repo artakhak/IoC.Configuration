@@ -37,7 +37,7 @@ Here is an example of configuring and starting the container:
 
 ![](http://oroptimizer.com/IoC.Configuration/GitHubDocs/FileBasedConfiguration1.png)
 
-**The configuration file IoCConfiguration_Overview.xml available in [https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.Tests](https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.Tests)**
+**The configuration file IoCConfiguration_Overview.xml is available in [https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests/IoCConfiguration_Overview.xml](https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests/IoCConfiguration_Overview.xml)**
 
 ```XML
 <?xml version="1.0" encoding="utf-8"?>

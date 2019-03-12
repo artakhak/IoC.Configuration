@@ -1,27 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup Label="Globals">
     <SccProjectName>SAK</SccProjectName>
     <SccProvider>SAK</SccProvider>
     <SccAuxPath>SAK</SccAuxPath>
     <SccLocalPath>SAK</SccLocalPath>
   </PropertyGroup>
-
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
-
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>bin\Debug</OutputPath>
-  </PropertyGroup>  
-  
+  </PropertyGroup>
   <PropertyGroup>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <RootNamespace>TestForceLoadAssembly</RootNamespace>
-  </PropertyGroup>  
-  
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="OROptimizer.Shared" Version="2.0.0" />
   </ItemGroup>
-
 </Project>
