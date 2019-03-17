@@ -7,8 +7,8 @@
   </PropertyGroup>
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.0.1</Version>
-    <PackageTags>IoC DI  InversionOfControl DependencyInjection Autofac Ninject IoC.Configuration IoCConfiguration Inversion of Control Dependency Injection IoC Configuration XML</PackageTags>
+    <Version>2.0.2</Version>
+    <PackageTags>IoC Configuration IoC+Configuration dependency+injection inversion+of+control Autofac Ninject IoC.Configuration dependency+injection+configuration</PackageTags>
     <Authors>Artak Hakobyan</Authors>
     <Company>OROptimizer</Company>
     <Description>The main functions of IoC.Configuration library are:
@@ -25,15 +25,15 @@ In addition, the configuration file has sections for settings, plugins, startup 
 The bindings are specified using IoC.Configuration chained methods, however the actual resolutions are done using one of the popular dependency injection containers, Ninject and Autofac, via extension libraries IoC.Configuration.Ninject and IoC.Configuration.Autofac.
 Note: Use either IoC.Configuration.Ninject 2.0.0 or higher, or IoC.Configuration.Autofac 2.0.0 with IoC.Configuration.Autofac 2.x.x.</Description>
     <Copyright>Copyright 2018 (c) OROptimizer. All rights reserved.</Copyright>
-    <PackageReleaseNotes>-Improvements to classMember element to allow method calls with parameters in configuration file.
--Added a new element parameterValue, to allow referencing auto implemented method parameter values under autoMethod element.
--Made the xml schema "2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd" into an embedded resource.</PackageReleaseNotes>
+    <PackageReleaseNotes>-Reverted the value of property "Build Action" of the schema file "IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd"  back to "Content", so that the file is included in package. This file is needed only for editting the configuration files in XML editors like Visual Studio, other that, the schema file is not needed, since it is an embedded resource as of  version 2.0.1.
+
+-Added a copy of this file with property  "Build Action" set to "Embedded resource".</PackageReleaseNotes>
     <PackageLicenseUrl>https://opensource.org/licenses/mit-license.php</PackageLicenseUrl>
     <RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
     <PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <AssemblyVersion>2.0.1.0</AssemblyVersion>
-    <FileVersion>2.0.1.0</FileVersion>
+    <AssemblyVersion>2.0.2.0</AssemblyVersion>
+    <FileVersion>2.0.2.0</FileVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;NETSTANDARD2_0</DefineConstants>
@@ -60,9 +60,12 @@ Note: Use either IoC.Configuration.Ninject 2.0.0 or higher, or IoC.Configuration
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="IoC.Configuration.Content\IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd">
+    <EmbeddedResource Include="EmbeddedResources\IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <Content Include="IoC.Configuration.Content\IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="IoC.Configuration.Content\IoC.Configuration.Template.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -72,5 +75,8 @@ Note: Use either IoC.Configuration.Ninject 2.0.0 or higher, or IoC.Configuration
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="ConfigurationFile\ParameterElementBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="EmbeddedResources\IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd" />
   </ItemGroup>
 </Project>

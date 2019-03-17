@@ -496,7 +496,7 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 
                 LogHelper.Context.Log.InfoFormat("Loading xml schema '{0}'", HelpersIoC.IoCConfigurationSchemaName);
 
-                using (var stream = GetType().Assembly.GetManifestResourceStream($"IoC.Configuration.IoC.Configuration.Content.{HelpersIoC.IoCConfigurationSchemaName}" ))
+                using (var stream = GetType().Assembly.GetManifestResourceStream($"IoC.Configuration.EmbeddedResources.{HelpersIoC.IoCConfigurationSchemaName}" ))
                 {
                     xmlSchema = XmlSchema.Read(stream, (sender, e) =>
                     {
