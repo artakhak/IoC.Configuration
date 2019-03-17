@@ -19,3 +19,4 @@ On the other hand, if the element is used to specify a returned value in **autoM
     constructed-value.rst
     setting-value.rst
     class-member.rst
+    parameterValue.rst

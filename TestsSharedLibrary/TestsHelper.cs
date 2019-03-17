@@ -20,9 +20,8 @@ namespace TestsSharedLibrary
         public static void SetupLogger()
         {
             LogHelper.RemoveContext();
-            //if (!LogHelper.IsContextInitialized)
             LogHelper.RegisterContext(new LogHelper4TestsContext());
-            Log4Tests.LogLevel = LogLevel.Error;
+            Log4Tests.LogLevel = LogLevel.Info;
             Log4Tests.ResetLogStatistics();
         }
 

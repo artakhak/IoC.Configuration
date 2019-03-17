@@ -49,8 +49,8 @@ namespace IoC.Configuration
         ///     should be successfully validated using the schema file
         ///     IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd.
         /// </summary>
-        /// <returns>Returns a <see cref="Stream" /> object for the configuration file contents.</returns>
-        /// <exception cref="Exception">Throws an exception if the stream fails to be created.</exception>
+        /// <returns>Returns a <see cref="String" /> object for the configuration file contents.</returns>
+        /// <exception cref="Exception">Throws an exception if the xml file load fails.</exception>
         [NotNull]
         string LoadConfigurationFileContents();
 

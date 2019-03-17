@@ -12,5 +12,7 @@ namespace IoC.Configuration.Tests.AutoService.Services
         IReadOnlyList<IActionValidator> GetValidators(ActionTypes actionType, Guid projectGuid);
         void SomeMethodNotInConfigFile(int param1, string param2);
         int SomePropertyNotInConfigFile { get; }
+
+        IActionValidator CreateValidator(ActionTypes actionType, Guid projectGuid);
     }
 }

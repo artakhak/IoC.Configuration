@@ -62,9 +62,9 @@ namespace IoC.Configuration.ConfigurationFile
             return DoGenerateValueCSharp(dynamicAssemblyBuilder);
         }
 
-        public override void Initialize()
+        public override void ValidateAfterChildrenAdded()
         {
-            base.Initialize();
+            base.ValidateAfterChildrenAdded();
 
             ValueTypeInfo = GetValueTypeInfo();
         }

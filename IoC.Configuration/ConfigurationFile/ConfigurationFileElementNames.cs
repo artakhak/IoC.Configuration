@@ -107,6 +107,7 @@ namespace IoC.Configuration.ConfigurationFile
         public const string ValueDouble = "double";
         public const string ValueImplementation = "valueImplementation";
         public const string ValueInjectedObject = "injectedObject";
+        public const string ParameterValue = "parameterValue";
 
         public const string ValueInt16 = "int16";
         public const string ValueInt32 = "int32";

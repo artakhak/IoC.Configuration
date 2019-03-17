@@ -60,6 +60,16 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
         }
 
         /// <summary>
+        ///     Generates the value using reflection. Use this value only at early stages of loading the configuration,
+        ///     when the DI container is not yet initialized.
+        /// </summary>
+        /// <returns></returns>
+        public object GenerateValue()
+        {
+            return _namedValueElement.GenerateValue();
+        }
+
+        /// <summary>
         ///     Gets the name.
         /// </summary>
         /// <value>

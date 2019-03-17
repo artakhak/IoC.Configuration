@@ -87,5 +87,17 @@ namespace IoC.Configuration.ConfigurationFile
         }
 
         #endregion
+
+        [Obsolete("Will be removed after 5/31/2019. This property was deprecated since this does not apply to all parameters. Use IDeserializedValue.ValueAsString for parameters that are instances of IDeserializedValue.")]
+        string INamedValue.ValueAsString
+        {
+            get
+            {
+                if (DecoratedValueInitializerElement is IDeserializedValue deserializedValue)
+                    return deserializedValue.ValueAsString;
+
+                return string.Empty;
+            }
+        }
     }
 }

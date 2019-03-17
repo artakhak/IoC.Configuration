@@ -188,6 +188,32 @@
         which will be auto-implemented as well.-->
       </autoService>
 
+      <!--Demo of referencing auto-implemented method parameters using parameterValue element-->
+      <autoService interface="IoC.Configuration.Tests.AutoService.Services.IAppInfoFactory">
+        <autoMethod name="CreateAppInfo" returnType="IoC.Configuration.Tests.AutoService.Services.IAppInfo">
+          <methodSignature>
+            <int32 paramName="appId"/>
+            <string paramName="appDescription"/>
+          </methodSignature>
+
+          <default>
+            <constructedValue type="IoC.Configuration.Tests.AutoService.Services.AppInfo">
+              <parameters>
+                <!--The value of name attribute is the name of constructor parameter in AppInfo-->
+                <!--
+                The value of paramName attribute is the name of parameter in IAppInfoFactory.CreateAppInfo.
+                This parameter should be present under autoMethod/methodSignature element.
+                -->
+                <!--In this example the values of name and paramName are similar, however they don't 
+                have to be.-->
+                <parameterValue name="appId" paramName="appId" />
+                <parameterValue name="appDescription" paramName="appDescription" />
+              </parameters>
+            </constructedValue>
+          </default>
+        </autoMethod>
+      </autoService>
+
       <!--The scope for autoService implementations is always singleton -->
       <autoService interface="IoC.Configuration.Tests.AutoService.Services.IActionValidatorFactory">
 

@@ -30,13 +30,6 @@ namespace IoC.Configuration.ConfigurationFile
         #region Current Type Interface
 
         /// <summary>
-        ///     Generates the value using reflection. Use this value only at early stages of loading the configuration,
-        ///     when the DI container is not yet initialized.
-        /// </summary>
-        /// <returns></returns>
-        object GenerateValue();
-
-        /// <summary>
         ///     Gets a value indicating whether this instance is resolved from di container.
         /// </summary>
         bool IsResolvedFromDiContainer { get; }

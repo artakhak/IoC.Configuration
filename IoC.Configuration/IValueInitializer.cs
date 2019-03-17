@@ -41,6 +41,13 @@ namespace IoC.Configuration
         [NotNull]
         string GenerateValueCSharp([NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder);
 
+        /// <summary>
+        ///     Generates the value using reflection. Use this value only at early stages of loading the configuration,
+        ///     when the DI container is not yet initialized.
+        /// </summary>
+        /// <returns></returns>
+        object GenerateValue();
+
         #endregion
     }
 }

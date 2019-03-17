@@ -23,6 +23,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
+using System.Collections.Generic;
 using JetBrains.Annotations;
 using OROptimizer.DynamicCode;
 
@@ -36,7 +37,8 @@ namespace IoC.Configuration.ConfigurationFile
         string GenerateValueCSharp([NotNull] ClassMemberData classMemberData, [NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder);
 
         [NotNull]
-        ClassMemberData GetClassMemberData([NotNull] IConfigurationFileElement configurationFileElement, [NotNull] string classMemberPath);
+        ClassMemberData GetClassMemberData([NotNull] IConfigurationFileElement configurationFileElement, [NotNull] string classMemberPath,
+                                           [NotNull, ItemNotNull] IEnumerable<IParameter> parameters);
 
         [CanBeNull]
         object GetValueWithReflection([NotNull] IConfigurationFileElement configurationFileElement, [NotNull] ClassMemberData classMemberData);

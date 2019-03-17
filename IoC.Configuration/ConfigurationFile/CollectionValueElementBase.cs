@@ -23,14 +23,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
+using JetBrains.Annotations;
+using OROptimizer;
+using OROptimizer.DynamicCode;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using JetBrains.Annotations;
-using OROptimizer;
-using OROptimizer.DynamicCode;
 
 namespace IoC.Configuration.ConfigurationFile
 {
@@ -70,18 +70,20 @@ namespace IoC.Configuration.ConfigurationFile
         #endregion
 
         #region ICollectionValueElement Interface Implementation
-
-        public override void AddChild(IConfigurationFileElement child)
+        public override void ValidateAfterChildrenAdded()
         {
-            base.AddChild(child);
+            base.ValidateAfterChildrenAdded();
 
-            if (!(child is IValueInitializerElement valueInitializerElement) || !ItemTypeInfo.Type.IsTypeAssignableFrom(valueInitializerElement.ValueTypeInfo.Type))
-                throw new ConfigurationParseException(child, $"Expects a value of type {ItemTypeInfo.TypeCSharpFullName}.", this);
+            foreach (var child in this.Children)
+            {
+                if (!(child is IValueInitializerElement valueInitializerElement) || !ItemTypeInfo.Type.IsTypeAssignableFrom(valueInitializerElement.ValueTypeInfo.Type))
+                    throw new ConfigurationParseException(child, $"Expects a value of type {ItemTypeInfo.TypeCSharpFullName}.", this);
 
-            var disabledPluginTypeInfo = valueInitializerElement.ValueTypeInfo.GetUniquePluginTypes().FirstOrDefault(x => !x.Assembly.Plugin.Enabled);
+                var disabledPluginTypeInfo = valueInitializerElement.ValueTypeInfo.GetUniquePluginTypes().FirstOrDefault(x => !x.Assembly.Plugin.Enabled);
 
-            if (disabledPluginTypeInfo == null)
-                _valueInitializerElements.Add(valueInitializerElement);
+                if (disabledPluginTypeInfo == null)
+                    _valueInitializerElements.Add(valueInitializerElement);
+            }
         }
 
         public CollectionType CollectionType { get; private set; }

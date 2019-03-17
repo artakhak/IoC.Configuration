@@ -86,9 +86,9 @@ namespace IoC.Configuration.ConfigurationFile
             return DeserializedValue;
         }
 
-        public override void Initialize()
+        public override void ValidateAfterChildrenAdded()
         {
-            base.Initialize();
+            base.ValidateAfterChildrenAdded();
 
             if (ValueTypeInfo == null)
                 throw new ConfigurationParseException(this, "Type information was not initialized.");

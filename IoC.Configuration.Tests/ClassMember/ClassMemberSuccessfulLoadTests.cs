@@ -115,7 +115,7 @@ namespace IoC.Configuration.Tests.ClassMember
         }
 
         /// <summary>
-        /// Validates the usage of class member is autp-property, auto-method,
+        /// Validates the usage of class member is auto-property,
         /// tests the case when class member is static/constant class field, static property or method,
         /// non static property or method.  
         /// </summary>
@@ -131,37 +131,46 @@ namespace IoC.Configuration.Tests.ClassMember
             // Test IAppIds.DefaultAppDescription injected into property 
             Assert.AreEqual(appIds.DefaultAppDescription, appInfos.AllAppInfos[0].AppDescription, false);
 
+            // Test call to a non-static method with parameters
+            Assert.AreEqual(1258, appInfos.AllAppInfos[1].AppId);
+            Assert.AreEqual("App info created with non-static method call.", appInfos.AllAppInfos[1].AppDescription, false);
+
+            // Test call to a static method with parameters
+            Assert.AreEqual(1259, appInfos.AllAppInfos[2].AppId);
+            Assert.AreEqual("App info created with static method call.", appInfos.AllAppInfos[2].AppDescription, false);
+
+
             // Test IAppIds.GetAppId() injected into constructor 
-            Assert.AreEqual(appIds.GetAppId(), appInfos.AllAppInfos[1].AppId);
+            Assert.AreEqual(appIds.GetAppId(), appInfos.AllAppInfos[3].AppId);
 
             // Test IoC.Configuration.Tests.ClassMember.Services.AppIdVars injected into constructor 
             // Note, no binding was provided for AppIdVars (non-interface and n on abstract class with public constructor).
             // IoC.Configuration generated one, since it is used in classMember element.
-            Assert.AreEqual(DiContainer.Resolve<AppIdVars>().NonStaticAppIdVar, appInfos.AllAppInfos[2].AppId);
+            Assert.AreEqual(DiContainer.Resolve<AppIdVars>().NonStaticAppIdVar, appInfos.AllAppInfos[4].AppId);
 
             // Test constant variable ConstAndStaticAppIds.AppId1 used in classMember element as constructor parameter 
-            Assert.AreEqual(ConstAndStaticAppIds.AppId1, appInfos.AllAppInfos[3].AppId);
+            Assert.AreEqual(ConstAndStaticAppIds.AppId1, appInfos.AllAppInfos[5].AppId);
 
             // Test constant variable ConstAndStaticAppIds.AppId1 used in classMember element as constructor parameter 
-            Assert.AreEqual(ConstAndStaticAppIds.App1Description, appInfos.AllAppInfos[3].AppDescription);
+            Assert.AreEqual(ConstAndStaticAppIds.App1Description, appInfos.AllAppInfos[5].AppDescription);
 
             // Test static variable ConstAndStaticAppIds.AppId1 used in classMember element as constructor parameter 
-            Assert.AreEqual(ConstAndStaticAppIds.AppId2, appInfos.AllAppInfos[4].AppId);
+            Assert.AreEqual(ConstAndStaticAppIds.AppId2, appInfos.AllAppInfos[6].AppId);
 
             // Test static variable ConstAndStaticAppIds.AppId1 used in classMember element as constructor parameter 
-            Assert.AreEqual(ConstAndStaticAppIds.App2Description, appInfos.AllAppInfos[4].AppDescription);
+            Assert.AreEqual(ConstAndStaticAppIds.App2Description, appInfos.AllAppInfos[6].AppDescription);
 
             // Test static property ConstAndStaticAppIds.AppId3 used in classMember element as constructor parameter 
-            Assert.AreEqual(ConstAndStaticAppIds.AppId3, appInfos.AllAppInfos[5].AppId);
+            Assert.AreEqual(ConstAndStaticAppIds.AppId3, appInfos.AllAppInfos[7].AppId);
 
             // Test static method ConstAndStaticAppIds.GetApp3Description() used in classMember element as constructor parameter 
-            Assert.AreEqual(ConstAndStaticAppIds.GetApp3Description(), appInfos.AllAppInfos[5].AppDescription);
+            Assert.AreEqual(ConstAndStaticAppIds.GetApp3Description(), appInfos.AllAppInfos[7].AppDescription);
 
             // Test static method ConstAndStaticAppIds.GetAppId4 used in classMember element as constructor parameter 
-            Assert.AreEqual(ConstAndStaticAppIds.GetAppId4(), appInfos.AllAppInfos[6].AppId);
+            Assert.AreEqual(ConstAndStaticAppIds.GetAppId4(), appInfos.AllAppInfos[8].AppId);
 
             // Test enum value IoC.Configuration.Tests.ClassMember.Services.AppTypes.App1 used in classMember element as constructor parameter 
-            Assert.AreEqual((int)AppTypes.App1, appInfos.AllAppInfos[7].AppId);
+            Assert.AreEqual((int)AppTypes.App1, appInfos.AllAppInfos[9].AppId);
         }
 
         /// <summary>
@@ -219,6 +228,11 @@ namespace IoC.Configuration.Tests.ClassMember
         {
             var module1 = (Module1)Configuration.DependencyInjection.Modules.Modules.First(x => x.DiModule.GetType() == typeof(Module1)).DiModule;
             Assert.AreEqual(ConstAndStaticAppIds.DefaultAppId, module1.InjectedValue1);
+
+            var methodCallResult = StaticMethodsWithParameters.GetString(5, "Value 1");
+
+            Assert.AreEqual("Static: 5, Value 1", methodCallResult, false);
+            Assert.AreEqual(methodCallResult, module1.InjectedValue2);
         }
     }
 }

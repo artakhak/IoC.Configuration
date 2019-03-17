@@ -23,9 +23,9 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
 using JetBrains.Annotations;
 using OROptimizer.DynamicCode;
+using System;
 
 namespace IoC.Configuration.ConfigurationFile
 {
@@ -67,6 +67,16 @@ namespace IoC.Configuration.ConfigurationFile
         public string GenerateValueCSharp(IDynamicAssemblyBuilder dynamicAssemblyBuilder)
         {
             return _classMemberValueInitializerHelper.GenerateValueCSharp(ClassMemberData, dynamicAssemblyBuilder);
+        }
+
+        /// <summary>
+        ///     Generates the value using reflection. Use this value only at early stages of loading the configuration,
+        ///     when the DI container is not yet initialized.
+        /// </summary>
+        /// <returns></returns>
+        public object GenerateValue()
+        {
+            return _classMemberValueInitializerHelper.GetValueWithReflection(_configurationFileElement, ClassMemberData);
         }
 
         ITypeInfo ITypedItem.ValueTypeInfo => ClassMemberData.MemberTypeInfo;

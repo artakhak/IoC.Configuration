@@ -1,6 +1,6 @@
-================================
+=================================
 IoCConfiguration_proxyService.xml
-================================
+=================================
 
 This configuration file can be downloaded downloaded from `IoCConfiguration_proxyService.xml <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests/IoCConfiguration_proxyService.xml>`_.
 

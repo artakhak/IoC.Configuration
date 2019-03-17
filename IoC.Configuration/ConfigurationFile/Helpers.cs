@@ -25,6 +25,7 @@
 
 using System;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Xml;
 using JetBrains.Annotations;
@@ -35,6 +36,31 @@ namespace IoC.Configuration.ConfigurationFile
     public static class Helpers
     {
         #region Member Functions
+
+        private static bool AreParametersAMatch([NotNull] [ItemNotNull] MethodInfo methodInfo,
+                                                [NotNull] [ItemNotNull] Type[] parameterTypes)
+        {
+            var parameterInfos = methodInfo.GetParameters();
+
+            if (parameterInfos.Length != parameterTypes.Length)
+                return false;
+
+            for (var i = 0; i < parameterInfos.Length; ++i)
+            {
+                var parameterInfo = parameterInfos[i];
+
+                // For now we do not care about out, ref, in parameters.
+                // Therefore, these methods will be ignored.
+                if (parameterInfo.IsIn || parameterInfo.IsLcid || parameterInfo.IsOut || parameterInfo.IsRetval ||
+                    parameterInfo.ParameterType.IsByRef)
+                    return false;
+
+                if (parameterInfo.ParameterType != parameterTypes[i])
+                    return false;
+            }
+
+            return true;
+        }
 
         /// <summary>
         ///     Converts <paramref name="configurationFileElement" /> to type <typeparamref name="T" />. Throws an exception if the
@@ -214,6 +240,13 @@ namespace IoC.Configuration.ConfigurationFile
                 throw new ConfigurationParseException(requestorFileElement, $"Type '{typeFullName}' was not found in an assembly '{assemblyElement.AbsolutePath}'. Assembly is specified in an element '{ConfigurationFileElementNames.Assembly}' with the value of attribute '{ConfigurationFileAttributeNames.Alias}' equal to '{assemblyElement.Alias}'.");
 
             return type;
+        }
+
+        public static bool IsMethodAMatch(MethodInfo methodInfo, string methodName, Type[] parameterTypes)
+        {
+            return methodInfo.IsPublic &&
+                   methodInfo.Name.Equals(methodName, StringComparison.Ordinal) &&
+                   AreParametersAMatch(methodInfo, parameterTypes);
         }
 
         public static string XmlElementToString(this XmlElement xmlElement)

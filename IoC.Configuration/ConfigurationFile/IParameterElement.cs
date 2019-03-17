@@ -28,7 +28,7 @@ using JetBrains.Annotations;
 
 namespace IoC.Configuration.ConfigurationFile
 {
-    public interface IParameterElement : INamedValueElement
+    public interface IParameterElement : INamedValueElement, IParameter
     {
         #region Current Type Interface
 

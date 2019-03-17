@@ -154,6 +154,9 @@
   </xs:complexType>
 
   <xs:complexType name="classMemberType">
+    <xs:sequence>
+      <xs:element name="parameters" type="namedValuesType" minOccurs="0" maxOccurs="1" />
+    </xs:sequence>
     <xs:attribute name="class" use="optional" type="xs:string" />
     <xs:attribute name="assembly" use="optional" type="xs:string" />
     <xs:attribute name="classRef" use="optional" type="xs:string" />
@@ -163,6 +166,24 @@
   <xs:complexType name="namedClassMemberType" >
     <xs:complexContent>
       <xs:extension base="classMemberType">
+        <xs:attribute name="name" use="required" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="classMemberTypeWithDi">
+    <xs:sequence>
+      <xs:element name="parameters" type="namedValuesTypeWithDi" minOccurs="0" maxOccurs="1" />
+    </xs:sequence>
+    <xs:attribute name="class" use="optional" type="xs:string" />
+    <xs:attribute name="assembly" use="optional" type="xs:string" />
+    <xs:attribute name="classRef" use="optional" type="xs:string" />
+    <xs:attribute name="memberName" use="required" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="namedClassMemberTypeWithDi" >
+    <xs:complexContent>
+      <xs:extension base="classMemberTypeWithDi">
         <xs:attribute name="name" use="required" type="xs:string" />
       </xs:extension>
     </xs:complexContent>
@@ -177,6 +198,18 @@
   <xs:complexType name="namedInjectedObjectType" >
     <xs:complexContent>
       <xs:extension base="injectedObjectType">
+        <xs:attribute name="name" use="required" type="xs:string" />
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="parameterValueType">
+    <xs:attribute name="paramName" use="required" type="xs:string" />
+  </xs:complexType>
+
+  <xs:complexType name="namedParameterValueType" >
+    <xs:complexContent>
+      <xs:extension base="parameterValueType">
         <xs:attribute name="name" use="required" type="xs:string" />
       </xs:extension>
     </xs:complexContent>
@@ -261,11 +294,12 @@
         <xs:element name="datetime" type="datetimeType" />
         <xs:element name="string" type="stringType" />
         <xs:element name="object" type="objectType" />
-        <xs:element name="classMember" type="classMemberType" /> 
+        <xs:element name="classMember" type="classMemberTypeWithDi" /> 
         <xs:element name="settingValue" type="settingValueType" />
         <xs:element name="constructedValue" type="constructedValueTypeWithDi" />
         <xs:element name="injectedObject" type="injectedObjectType" />
         <xs:element name="collection" type="collectionTypeWithDi" />
+        <xs:element name="parameterValue" type="parameterValueType" />
       </xs:choice>
     </xs:sequence>
   </xs:complexType>
@@ -350,7 +384,8 @@
         <xs:element name="constructedValue" type="namedConstructedValueTypeWithDi" minOccurs="1" maxOccurs="1"/>
         <xs:element name="injectedObject" type="namedInjectedObjectType" minOccurs="1" maxOccurs="1" />
         <xs:element name="collection" type="namedCollectionTypeWithDi" minOccurs="1" maxOccurs="1" />
-        <xs:element name="classMember" type="namedClassMemberType" minOccurs="1" maxOccurs="1" />
+        <xs:element name="classMember" type="namedClassMemberTypeWithDi" minOccurs="1" maxOccurs="1" />
+        <xs:element name="parameterValue" type="namedParameterValueType" minOccurs="1" maxOccurs="1" />
       </xs:choice>
     </xs:sequence>
   </xs:complexType>
@@ -565,7 +600,7 @@
         <xs:element name="collection" type="collectionTypeWithDi" />
         <xs:element name="settingValue" type="settingValueType" />
         <xs:element name="object" type="objectType" minOccurs="1" maxOccurs="1" />
-        <xs:element name="classMember" type="classMemberType" minOccurs="1" maxOccurs="1" />
+        <xs:element name="classMember" type="classMemberTypeWithDi" minOccurs="1" maxOccurs="1" />
         <xs:element name="constructedValue" type="constructedValueTypeWithDi" minOccurs="1" maxOccurs="1" />
       </xs:choice>
       <xs:attribute name="scope" type="scopeValues" use="required" />
@@ -692,7 +727,8 @@
       <xs:element name="object" type="objectType" />
       <xs:element name="settingValue" type="settingValueType" />
       <xs:element name="collection" type="collectionTypeWithDi" />
-      <xs:element name="classMember" type="classMemberType" />
+      <xs:element name="classMember" type="classMemberTypeWithDi" />
+      <xs:element name="parameterValue" type="parameterValueType" />
     </xs:choice>
   </xs:complexType>
   
@@ -729,7 +765,8 @@
         <xs:element name="object" type="objectType" />
         <xs:element name="settingValue" type="settingValueType" />
         <xs:element name="collection" type="collectionTypeWithDi" />
-        <xs:element name="classMember" type="classMemberType" />
+        <xs:element name="classMember" type="classMemberTypeWithDi" />
+        <xs:element name="parameterValue" type="parameterValueType" />
       </xs:choice>
       <xs:attribute name="name" type="xs:string" use="required" />
       <xs:attribute name="returnType" use="optional" type="xs:string" />

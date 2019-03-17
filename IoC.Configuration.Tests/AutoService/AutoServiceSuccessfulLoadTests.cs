@@ -419,5 +419,16 @@ namespace IoC.Configuration.Tests.AutoService
             validators2 = actionValidatorFactory.GetValidators((int)ActionTypes.ViewFilesList, Guid.Empty.ToString());
             validateReuseResult(validators1, validators2, false, 4);
         }
+
+        [TestMethod]
+        public void ParameterValue_Tests()
+        {
+            var appInfoFactory = DiContainer.Resolve<IAppInfoFactory>();
+
+            var appInfo = appInfoFactory.CreateAppInfo(10, "App 10");
+
+            Assert.AreEqual(10, appInfo.AppId);
+            Assert.AreEqual("App 10", appInfo.AppDescription, false);
+        }
     }
 }

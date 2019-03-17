@@ -27,7 +27,7 @@ using System;
 
 namespace IoC.Configuration.ConfigurationFile
 {
-    public interface INamedValueElement : INamedItem, IValueInitializerElement
+    public interface INamedValueElement : INamedValue, IValueInitializerElement
     {
         #region Current Type Interface
 

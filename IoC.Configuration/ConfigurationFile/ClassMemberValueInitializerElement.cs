@@ -23,19 +23,20 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-using System.Xml;
 using JetBrains.Annotations;
 using OROptimizer.DynamicCode;
+using System.Collections.Generic;
+using System.Xml;
 
 namespace IoC.Configuration.ConfigurationFile
 {
     public class ClassMemberValueInitializerElement : ValueInitializerElement, IClassMemberValueInitializer
     {
         #region Member Variables
-
         [NotNull]
         private readonly IClassMemberValueInitializerHelper _classMemberValueInitializerHelper;
 
+        private IParameters _parameters;
         #endregion
 
         #region  Constructors
@@ -52,6 +53,7 @@ namespace IoC.Configuration.ConfigurationFile
         #region IClassMemberValueInitializer Interface Implementation
 
         public ClassMemberData ClassMemberData { get; private set; }
+        
 
         #endregion
 
@@ -60,6 +62,14 @@ namespace IoC.Configuration.ConfigurationFile
         protected override string DoGenerateValueCSharp(IDynamicAssemblyBuilder dynamicAssemblyBuilder)
         {
             return _classMemberValueInitializerHelper.GenerateValueCSharp(ClassMemberData, dynamicAssemblyBuilder);
+        }
+
+        public override void AddChild(IConfigurationFileElement child)
+        {
+            base.AddChild(child);
+
+            if (child is IParameters parameters)
+                _parameters = parameters;
         }
 
 
@@ -79,8 +89,15 @@ namespace IoC.Configuration.ConfigurationFile
             var classInfo = TypeHelper.GetTypeInfo(this, ConfigurationFileAttributeNames.DeclaringClass,
                 ConfigurationFileAttributeNames.Assembly, ConfigurationFileAttributeNames.DeclaringClassRef);
 
+            IEnumerable<IParameter> parameters;
+
+            if (_parameters == null)
+                parameters = new List<IParameter>();
+            else
+                parameters = _parameters.AllParameters;
+
             var memberName = GetAttributeValue(ConfigurationFileAttributeNames.MemberName);
-            ClassMemberData = _classMemberValueInitializerHelper.GetClassMemberData(this, $"{classInfo.TypeCSharpFullName}.{memberName}");
+            ClassMemberData = _classMemberValueInitializerHelper.GetClassMemberData(this, $"{classInfo.TypeCSharpFullName}.{memberName}", parameters);
 
             return ClassMemberData.MemberTypeInfo;
         }

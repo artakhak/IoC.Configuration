@@ -23,8 +23,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-using System.Reflection;
 using JetBrains.Annotations;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 
 namespace IoC.Configuration.ConfigurationFile
 {
@@ -33,11 +35,13 @@ namespace IoC.Configuration.ConfigurationFile
         #region  Constructors
 
         public ClassMemberData([NotNull] ITypeInfo classInfo, [NotNull] ITypeInfo memberTypeInfo, [NotNull] MemberInfo classMemberInfo,
+                               [NotNull, ItemNotNull] IEnumerable<IParameter> parameters,
                                bool isInjectedClassMember, ClassMemberCategory classMemberCategory)
         {
             ClassInfo = classInfo;
             MemberTypeInfo = memberTypeInfo;
             ClassMemberInfo = classMemberInfo;
+            Parameters = parameters.ToList();
             IsInjectedClassMember = isInjectedClassMember;
             ClassMemberCategory = classMemberCategory;
         }
@@ -58,6 +62,9 @@ namespace IoC.Configuration.ConfigurationFile
 
         [NotNull]
         public ITypeInfo MemberTypeInfo { get; }
+
+        [NotNull, ItemNotNull]
+        public IReadOnlyList<IParameter> Parameters { get; }
 
         #endregion
     }

@@ -4,12 +4,14 @@ namespace IoC.Configuration.Tests.ClassMember
 {
     public class Module1 : ModuleAbstr
     {
-        public Module1(int param1)
+        public Module1(int param1, string param2)
         {
             InjectedValue1 = param1;
+            InjectedValue2 = param2;
         }
 
         public int InjectedValue1 { get; }
+        public string InjectedValue2 { get; }
 
         /// <summary>
         ///     Override this method to register services. The body of overridden method might have statements like:

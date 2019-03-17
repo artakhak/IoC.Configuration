@@ -15,8 +15,6 @@ namespace IoC.Configuration.Tests.TestTemplateFiles
     /// <seealso cref="IoC.Configuration.Tests.TestTemplateFiles.IoCConfigurationTestsBase" />
     public abstract class IoCConfigurationTestsForSuccessfullLoad
     {
-       
-        //protected static DiImplementationType DiImplementationType { get;  }
         protected static void OnClassInitialize(DiImplementationType diImplementationType,
                                                 [NotNull] string configurationRelativePath,
                                                 [CanBeNull] IDiModule[] additionalModulesToLoad = null,

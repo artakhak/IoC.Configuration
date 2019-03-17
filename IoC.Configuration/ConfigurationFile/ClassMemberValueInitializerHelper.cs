@@ -109,18 +109,26 @@ namespace IoC.Configuration.ConfigurationFile
             valueCSharpStrBldr.Append($".{classMemberData.ClassMemberInfo.Name}");
 
             if (classMemberData.ClassMemberCategory == ClassMemberCategory.Method)
-                valueCSharpStrBldr.Append("()");
+            {
+                valueCSharpStrBldr.Append("(");
+                valueCSharpStrBldr.Append(string.Join(",", classMemberData.Parameters.Select(x => x.GenerateValueCSharp(dynamicAssemblyBuilder))));
+                valueCSharpStrBldr.Append(")");
+            }
+                
 
             return valueCSharpStrBldr.ToString();
         }
 
-        public ClassMemberData GetClassMemberData(IConfigurationFileElement configurationFileElement, string classMemberPath)
+        public ClassMemberData GetClassMemberData(IConfigurationFileElement configurationFileElement, string classMemberPath,
+                                                  IEnumerable<IParameter> parameters)
         {
             ITypeInfo classInfo = null;
             ITypeInfo memberTypeInfo;
             string classMemberName = null;
+
+            Type[] parameterTypes = parameters.Select(x => x.ValueTypeInfo.Type).ToArray();
+
             var allMatchedMemberInfos = new List<MemberInfo>();
-            //MemberInfo memberInfo = null;
             var isStaticMember = true;
             var classMemberCategory = ClassMemberCategory.Field;
 
@@ -133,7 +141,6 @@ namespace IoC.Configuration.ConfigurationFile
                 throw new ConfigurationParseException(configurationFileElement, $"No class member is specified in '{classMemberPath}'. {ExamplesOfValidClassPaths}");
 
             var typeFullName = classMemberPath.Substring(0, lastIndexofDot).Trim();
-            ;
 
             if (typeFullName.Length == 0)
                 throw new ConfigurationParseException(configurationFileElement, $"No class name is provided in {classMemberPath}. {ExamplesOfValidClassPaths}");
@@ -169,59 +176,83 @@ namespace IoC.Configuration.ConfigurationFile
 
                 void processType(Type type, ref bool stopProcessingParam)
                 {
-                    var memberInfos = type.GetMembers().Where(x =>
-                        classMemberName.Equals(x.Name, StringComparison.Ordinal)).ToList();
+                    MemberInfo memberInfo = null;
 
-                    if (memberInfos.Count == 0)
-                        return;
-
-                    MemberInfo memberInfo;
-                    if (memberInfos[0] is MethodInfo)
+                    try
                     {
-                        var methodInfo = (MethodInfo) memberInfos.FirstOrDefault(x => x is MethodInfo methodInfo2 &&
-                                                                                      methodInfo2.IsPublic &&
-                                                                                      methodInfo2.GetParameters().Length == 0);
-                        if (methodInfo == null)
+                        if (parameterTypes.Length > 0)
+                        {
+                            // Lets try to find a method first.
+                            var methodInfo = type.GetMethods().FirstOrDefault(x =>
+                                Helpers.IsMethodAMatch(x, classMemberName, parameterTypes));
+
+                            if (methodInfo != null)
+                            {
+                                memberInfo = methodInfo;
+
+                                classMemberCategory = ClassMemberCategory.Method;
+                                isStaticMember = methodInfo.IsStatic;
+                                memberReturnType = methodInfo.ReturnType;
+                            }
+
+                            return;
+                        }
+
+                        var memberInfos = type.GetMembers().Where(x =>
+                            classMemberName.Equals(x.Name, StringComparison.Ordinal)).ToList();
+
+                        if (memberInfos.Count == 0)
                             return;
 
-                        memberInfo = methodInfo;
-                        classMemberCategory = ClassMemberCategory.Method;
-                        isStaticMember = methodInfo.IsStatic;
-                        memberReturnType = methodInfo.ReturnType;
-                    }
-                    else
-                    {
-                        memberInfo = memberInfos[0];
 
-                        if (memberInfo is FieldInfo fieldInfo)
+                        if (memberInfos[0] is MethodInfo)
                         {
-                            if (!fieldInfo.IsPublic)
+                            var methodInfo = (MethodInfo)memberInfos.FirstOrDefault(x => x is MethodInfo methodInfo2 &&
+                                                                                         methodInfo2.IsPublic &&
+                                                                                         methodInfo2.GetParameters().Length == 0);
+                            if (methodInfo == null)
                                 return;
 
-                            //memberInfo = currMemberInfo;
-                            classMemberCategory = ClassMemberCategory.Field;
-                            isStaticMember = fieldInfo.IsStatic || fieldInfo.IsLiteral;
-                            memberReturnType = fieldInfo.FieldType;
+                            memberInfo = methodInfo;
+                            classMemberCategory = ClassMemberCategory.Method;
+                            isStaticMember = methodInfo.IsStatic;
+                            memberReturnType = methodInfo.ReturnType;
                         }
-                        else if (memberInfo is PropertyInfo propertyInfo)
+                        else
                         {
-                            var getMethod = propertyInfo.GetGetMethod();
+                            memberInfo = memberInfos[0];
 
-                            if (!getMethod.IsPublic)
-                                return;
+                            if (memberInfo is FieldInfo fieldInfo)
+                            {
+                                if (!fieldInfo.IsPublic)
+                                    return;
+                               
+                                classMemberCategory = ClassMemberCategory.Field;
+                                isStaticMember = fieldInfo.IsStatic || fieldInfo.IsLiteral;
+                                memberReturnType = fieldInfo.FieldType;
+                            }
+                            else if (memberInfo is PropertyInfo propertyInfo)
+                            {
+                                var getMethod = propertyInfo.GetGetMethod();
 
-                            classMemberCategory = ClassMemberCategory.Property;
-                            isStaticMember = getMethod.IsStatic;
-                            memberReturnType = getMethod.ReturnType;
+                                if (!getMethod.IsPublic)
+                                    return;
+
+                                classMemberCategory = ClassMemberCategory.Property;
+                                isStaticMember = getMethod.IsStatic;
+                                memberReturnType = getMethod.ReturnType;
+                            }
                         }
                     }
-
-                    if (memberInfo != null)
+                    finally
                     {
-                        allMatchedMemberInfos.Add(memberInfo);
+                        if (memberInfo != null)
+                        {
+                            allMatchedMemberInfos.Add(memberInfo);
 
-                        if (type == classInfo.Type)
-                            stopProcessingParam = true;
+                            if (type == classInfo.Type)
+                                stopProcessingParam = true;
+                        }
                     }
                 }
 
@@ -237,14 +268,25 @@ namespace IoC.Configuration.ConfigurationFile
                     var errorMessage = new StringBuilder();
                     errorMessage.AppendFormat("Member with name '{0}'", classMemberName);
 
+                    if (parameterTypes.Length > 0)
+                    {
+                        errorMessage.AppendFormat(" and parameters of types: ({0})",
+                            string.Join(",", parameters.Select(x => x.ValueTypeInfo.TypeCSharpFullName)));
+                    }
+                    else
+                    {
+                        errorMessage.Append(" and no parameters");
+                    }
+
+
                     if (allMatchedMemberInfos.Count == 0)
                     {
-                        errorMessage.AppendFormat("was not found in type '{0}' or any of its parents.", classInfo.TypeCSharpFullName);
+                        errorMessage.AppendFormat(" was not found in type '{0}' or any of its parents.", classInfo.TypeCSharpFullName);
                         errorMessage.AppendLine();
                     }
                     else
                     {
-                        errorMessage.AppendFormat("was not found in type '{0}', however a member with this name occurs multiple times in parents of type '{0}'.",
+                        errorMessage.AppendFormat(" was not found in type '{0}', however a member with this name occurs multiple times in parents of type '{0}'.",
                             classInfo.TypeCSharpFullName);
                         errorMessage.AppendLine();
 
@@ -266,7 +308,7 @@ namespace IoC.Configuration.ConfigurationFile
                 }
             }
 
-            return new ClassMemberData(classInfo, memberTypeInfo, allMatchedMemberInfos[0], !isStaticMember, classMemberCategory);
+            return new ClassMemberData(classInfo, memberTypeInfo, allMatchedMemberInfos[0], parameters,  !isStaticMember, classMemberCategory);
         }
 
         public object GetValueWithReflection(IConfigurationFileElement configurationFileElement, ClassMemberData classMemberData)
@@ -292,7 +334,12 @@ namespace IoC.Configuration.ConfigurationFile
                 classMemberInfo = propertyInfo.GetGetMethod();
 
             if (classMemberInfo is MethodInfo methodInfo)
-                return methodInfo.Invoke(injectedObject, new object[0]);
+            {
+                //return methodInfo.Invoke(injectedObject, new object[0]);
+                return methodInfo.Invoke(injectedObject, classMemberData.Parameters.Select(x =>
+                   x.GenerateValue()).ToArray());
+            }
+                
 
             if (classMemberInfo is FieldInfo fieldInfo)
                 return fieldInfo.GetValue(injectedObject);

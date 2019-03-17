@@ -23,15 +23,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Loader;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Xml;
-using System.Xml.Schema;
 using IoC.Configuration.ConfigurationFile;
 using IoC.Configuration.DependencyInjection;
 using IoC.Configuration.DiContainer;
@@ -45,6 +36,15 @@ using OROptimizer;
 using OROptimizer.Diagnostics.Log;
 using OROptimizer.DynamicCode;
 using OROptimizer.Serializer;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.Loader;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml;
+using System.Xml.Schema;
 
 namespace IoC.Configuration.DiContainerBuilder.FileBased
 {
@@ -492,32 +492,38 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
             try
             {
                 // Load XML schema file
-                var xmlSchemaPath = Path.Combine(_entryAssemblyFolder, HelpersIoC.SchemaFileFolderRelativeLocation, HelpersIoC.IoCConfigurationSchemaName);
+                XmlSchema xmlSchema = null;
 
-                LogHelper.Context.Log.InfoFormat("Loading xml schema from '{0}'", xmlSchemaPath);
-                var reader = new XmlTextReader(xmlSchemaPath);
-                var xmlSchema = XmlSchema.Read(reader, (sender, e) =>
+                LogHelper.Context.Log.InfoFormat("Loading xml schema '{0}'", HelpersIoC.IoCConfigurationSchemaName);
+
+                using (var stream = GetType().Assembly.GetManifestResourceStream($"IoC.Configuration.IoC.Configuration.Content.{HelpersIoC.IoCConfigurationSchemaName}" ))
                 {
-                    if (e.Exception != null)
-                        throw e.Exception;
+                    xmlSchema = XmlSchema.Read(stream, (sender, e) =>
+                    {
+                        if (e.Exception != null)
+                            throw e.Exception;
 
-                    if (e.Severity == XmlSeverityType.Error)
-                        throw new Exception($"Error in XML Schema file: '{xmlSchemaPath}'. Schema load message: {e.Message}");
-                });
+                        if (e.Severity == XmlSeverityType.Error)
+                            throw new Exception($"Error in XML Schema : '{HelpersIoC.IoCConfigurationSchemaName}'. Schema load message: {e.Message}");
+                    });
+                }
 
                 schemaSet.Add(xmlSchema);
 
                 // Load XML file
                 var xmlDocument = new XmlDocument {Schemas = schemaSet};
 
-                LogHelper.Context.Log.InfoFormat("Loading XML configuration file from '{0}'", configurationFileContentsProvider.ConfigurationFileSourceDetails);
-
+                LogHelper.Context.Log.InfoFormat("Loading XML configuration file from '{0}'.", configurationFileContentsProvider.ConfigurationFileSourceDetails);
+                
                 using (var stringReader = new StringReader(configurationFileContentsProvider.LoadConfigurationFileContents()))
                 {
                     xmlDocument.Load(stringReader);
                 }
 
                 _configurationFileXmlDocumentLoaded?.Invoke(this, new ConfigurationFileXmlDocumentLoadedEventArgs(xmlDocument));
+
+                LogHelper.Context.Log.InfoFormat("Validating the configuration file against the schema '{0}'.",
+                    HelpersIoC.IoCConfigurationSchemaName);
 
                 xmlDocument.Validate((sender, e) =>
                 {

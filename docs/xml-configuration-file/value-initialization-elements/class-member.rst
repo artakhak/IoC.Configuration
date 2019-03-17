@@ -102,3 +102,49 @@ In the example below, we reference a class member **IoC.Configuration.Tests.Clas
             </default>
         </autoMethod>
     </autoService>
+
+Example 3: Using **classMember** to call methods with parameters
+================================================================
+
+If the class member is a method, we can use **parameters** child element to specify parameter values when the method is called.
+
+See the usage of **classMember** elements in the example below.
+
+.. code-block:: xml
+    :linenos:
+
+    <autoService interface="IoC.Configuration.Tests.ClassMember.Services.IAppInfos">
+      <autoProperty name="AllAppInfos"
+          returnType="System.Collections.Generic.IReadOnlyList[....Services.IAppInfo]" >
+        <collection>
+          <!--
+          An example of calling a non static factory method to create an instance of
+          IAppInfo. Since method IAppInfoFactory.CreateAppInfo(appId, appDescription)
+          is non-static, an instance of IAppInfoFactory will be resolved using the DI
+          container.
+          Also, since IAppInfoFactory is an interface, a binding for IAppInfoFactory
+          should be configured in configuration file or in some module.
+          -->
+          <classMember class="...Tests.ClassMember.Services.IAppInfoFactory"
+                       memberName="CreateAppInfo">
+            <parameters>
+              <int32 name="appId" value="1258"/>
+              <string name="appDescription"
+                      value="App info created with non-static method call."/>
+            </parameters>
+          </classMember>
+          <!--
+          An example of calling a static factory method to create an instance
+          of IAppInfo.
+          -->
+          <classMember class="....Tests.ClassMember.Services.StaticAppInfoFactory"
+                       memberName="CreateAppInfo">
+            <parameters>
+              <int32 name="appId" value="1259"/>
+              <string name="appDescription"
+                      value="App info created with static method call."/>
+            </parameters>
+          </classMember>
+        </collection>
+      </autoProperty>
+    </autoService>

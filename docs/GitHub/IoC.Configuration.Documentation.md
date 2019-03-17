@@ -788,9 +788,36 @@ Here is an example of configuring and starting the container:
                              memberName="App1"/>
               </parameters>
             </constructedValue>
+
+            <!--
+            An example of calling a non static factory method to create an instance of IAppInfo.             
+            Since method IoC.Configuration.Tests.ClassMember.Services.IAppInfoFactory.CreateAppInfo(appId, appDescription)
+            is non-static, an instance of IAppInfoFactory will be resolved using the DI container.
+            Also, since IAppInfoFactory is an interface, a binding for IAppInfoFactory should be configured in configuration
+            file or in some module.
+            -->
+            <classMember class="IoC.Configuration.Tests.ClassMember.Services.IAppInfoFactory" memberName="CreateAppInfo">
+              <parameters>
+                <int32 name="appId" value="1258"/>
+                <string name="appDescription" value="App info created with non-static method call."/>
+              </parameters>
+            </classMember>
+
+            <!--
+            An example of calling a static factory method to create an instance of IAppInfo.
+            -->
+            <classMember class="IoC.Configuration.Tests.ClassMember.Services.StaticAppInfoFactory" memberName="CreateAppInfo">
+              <parameters>
+                <int32 name="appId" value="1259"/>
+                <string name="appDescription" value="App info created with static method call."/>
+              </parameters>
+            </classMember>
           </collection>
         </valueImplementation>
+      </service>
 
+      <service type="IoC.Configuration.Tests.ClassMember.Services.IAppInfoFactory">
+        <implementation type="IoC.Configuration.Tests.ClassMember.Services.AppInfoFactory" scope="singleton"/>
       </service>
     </services>
 
@@ -822,6 +849,32 @@ Here is an example of configuring and starting the container:
 
         <!---IoC.Configuration.Tests.AutoService.Services.IProjectGuids also has a method NotImplementedMethod()
             which will be auto-implemented as well.-->
+      </autoService>
+
+      <!--Demo of referencing auto-implemented method parameters using parameterValue element-->
+      <autoService interface="IoC.Configuration.Tests.AutoService.Services.IAppInfoFactory">
+        <autoMethod name="CreateAppInfo" returnType="IoC.Configuration.Tests.AutoService.Services.IAppInfo">
+          <methodSignature>
+            <int32 paramName="appId"/>
+            <string paramName="appDescription"/>
+          </methodSignature>
+
+          <default>
+            <constructedValue type="IoC.Configuration.Tests.AutoService.Services.AppInfo">
+              <parameters>
+                <!--The value of name attribute is the name of constructor parameter in AppInfo-->
+                <!--
+                The value of paramName attribute is the name of parameter in IAppInfoFactory.CreateAppInfo.
+                This parameter should be present under autoMethod/methodSignature element.
+                -->
+                <!--In this example the values of name and paramName are similar, however they don't 
+                have to be.-->
+                <parameterValue name="appId" paramName="appId" />
+                <parameterValue name="appDescription" paramName="appDescription" />
+              </parameters>
+            </constructedValue>
+          </default>
+        </autoMethod>
       </autoService>
 
       <!--The scope for autoService implementations is always singleton -->

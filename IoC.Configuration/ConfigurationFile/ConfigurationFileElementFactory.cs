@@ -102,7 +102,6 @@ namespace IoC.Configuration.ConfigurationFile
 
             IConfigurationFileElement configurationFileElement = null;
 
-
             if (parentConfigurationFileElement is IMethodSignatureElement methodSignatureElement)
             {
                 configurationFileElement = new MethodSignatureParameterElement(xmlElement, methodSignatureElement, _typeHelper);
@@ -461,6 +460,9 @@ namespace IoC.Configuration.ConfigurationFile
 
                 case ConfigurationFileElementNames.ClassMember:
                     return new ClassMemberValueInitializerElement(xmlElement, parentConfigurationFileElement, _typeHelper, _classMemberValueInitializerHelper);
+
+                case ConfigurationFileElementNames.ParameterValue:
+                    return new ParameterValueInitializerElement(xmlElement, parentConfigurationFileElement, _typeHelper);
             }
 
             throw new InvalidElementConfigurationParseException(xmlElement, parentConfigurationFileElement);

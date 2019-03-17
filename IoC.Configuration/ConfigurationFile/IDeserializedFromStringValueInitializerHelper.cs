@@ -38,7 +38,7 @@ namespace IoC.Configuration.ConfigurationFile
                                    [NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder);
 
         [CanBeNull]
-        object GetDeserializedValue([NotNull] IConfigurationFileElement requestingConfigurationFileElement, [NotNull] ITypeInfo valuetypeInfo, [NotNull] string valueAsString);
+        object GetDeserializedValue([NotNull] IConfigurationFileElement requestingConfigurationFileElement, [NotNull] ITypeInfo valueTypeInfo, [NotNull] string valueAsString);
 
         #endregion
     }

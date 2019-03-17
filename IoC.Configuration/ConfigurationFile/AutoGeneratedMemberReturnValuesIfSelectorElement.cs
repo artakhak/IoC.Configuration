@@ -116,7 +116,7 @@ namespace IoC.Configuration.ConfigurationFile
                         // Lets call de-serialize to make sure the value is correct
                         valueAsString = attributeValue.Substring(ClassMemberReferencePrefix.Length).Trim();
 
-                        var classMemberData = _classMemberValueInitializerHelper.GetClassMemberData(this, valueAsString);
+                        var classMemberData = _classMemberValueInitializerHelper.GetClassMemberData(this, valueAsString, new IParameter[0]);
                         valueInitializer = new ClassMemberValueInitializer(this, _classMemberValueInitializerHelper, classMemberData);
                     }
                     else

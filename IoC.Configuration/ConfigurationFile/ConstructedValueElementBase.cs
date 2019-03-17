@@ -67,9 +67,9 @@ namespace IoC.Configuration.ConfigurationFile
                 Parameters = parameters;
         }
 
-        public override void Initialize()
+        public override void ValidateAfterChildrenAdded()
         {
-            base.Initialize();
+            base.ValidateAfterChildrenAdded();
 
             _implementedTypeValidator.ValidateImplementationType(this, ValueTypeInfo);
         }
