@@ -1,0 +1,59 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_0.cs" />
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_1.cs" />
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_2.cs" />
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_3.cs" />
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_4.cs" />
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_5.cs" />
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_6.cs" />
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_7.cs" />
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_8.cs" />
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_9.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="..\IoC.Configuration.Tests\IoCConfiguration_collection.xml" Link="IoCConfiguration_collection.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.5.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />
+    <!--PackageReference Include="Ninject" Version="3.3.4" />-->
+  </ItemGroup>
+
+  <ItemGroup><!-- <ProjectReference Include="..\..\..\..\DownloadedThirdPartySrc\Ninject\Ninject-master\src\Ninject\Ninject.csproj" />
+    <ProjectReference Include="..\..\TestsSharedLibrary\TestsSharedLibrary.csproj" />
+    <ProjectReference Include="..\IoC.Configuration.Autofac\IoC.Configuration.Autofac.csproj" />
+    <ProjectReference Include="..\IoC.Configuration.Ninject\IoC.Configuration.Ninject.csproj" />
+    <ProjectReference Include="..\IoC.Configuration.Tests\IoC.Configuration.Tests.csproj" />
+    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+    <ProjectReference Include="..\TestProjects.AssemblyToTestAssemblyResolution\TestProjects.AssemblyToTestAssemblyResolution.csproj" />
+    <ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly1\TestProjects.DynamicallyLoadedAssembly1.csproj" />
+    <ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly2\TestProjects.DynamicallyLoadedAssembly2.csproj" />
+    <ProjectReference Include="..\TestProjects.ModulesForPlugin1\TestProjects.ModulesForPlugin1.csproj" />
+    <ProjectReference Include="..\TestProjects.ModulesForPlugin2\TestProjects.ModulesForPlugin2.csproj" />
+    <ProjectReference Include="..\TestProjects.Modules\TestProjects.Modules.csproj" />
+    <ProjectReference Include="..\TestProjects.Plugin1WebApiControllers\TestProjects.Plugin1WebApiControllers.csproj" />
+    <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
+    <ProjectReference Include="..\TestProjects.TestForceLoadAssembly\TestProjects.TestForceLoadAssembly.csproj" />
+    <ProjectReference Include="..\TestProjects.TestPluginAssembly1\TestProjects.TestPluginAssembly1.csproj" />
+    <ProjectReference Include="..\TestProjects.TestPluginAssembly2\TestProjects.TestPluginAssembly2.csproj" />
+    <ProjectReference Include="..\TestProjects.TestPluginAssembly3\TestProjects.TestPluginAssembly3.csproj" />-->
+  
+    <Folder Include="DynamicallyGenericClasses\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\DownloadedThirdPartySrc\Ninject\Ninject-master\src\Ninject\Ninject.csproj" />
+  </ItemGroup>
+
+</Project>

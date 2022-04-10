@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>XML Configuration Template &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="IoCConfiguration_Overview.xml" href="IoCConfiguration_Overview.generated.html" />
+    <link rel="prev" title="XML Configuration File Schema" href="xml-configuration-file-schema.generated.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="IoCConfiguration_Overview.generated.html" title="IoCConfiguration_Overview.xml"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="xml-configuration-file-schema.generated.html" title="XML Configuration File Schema"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Sample Files</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">XML Configuration Template</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="xml-configuration-template">
+<h1>XML Configuration Template<a class="headerlink" href="#xml-configuration-template" title="Permalink to this headline">¶</a></h1>
+<p>Here is a template XML configuration file that can be used to get started. This file can be found also in folder <strong>IoC.Configuration.Content</strong>, under the folder, where Nuget package <strong>IoC.Configuration</strong> is downloaded (see the screenshot below).
+This file can also be downloaded from <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/IoC.Configuration.Content/IoC.Configuration.Template.xml">IoC.Configuration.Template.xml</a></p>
+<img alt="../_images/ioc.configuration-files.jpg" src="../_images/ioc.configuration-files.jpg" />
+<p><strong>Template file:</strong></p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="linenos">  2</span><span class="cm">&lt;!--</span>
+<span class="linenos">  3</span><span class="cm">Sample license text.</span>
+<span class="linenos">  4</span><span class="cm">--&gt;</span>
+<span class="linenos">  5</span>
+<span class="linenos">  6</span><span class="cm">&lt;!--</span>
+<span class="linenos">  7</span><span class="cm">   This is a simple sample configuration file to use with IoC.Configuration library.</span>
+<span class="linenos">  8</span><span class="cm">   Some elements and attributes in this XML file should be modified per specific project.</span>
+<span class="linenos">  9</span><span class="cm">   For more complete example, look at files IoCConfiguration_Overview.xml and some ther configuration files in test project</span>
+<span class="linenos"> 10</span><span class="cm">   IoC.Configuration.Tests at https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.Tests.</span>
+<span class="linenos"> 11</span>
+<span class="linenos"> 12</span><span class="cm">   The XML configuration file is validated against schema file IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd,</span>
+<span class="linenos"> 13</span><span class="cm">   which can be found in folder IoC.Configuration.Content in output directory.</span>
+<span class="linenos"> 14</span><span class="cm">   The schema file can also be downloaded from</span>
+<span class="linenos"> 15</span><span class="cm">   http://oroptimizer.com/ioc.configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd or in source code</span>
+<span class="linenos"> 16</span><span class="cm">   project in Github.com.</span>
+<span class="linenos"> 17</span>
+<span class="linenos"> 18</span><span class="cm">   To use Visual Studio code completion based on schema contents, right click Properties on this file in Visual Studio, and in Schemas</span>
+<span class="linenos"> 19</span><span class="cm">   field pick the schema IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd.</span>
+<span class="linenos"> 20</span><span class="cm">--&gt;</span>
+<span class="linenos"> 21</span>
+<span class="linenos"> 22</span><span class="nt">&lt;iocConfiguration</span>
+<span class="linenos"> 23</span>     <span class="na">xmlns:xsi=</span><span class="s">&#39;http://www.w3.org/2001/XMLSchema-instance&#39;</span>
+<span class="linenos"> 24</span>     <span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">&quot;http://oroptimizer.com/IoC.Configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 25</span>
+<span class="linenos"> 26</span>    <span class="cm">&lt;!--The application should have write permissions to path specified in appDataDir. This is where dynamically generated DLLs are saved.--&gt;</span>
+<span class="linenos"> 27</span>    <span class="nt">&lt;appDataDir</span> <span class="na">path=</span><span class="s">&quot;C:\Users\user1\AppData\Local\MyApplication&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 28</span>
+<span class="linenos"> 29</span>    <span class="nt">&lt;plugins</span> <span class="na">pluginsDirPath=</span><span class="s">&quot;c:\Program Files\MyApplication\DLLs\PluginDlls&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 30</span>        <span class="cm">&lt;!--</span>
+<span class="linenos"> 31</span><span class="cm">        Plugin assemblies will be in a folder with similar name under pluginsDirPath folder.</span>
+<span class="linenos"> 32</span><span class="cm">        The plugin folders will be included in assembly resolution mechanism.</span>
+<span class="linenos"> 33</span><span class="cm">        --&gt;</span>
+<span class="linenos"> 34</span>
+<span class="linenos"> 35</span>        <span class="cm">&lt;!--If Plugin1 is enabled, a folder c:\Program Files\MyApplication\DLLs\PluginDlls\Plugin1 should exist  --&gt;</span>
+<span class="linenos"> 36</span>        <span class="cm">&lt;!--&lt;plugin name=&quot;Plugin1&quot; /&gt;--&gt;</span>
+<span class="linenos"> 37</span>        <span class="cm">&lt;!--&lt;plugin name=&quot;Plugin2&quot; enabled=&quot;false&quot; /&gt;--&gt;</span>
+<span class="linenos"> 38</span>
+<span class="linenos"> 39</span>    <span class="nt">&lt;/plugins&gt;</span>
+<span class="linenos"> 40</span>
+<span class="linenos"> 41</span>    <span class="nt">&lt;additionalAssemblyProbingPaths&gt;</span>
+<span class="linenos"> 42</span>        <span class="nt">&lt;probingPath</span> <span class="na">path=</span><span class="s">&quot;c:\Program Files\MyApplication\DLLs\ThirdPartyLibs&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 43</span>    <span class="nt">&lt;/additionalAssemblyProbingPaths&gt;</span>
+<span class="linenos"> 44</span>
+<span class="linenos"> 45</span>    <span class="nt">&lt;assemblies&gt;</span>
+<span class="linenos"> 46</span>        <span class="cm">&lt;!--Assemblies should be in one of the following locations:</span>
+<span class="linenos"> 47</span><span class="cm">        1) Executable&#39;s folder</span>
+<span class="linenos"> 48</span><span class="cm">        2) In folder specified in additionalAssemblyProbingPaths element.</span>
+<span class="linenos"> 49</span><span class="cm">        3) In one of the plugin folders specified in plugins element (only for assemblies with plugin attribute) --&gt;</span>
+<span class="linenos"> 50</span>        <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;OROptimizer.Shared&quot;</span> <span class="na">alias=</span><span class="s">&quot;oroptimizer_shared&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 51</span>        <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;IoC.Configuration.Autofac&quot;</span> <span class="na">alias=</span><span class="s">&quot;autofac_ext&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 52</span>        <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;IoC.Configuration.Ninject&quot;</span> <span class="na">alias=</span><span class="s">&quot;ninject_ext&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 53</span>    <span class="nt">&lt;/assemblies&gt;</span>
+<span class="linenos"> 54</span>
+<span class="linenos"> 55</span>    <span class="nt">&lt;parameterSerializers</span> <span class="na">serializerAggregatorType=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 56</span>        <span class="cm">&lt;!--</span>
+<span class="linenos"> 57</span><span class="cm">        Use parameters element to specify constructor parameters, if the type specified in &#39;serializerAggregatorType&#39; attribute</span>
+<span class="linenos"> 58</span><span class="cm">        has non-default constructor.</span>
+<span class="linenos"> 59</span><span class="cm">        --&gt;</span>
+<span class="linenos"> 60</span>        <span class="cm">&lt;!--&lt;parameters&gt;</span>
+<span class="linenos"> 61</span><span class="cm">        &lt;/parameters&gt;--&gt;</span>
+<span class="linenos"> 62</span>        <span class="nt">&lt;serializers&gt;</span>
+<span class="linenos"> 63</span>        <span class="nt">&lt;/serializers&gt;</span>
+<span class="linenos"> 64</span>    <span class="nt">&lt;/parameterSerializers&gt;</span>
+<span class="linenos"> 65</span>
+<span class="linenos"> 66</span>    <span class="cm">&lt;!--The value of type attribute should be a type that implements IoC.Configuration.DiContainer.IDiManager--&gt;</span>
+<span class="linenos"> 67</span>    <span class="nt">&lt;diManagers</span> <span class="na">activeDiManagerName=</span><span class="s">&quot;Autofac&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 68</span>        <span class="nt">&lt;diManager</span> <span class="na">name=</span><span class="s">&quot;Ninject&quot;</span> <span class="na">type=</span><span class="s">&quot;IoC.Configuration.Ninject.NinjectDiManager&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 69</span>            <span class="cm">&lt;!--</span>
+<span class="linenos"> 70</span><span class="cm">            Use parameters element to specify constructor parameters, if the type specified in &#39;type&#39; attribute</span>
+<span class="linenos"> 71</span><span class="cm">            has non-default constructor.</span>
+<span class="linenos"> 72</span><span class="cm">            --&gt;</span>
+<span class="linenos"> 73</span>            <span class="cm">&lt;!--&lt;parameters&gt;</span>
+<span class="linenos"> 74</span><span class="cm">            &lt;/parameters&gt;--&gt;</span>
+<span class="linenos"> 75</span>        <span class="nt">&lt;/diManager&gt;</span>
+<span class="linenos"> 76</span>        <span class="nt">&lt;diManager</span> <span class="na">name=</span><span class="s">&quot;Autofac&quot;</span> <span class="na">type=</span><span class="s">&quot;IoC.Configuration.Autofac.AutofacDiManager&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 77</span>        <span class="nt">&lt;/diManager&gt;</span>
+<span class="linenos"> 78</span>    <span class="nt">&lt;/diManagers&gt;</span>
+<span class="linenos"> 79</span>
+<span class="linenos"> 80</span>    <span class="cm">&lt;!--</span>
+<span class="linenos"> 81</span><span class="cm">    If settingsRequestor element is used, the type in type attribute should specify a type that implements</span>
+<span class="linenos"> 82</span><span class="cm">    SharedServices.ISettingsRequestor. The implementation specifies a collection of required settings that should be present</span>
+<span class="linenos"> 83</span><span class="cm">    in settings element.</span>
+<span class="linenos"> 84</span><span class="cm">    Note, the type specified in type attribute is fully integrated into a dependency injection framework. In other words, constructor</span>
+<span class="linenos"> 85</span><span class="cm">    parameters will be injected using bindings specified in dependencyInjection element.</span>
+<span class="linenos"> 86</span><span class="cm">    --&gt;</span>
+<span class="linenos"> 87</span>    <span class="cm">&lt;!--&lt;settingsRequestor type=&quot;MySettingsRequestor&quot;&gt;</span>
+<span class="linenos"> 88</span><span class="cm">    &lt;/settingsRequestor&gt;--&gt;</span>
+<span class="linenos"> 89</span>
+<span class="linenos"> 90</span>    <span class="nt">&lt;settings&gt;</span>
+<span class="linenos"> 91</span>        <span class="cm">&lt;!--Example:</span>
+<span class="linenos"> 92</span><span class="cm">        &lt;int32 name=&quot;MySetting1&quot; value=&quot;15&quot;/&gt;</span>
+<span class="linenos"> 93</span><span class="cm">        --&gt;</span>
+<span class="linenos"> 94</span>    <span class="nt">&lt;/settings&gt;</span>
+<span class="linenos"> 95</span>
+<span class="linenos"> 96</span>    <span class="nt">&lt;dependencyInjection&gt;</span>
+<span class="linenos"> 97</span>        <span class="nt">&lt;modules&gt;</span>
+<span class="linenos"> 98</span>        <span class="nt">&lt;/modules&gt;</span>
+<span class="linenos"> 99</span>        <span class="nt">&lt;services&gt;</span>
+<span class="linenos">100</span>        <span class="nt">&lt;/services&gt;</span>
+<span class="linenos">101</span>        <span class="nt">&lt;autoGeneratedServices&gt;</span>
+<span class="linenos">102</span>
+<span class="linenos">103</span>        <span class="nt">&lt;/autoGeneratedServices&gt;</span>
+<span class="linenos">104</span>    <span class="nt">&lt;/dependencyInjection&gt;</span>
+<span class="linenos">105</span>
+<span class="linenos">106</span>    <span class="nt">&lt;startupActions&gt;</span>
+<span class="linenos">107</span>    <span class="nt">&lt;/startupActions&gt;</span>
+<span class="linenos">108</span>
+<span class="linenos">109</span>    <span class="nt">&lt;pluginsSetup&gt;</span>
+<span class="linenos">110</span>    <span class="nt">&lt;/pluginsSetup&gt;</span>
+<span class="linenos">111</span><span class="nt">&lt;/iocConfiguration&gt;</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="xml-configuration-file-schema.generated.html"
+                          title="previous chapter">XML Configuration File Schema</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="IoCConfiguration_Overview.generated.html"
+                          title="next chapter">IoCConfiguration_Overview.xml</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/sample-files/xml-configuration-template.generated.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="IoCConfiguration_Overview.generated.html" title="IoCConfiguration_Overview.xml"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="xml-configuration-file-schema.generated.html" title="XML Configuration File Schema"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Sample Files</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">XML Configuration Template</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

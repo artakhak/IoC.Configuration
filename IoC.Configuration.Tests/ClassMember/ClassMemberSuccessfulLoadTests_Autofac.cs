@@ -1,18 +1,18 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using TestsSharedLibrary.DependencyInjection;
 
 namespace IoC.Configuration.Tests.ClassMember
 {
-    [TestClass]
+    [TestFixture]
     public class ClassMemberSuccessfulLoadTests_Autofac : ClassMemberSuccessfulLoadTests
     {
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext testContext)
+        [OneTimeSetUp]
+        public static void ClassInitialize()
         {
             OnClassInitialize(DiImplementationType.Autofac, ClassMemberConfigurationRelativePath);
         }
 
-        [ClassCleanup]
+        [OneTimeTearDown]
         public static void ClassCleanup()
         {
             OnClassCleanup();

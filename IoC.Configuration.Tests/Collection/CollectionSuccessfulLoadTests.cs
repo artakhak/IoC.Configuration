@@ -1,18 +1,18 @@
-﻿using System.Collections.Generic;
-using IoC.Configuration.Tests.Collection.Services;
+﻿using IoC.Configuration.Tests.Collection.Services;
 using IoC.Configuration.Tests.TestTemplateFiles;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using SharedServices.Implementations;
 using SharedServices.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace IoC.Configuration.Tests.Collection
 {
-    public class CollectionSuccessfulLoadTests : IoCConfigurationTestsForSuccessfullLoad
+    public abstract class CollectionSuccessfulLoadTests : IoCConfigurationTestsForSuccessfulLoad
     {
         protected readonly static string CollectionConfigurationRelativePath = "IoCConfiguration_collection.xml";
 
-        [TestMethod]
+        [Test]
         public void CollectionInjectedionInConstructedValueElement_Tests()
         {
             var collectionsSetting = Settings.GetSettingValueOrThrow<DemoCollectionInjection>("Collections");
@@ -22,12 +22,12 @@ namespace IoC.Configuration.Tests.Collection
             Assert.AreEqual(14, collectionsSetting.IntValues[1]);
 
             Assert.AreEqual(3, collectionsSetting.Texts.Count);
-            Assert.AreEqual("Microsoft", collectionsSetting.Texts[0], false);
-            Assert.AreEqual("Google", collectionsSetting.Texts[1], false);
-            Assert.AreEqual("Amazon", collectionsSetting.Texts[2], false);
+            Assert.AreEqual("Microsoft", collectionsSetting.Texts[0]);
+            Assert.AreEqual("Google", collectionsSetting.Texts[1]);
+            Assert.AreEqual("Amazon", collectionsSetting.Texts[2]);
         }
 
-        [TestMethod]
+        [Test]
         public void CollectionInjectedionIntoModuleConstructor_Tests()
         {
             var module1 = (Module1)Configuration.DependencyInjection.Modules.Modules.FirstOrDefault(x => x.DiModule is Module1).DiModule;
@@ -37,7 +37,7 @@ namespace IoC.Configuration.Tests.Collection
             Assert.AreEqual(5, module1InjectedValuesList[0]);
             Assert.AreEqual(7, module1InjectedValuesList[1]);
         }
-        [TestMethod]
+        [Test]
         public void CollectionInValueImplementation_Tests1()
         {
             var dbConnectionsList = DiContainer.Resolve<IReadOnlyList<IDbConnection>>();
@@ -48,17 +48,17 @@ namespace IoC.Configuration.Tests.Collection
 
             var sqlServerDbConnection = (SqlServerDbConnection)dbConnectionsList[1];
 
-            Assert.AreEqual("SQLSERVER2012", sqlServerDbConnection.ServerName, false);
-            Assert.AreEqual("DB1", sqlServerDbConnection.DatabaseName, false);
-            Assert.AreEqual("user1", sqlServerDbConnection.UserName, false);
-            Assert.AreEqual("password123", sqlServerDbConnection.Password, false);
+            Assert.AreEqual("SQLSERVER2012", sqlServerDbConnection.ServerName);
+            Assert.AreEqual("DB1", sqlServerDbConnection.DatabaseName);
+            Assert.AreEqual("user1", sqlServerDbConnection.UserName);
+            Assert.AreEqual("password123", sqlServerDbConnection.Password);
 
             sqlServerDbConnection = (SqlServerDbConnection)dbConnectionsList[2];
 
-            Assert.AreEqual("SQLSERVER2016", sqlServerDbConnection.ServerName, false);
-            Assert.AreEqual("DB2", sqlServerDbConnection.DatabaseName, false);
-            Assert.AreEqual("user2", sqlServerDbConnection.UserName, false);
-            Assert.AreEqual("password456", sqlServerDbConnection.Password, false);
+            Assert.AreEqual("SQLSERVER2016", sqlServerDbConnection.ServerName);
+            Assert.AreEqual("DB2", sqlServerDbConnection.DatabaseName);
+            Assert.AreEqual("user2", sqlServerDbConnection.UserName);
+            Assert.AreEqual("password456", sqlServerDbConnection.Password);
 
             var mySqlServerDbConnection = dbConnectionsList[3];
             Assert.AreEqual("TestPluginAssembly1.Implementations.MySqlDbConnection", mySqlServerDbConnection.GetType().FullName);
@@ -66,20 +66,20 @@ namespace IoC.Configuration.Tests.Collection
             Assert.AreEqual("user=User1;password=123", mySqlServerDbConnection.ConnectionString);
         }
 
-        [TestMethod]
+        [Test]
         public void CollectionInValueImplementation_Tests2()
         {
             var resolvedArray = DiContainer.Resolve<TestLocalTypesClass.IInterface1[]>();
             Assert.AreEqual(2, resolvedArray.Length);
 
-            Assert.IsInstanceOfType(resolvedArray[0], typeof(TestLocalTypesClass.Interface1_Impl1));
+            Assert.IsInstanceOf<TestLocalTypesClass.Interface1_Impl1>(resolvedArray[0]);
             Assert.AreEqual(13, resolvedArray[0].Value);
 
-            Assert.IsInstanceOfType(resolvedArray[1], typeof(TestLocalTypesClass.Interface1_Impl1));
+            Assert.IsInstanceOf<TestLocalTypesClass.Interface1_Impl1>(resolvedArray[1]);
             Assert.AreEqual(17, resolvedArray[1].Value);
         }
 
-        [TestMethod]
+        [Test]
         public void CollectionsInjectedIntoSelfBoundService_Tests()
         {
             var collectionsTestClass1Instance = DiContainer.Resolve<CollectionsTestClass1>();
@@ -93,10 +93,10 @@ namespace IoC.Configuration.Tests.Collection
             // collectionsTestClass1Instance.ArrayValues
             Assert.AreEqual(2, collectionsTestClass1Instance.ArrayValues.Length);
 
-            Assert.IsInstanceOfType(collectionsTestClass1Instance.ArrayValues[0], typeof(Interface1_Impl));
+            Assert.IsInstanceOf<Interface1_Impl>(collectionsTestClass1Instance.ArrayValues[0]);
             Assert.AreEqual(37, collectionsTestClass1Instance.ArrayValues[0].Property1);
 
-            Assert.IsInstanceOfType(collectionsTestClass1Instance.ArrayValues[1], typeof(Interface1_Impl));
+            Assert.IsInstanceOf<Interface1_Impl>(collectionsTestClass1Instance.ArrayValues[1]);
             Assert.AreEqual(29, collectionsTestClass1Instance.ArrayValues[1].Property1);
 
             // collectionsTestClass1Instance.EnumerableValues
@@ -104,13 +104,13 @@ namespace IoC.Configuration.Tests.Collection
 
             Assert.AreEqual(3, enumValuesToList.Count);
 
-            Assert.IsInstanceOfType(enumValuesToList[0], typeof(Interface1_Impl));
+            Assert.IsInstanceOf<Interface1_Impl>(enumValuesToList[0]);
             Assert.AreEqual(18, enumValuesToList[0].Property1);
 
-            Assert.IsInstanceOfType(enumValuesToList[1], typeof(Interface1_Impl));
+            Assert.IsInstanceOf<Interface1_Impl>(enumValuesToList[1]);
             Assert.AreEqual(21, enumValuesToList[1].Property1);
 
-            Assert.IsInstanceOfType(enumValuesToList[2], typeof(Interface1_Impl));
+            Assert.IsInstanceOf<Interface1_Impl>(enumValuesToList[2]);
             Assert.AreEqual(37, enumValuesToList[2].Property1);
 
             // collectionsTestClass1Instance.ListValues
@@ -118,17 +118,17 @@ namespace IoC.Configuration.Tests.Collection
 
             Assert.AreEqual(3, listValues.Count);
 
-            Assert.IsInstanceOfType(listValues[0], typeof(Interface1_Impl));
+            Assert.IsInstanceOf<Interface1_Impl>(listValues[0]);
             Assert.AreEqual(37, listValues[0].Property1);
 
-            Assert.IsInstanceOfType(listValues[1], typeof(Interface1_Impl));
+            Assert.IsInstanceOf<Interface1_Impl>(listValues[1]);
             Assert.AreEqual(21, listValues[1].Property1);
 
-            Assert.IsInstanceOfType(listValues[2], typeof(Interface1_Impl));
+            Assert.IsInstanceOf<Interface1_Impl>(listValues[2]);
             Assert.AreEqual(139, listValues[2].Property1);
         }
 
-        [TestMethod]
+        [Test]
         public void CollectionsInAutoService_Tests()
         {
             var auroService = DiContainer.Resolve<IAutoService1>();

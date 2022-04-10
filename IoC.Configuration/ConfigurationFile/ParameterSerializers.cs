@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright ï¿½ 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -23,14 +23,13 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
 using JetBrains.Annotations;
 using OROptimizer;
 using OROptimizer.Diagnostics.Log;
 using OROptimizer.Serializer;
+using System;
+using System.Text;
+using System.Xml;
 
 namespace IoC.Configuration.ConfigurationFile
 {
@@ -40,10 +39,7 @@ namespace IoC.Configuration.ConfigurationFile
 
         [NotNull]
         private readonly ICreateInstanceFromTypeAndConstructorParameters _createInstanceFromTypeAndConstructorParameters;
-
-        [NotNull]
-        private static readonly Dictionary<Type, ITypeBasedSimpleSerializer> _defaultSerializersThatCannotBeOverridden = new Dictionary<Type, ITypeBasedSimpleSerializer>();
-
+       
         [CanBeNull]
         private IParameters _parameters;
 
@@ -59,32 +55,6 @@ namespace IoC.Configuration.ConfigurationFile
         #endregion
 
         #region  Constructors
-
-        static ParameterSerializers()
-        {
-            var defaultSerializer = OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator.GetDefaultSerializerAggregator();
-
-            Action<Type> addDefaultSerializer = serializedType =>
-            {
-                if (_defaultSerializersThatCannotBeOverridden.ContainsKey(serializedType))
-                {
-                    LogHelper.Context.Log.WarnFormat("A default serializer for type '{0}' was already added.", serializedType.FullName);
-                    return;
-                }
-
-                _defaultSerializersThatCannotBeOverridden[serializedType] = defaultSerializer.GetSerializerForType(serializedType);
-            };
-
-            addDefaultSerializer(typeof(bool));
-            addDefaultSerializer(typeof(byte));
-            addDefaultSerializer(typeof(string));
-            addDefaultSerializer(typeof(DateTime));
-            addDefaultSerializer(typeof(short));
-            addDefaultSerializer(typeof(int));
-            addDefaultSerializer(typeof(long));
-            addDefaultSerializer(typeof(double));
-        }
-
         public ParameterSerializers([NotNull] XmlElement xmlElement, [NotNull] IConfigurationFileElement parent,
                                     [NotNull] ITypeHelper typeHelper,
                                     [NotNull] ICreateInstanceFromTypeAndConstructorParameters createInstanceFromTypeAndConstructorParameters) : base(xmlElement, parent)
@@ -129,17 +99,18 @@ namespace IoC.Configuration.ConfigurationFile
             }
         }
 
-        [NotNull]
         public ITypeBasedSimpleSerializerAggregator TypeBasedSimpleSerializerAggregator { get; private set; }
 
         public override void ValidateAfterChildrenAdded()
         {
             base.ValidateAfterChildrenAdded();
 
-            var serializerAggregatorObject = _createInstanceFromTypeAndConstructorParameters.CreateInstance(this,
-                typeof(ITypeBasedSimpleSerializerAggregator), _serializerAggregatorType, _parameters?.AllParameters ?? new IParameterElement[0]);
+            var defaultSerializer = OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator.GetDefaultSerializerAggregator();
 
-            TypeBasedSimpleSerializerAggregator = (ITypeBasedSimpleSerializerAggregator) serializerAggregatorObject;
+            var serializerAggregatorObject = _createInstanceFromTypeAndConstructorParameters.CreateInstance(this,
+                typeof(ITypeBasedSimpleSerializerAggregator), _serializerAggregatorType, _parameters?.AllParameters ?? Array.Empty<IParameterElement>());
+
+            TypeBasedSimpleSerializerAggregator = (ITypeBasedSimpleSerializerAggregator)serializerAggregatorObject;
 
             if (_parameterSerializersCollection != null)
             {
@@ -151,38 +122,25 @@ namespace IoC.Configuration.ConfigurationFile
                         continue;
                     }
 
-                    if (_defaultSerializersThatCannotBeOverridden.TryGetValue(parameterSerializer.Serializer.SerializedType, out var defaultParameterSerializer) &&
-                        defaultParameterSerializer.GetType() != parameterSerializer.Serializer.GetType())
+                    var defaultSerializerForType = defaultSerializer.GetSerializerForType(parameterSerializer.Serializer.SerializedType);
+                    if (defaultSerializerForType != null)
                     {
-                        var errorMessage2 = new StringBuilder();
+                        LogHelper.Context.Log.InfoFormat("Replacing default serializer for type '{0}' with a serializer '{1}'. The default serializer was '{2}'.",
+                            parameterSerializer.Serializer.SerializedType.GetTypeNameInCSharpClass(),
+                            parameterSerializer.Serializer.GetType().GetTypeNameInCSharpClass(),
+                            defaultSerializerForType.GetType().GetTypeNameInCSharpClass());
 
-                        errorMessage2.AppendLine($"Parameter serializer for type '{parameterSerializer.Serializer.SerializedType.FullName}' is pre-set to '{defaultParameterSerializer.GetType().FullName}', and it cannot be replaced with a different serializer.");
-                        errorMessage2.AppendLine("Here are all the types, with pre-set serializers, for which the serializers cannot be replaced.");
-                        foreach (var keyValuePair in _defaultSerializersThatCannotBeOverridden)
-                            errorMessage2.AppendLine($"Type: '{keyValuePair.Key.FullName}', Preset serializer: '{keyValuePair.Value.GetType().FullName}'.");
-
-                        throw new ConfigurationParseException(parameterSerializer, errorMessage2.ToString());
+                        TypeBasedSimpleSerializerAggregator.UnRegister(parameterSerializer.Serializer.SerializedType);
                     }
 
                     TypeBasedSimpleSerializerAggregator.Register(parameterSerializer.Serializer);
                 }
             }
 
-            var defaultSerializer = OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator.GetDefaultSerializerAggregator();
-
-            if (defaultSerializer != TypeBasedSimpleSerializerAggregator)
+            foreach (var serializer in defaultSerializer.GetRegisteredSerializers())
             {
-                foreach (var serializer in defaultSerializer.GetRegisteredSerializers())
-                {
-                    if (!TypeBasedSimpleSerializerAggregator.HasSerializerForType(serializer.SerializedType))
-                    {
-                        if (!_defaultSerializersThatCannotBeOverridden.ContainsKey(serializer.SerializedType))
-                            LogHelper.Context.Log.InfoFormat("No '{0}' element for type '{1}' found. Default serializer '{2}' for this type will be used.",
-                                ConfigurationFileElementNames.ParameterSerializer, serializer.SerializedType.FullName, serializer.GetType());
-
-                        TypeBasedSimpleSerializerAggregator.Register(serializer);
-                    }
-                }
+                if (!TypeBasedSimpleSerializerAggregator.HasSerializerForType(serializer.SerializedType))
+                    TypeBasedSimpleSerializerAggregator.Register(serializer);
             }
 
             LogSerializersData();

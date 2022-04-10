@@ -1,18 +1,18 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using TestsSharedLibrary.DependencyInjection;
 
 namespace IoC.Configuration.Tests.SettingValue
 {
-    [TestClass]
+    [TestFixture]
     public class SettingValueSuccessfulLoadTests_Autofac : SettingValueSuccessfulLoadTests
     {
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext testContext)
+        [OneTimeSetUp]
+        public static void ClassInitialize()
         {
             OnClassInitialize(DiImplementationType.Autofac, SettingValueConfigurationRelativePath);
         }
 
-        [ClassCleanup]
+        [OneTimeTearDown]
         public static void ClassCleanup()
         {
             OnClassCleanup();

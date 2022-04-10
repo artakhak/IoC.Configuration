@@ -28,7 +28,6 @@ using IoC.Configuration.DependencyInjection;
 using IoC.Configuration.DiContainer;
 using IoC.Configuration.DiContainer.BindingsForCode;
 using IoC.Configuration.DiContainer.BindingsForConfigFile;
-using IoC.Configuration.DynamicCode;
 using IoC.Configuration.OnApplicationStart;
 using JetBrains.Annotations;
 using Microsoft.CodeAnalysis.Emit;
@@ -40,7 +39,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Loader;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -50,26 +48,15 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 {
     public class FileBasedConfiguration : DiContainerBuilderConfiguration
     {
-        #region Member Variables
-
-        // TODO: AH: 1/15/2019: _addAssemblyReferenciesToDynamicAssemblyInOneMethodOnly variable is added temporarily, until the method  
-        // AddAssemblyReferencesFromAssembliesElementToDynamicAssembly() method is properly tested
-        // After, enough time passes, and there are no regressions, the variable will be removed, and all the code
-        // that this variable blocks will be removed.
-        private readonly bool _addAssemblyReferenciesToDynamicAssemblyInOneMethodOnly = true;
+        [NotNull] private readonly FileBasedConfigurationParameters _fileBasedConfigurationParameters;
 
         [NotNull]
         private readonly IAssemblyLocator _assemblyLocator;
 
         [NotNull]
-        private readonly IConfigurationFileContentsProvider _configurationFileContentsProvider;
-
-        [NotNull]
         private readonly IConfigurationFileElementFactory _configurationFileElementFactory;
 
-        [CanBeNull]
-        private readonly ConfigurationFileXmlDocumentLoadedEventHandler _configurationFileXmlDocumentLoaded;
-
+        // ReSharper disable once InconsistentNaming
         private static readonly Dictionary<string, HashSet<string>> _directoriesToCleanup = new Dictionary<string, HashSet<string>>(StringComparer.OrdinalIgnoreCase);
  
         private readonly string _dynamicallyGeneratedAssemblyFileName;
@@ -82,10 +69,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 
         [CanBeNull]
         private IOnApplicationsStarted _onApplicationsStarted;
-
-        #endregion
-
-        #region  Constructors
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="FileBasedConfiguration" /> class.
@@ -102,33 +85,75 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         ///     be the folder where the test execution library is, so a different value might need to be passed.
         /// </param>
         /// <param name="configurationFileXmlDocumentLoaded">
-        ///     The configuration file XML document loaded.
+        ///     A delegate executed when the configuration file XML document is loaded.
         /// </param>
+        // ReSharper disable once NotNullMemberIsNotInitialized
         public FileBasedConfiguration([NotNull] IConfigurationFileContentsProvider configurationFileContentsProvider,
                                       [NotNull] string entryAssemblyFolder,
-                                      [CanBeNull] ConfigurationFileXmlDocumentLoadedEventHandler configurationFileXmlDocumentLoaded) : base(entryAssemblyFolder)
+                                      [CanBeNull] ConfigurationFileXmlDocumentLoadedEventHandler configurationFileXmlDocumentLoaded) : 
+            this(configurationFileContentsProvider, entryAssemblyFolder, new AllLoadedAssemblies(), configurationFileXmlDocumentLoaded)
         {
-            var assemblyLocator = IoCServiceFactoryAmbientContext.Context.CreateAssemblyLocator(() => Configuration, entryAssemblyFolder);
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="FileBasedConfiguration" /> class.
+        /// </summary>
+        /// <param name="configurationFileContentsProvider">
+        ///     The configuration file contents provider. An example implementation of
+        ///     <see cref="IConfigurationFileContentsProvider" /> implementation is
+        ///     <see cref="FileBasedConfigurationFileContentsProvider" />
+        /// </param>
+        /// <param name="entryAssemblyFolder">
+        ///     The location where the executable is.
+        ///     For non test projects <see cref="IGlobalsCore.EntryAssemblyFolder" /> can be used as a value for this parameter.
+        ///     However, for tests projects <see cref="IGlobalsCore.EntryAssemblyFolder" /> might be
+        ///     be the folder where the test execution library is, so a different value might need to be passed.
+        /// </param>
+        /// <param name="configurationFileXmlDocumentLoaded">
+        ///     A delegate executed when the configuration file XML document is loaded.
+        /// </param>
+        /// <param name="loadedAssemblies"> Instance of <see cref="ILoadedAssemblies"/> used to add add all or some of currently
+        ///                     loaded assemblies as dependencies for  dynamically generated assemblies.
+        ///                     Use an instance of <see cref="AllLoadedAssemblies"/> to add references to all assemblies loaded into current application
+        ///                     domain to the dynamically generated assembly. Use <see cref="NoLoadedAssemblies"/> to not add any additional assemblies
+        ///                     references to any additional assemblies as dependencies for  dynamically generated assemblies.
+        ///                     Provide your own implementation to add only some of loaded assemblies as dependencies.
+        /// </param>
+        // ReSharper disable once NotNullMemberIsNotInitialized
+        public FileBasedConfiguration([NotNull] IConfigurationFileContentsProvider configurationFileContentsProvider,
+                                      [NotNull] string entryAssemblyFolder, [NotNull] ILoadedAssemblies loadedAssemblies,
+                                      [CanBeNull] ConfigurationFileXmlDocumentLoadedEventHandler configurationFileXmlDocumentLoaded) : 
+            this(new FileBasedConfigurationParameters(configurationFileContentsProvider, entryAssemblyFolder, loadedAssemblies)
+            {
+                ConfigurationFileXmlDocumentLoaded = configurationFileXmlDocumentLoaded
+            })
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="FileBasedConfiguration" /> class.
+        /// </summary>
+        /// <param name="fileBasedConfigurationParameters">An instance of <see cref="FileBasedConfigurationParameters"/> used to load and process the configuration file.</param>
+        // ReSharper disable once NotNullMemberIsNotInitialized
+        public FileBasedConfiguration([NotNull] FileBasedConfigurationParameters fileBasedConfigurationParameters) : 
+            base(fileBasedConfigurationParameters.EntryAssemblyFolder)
+        {
+            _fileBasedConfigurationParameters = fileBasedConfigurationParameters;
+
+            var assemblyLocator = IoCServiceFactoryAmbientContext.Context.CreateAssemblyLocator(() => Configuration, fileBasedConfigurationParameters.EntryAssemblyFolder);
 
             _assemblyLocator = assemblyLocator;
             _configurationFileElementFactory = new ConfigurationFileElementFactory(assemblyLocator);
 
-            _configurationFileContentsProvider = configurationFileContentsProvider;
-            _configurationFileXmlDocumentLoaded = configurationFileXmlDocumentLoaded;
-
-            _dynamicImplementationsNamespace = $"DynamicImplementations_{GlobalsCoreAmbientContext.Context.GenerateUniqueId()}";
-            _dynamicallyGeneratedAssemblyFileName = $"DynamicallyGeneratedAssembly_{GlobalsCoreAmbientContext.Context.GenerateUniqueId()}.dll";
+            var uniqueId = GlobalsCoreAmbientContext.Context.GenerateUniqueId();
+            _dynamicImplementationsNamespace = $"DynamicImplementations_{uniqueId}";
+            _dynamicallyGeneratedAssemblyFileName = $"DynamicallyGeneratedAssembly_{uniqueId}.dll";
         }
 
-        #endregion
-
-        #region Member Functions
-
-        private void AddAssemblyReferencesFromAssembliesElementToDynamicAssembly(IDynamicAssemblyBuilder dynamicAssemblyBuilder)
+        private void AddAssemblyReferencesFromAssembliesElementToDynamicAssembly([NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder)
         {
             // Instead of hunting for all assemblies across the configuration file, for now lets just add 
             // the enabled assemblies
-
             foreach (var assembly in Configuration.Assemblies.AllAssembliesIncludingAssembliesNotInConfiguration)
             {
                 if (assembly.Plugin != null && !assembly.Plugin.Enabled)
@@ -147,13 +172,42 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         {
             foreach (var autoGeneratedServiceElement in dependencyInjection.AutoGeneratedServices.Services)
             {
-                autoGeneratedServiceElement.GenerateAutoImplementedServiceClassCSharp(dynamicAssemblyBuilder, _dynamicImplementationsNamespace, out var generateClassFullName);
-                interfaceImplementationsInfo.Add(new DynamicallyGeneratedImplementationsModule.InterfaceImplementationInfo(autoGeneratedServiceElement.ImplementedInterfaceTypeInfo.Type,
-                    generateClassFullName));
+                try
+                {
+                    autoGeneratedServiceElement.GenerateAutoImplementedServiceClassCSharp(dynamicAssemblyBuilder, _dynamicImplementationsNamespace, out var generateClassFullName);
+                    interfaceImplementationsInfo.Add(new DynamicallyGeneratedImplementationsModule.InterfaceImplementationInfo(autoGeneratedServiceElement.ImplementedInterfaceTypeInfo.Type,
+                        generateClassFullName));
+                }
+                catch (ConfigurationParseException)
+                {
+                    throw;
+                }
+                catch(Exception e)
+                {
+                    LogHelper.Context.Log.Error(e);
+
+                    throw new ConfigurationParseException(autoGeneratedServiceElement, $"Call to '{typeof(IAutoGeneratedServiceElementBase)}.{nameof(IAutoGeneratedServiceElementBase.GenerateAutoImplementedServiceClassCSharp)}' failed.");
+                }
             }
         }
 
-        private void AddFileConfigurationElements(XmlNode xmlNode, IConfigurationFileElement parentElement)
+        private delegate void ProcessElementDelegate([NotNull] XmlElement xmlElement, [NotNull] string elementPath);
+
+        private void ProcessXmlElements([NotNull] XmlElement xmlElement, [NotNull] string elementPath, [NotNull] ProcessElementDelegate processElementDelegate)
+        {
+            processElementDelegate(xmlElement, elementPath);
+
+           
+            foreach (var childXmlNode in xmlElement.ChildNodes)
+            {
+                if (!(childXmlNode is XmlElement childXmlElement))
+                    continue;
+
+                ProcessXmlElements(childXmlElement, $"{elementPath}/{childXmlElement.Name}", processElementDelegate);
+            }
+        }
+
+        private void AddFileConfigurationElements([NotNull] XmlNode xmlNode, [NotNull] IConfigurationFileElement parentElement)
         {
             foreach (var childXmlNode in xmlNode.ChildNodes)
             {
@@ -179,9 +233,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         }
 
         private void AddPluginBindings([NotNull] IList<BindingConfigurationForFile> servicesToAddBindingsTo, [NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder,
-#pragma warning disable CS0612, CS0618
-                                       [NotNull] ITypesListFactoryTypeGenerator typesListFactoryTypeGenerator,
-#pragma warning restore CS0612, CS0618
                                        IList<DynamicallyGeneratedImplementationsModule.InterfaceImplementationInfo> interfaceImplementationsInfo,
                                        IList<ModuleInfo> allGeneratedModuleInfos)
         {
@@ -194,12 +245,9 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 
                 serviceImplementationElements.Add(pluginSetup.PluginImplementationElement);
 
-                if (!_addAssemblyReferenciesToDynamicAssemblyInOneMethodOnly)
-                    dynamicAssemblyBuilder.AddReferencedAssembly(pluginSetup.PluginImplementationElement.ValueTypeInfo.Type);
-
                 if (pluginSetup.DependencyInjection != null)
-                    ProcessDependencyInjectionSection(dynamicAssemblyBuilder, typesListFactoryTypeGenerator, pluginSetup.DependencyInjection,
-                        $"{_dynamicImplementationsNamespace}.{pluginSetup.Plugin.Name}", "PluginServicesModule",
+                    ProcessDependencyInjectionSection(dynamicAssemblyBuilder, pluginSetup.DependencyInjection,
+                        $"{_dynamicImplementationsNamespace}.{pluginSetup.Plugin.Name}_{OROptimizer.GlobalsCoreAmbientContext.Context.GenerateUniqueId()}", "PluginServicesModule",
                         interfaceImplementationsInfo, allGeneratedModuleInfos);
             }
 
@@ -207,39 +255,25 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                 servicesToAddBindingsTo.Add(BindingConfigurationForFile.CreateBindingConfigurationForFile(typeof(IPlugin), false, serviceImplementationElements));
         }
 
-        private void AddReferencedAssemblies([NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder,
-                                             [NotNull] [ItemNotNull] IEnumerable<BindingConfigurationForFile> servicesBindingConfigurations)
-        {
-            if (_addAssemblyReferenciesToDynamicAssemblyInOneMethodOnly)
-                return;
+        //private void AddReferencedAssemblies([NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder,
+        //                                     [NotNull] [ItemNotNull] IEnumerable<BindingImplementationConfigurationForFile> bindingImplementationConfigurations)
+        //{
+        //    foreach (var bindingImplementationConfiguration in bindingImplementationConfigurations)
+        //    {
+        //        dynamicAssemblyBuilder.AddReferencedAssembly(bindingImplementationConfiguration.ImplementationType);
 
-            foreach (var servicesBindingConfiguration in servicesBindingConfigurations)
-            {
-                dynamicAssemblyBuilder.AddReferencedAssembly(servicesBindingConfiguration.ServiceType);
+        //        if (bindingImplementationConfiguration is TypeBasedBindingImplementationConfigurationForFile typeBasedBindingImplementationConfigurationForFile)
+        //        {
+        //            if (typeBasedBindingImplementationConfigurationForFile.Parameters != null)
+        //                foreach (var parameter in typeBasedBindingImplementationConfigurationForFile.Parameters)
+        //                    dynamicAssemblyBuilder.AddReferencedAssembly(parameter.ValueTypeInfo.Type);
 
-                AddReferencedAssemblies(dynamicAssemblyBuilder, servicesBindingConfiguration.Implementations);
-            }
-        }
-
-        private void AddReferencedAssemblies([NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder,
-                                             [NotNull] [ItemNotNull] IEnumerable<BindingImplementationConfigurationForFile> bindingImplementationConfigurations)
-        {
-            foreach (var bindingImplementationConfiguration in bindingImplementationConfigurations)
-            {
-                dynamicAssemblyBuilder.AddReferencedAssembly(bindingImplementationConfiguration.ImplementationType);
-
-                if (bindingImplementationConfiguration is TypeBasedBindingImplementationConfigurationForFile typeBasedBindingImplementationConfigurationForFile)
-                {
-                    if (typeBasedBindingImplementationConfigurationForFile.Parameters != null)
-                        foreach (var parameter in typeBasedBindingImplementationConfigurationForFile.Parameters)
-                            dynamicAssemblyBuilder.AddReferencedAssembly(parameter.ValueTypeInfo.Type);
-
-                    if (typeBasedBindingImplementationConfigurationForFile.InjectedProperties != null)
-                        foreach (var injectedProperty in typeBasedBindingImplementationConfigurationForFile.InjectedProperties)
-                            dynamicAssemblyBuilder.AddReferencedAssembly(injectedProperty.ValueTypeInfo.Type);
-                }
-            }
-        }
+        //            if (typeBasedBindingImplementationConfigurationForFile.InjectedProperties != null)
+        //                foreach (var injectedProperty in typeBasedBindingImplementationConfigurationForFile.InjectedProperties)
+        //                    dynamicAssemblyBuilder.AddReferencedAssembly(injectedProperty.ValueTypeInfo.Type);
+        //        }
+        //    }
+        //}
 
         private void AddSettingsRequestorBindings([NotNull] IList<BindingConfigurationForFile> servicesToAddBindingsTo, [NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder)
         {
@@ -247,10 +281,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                 return;
 
             var serviceImplementationElements = new List<IServiceImplementationElement> {Configuration.SettingsRequestor};
-
-            if (!_addAssemblyReferenciesToDynamicAssemblyInOneMethodOnly)
-                dynamicAssemblyBuilder.AddReferencedAssembly(Configuration.SettingsRequestor.ValueTypeInfo.Type);
-
             servicesToAddBindingsTo.Add(BindingConfigurationForFile.CreateBindingConfigurationForFile(typeof(ISettingsRequestor), false, serviceImplementationElements));
         }
 
@@ -269,45 +299,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 
             if (serviceImplementationElements.Count > 0)
                 servicesToAddBindingsTo.Add(BindingConfigurationForFile.CreateBindingConfigurationForFile(typeof(IStartupAction), false, serviceImplementationElements));
-        }
-
-        [Obsolete("Will be removed after 5/31/2019")]
-        private void AddTypeFactories([NotNull] IDependencyInjection dependencyInjection,
-                                      [NotNull] IList<DynamicallyGeneratedImplementationsModule.InterfaceImplementationInfo> interfaceImplementationsInfo,
-                                      [NotNull] ITypesListFactoryTypeGenerator typesListFactoryTypeGenerator,
-                                      [NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder)
-        {
-            foreach (var typeFactory in dependencyInjection.AutoGeneratedServices.TypeFactories)
-            {
-                var selectorParameterValues = new LinkedList<string[]>();
-                var selectorTypes = new LinkedList<IEnumerable<Type>>();
-
-                foreach (var selectorTypesForIf in typeFactory.ReturnedIfTypeSelectorsForIfCase)
-                {
-                    selectorParameterValues.AddLast(selectorTypesForIf.ParameterValues.ToArray());
-                    selectorTypes.AddLast(selectorTypesForIf.ReturnedTypes.Select(x => x.ReturnedType));
-                }
-
-                try
-                {
-                    var generatedTypeInfo = typesListFactoryTypeGenerator.GenerateType(dynamicAssemblyBuilder, typeFactory.ImplementedMethodInfo.DeclaringType,
-                        _dynamicImplementationsNamespace,
-                        typeFactory.ReturnedTypeSelectorForDefaultCase.ReturnedTypes.Select(x => x.ReturnedType),
-                        selectorParameterValues, selectorTypes);
-
-                    dynamicAssemblyBuilder.AddCSharpFile(generatedTypeInfo.CSharpFileContents);
-
-                    interfaceImplementationsInfo.Add(new DynamicallyGeneratedImplementationsModule.InterfaceImplementationInfo(typeFactory.ImplementedMethodInfo.DeclaringType, generatedTypeInfo.TypeFullName));
-                }
-                catch (Exception e)
-                {
-                    string exceptionDetails = null;
-                    if (e.Message.Length > 0)
-                        exceptionDetails = $"{Environment.NewLine}Exception details: {e.Message}{Environment.NewLine}{e.StackTrace}";
-
-                    throw new ConfigurationParseException(typeFactory, $"Failed to generate a C# class for the implementation of interface '{typeFactory.ImplementedMethodInfo.DeclaringType.FullName}'{exceptionDetails}.");
-                }
-            }
         }
 
         private static void CleanupDirectory([NotNull] string directoryPath)
@@ -378,10 +369,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
             if (requiredBindingsModule != null)
                 allGeneratedModuleInfos.Add(new ModuleInfo(this, _serviceRegistrationBuilder, requiredBindingsModule));
 
-#pragma warning disable CS0612, CS0618
-            var typesListFactoryTypeGenerator = IoCServiceFactoryAmbientContext.Context.CreateTypesListFactoryTypeGenerator(Configuration.ParameterSerializers.TypeBasedSimpleSerializerAggregator);
-#pragma warning restore CS0612, CS0618
-
             IList<DynamicallyGeneratedImplementationsModule.InterfaceImplementationInfo> interfaceImplementationsInfo = new List<DynamicallyGeneratedImplementationsModule.InterfaceImplementationInfo>();
 
             var dynamicallyGeneratedAssemblyFilePath = GetDynamicallyGeneratedAssemblyFilePath();
@@ -402,48 +389,60 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                 allDynamicallyGeneratedFilesInFolder.Add(dynamicallyGeneratedAssemblyFilePath);
             }
 
-            using (var dynamicAssemblyBuilder =
-                GlobalsCoreAmbientContext.Context.StartDynamicAssemblyBuilder(dynamicallyGeneratedAssemblyFilePath, OnDynamicAssemblyBuildCompleted, true))
+            EmitResult dynamicAssemblyEmitResult = null;
+
+            void OnDynamicAssemblyBuildCompleted(string assemblyPath, bool isSuccess, EmitResult emitResult)
             {
-                using (new DynamicHelperClassesStarter(dynamicAssemblyBuilder, Configuration))
-                {
-                    if (!_addAssemblyReferenciesToDynamicAssemblyInOneMethodOnly)
-                        dynamicAssemblyBuilder.AddReferencedAssembly(typeof(ITypeBasedSimpleSerializerAggregator));
+                _fileBasedConfigurationParameters.OnDynamicAssemblyEmitComplete?.Invoke(assemblyPath, isSuccess, emitResult);
 
-                    // Do not use IoC.Configuration in namespace, since it causes some naming conflicts with Autofac modules.
-
-                    AddAssemblyReferencesFromAssembliesElementToDynamicAssembly(dynamicAssemblyBuilder);
-
-                    //ProcessNonDependencyInjectionSections(dynamicAssemblyBuilder);
-
-                    if (Configuration.DependencyInjection != null)
-                        ProcessDependencyInjectionSection(dynamicAssemblyBuilder, typesListFactoryTypeGenerator, Configuration.DependencyInjection, _dynamicImplementationsNamespace, "ServicesModule", interfaceImplementationsInfo, allGeneratedModuleInfos);
-
-                    var additionalServices = new List<BindingConfigurationForFile>();
-
-                    if (!_addAssemblyReferenciesToDynamicAssemblyInOneMethodOnly)
-                    {
-                        // Lets add a reference to this assembly
-                        dynamicAssemblyBuilder.AddReferencedAssembly(typeof(IPlugin));
-                    }
-
-                    AddSettingsRequestorBindings(additionalServices, dynamicAssemblyBuilder);
-                    AddStartupActionBindings(additionalServices, dynamicAssemblyBuilder);
-                    AddPluginBindings(additionalServices, dynamicAssemblyBuilder, typesListFactoryTypeGenerator, interfaceImplementationsInfo, allGeneratedModuleInfos);
-
-                    AddReferencedAssemblies(dynamicAssemblyBuilder, additionalServices);
-
-                    // Add additional bindings after plugin bindings are handled (such as plugin implementations)
-                    var additionalServicesClassName = "AdditionalServices";
-
-                    var additionalServicesModuleClassContent =
-                        Configuration.DiManagers.ActiveDiManagerElement.DiManager.GenerateModuleClassCode(dynamicAssemblyBuilder, _assemblyLocator,
-                            _dynamicImplementationsNamespace, additionalServicesClassName, additionalServices);
-
-                    dynamicAssemblyBuilder.AddCSharpFile(additionalServicesModuleClassContent);
-                    allGeneratedModuleInfos.Add(new ModuleInfo(this, $"{_dynamicImplementationsNamespace}.{additionalServicesClassName}"));
-                }
+                dynamicAssemblyEmitResult = emitResult;
             }
+
+            using (var dynamicAssemblyBuilder =
+                GlobalsCoreAmbientContext.Context.StartDynamicAssemblyBuilder(dynamicallyGeneratedAssemblyFilePath, OnDynamicAssemblyBuildCompleted, 
+                    _fileBasedConfigurationParameters.LoadedAssemblies,
+                    _fileBasedConfigurationParameters.AdditionalReferencedAssemblies?.ToArray()))
+            {
+                dynamicAssemblyBuilder.StartDynamicallyGeneratedClass(DynamicCodeGenerationHelpers.DynamicImplementationsClassName);
+                dynamicAssemblyBuilder.StartDynamicallyGeneratedClass(DynamicCodeGenerationHelpers.ClassMembersClassName);
+
+                if (Configuration.SettingsElement != null)
+                    dynamicAssemblyBuilder.StartDynamicallyGeneratedClass(DynamicCodeGenerationHelpers.SettingValuesClassName);
+
+                foreach (var pluginSetup in Configuration.PluginsSetup.AllPluginSetups)
+                {
+                    if (!pluginSetup.Enabled)
+                        continue;
+
+                    dynamicAssemblyBuilder.StartDynamicallyGeneratedClass(DynamicCodeGenerationHelpers.GetPluginSettingValuesClassName(pluginSetup.OwningPluginElement.Name));
+                }
+
+                // Do not use IoC.Configuration in namespace, since it causes some naming conflicts with Autofac modules.
+
+                AddAssemblyReferencesFromAssembliesElementToDynamicAssembly(dynamicAssemblyBuilder);
+
+                if (Configuration.DependencyInjection != null)
+                    ProcessDependencyInjectionSection(dynamicAssemblyBuilder, Configuration.DependencyInjection, _dynamicImplementationsNamespace, "ServicesModule", interfaceImplementationsInfo, allGeneratedModuleInfos);
+
+                var additionalServices = new List<BindingConfigurationForFile>();
+
+                AddSettingsRequestorBindings(additionalServices, dynamicAssemblyBuilder);
+                AddStartupActionBindings(additionalServices, dynamicAssemblyBuilder);
+                AddPluginBindings(additionalServices, dynamicAssemblyBuilder, interfaceImplementationsInfo, allGeneratedModuleInfos);
+
+                // Add additional bindings after plugin bindings are handled (such as plugin implementations)
+                var additionalServicesClassName = "AdditionalServices";
+
+                var additionalServicesModuleClassContent =
+                    Configuration.DiManagers.ActiveDiManagerElement.DiManager.GenerateModuleClassCode(dynamicAssemblyBuilder, _assemblyLocator,
+                        _dynamicImplementationsNamespace, additionalServicesClassName, additionalServices);
+
+                dynamicAssemblyBuilder.AddCSharpFile(additionalServicesModuleClassContent);
+                allGeneratedModuleInfos.Add(new ModuleInfo(this, $"{_dynamicImplementationsNamespace}.{additionalServicesClassName}"));
+            }
+
+            if (dynamicAssemblyEmitResult == null || !dynamicAssemblyEmitResult.Success)
+                throw new DynamicCodeGenerationException(dynamicallyGeneratedAssemblyFilePath, dynamicAssemblyEmitResult);
 
             allGeneratedModuleInfos.Add(new ModuleInfo(this, _serviceRegistrationBuilder, new DynamicallyGeneratedImplementationsModule(interfaceImplementationsInfo, GetDynamicallyGeneratedAssemblyFilePath())));
             allGeneratedModuleInfos.Add(new ModuleInfo(this, _serviceRegistrationBuilder, new DefaultModule(this)));
@@ -475,19 +474,19 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
             base.Init();
 
             AppDomain.CurrentDomain.AssemblyResolve += OnAssemblyResolve;
-            Load(_configurationFileContentsProvider);
+            Load();
         }
 
-        private void Load([NotNull] IConfigurationFileContentsProvider configurationFileContentsProvider)
+        private void Load()
         {
             LogHelper.Context.Log.InfoFormat("Loading configuration started.");
             var schemaSet = new XmlSchemaSet();
 
-            Action<Exception, Func<string, Exception>> logAnErrorAndRethrowException = (originalException, createRethrownException) =>
+            void LogAnErrorAndRethrowException(Exception originalException, Func<string, Exception> createRethrownException)
             {
                 LogHelper.Context.Log.Fatal(originalException);
-                throw createRethrownException($"Failed to parse the xml file '{configurationFileContentsProvider.ConfigurationFileSourceDetails}'.");
-            };
+                throw createRethrownException($"Failed to parse the xml file '{_fileBasedConfigurationParameters.ConfigurationFileContentsProvider.ConfigurationFileSourceDetails}'.");
+            }
 
             try
             {
@@ -496,8 +495,13 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 
                 LogHelper.Context.Log.InfoFormat("Loading xml schema '{0}'", HelpersIoC.IoCConfigurationSchemaName);
 
-                using (var stream = GetType().Assembly.GetManifestResourceStream($"IoC.Configuration.EmbeddedResources.{HelpersIoC.IoCConfigurationSchemaName}" ))
+                var resourceName = $"IoC.Configuration.EmbeddedResources.{HelpersIoC.IoCConfigurationSchemaName}";
+
+                using (var stream = GetType().Assembly.GetManifestResourceStream(resourceName))
                 {
+                    if (stream == null)
+                        throw new Exception($"Failed to load the XML Schema from resource '{resourceName}'.");
+                    
                     xmlSchema = XmlSchema.Read(stream, (sender, e) =>
                     {
                         if (e.Exception != null)
@@ -513,14 +517,45 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                 // Load XML file
                 var xmlDocument = new XmlDocument {Schemas = schemaSet};
 
-                LogHelper.Context.Log.InfoFormat("Loading XML configuration file from '{0}'.", configurationFileContentsProvider.ConfigurationFileSourceDetails);
+                LogHelper.Context.Log.InfoFormat("Loading XML configuration file from '{0}'.", _fileBasedConfigurationParameters.ConfigurationFileContentsProvider.ConfigurationFileSourceDetails);
                 
-                using (var stringReader = new StringReader(configurationFileContentsProvider.LoadConfigurationFileContents()))
+                using (var stringReader = new StringReader(_fileBasedConfigurationParameters.ConfigurationFileContentsProvider.LoadConfigurationFileContents()))
                 {
                     xmlDocument.Load(stringReader);
                 }
 
-                _configurationFileXmlDocumentLoaded?.Invoke(this, new ConfigurationFileXmlDocumentLoadedEventArgs(xmlDocument));
+                // Process loaded XML
+                var nodes = xmlDocument.GetElementsByTagName(ConfigurationFileElementNames.RootElement);
+
+                if (nodes.Count != 1 || !(nodes.Item(0) is XmlElement rootElement))
+                    throw new Exception($"Expected '{ConfigurationFileElementNames.RootElement}' element as a root element in configuration file.");
+
+                var attributeValueTransformers = _fileBasedConfigurationParameters.AttributeValueTransformers;
+                if (attributeValueTransformers != null)
+                {
+                    var attributeValueTransformersList = attributeValueTransformers.ToList();
+
+                    if (attributeValueTransformersList.Count > 0)
+                    {
+                        ProcessXmlElements(rootElement, $"/{ConfigurationFileElementNames.RootElement}",
+                            (xmlElement, xmlElementPath) =>
+                        {
+                            foreach (var attributeObject in xmlElement.Attributes)
+                            {
+                                if (!(attributeObject is XmlAttribute xmlAttribute))
+                                    continue;
+
+                                foreach (var attributeValueProvider in attributeValueTransformersList)
+                                {
+                                    if (attributeValueProvider.TryGetAttributeValue(xmlElementPath, xmlAttribute, out var attributeValue))
+                                        xmlElement.SetAttribute(xmlAttribute.Name, attributeValue ?? string.Empty);
+                                }
+                            }
+                        });
+                    }
+                }
+
+                _fileBasedConfigurationParameters.ConfigurationFileXmlDocumentLoaded?.Invoke(this, new ConfigurationFileXmlDocumentLoadedEventArgs(xmlDocument));
 
                 LogHelper.Context.Log.InfoFormat("Validating the configuration file against the schema '{0}'.",
                     HelpersIoC.IoCConfigurationSchemaName);
@@ -531,16 +566,8 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                         throw e.Exception;
 
                     if (e.Severity == XmlSeverityType.Error)
-                        throw new Exception($"Errors in XML file: '{configurationFileContentsProvider.ConfigurationFileSourceDetails}'.");
+                        throw new Exception($"Errors in XML file: '{_fileBasedConfigurationParameters.ConfigurationFileContentsProvider.ConfigurationFileSourceDetails}'.");
                 });
-
-                // Process loaded XML
-                var nodes = xmlDocument.GetElementsByTagName(ConfigurationFileElementNames.RootElement);
-
-                if (nodes.Count != 1 || !(nodes.Item(0) is XmlElement))
-                    throw new Exception($"Expected '{ConfigurationFileElementNames.RootElement}' element as a root element in configuration file.");
-
-                var rootElement = (XmlElement) nodes.Item(0);
 
                 LogHelper.Context.Log.InfoFormat("Processing element: {0}", rootElement.XmlElementToString());
 
@@ -557,11 +584,11 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
             }
             catch (ConfigurationParseException e)
             {
-                logAnErrorAndRethrowException(e, message => new ConfigurationParseException(e.ConfigurationFileElement, message, e.ParentConfigurationFileElement, false));
+                LogAnErrorAndRethrowException(e, message => new ConfigurationParseException(e.ConfigurationFileElement, message, e.ParentConfigurationFileElement, false));
             }
             catch (Exception e)
             {
-                logAnErrorAndRethrowException(e, message => new ConfigurationParseException(message));
+                LogAnErrorAndRethrowException(e, message => new ConfigurationParseException(message));
             }
         }
 
@@ -607,17 +634,30 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         {
             base.OnContainerStarted();
 
-            ValidateRequiredSettings(DiContainer);
+            void LogAnErrorAndRethrowException(Exception originalException, Func<string, Exception> createRethrownException)
+            {
+                LogHelper.Context.Log.Fatal(originalException);
+                throw createRethrownException($"Validation of xml file '{_fileBasedConfigurationParameters.ConfigurationFileContentsProvider.ConfigurationFileSourceDetails}' failed after the DI container was loaded.");
+            }
 
-            _onApplicationsStarted = DiContainer.Resolve<IOnApplicationsStarted>();
-            _onApplicationsStarted.StartStartupActions();
-            LogHelper.Context.Log.Info("Applications and plugins started.");
-        }
+            try
+            {
+                ValidateConfigurationFileElementsOnContainerLoaded(DiContainer);
 
-        private void OnDynamicAssemblyBuildCompleted(string assemblyPath, bool isSuccess, EmitResult emitResult)
-        {
-            if (!isSuccess)
-                throw new ConfigurationParseException("Dynamic code generation failed.");
+                ValidateRequiredSettings(DiContainer);
+
+                _onApplicationsStarted = DiContainer.Resolve<IOnApplicationsStarted>();
+                _onApplicationsStarted.StartStartupActions();
+                LogHelper.Context.Log.Info("Applications and plugins started.");
+            }
+            catch (ConfigurationParseException e)
+            {
+                LogAnErrorAndRethrowException(e, message => new ConfigurationParseException(e.ConfigurationFileElement, message, e.ParentConfigurationFileElement, false));
+            }
+            catch (Exception e)
+            {
+                LogAnErrorAndRethrowException(e, message => new ConfigurationParseException(message));
+            }
         }
 
         private void ProcessConfigurationFileElementAfterTreeConstructed(IConfigurationFileElement configurationFileElement, ref bool stopProcessing)
@@ -628,9 +668,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         }
 
         private void ProcessDependencyInjectionSection([NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder,
-#pragma warning disable CS0612, CS0618
-                                                       [NotNull] ITypesListFactoryTypeGenerator typesListFactoryTypeGenerator,
-#pragma warning restore CS0612, CS0618
                                                        [NotNull] IDependencyInjection dependencyInjection,
                                                        [NotNull] string servicesModuleNamespace, [NotNull] string servicesModuleClassName,
                                                        [NotNull] IList<DynamicallyGeneratedImplementationsModule.InterfaceImplementationInfo> interfaceImplementationsInfo,
@@ -643,13 +680,8 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 
             foreach (var service in dependencyInjection.Services.AllServices)
             {
-                if (!_addAssemblyReferenciesToDynamicAssemblyInOneMethodOnly)
-                    dynamicAssemblyBuilder.AddReferencedAssembly(service.ServiceTypeInfo.Type);
-
                 services.Add(BindingConfigurationForFile.CreateBindingConfigurationForFile(service.ServiceTypeInfo.Type, service.RegisterIfNotRegistered, service.Implementations));
             }
-
-            AddReferencedAssemblies(dynamicAssemblyBuilder, services);
 
             var servicesModuleClassContent = Configuration.DiManagers.ActiveDiManagerElement.DiManager.GenerateModuleClassCode(dynamicAssemblyBuilder, _assemblyLocator,
                 servicesModuleNamespace, servicesModuleClassName, services);
@@ -657,16 +689,26 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
             dynamicAssemblyBuilder.AddCSharpFile(servicesModuleClassContent);
             allGeneratedModuleInfos.Add(new ModuleInfo(this, $"{servicesModuleNamespace}.{servicesModuleClassName}"));
 
-
             AddAutoGeneratedServices(dependencyInjection, interfaceImplementationsInfo, dynamicAssemblyBuilder);
-#pragma warning disable CS0612, CS0618
-            AddTypeFactories(dependencyInjection, interfaceImplementationsInfo, typesListFactoryTypeGenerator, dynamicAssemblyBuilder);
-#pragma warning restore CS0612, CS0618
+        }
+
+        private void ValidateConfigurationFileElementsOnContainerLoaded([NotNull] IDiContainer diContainer)
+        {
+            LogHelper.Context.Log.DebugFormat("Validating configuration file elements on container loaded.");
+
+            void ValidateConfigurationElement(IConfigurationFileElement configurationFileElement, ref bool stopProcessing)
+            {
+                configurationFileElement.ValidateOnContainerLoaded(diContainer);
+            }
+
+            Configuration.ProcessTree(ValidateConfigurationElement);
+
+            LogHelper.Context.Log.DebugFormat("Completed validating configuration file elements on container loaded.");
         }
 
         private void ValidateRequiredSettings([NotNull] IDiContainer diContainer)
         {
-            LogHelper.Context.Log.DebugFormat("Validating required settings");
+            LogHelper.Context.Log.DebugFormat("Validating required settings on container loaded.");
 
             ValidateRequiredSettings(diContainer.Resolve<ISettings>(), diContainer.Resolve<ISettingsRequestor>());
 
@@ -675,7 +717,7 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
             foreach (var pluginData in pluginDataRepository.Plugins)
                 ValidateRequiredSettings(pluginData.Settings, pluginData.Plugin);
 
-            LogHelper.Context.Log.DebugFormat("Completed validating required settings");
+            LogHelper.Context.Log.DebugFormat("Completed validating required settings on container loaded.");
         }
 
         private void ValidateRequiredSettings([NotNull] ISettings settings, [NotNull] ISettingsRequestor settingsRequestor)
@@ -683,21 +725,21 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
             if (settingsRequestor.RequiredSettings == null)
                 return;
 
-            foreach (var requierdSetting in settingsRequestor.RequiredSettings)
+            foreach (var requiredSetting in settingsRequestor.RequiredSettings)
             {
-                var setting = settings.GetSetting(requierdSetting.Name);
+                var setting = settings.GetSetting(requiredSetting.Name);
 
                 if (setting == null ||
-                    !requierdSetting.ValueDataType.IsTypeAssignableFrom(setting.ValueTypeInfo.Type))
+                    !requiredSetting.ValueDataType.IsTypeAssignableFrom(setting.ValueTypeInfo.Type))
                 {
                     ISettingsElement settingsElement = null;
 
                     var errorMessage = new StringBuilder();
 
                     if (setting == null)
-                        errorMessage.Append($"Required setting '{requierdSetting.Name}' with value type of '{requierdSetting.ValueDataType.FullName}' is missing in ");
+                        errorMessage.Append($"Required setting '{requiredSetting.Name}' with value type of '{requiredSetting.ValueDataType.FullName}' is missing in ");
                     else
-                        errorMessage.Append($"Required setting '{requierdSetting.Name}' should be of type '{requierdSetting.ValueDataType.FullName}'. Actual type is '{setting.ValueTypeInfo.TypeCSharpFullName}'. The setting is in ");
+                        errorMessage.Append($"Required setting '{requiredSetting.Name}' should be of type '{requiredSetting.ValueDataType.FullName}'. Actual type is '{setting.ValueTypeInfo.TypeCSharpFullName}'. The setting is in ");
 
                     if (settingsRequestor is IPlugin plugin)
                     {
@@ -716,7 +758,7 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                     if (setting == null)
                         throw new ConfigurationParseException(settingsElement, errorMessageToString);
 
-                    var settingElement = settingsElement.AllSettings.Where(x => string.Compare(requierdSetting.Name, x.Name, StringComparison.Ordinal) == 0).FirstOrDefault();
+                    var settingElement = settingsElement.AllSettings.FirstOrDefault(x => string.Compare(requiredSetting.Name, x.Name, StringComparison.Ordinal) == 0);
 
                     if (settingElement == null)
                     {
@@ -729,14 +771,8 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
             }
         }
 
-        #endregion
-
-        #region Nested Types
-
         private class ConcreteClassesRegistrationsModule : ModuleAbstr
         {
-            #region Member Variables
-
             [NotNull]
             private readonly IConfiguration _configuration;
 
@@ -744,9 +780,9 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
             [ItemNotNull]
             private readonly HashSet<Type> _registeredSelfBoundServices = new HashSet<Type>();
 
-            #endregion
+           
 
-            #region  Constructors
+         
 
             public ConcreteClassesRegistrationsModule([NotNull] IConfiguration configuration, [CanBeNull] [ItemNotNull] IEnumerable<IDiModule> additionalDiModules)
             {
@@ -754,15 +790,12 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 
                 if (additionalDiModules != null)
                     foreach (var diModule in additionalDiModules)
+
                         AccountForRegistrationsInModule(diModule);
 
                 AccountForRegistrationsInDependencyInjectionElements(new[] {_configuration.DependencyInjection});
                 AccountForRegistrationsInDependencyInjectionElements(_configuration.PluginsSetup.AllPluginSetups.Select(x => x.DependencyInjection).Where(x => x.Enabled));
             }
-
-            #endregion
-
-            #region Member Functions
 
             private void AccountForRegistrationsInDependencyInjectionElements(IEnumerable<IDependencyInjection> dependencyInjectionElements)
             {
@@ -770,7 +803,7 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                 {
                     foreach (var moduleElement in dependencyInjection.Modules.Modules)
                         if (moduleElement.DiModule is IDiModule diModule)
-                            AccountForRegistrationsInModule((IDiModule) moduleElement.DiModule);
+                            AccountForRegistrationsInModule(diModule);
 
                     foreach (var service in dependencyInjection.Services.AllServices)
                         if (service.ServiceTypeInfo.Type.IsClass && !_registeredSelfBoundServices.Contains(service.ServiceTypeInfo.Type))
@@ -809,13 +842,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                         }
                     }
                 }
-
-#pragma warning disable CS0612, CS0618
-                if (configurationFileElement is ITypeFactoryReturnedType)
-                {
-                    RegisterSelfBoundService(((ITypeFactoryReturnedType) configurationFileElement).ReturnedType);
-                }
-#pragma warning restore CS0612, CS0618
             }
 
 
@@ -827,32 +853,19 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                 if (!type.IsClass || type.IsAbstract || type.GetConstructors().FirstOrDefault(x => x.IsPublic) == null)
                     return;
 
-                Bind(type).OnlyIfNotRegistered().ToSelf();
+                Bind(type).OnlyIfNotRegistered().ToSelf().SetResolutionScope(DiResolutionScope.Singleton);
                 _registeredSelfBoundServices.Add(type);
             }
-
-            #endregion
         }
 
         private class DefaultModule : ModuleAbstr
         {
-            #region Member Variables
-
             [NotNull]
             private readonly FileBasedConfiguration _fileBasedConfiguration;
-
-            #endregion
-
-            #region  Constructors
-
             public DefaultModule([NotNull] FileBasedConfiguration fileBasedConfiguration)
             {
                 _fileBasedConfiguration = fileBasedConfiguration;
             }
-
-            #endregion
-
-            #region Member Functions
 
             /// <summary>
             ///     Use OnlyIfNotRegistered with all binding configurations, to use custom binding that the user might have specified
@@ -875,58 +888,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                 Bind<IPluginDataRepository>().OnlyIfNotRegistered().To<PluginDataRepository>().SetResolutionScope(DiResolutionScope.Singleton);
                 Bind<IOnApplicationsStarted>().OnlyIfNotRegistered().To<OnApplicationsStarted>().SetResolutionScope(DiResolutionScope.Singleton);
             }
-
-            #endregion
-        }
-
-        private class DynamicHelperClassesStarter : IDisposable
-        {
-            #region Member Variables
-
-            private readonly List<IDynamicallyGeneratedClass> _dynamicallyGeneratedClasses = new List<IDynamicallyGeneratedClass>(10);
-
-            [NotNull]
-            private readonly IDynamicAssemblyBuilder _dynamicAssemblyBuilder;
-
-            #endregion
-
-            #region  Constructors
-
-            public DynamicHelperClassesStarter([NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder, IConfiguration configuration)
-            {
-                _dynamicAssemblyBuilder = dynamicAssemblyBuilder;
-
-                _dynamicallyGeneratedClasses.Add(
-                    _dynamicAssemblyBuilder.StartDynamicallyGeneratedClass(DynamicCodeGenerationHelpers.DynamicImplementationsClassName));
-
-                _dynamicallyGeneratedClasses.Add(
-                    _dynamicAssemblyBuilder.StartDynamicallyGeneratedClass(DynamicCodeGenerationHelpers.ClassMembersClassName));
-
-                if (configuration.SettingsElement != null)
-                    _dynamicallyGeneratedClasses.Add(
-                        _dynamicAssemblyBuilder.StartDynamicallyGeneratedClass(DynamicCodeGenerationHelpers.SettingValuesClassName));
-
-                foreach (var pluginSetup in configuration.PluginsSetup.AllPluginSetups)
-                {
-                    if (!pluginSetup.Enabled)
-                        continue;
-
-                    _dynamicallyGeneratedClasses.Add(
-                        _dynamicAssemblyBuilder.StartDynamicallyGeneratedClass(DynamicCodeGenerationHelpers.GetPluginSettingValuesClassName(pluginSetup.OwningPluginElement.Name)));
-                }
-            }
-
-            #endregion
-
-            #region IDisposable Interface Implementation
-
-            public void Dispose()
-            {
-                foreach (var dynamicallyGeneratedClass in _dynamicallyGeneratedClasses)
-                    _dynamicAssemblyBuilder.FinalizeDynamicallyGeneratedClass(dynamicallyGeneratedClass.ClassName);
-            }
-
-            #endregion
         }
 
         /// <summary>
@@ -935,16 +896,10 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         /// </summary>
         private class ModuleInfo
         {
-            #region Member Variables
-
             [NotNull]
             private readonly FileBasedConfiguration _fileBasedConfiguration;
 
             private readonly string _moduleClassFullName;
-
-            #endregion
-
-            #region  Constructors
 
             /// <summary>
             ///     Use this constructor for either native modules (e.g., Autofac or Ninject module), or modules of type
@@ -978,10 +933,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                 _moduleClassFullName = moduleClassFullName;
             }
 
-            #endregion
-
-            #region Member Functions
-
             public object GetNativeModule()
             {
                 if (NativeModuleObject != null)
@@ -990,7 +941,7 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                 if (_moduleClassFullName != null)
                 {
                     if (_fileBasedConfiguration._loadedDynamicAssembly == null)
-                        _fileBasedConfiguration._loadedDynamicAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(
+                        _fileBasedConfiguration._loadedDynamicAssembly = GlobalsCoreAmbientContext.Context.LoadAssembly(
                             _fileBasedConfiguration.GetDynamicallyGeneratedAssemblyFilePath());
 
                     var nativeModuleType = _fileBasedConfiguration._loadedDynamicAssembly.GetType(_moduleClassFullName);
@@ -1010,7 +961,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 
                 return NativeModuleObject;
             }
-
             public object NativeModuleObject { get; private set; }
 
             public override string ToString()
@@ -1020,9 +970,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                 return $"{GetType()}-{NativeModuleObject.GetType().FullName}";
             }
 
-            #endregion
         }
-
-        #endregion
     }
 }

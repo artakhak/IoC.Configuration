@@ -21,7 +21,7 @@ This is a Sphinx project for IoC.Configuration documentation.
      python -m pip install sphinx sphinx-autobuild
 
 ### Create the documentation project with sphinx
-    -In command window run the following commands:
+    -One time only: in command window run the following commands:
     
     cd "k:\..\IoC.Configuration\docs" 
     sphinx-quickstart #this will build the Sphinx doc project. 
@@ -31,7 +31,8 @@ This is a Sphinx project for IoC.Configuration documentation.
             Do you want to use the epub builder: N
 ### Building the docs
 
-      -In k:\..\IoC.Configuration\docs\conf.py set the value of html_theme to 'bizstyle'
+      - Run the application IoC.Configuration.DocumentationGenerator to re-generate md files from templates (inlcuding the main README.rd file)
+      - In k:\..\IoC.Configuration\docs\conf.py set the value of html_theme to 'bizstyle'
       -In command window change to "k:\..\IoC.Configuration\docs" directory (see the section above), and
         run the following command:
         make html

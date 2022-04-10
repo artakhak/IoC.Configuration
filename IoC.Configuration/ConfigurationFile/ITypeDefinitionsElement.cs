@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright ï¿½ 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -31,11 +31,23 @@ namespace IoC.Configuration.ConfigurationFile
     public interface ITypeDefinitionsElement : IConfigurationFileElement
     {
         #region Current Type Interface
-
+        /// <summary>
+        /// Returns a list of type definitions under element <see cref="ConfigurationFileElementNames.TypeDefinitions"/>.
+        /// If the element belongs to plugin section, will not include the type defintions in non-plugin section. 
+        /// </summary>
         [NotNull]
         [ItemNotNull]
         IReadOnlyList<INamedTypeDefinitionElement> AllTypeDefinitions { get; }
 
+        /// <summary>
+        /// If the the definitions element is in plugin, will try to get the type definition defined
+        /// in plugin in <see cref="ConfigurationFileElementNames.TypeDefinitions"/> element.
+        /// Otherwise, if the element <see cref="ConfigurationFileElementNames.TypeDefinitions"/> is a non-plugin element,
+        /// or if the type definition was not found, will lookup the type definition
+        /// in element <see cref="ConfigurationFileElementNames.TypeDefinitions"/> element in non-plugin section.
+        /// </summary>
+        /// <param name="alias"></param>
+        /// <returns></returns>
         [CanBeNull]
         INamedTypeDefinitionElement GetTypeDefinition(string alias);
 

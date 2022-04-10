@@ -1,6 +1,6 @@
-﻿using IoC.Configuration.Tests.SuccessfullDiModuleLoadTests;
-using IoC.Configuration.Tests.SuccessfullDiModuleLoadTests.TestClasses;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using IoC.Configuration.Tests.SuccessfulDiModuleLoadTests;
+using IoC.Configuration.Tests.SuccessfulDiModuleLoadTests.TestClasses;
+using NUnit.Framework;
 using OROptimizer;
 using System.IO;
 using TestsSharedLibrary;
@@ -8,16 +8,16 @@ using TestsSharedLibrary.DependencyInjection;
 
 namespace IoC.Configuration.Tests.DocumentationTests
 {
-    [TestClass] 
+    [TestFixture] 
     public class DemoServiceBindingsInModules
     {
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             TestsHelper.SetupLogger();
         }
 
-        [TestMethod]
+        [Test]
         public void ResolveBindings()
         {
             // Probing paths are used to re-solve the dependencies.
@@ -69,13 +69,13 @@ namespace IoC.Configuration.Tests.DocumentationTests
             Assert.IsTrue(implementation.GetType() == typeof(Interface2_Impl1));
 
             // Validate that the implementation is an instance of the resolved type.
-            Assert.IsInstanceOfType(implementation, typeof(IInterface2));
+            Assert.IsInstanceOf<IInterface2>(implementation);
         }
 
         private void BindToAValueReturnedByDelegate(IoC.Configuration.DiContainer.IDiContainer diContainer)
         {
             var implementation = diContainer.Resolve<IInterface6>();
-            Assert.IsInstanceOfType(implementation, typeof(IInterface6));
+            Assert.IsInstanceOf<IInterface6>(implementation);
         }
     }
 }

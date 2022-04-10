@@ -1,0 +1,198 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Using Types in Configuration File &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Parameter Serializers" href="parameter-serializers.html" />
+    <link rel="prev" title="Assemblies and Probing Paths" href="assemblies-and-probing-paths.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="parameter-serializers.html" title="Parameter Serializers"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="assemblies-and-probing-paths.html" title="Assemblies and Probing Paths"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">XML Configuration File</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Using Types in Configuration File</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="using-types-in-configuration-file">
+<h1>Using Types in Configuration File<a class="headerlink" href="#using-types-in-configuration-file" title="Permalink to this headline">¶</a></h1>
+<p>Many configuration elements reference <strong>C#</strong> types.</p>
+<p>Either the full type name of the element should be specified using a type attribute (the attribute name might be different depending on element),
+or type alias should be specified, to reference a type declared in element under element <strong>/iocConfiguration/typeDefinitions/typeDefinitions</strong> (see below for more details).</p>
+<p>Some examples are:</p>
+<ul class="simple">
+<li><p>&lt;service type=”DynamicallyLoadedAssembly1.Interfaces.IInterface1”&gt;</p></li>
+<li><p>&lt;service type=”DynamicallyLoadedAssembly1.Interfaces.IInterface2 assembly=”shared_services”&gt;</p></li>
+<li><p>&lt;service typeRef=”IInterface1”&gt;</p></li>
+</ul>
+<dl>
+<dt>If the element uses the full type name, an optional attribute <strong>assembly</strong> can be used to specify the assembly, where the type is.</dt><dd><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Refer to <a class="reference internal" href="assemblies-and-probing-paths.html"><span class="doc">Assemblies and Probing Paths</span></a> for more details on assemblies in configuration file.</p>
+</div>
+</dd>
+</dl>
+<p><strong>IoC.Configuration</strong> looks up the type in all the assemblies under element <strong>/iocConfiguration/assemblies</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Refer to <a class="reference internal" href="../sample-files/IoCConfiguration_GenericTypesAndTypeReUse.generated.html"><span class="doc">IoCConfiguration_GenericTypesAndTypeReUse.xml</span></a> for more examples of using types in configuration file.</p>
+</div>
+<section id="generic-types-in-configuration-file">
+<h2>Generic Types in Configuration File<a class="headerlink" href="#generic-types-in-configuration-file" title="Permalink to this headline">¶</a></h2>
+<p>To reference generic types, list the comma separated generic type parameters within opening and closing square brackets (i.e., []) after the type name.</p>
+<p>Some examples are:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!--This type is similar to C# type</span>
+<span class="cm">SharedServices.Implementations.Generic.Generic1_1&lt;SharedServices.Implementations.Interface1_Impl1&gt; --&gt;</span>
+<span class="nt">&lt;implementation</span>
+    <span class="na">type=</span><span class="s">&quot;SharedServices.Implementations.Generic.Generic1_1[SharedServices.Implementations.Interface1_Impl1]&quot;</span>
+    <span class="na">scope=</span><span class="s">&quot;singleton&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!--This type is similar to C# type</span>
+<span class="cm">SharedServices.Interfaces.Generic.IGeneric2_1&lt;SharedServices.Implementations.Generic.Generic3_1&lt;System.Int32&gt; --&gt;</span>
+<span class="nt">&lt;service</span>
+    <span class="na">type=</span><span class="s">&quot;SharedServices.Interfaces.Generic.IGeneric2_1[SharedServices.Implementations.Generic.Generic3_1[System.Int32]]&quot;</span> <span class="nt">&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="array-types-in-configuration-file">
+<h2>Array Types in Configuration File<a class="headerlink" href="#array-types-in-configuration-file" title="Permalink to this headline">¶</a></h2>
+<p>Array types can be specified by appending character <strong>#</strong> after the array item type name.</p>
+<p>Example is:</p>
+<blockquote>
+<div><div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!--The type definition below is similar to C# type SharedServices.Interfaces.IInterface1[]--&gt;</span>
+<span class="nt">&lt;service</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Interfaces.IInterface1#&quot;</span> <span class="nt">&gt;</span>
+    <span class="cm">&lt;!--Some implementation for service SharedServices.Interfaces.IInterface1[] goes here.--&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+<section id="re-using-types">
+<h2>Re-Using Types<a class="headerlink" href="#re-using-types" title="Permalink to this headline">¶</a></h2>
+<p>To avoid specifying the full type name in multiple elements in configuration file, we can define the type in <strong>/iocConfiguration/typeDefinitions/typeDefinition</strong> element, and reference the type using tye type alias in other elements.</p>
+<p>Here is an example of declaring a type <strong>System.Collections.Generic.IEnumerable&lt;SharedServices.Interfaces.IInterface1&gt;</strong> with alias <strong>IEnumerableOf_IInterface1</strong> in <strong>typeDefinition</strong> element:</p>
+<blockquote>
+<div><div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;typeDefinitions&gt;</span>
+    <span class="nt">&lt;typeDefinition</span>
+        <span class="na">alias=</span><span class="s">&quot;IEnumerableOf_IInterface1&quot;</span>
+        <span class="na">type=</span><span class="s">&quot;System.Collections.Generic.IEnumerable[SharedServices.Interfaces.IInterface1]&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/typeDefinitions&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>Here is an example of referencing the type with alias <strong>IEnumerableOf_IInterface1</strong> declared in <strong>typeDefinition</strong> element:</p>
+<blockquote>
+<div><div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;service</span> <span class="na">typeRef=</span><span class="s">&quot;IEnumerableOf_IInterface1&quot;</span><span class="nt">&gt;</span>
+    <span class="cm">&lt;!--Some implementation for service</span>
+<span class="cm">    System.Collections.Generic.IEnumerable&lt;SharedServices.Interfaces.IInterface1&gt; goes here.--&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Using Types in Configuration File</a><ul>
+<li><a class="reference internal" href="#generic-types-in-configuration-file">Generic Types in Configuration File</a></li>
+<li><a class="reference internal" href="#array-types-in-configuration-file">Array Types in Configuration File</a></li>
+<li><a class="reference internal" href="#re-using-types">Re-Using Types</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="assemblies-and-probing-paths.html"
+                          title="previous chapter">Assemblies and Probing Paths</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="parameter-serializers.html"
+                          title="next chapter">Parameter Serializers</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/xml-configuration-file/using-types-in-configuration.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="parameter-serializers.html" title="Parameter Serializers"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="assemblies-and-probing-paths.html" title="Assemblies and Probing Paths"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >XML Configuration File</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Using Types in Configuration File</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

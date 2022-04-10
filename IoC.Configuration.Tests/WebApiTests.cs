@@ -1,25 +1,25 @@
 ﻿using IoC.Configuration.ConfigurationFile;
 using IoC.Configuration.DiContainerBuilder;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.IO;
 using System.Linq;
-using TestsSharedLibrary;
-using TestsSharedLibrary.Diagnostics.Log;
+using IoC.Configuration.DiContainerBuilder.FileBased;
+using TestsHelper = TestsSharedLibrary.TestsHelper;
 
 namespace IoC.Configuration.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class WebApiTests
     {
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext testContext)
+        [OneTimeSetUp]
+        public static void ClassInitialize()
         {
             TestsHelper.SetupLogger();
-            Log4Tests.LogLevel = LogLevel.Debug;
+            TestsSharedLibrary.Diagnostics.Log.Log4Tests.LogLevel = TestsSharedLibrary.Diagnostics.Log.LogLevel.Debug;
         }
 
-        [TestMethod]
+        [Test]
         public void TestWebApiAssemblies()
         {
             LoadConfiguration((containerInfo, loadedConfiguration) =>
@@ -44,8 +44,7 @@ namespace IoC.Configuration.Tests
             });
         }
 
-
-        [TestMethod]
+        [Test]
         public void TestPluginWebApiAssemblies()
         {
             LoadConfiguration((containerInfo, loadedConfiguration) =>
@@ -69,7 +68,7 @@ namespace IoC.Configuration.Tests
             });
         }
 
-        [TestMethod]
+        [Test]
         public void TestPluginWebApiAssembliesForDisabledPlugin()
         {
             LoadConfiguration((containerInfo, loadedConfiguration) =>
@@ -103,12 +102,17 @@ namespace IoC.Configuration.Tests
                                        ConfigurationFileXmlDocumentLoadedEventHandler configurationFileXmlDocumentLoaded)
         {
             var diContainerBuilder = new DiContainerBuilder.DiContainerBuilder();
+
+            var fileBasedConfigurationParameters = new FileBasedConfigurationParameters(new FileBasedConfigurationFileContentsProvider(
+                    Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")),
+                Helpers.TestsEntryAssemblyFolder, new LoadedAssembliesForTests())
+            {
+                AttributeValueTransformers = new [] {new FileFolderPathAttributeValueTransformer()},
+                ConfigurationFileXmlDocumentLoaded = configurationFileXmlDocumentLoaded
+            };
+
             using (var containerInfo = diContainerBuilder.StartFileBasedDi(
-                                                   new FileBasedConfigurationFileContentsProvider(
-                                                   Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")),
-                                                   Helpers.TestsEntryAssemblyFolder,
-                                                   out var loadedConfiguration,
-                                                   configurationFileXmlDocumentLoaded)
+                                                fileBasedConfigurationParameters, out var loadedConfiguration)
                                                .WithoutPresetDiContainer()
                                                //.AddAdditionalDiModules(new SuccessfulConfigurationLoadTests.SuccessfulConfigurationLoadTests.TestModule2())
                                                .RegisterModules()

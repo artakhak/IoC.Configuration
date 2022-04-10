@@ -1,0 +1,12 @@
+=============================
+IoCConfiguration_Overview.xml
+=============================
+
+The file **IoCConfiguration_Overview.xml** provides an overview of various features of **IoC.Configuration**
+
+This configuration file can be downloaded downloaded from `IoCConfiguration_Overview.xml <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests/IoCConfiguration_Overview.xml>`_.
+
+.. code-block:: xml
+   :linenos:
+
+   <IncludedFilePlaceHolder>..\..\IoC.Configuration.Tests\IoCConfiguration_Overview.xml</IncludedFilePlaceHolder>

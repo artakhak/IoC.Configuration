@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Settings &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Specifying DI Manager" href="specifying-di-manager.html" />
+    <link rel="prev" title="Constructor Parameters" href="constructor-parameters.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="specifying-di-manager.html" title="Specifying DI Manager"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="constructor-parameters.html" title="Constructor Parameters"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">XML Configuration File</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Settings</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="settings">
+<h1>Settings<a class="headerlink" href="#settings" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#interface-ioc-configuration-isettingsrequestor" id="id1">Interface IoC.Configuration.ISettingsRequestor</a></p></li>
+<li><p><a class="reference internal" href="#accessing-setting-values-in-code" id="id2">Accessing Setting Values in Code</a></p></li>
+</ul>
+</div>
+<p>The configuration file has two elements related to settings: <strong>/iocConfiguration/settingsRequestor</strong> and <strong>/iocConfiguration/settings</strong></p>
+<blockquote>
+<div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>See <a class="reference internal" href="plugins.html"><span class="doc">Plugins</span></a> for details on settings in plugins.</p>
+</div>
+</div></blockquote>
+<p>Here is an example of settings in XML configuration file:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span>    <span class="nt">&lt;iocConfiguration&gt;</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span>        <span class="nt">&lt;settingsRequestor</span> <span class="na">type=</span><span class="s">&quot;SharedServices.FakeSettingsRequestor&quot;</span>
+<span class="linenos"> 4</span>                            <span class="na">assembly=</span><span class="s">&quot;shared_services&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 5</span>        <span class="nt">&lt;/settingsRequestor&gt;</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span>        <span class="nt">&lt;settings&gt;</span>
+<span class="linenos"> 8</span>            <span class="nt">&lt;int32</span> <span class="na">name=</span><span class="s">&quot;SynchronizerFrequencyInMilliseconds&quot;</span> <span class="na">value=</span><span class="s">&quot;5000&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 9</span>            <span class="nt">&lt;double</span> <span class="na">name=</span><span class="s">&quot;MaxCharge&quot;</span> <span class="na">value=</span><span class="s">&quot;155.7&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">10</span>            <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;DisplayValue&quot;</span> <span class="na">value=</span><span class="s">&quot;Some display value&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">11</span>        <span class="nt">&lt;/settings&gt;</span>
+<span class="linenos">12</span>    <span class="nt">&lt;/iocConfiguration&gt;</span>
+</pre></div>
+</div>
+<ul>
+<li><p>Element <strong>settings</strong> lists all the settings using elements <strong>byte</strong>, <strong>int16</strong>, <strong>int32</strong>, <strong>int64</strong>, <strong>double</strong>, <strong>boolean</strong>, <strong>datetime</strong>, <strong>string</strong>, <strong>object</strong>. The values of settings are de-serialized using serializers provided in element <strong>parameterSerializers</strong> (reference section <a class="reference internal" href="parameter-serializers.html"><span class="doc">Parameter Serializers</span></a>).</p></li>
+<li><p>Element <strong>settingsRequestor</strong> is optional and if present, is used to force the user to include settings using the type specified in attributes <strong>type</strong> and <strong>assembly</strong>. The specified type should implement an interface <strong>IoC.Configuration.ISettingsRequestor</strong>, which specifies a collection of required settings that should be present in settings element.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The type specified in <strong>type</strong> attribute in <strong>settingsRequestor</strong> element is fully integrated into a dependency injection framework. In other words, constructor parameters will be injected using bindings specified in dependencyInjection element.</p>
+</div>
+</div></blockquote>
+</li>
+</ul>
+<section id="interface-ioc-configuration-isettingsrequestor">
+<h2><a class="toc-backref" href="#id1">Interface IoC.Configuration.ISettingsRequestor</a><a class="headerlink" href="#interface-ioc-configuration-isettingsrequestor" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span>    namespace IoC.Configuration
+<span class="linenos"> 2</span>    {
+<span class="linenos"> 3</span>        public interface ISettingsRequestor
+<span class="linenos"> 4</span>        {
+<span class="linenos"> 5</span>            /// <span class="nt">&lt;summary&gt;</span>
+<span class="linenos"> 6</span>            /// Gets the collection of settings, that should be
+<span class="linenos"> 7</span>            /// present in configuration file.
+<span class="linenos"> 8</span>            /// <span class="nt">&lt;/summary&gt;</span>
+<span class="linenos"> 9</span>            [NotNull, ItemNotNull]
+<span class="linenos">10</span>            IEnumerable<span class="nt">&lt;SettingInfo&gt;</span> RequiredSettings { get; }
+<span class="linenos">11</span>        }
+<span class="linenos">12</span>    }
+</pre></div>
+</div>
+</section>
+<section id="accessing-setting-values-in-code">
+<h2><a class="toc-backref" href="#id2">Accessing Setting Values in Code</a><a class="headerlink" href="#accessing-setting-values-in-code" title="Permalink to this headline">¶</a></h2>
+<p>To access the setting values in code, inject the type <strong>IoC.Configuration.ISettings</strong> as a constructor parameter, and use the methods <strong>bool GetSettingValue&lt;T&gt;(string name, T defaultValue, out T value)</strong> or <strong>T GetSettingValueOrThrow&lt;T&gt;(string name)</strong> in <strong>IoC.Configuration.ISettings</strong>.</p>
+<p>Here is an example:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">TestInjectedSettings</span><span class="w"></span>
+<span class="linenos"> 2</span><span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 3</span><span class="w">        </span><span class="k">public</span><span class="w"> </span><span class="nf">TestInjectedSettings</span><span class="p">(</span><span class="n">ISettings</span><span class="w"> </span><span class="n">settings</span><span class="p">)</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">            </span><span class="n">Assert</span><span class="p">.</span><span class="n">IsTrue</span><span class="p">(</span><span class="n">settings</span><span class="p">.</span><span class="n">GetSettingValue</span><span class="p">&lt;</span><span class="kt">double</span><span class="p">&gt;(</span><span class="s">&quot;MaxCharge&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">5.3</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">                                            </span><span class="k">out</span><span class="w"> </span><span class="kt">var</span><span class="w"> </span><span class="n">maxChargeSettingValue</span><span class="p">));</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">            </span><span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="m">155.7</span><span class="p">,</span><span class="w"> </span><span class="n">maxChargeSettingValue</span><span class="p">);</span><span class="w"></span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="w">            </span><span class="n">Assert</span><span class="p">.</span><span class="n">IsFalse</span><span class="p">(</span><span class="n">settings</span><span class="p">.</span><span class="n">GetSettingValue</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;(</span><span class="s">&quot;MaxCharge&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">5</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">                                            </span><span class="k">out</span><span class="w"> </span><span class="kt">var</span><span class="w"> </span><span class="n">settingValueNotFound_InvalidType</span><span class="p">));</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">            </span><span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="n">settingValueNotFound_InvalidType</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">12</span>
+<span class="linenos">13</span><span class="w">            </span><span class="n">Assert</span><span class="p">.</span><span class="n">IsFalse</span><span class="p">(</span><span class="n">settings</span><span class="p">.</span><span class="n">GetSettingValue</span><span class="p">&lt;</span><span class="kt">int</span><span class="p">&gt;(</span><span class="s">&quot;MaxChargeInvalid&quot;</span><span class="p">,</span><span class="w"> </span><span class="m">7</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">                                            </span><span class="k">out</span><span class="w"> </span><span class="kt">var</span><span class="w"> </span><span class="n">nonExistentSettingValue</span><span class="p">));</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">            </span><span class="n">Assert</span><span class="p">.</span><span class="n">AreEqual</span><span class="p">(</span><span class="m">7</span><span class="p">,</span><span class="w"> </span><span class="n">nonExistentSettingValue</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="w">            </span><span class="k">try</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">19</span><span class="w">                </span><span class="c1">// This call will throw an exception, since there is no setting of double</span>
+<span class="linenos">20</span><span class="w">                </span><span class="c1">// type with name &quot;MaxChargeInvalid&quot;.</span>
+<span class="linenos">21</span><span class="w">                </span><span class="n">settings</span><span class="p">.</span><span class="n">GetSettingValueOrThrow</span><span class="p">&lt;</span><span class="kt">double</span><span class="p">&gt;(</span><span class="s">&quot;MaxChargeInvalid&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">                </span><span class="n">Assert</span><span class="p">.</span><span class="n">Fail</span><span class="p">(</span><span class="s">&quot;An exception should have been thrown.&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">23</span><span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">24</span><span class="w">            </span><span class="k">catch</span><span class="w"></span>
+<span class="linenos">25</span><span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">26</span><span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">27</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">28</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Binding for a type <strong>TestInjectedSettings</strong> should be registered either in module class or in XML configuration file. Below is an example of registering binding for <strong>TestInjectedSettings</strong> in an <strong>IoC.Configuration</strong> module.</p>
+<blockquote>
+<div><div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">TestDiModule</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">IoC</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">DiContainer</span><span class="p">.</span><span class="n">ModuleAbstr</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">AddServiceRegistrations</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="n">Bind</span><span class="p">&lt;</span><span class="n">TestInjectedSettings</span><span class="p">&gt;().</span><span class="n">ToSelf</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Settings</a><ul>
+<li><a class="reference internal" href="#interface-ioc-configuration-isettingsrequestor">Interface IoC.Configuration.ISettingsRequestor</a></li>
+<li><a class="reference internal" href="#accessing-setting-values-in-code">Accessing Setting Values in Code</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="constructor-parameters.html"
+                          title="previous chapter">Constructor Parameters</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="specifying-di-manager.html"
+                          title="next chapter">Specifying DI Manager</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/xml-configuration-file/settings.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="specifying-di-manager.html" title="Specifying DI Manager"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="constructor-parameters.html" title="Constructor Parameters"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >XML Configuration File</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Settings</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

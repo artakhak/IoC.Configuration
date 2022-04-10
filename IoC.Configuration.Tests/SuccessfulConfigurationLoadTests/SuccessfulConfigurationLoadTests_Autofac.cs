@@ -22,29 +22,29 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+using NUnit.Framework;
 using TestsSharedLibrary.DependencyInjection;
 
 namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
 {
-    [TestClass]
+    [TestFixture]
     public class SuccessfulConfigurationLoadTests_Autofac : SuccessfulConfigurationLoadTests
     {
         #region Member Functions
 
-        [ClassCleanup]
+        [OneTimeTearDown]
         public static void ClassCleanup()
         {
             ClassCleanupCommon();
         }
         
 
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext testContext)
+        [OneTimeSetUp]
+        public static void ClassInitialize()
         {
             ClassInitializeCommon(DiImplementationType.Autofac, null);
         }
-
         #endregion
     }
 }

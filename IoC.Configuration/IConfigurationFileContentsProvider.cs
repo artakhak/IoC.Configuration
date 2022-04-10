@@ -47,7 +47,7 @@ namespace IoC.Configuration
         /// <summary>
         ///     Returns IoC configuration file content as a string. The content should be a valid XML document and
         ///     should be successfully validated using the schema file
-        ///     IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd.
+        ///     IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd.
         /// </summary>
         /// <returns>Returns a <see cref="String" /> object for the configuration file contents.</returns>
         /// <exception cref="Exception">Throws an exception if the xml file load fails.</exception>

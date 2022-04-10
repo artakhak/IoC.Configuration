@@ -22,11 +22,11 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using JetBrains.Annotations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace IoC.Configuration.Tests
 {
@@ -71,7 +71,7 @@ namespace IoC.Configuration.Tests
             Assert.AreEqual(implementationTypeNamesList.Count, Implementations.Count);
 
             for (var i = 0; i < _implementations.Count; ++i)
-                Assert.AreEqual(_implementations[i].GetType().FullName, implementationTypeNamesList[i], false);
+                Assert.AreEqual(_implementations[i].GetType().FullName, implementationTypeNamesList[i]);
         }
 
         #endregion

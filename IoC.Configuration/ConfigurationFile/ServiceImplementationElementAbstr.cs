@@ -53,13 +53,10 @@ namespace IoC.Configuration.ConfigurationFile
 #endif
         }
 
-        IAssembly IServiceImplementationElement.Assembly => ValueTypeInfo.Assembly as IAssembly;
-
         public ConditionalInjectionType ConditionalInjectionType { get; private set; }
 
         public override bool Enabled => base.Enabled && (ValueTypeInfo.Assembly.Plugin?.Enabled ?? true);
-        Type IServiceImplementationElement.ImplementationType => ValueTypeInfo.Type;
-
+       
         public override void ValidateAfterChildrenAdded()
         {
             base.ValidateAfterChildrenAdded();

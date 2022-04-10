@@ -23,12 +23,9 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
-using System.Text;
-using IoC.Configuration.ConfigurationFile;
-using IoC.Configuration.DiContainer.BindingsForConfigFile;
 using JetBrains.Annotations;
 using OROptimizer.Serializer;
+using System.Text;
 
 namespace IoC.Configuration.DiContainer
 {
@@ -37,8 +34,6 @@ namespace IoC.Configuration.DiContainer
     /// </summary>
     public class DiManagerImplementationHelper
     {
-        #region Member Functions
-
         /// <summary>
         ///     Adds the code for on DI container ready method.
         /// </summary>
@@ -55,68 +50,5 @@ namespace IoC.Configuration.DiContainer
             moduleClassContents.AppendLine($"_parameterSerializer = _diContainer.{nameof(IDiContainer.Resolve)}<{typeof(ITypeBasedSimpleSerializerAggregator).FullName}>();");
             moduleClassContents.AppendLine("}");
         }
-
-        /// <summary>
-        ///     Generates the code for deserialized parameter value.
-        /// </summary>
-        /// <param name="namedValue">The named value.</param>
-        [Obsolete("Will be removed after 5/31/2019")]
-        public static string GenerateCodeForDeserializedParameterValue([NotNull] INamedValue namedValue)
-        {
-            var code = new StringBuilder();
-
-            if (namedValue.ValueAsString == null)
-                code.Append($"default({namedValue.ValueTypeInfo.TypeCSharpFullName})");
-            else
-                code.Append($"_parameterSerializer.Deserialize<{namedValue.ValueTypeInfo.TypeCSharpFullName}>(\"{namedValue.ValueAsString}\")");
-
-            return code.ToString();
-        }
-
-        /// <summary>
-        ///     Throws the unsupported enumeration value.
-        /// </summary>
-        /// <param name="enumValue">The enum value.</param>
-        /// <exception cref="System.ArgumentException"></exception>
-        [Obsolete("Will be removed after 5/31/2019. Use UnsupportedEnumValueException exception.")]
-        public static void ThrowUnsuportedEnumerationValue(Enum enumValue)
-        {
-            throw new ArgumentException($"Unsupported value: {enumValue}.");
-        }
-
-        /// <summary>
-        ///     Throws n exception, if the feature specified in parameter <paramref name="nonStandardFeatures" /> is not supported
-        ///     by container implementation specified in parameter <paramref name="diManager" />.
-        /// </summary>
-        /// <param name="nonStandardFeatures"></param>
-        /// <param name="diManager"></param>
-        /// <exception cref="Exception">Always throws this exception.</exception>
-        [Obsolete("Non-standard features will not be used.")]
-        public static void ThrowUnsupportedFeature(NonStandardFeatures nonStandardFeatures, [CanBeNull] IDiManager diManager = null)
-        {
-            var errorMessage = new StringBuilder();
-            errorMessage.Append($"The feature '{typeof(NonStandardFeatures).FullName}.{nonStandardFeatures}' is not supported by dependency injection container");
-
-            if (diManager != null)
-                errorMessage.Append($" {diManager.DiContainerName}");
-
-            errorMessage.Append(".");
-
-            throw new Exception(errorMessage.ToString());
-        }
-
-        /// <summary>
-        ///     Throw an exception, if the value of <see cref="IServiceImplementationElement.ResolutionScope" /> is unsupported by
-        ///     the implementation of <see cref="IDiManager" />.
-        /// </summary>
-        /// <param name="serviceImplementationElement"></param>
-        /// <exception cref="Exception">Always throws this exception.</exception>
-        [Obsolete("Will be removed after 5/31/2019. Use UnsupportedResolutionScopeException exception.")]
-        public static void ThrowUnsupportedResolutionScope(BindingImplementationConfigurationForFile serviceImplementationElement)
-        {
-            throw new ArgumentException($"Unsupported value of '{typeof(DiResolutionScope)}'. The value is '{serviceImplementationElement.ResolutionScope}' for service implementation '{serviceImplementationElement}'.");
-        }
-
-        #endregion
     }
 }

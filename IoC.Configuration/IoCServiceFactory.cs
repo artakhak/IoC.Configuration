@@ -26,7 +26,6 @@
 using System;
 using IoC.Configuration.ConfigurationFile;
 using IoC.Configuration.DiContainer.BindingsForConfigFile;
-using IoC.Configuration.DynamicCode;
 using JetBrains.Annotations;
 using OROptimizer.Serializer;
 
@@ -55,15 +54,15 @@ namespace IoC.Configuration
         /// <summary>
         ///     Creates an instance of <see cref="IAssemblyLocator" />.
         /// </summary>
-        /// <param name="getConfugurationFunc">
+        /// <param name="getConfigurationFunc">
         ///     A <see cref="System.Func{IConfiguration}" /> objects that returns an instance of
         ///     <see cref="IConfiguration" />
         /// </param>
         /// <param name="entryAssemblyFolder"></param>
         /// <returns></returns>
-        public IAssemblyLocator CreateAssemblyLocator(Func<IConfiguration> getConfugurationFunc, [NotNull] string entryAssemblyFolder)
+        public IAssemblyLocator CreateAssemblyLocator(Func<IConfiguration> getConfigurationFunc, string entryAssemblyFolder)
         {
-            return new AssemblyLocator(getConfugurationFunc, entryAssemblyFolder);
+            return new AssemblyLocator(getConfigurationFunc, entryAssemblyFolder);
         }
 
         public IClassMemberValueInitializerHelper CreateClassMemberValueInitializerHelper(ITypeHelper typeHelper)
@@ -96,19 +95,6 @@ namespace IoC.Configuration
         {
             return new TypeHelper(assemblyLocator, new TypeParser(), PluginAssemblyTypeUsageValidator);
         }
-
-
-#pragma warning disable CS0612, CS0618
-        /// <summary>
-        ///     Creates an instance of <see cref="ITypesListFactoryTypeGenerator" />
-        /// </summary>
-        /// <param name="typeBasedSimpleSerializerAggregator"></param>
-        ITypesListFactoryTypeGenerator IIoCServiceFactory.CreateTypesListFactoryTypeGenerator(ITypeBasedSimpleSerializerAggregator typeBasedSimpleSerializerAggregator)
-        {
-            return new TypesListFactoryTypeGenerator(typeBasedSimpleSerializerAggregator);
-        }
-#pragma warning restore CS0612, CS0618
-
 
         /// <summary>
         ///     Returns instance of <see cref="IProhibitedServiceTypesInServicesElementChecker" />.

@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright Â© 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -89,7 +89,7 @@ namespace IoC.Configuration.ConfigurationFile
                 Plugin = plugin;
             }
 
-            string assemblyPath = null;
+            string assemblyPath;
 
             if (_xmlElement.HasAttribute(ConfigurationFileAttributeNames.OverrideDirectory))
             {
@@ -126,20 +126,20 @@ namespace IoC.Configuration.ConfigurationFile
                     throw new ConfigurationParseException(this, $"The assembly '{Name}' is configured as a plugin assembly for plugin '{Plugin.Name}'. Therefore the resolved assembly file should be in plugin directory '{Plugin.GetPluginDirectory()}'. Either remove the '{ConfigurationFileAttributeNames.Plugin}' attribute, or make sure that the assembly is in plugin directory and no other assembly with the same name exists in other probing folders.");
             }
 
-            if (_xmlElement.HasAttribute(ConfigurationFileAttributeNames.LoadAssemblyAlways) &&
-                this.GetAttributeValue<bool>(ConfigurationFileAttributeNames.LoadAssemblyAlways))
-            {
-                try
-                {
-                    LogHelper.Context.Log.InfoFormat("The value of attribute '{0}' is true. Loading assembly {1}.", ConfigurationFileAttributeNames.LoadAssemblyAlways, assemblyPath);
-                    _assemblyLocator.LoadAssembly(Path.GetFileName(assemblyPath), Path.GetDirectoryName(assemblyPath));
-                }
-                catch (Exception e)
-                {
-                    LogHelper.Context.Log.Warn(e.Message, e);
-                    throw new ConfigurationParseException(this, $"Failed to load the assembly '{assemblyPath}'.");
-                }
-            }
+            //if (_xmlElement.HasAttribute(ConfigurationFileAttributeNames.LoadAssemblyAlways) &&
+            //    this.GetAttributeValue<bool>(ConfigurationFileAttributeNames.LoadAssemblyAlways))
+            //{
+            //    try
+            //    {
+            //        LogHelper.Context.Log.InfoFormat("The value of attribute '{0}' is true. Loading assembly {1}.", ConfigurationFileAttributeNames.LoadAssemblyAlways, assemblyPath);
+            //        _assemblyLocator.LoadAssembly(Path.GetFileName(assemblyPath), Path.GetDirectoryName(assemblyPath));
+            //    }
+            //    catch (Exception e)
+            //    {
+            //        LogHelper.Context.Log.Warn(e.Message, e);
+            //        throw new ConfigurationParseException(this, $"Failed to load the assembly '{assemblyPath}'.");
+            //    }
+            //}
         }
 
         public string Name { get; private set; }

@@ -25,7 +25,9 @@
 
 using System.Collections.Generic;
 using System.Xml;
+using IoC.Configuration.DiContainer;
 using JetBrains.Annotations;
+using OROptimizer.Diagnostics.Log;
 
 namespace IoC.Configuration.ConfigurationFile
 {
@@ -70,11 +72,6 @@ namespace IoC.Configuration.ConfigurationFile
 
         public string ElementName => _xmlElement.Name;
 
-        string IConfigurationFileElement.GenerateElementError(string message, IConfigurationFileElement parentElement)
-        {
-            return ErrorHelperAmbientContext.Context.GenerateElementError(this, message, parentElement);
-        }
-
         public string GetAttributeValue(string attributeName)
         {
             var attributeValue = _xmlElement.GetAttribute(attributeName)?.Trim();
@@ -104,7 +101,6 @@ namespace IoC.Configuration.ConfigurationFile
 
             return null;
         }
-
 
         public IPluginSetup GetPluginSetupElement()
         {
@@ -158,12 +154,35 @@ namespace IoC.Configuration.ConfigurationFile
         {
             if (_xmlElement.HasAttribute(ConfigurationFileAttributeNames.Enabled))
                 _enabled = this.GetEnabledAttributeValue();
+
+            LogDeprecatedElementAttributeUsage();
+        }
+
+        private void LogDeprecatedElementAttributeUsage()
+        {
+            var loadAlwaysAttributeName = "loadAlways";
+
+            if (_xmlElement.HasAttribute(loadAlwaysAttributeName))
+            {
+                LogHelper.Context.Log.WarnFormat("Attribute '{0}' in configuration file has been deprecated and will be removed in the future. Use of this attribute has no effect.",
+                    loadAlwaysAttributeName);
+            }
+        }
+
+        /// <summary>
+        /// Validates the configuration element after the IoC container is loaded.
+        /// </summary>
+        /// <exception cref="ConfigurationParseException">Throws this exception.</exception>
+        public virtual void ValidateOnContainerLoaded(IDiContainer diContainer)
+        {
+            
         }
 
         public virtual IPluginElement OwningPluginElement => Parent?.OwningPluginElement;
 
         public virtual void ValidateAfterChildrenAdded()
         {
+            
         }
 
         public virtual void ValidateOnTreeConstructed()

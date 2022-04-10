@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Type Bindings in 3-rd Party Container Modules &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="XML Configuration File" href="../xml-configuration-file/index.html" />
+    <link rel="prev" title="Type Bindings in IoC.Configuration Modules" href="ioc-configuration-modules.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../xml-configuration-file/index.html" title="XML Configuration File"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ioc-configuration-modules.html" title="Type Bindings in IoC.Configuration Modules"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Type Binding In Modules</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Type Bindings in 3-rd Party Container Modules</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="type-bindings-in-3-rd-party-container-modules">
+<h1>Type Bindings in 3-rd Party Container Modules<a class="headerlink" href="#type-bindings-in-3-rd-party-container-modules" title="Permalink to this headline">¶</a></h1>
+<p>Third party module classes can be used to specify bindings.</p>
+<p>The module class should be a sub-class or an implementation of a type returned by property <strong>Type ModuleType { get; }</strong> of <strong>IoC.Configuration.DiContainer.IDiManager</strong> object used to load the configuration.</p>
+<p>To see of how <strong>IoC.Configuration.DiContainer.IDiManager</strong> type can be specified when loading the configuration, reference <a class="reference internal" href="../loading-ioc-configuration/loading-from-modules.html"><span class="doc">Loading from Modules</span></a> (loading from modules) or <a class="reference internal" href="../xml-configuration-file/specifying-di-manager.html"><span class="doc">Specifying DI Manager</span></a> (loading from configuration file).</p>
+<dl class="simple">
+<dt>Currently two implementations of <strong>IoC.Configuration.DiContainer.IDiManager</strong> are available on <strong>Nuget</strong>:</dt><dd><ul class="simple">
+<li><p><strong>IoC.Configuration.Autofac.AutofacDiManager</strong> available in Nuget package <a class="reference external" href="https://www.nuget.org/packages/IoC.Configuration.Autofac">IoC.Configuration.Autofac</a></p></li>
+<li><p><strong>IoC.Configuration.Autofac.NinjectDiManager</strong> available in Nuget package <a class="reference external" href="https://www.nuget.org/packages/IoC.Configuration.Ninject">IoC.Configuration.Ninject</a></p></li>
+</ul>
+</dd>
+</dl>
+<p>The module types are passed as parameters, when loaded the configuration from modules (see <a class="reference internal" href="../loading-ioc-configuration/loading-from-modules.html"><span class="doc">Loading from Modules</span></a>), or in <strong>iocConfiguration/dependencyInjection/modules/module</strong> elements in XML configuration file, if the configuration is loaded from XML file (see <a class="reference internal" href="../xml-configuration-file/modules.html"><span class="doc">Modules</span></a>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the native module has a public method <strong>void OnDiContainerReady(IDiContainer diContainer)</strong>, <strong>IoC.Configuration</strong> will call this method, when the dependency injection is loaded. The native module can use the <strong>IDiContainer</strong> object to resolve types in type bindings.</p>
+</div>
+<p>Here is an example of <strong>Autofac</strong> module:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">AutofacModule1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">AutofacModule</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">IDiContainer</span><span class="w"> </span><span class="n">DiContainer</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">private</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Load</span><span class="p">(</span><span class="n">ContainerBuilder</span><span class="w"> </span><span class="n">builder</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">base</span><span class="p">.</span><span class="n">Load</span><span class="p">(</span><span class="n">builder</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">builder</span><span class="p">.</span><span class="n">RegisterType</span><span class="p">&lt;</span><span class="n">Interface1_Impl1</span><span class="p">&gt;()</span><span class="w"></span>
+<span class="w">                </span><span class="p">.</span><span class="n">As</span><span class="p">&lt;</span><span class="n">IInterface1</span><span class="p">&gt;()</span><span class="w"></span>
+<span class="w">                </span><span class="p">.</span><span class="n">SingleInstance</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">/// &lt;summary&gt;</span>
+<span class="w">    </span><span class="c1">///   The value of parameter &lt;paramref name=&quot;diContainer&quot; /&gt;</span>
+<span class="w">    </span><span class="c1">///   will be injected by &lt;see cref=&quot;DiContainerBuilder&quot; /&gt;.</span>
+<span class="w">    </span><span class="c1">/// &lt;/summary&gt;</span>
+<span class="w">    </span><span class="c1">/// &lt;param name=&quot;diContainer&quot;&gt;&lt;/param&gt;</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">OnDiContainerReady</span><span class="p">(</span><span class="n">IDiContainer</span><span class="w"> </span><span class="n">diContainer</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">DiContainer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">diContainer</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Here is an example of <strong>Ninject</strong> module:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">NinjectModule1</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">NinjectModule</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="n">IDiContainer</span><span class="w"> </span><span class="n">DiContainer</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">private</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">Load</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">Bind</span><span class="p">&lt;</span><span class="n">IInterface1</span><span class="p">&gt;().</span><span class="n">To</span><span class="p">&lt;</span><span class="n">Interface1_Impl2</span><span class="p">&gt;()</span><span class="w"></span>
+<span class="w">                           </span><span class="p">.</span><span class="n">InSingletonScope</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">/// &lt;summary&gt;</span>
+<span class="w">    </span><span class="c1">///   The value of parameter &lt;paramref name=&quot;diContainer&quot; /&gt;</span>
+<span class="w">    </span><span class="c1">///   will be injected by &lt;see cref=&quot;DiContainerBuilder&quot; /&gt;.</span>
+<span class="w">    </span><span class="c1">/// &lt;/summary&gt;</span>
+<span class="w">    </span><span class="c1">/// &lt;param name=&quot;diContainer&quot;&gt;&lt;/param&gt;</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">OnDiContainerReady</span><span class="p">(</span><span class="n">IDiContainer</span><span class="w"> </span><span class="n">diContainer</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">DiContainer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">diContainer</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="ioc-configuration-modules.html"
+                          title="previous chapter">Type Bindings in IoC.Configuration Modules</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../xml-configuration-file/index.html"
+                          title="next chapter">XML Configuration File</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/bindings-in-modules/native-modules.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../xml-configuration-file/index.html" title="XML Configuration File"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ioc-configuration-modules.html" title="Type Bindings in IoC.Configuration Modules"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Type Binding In Modules</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Type Bindings in 3-rd Party Container Modules</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

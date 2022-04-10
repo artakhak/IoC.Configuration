@@ -1,57 +1,36 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-
-    <IsPackable>false</IsPackable>
-
-    <ApplicationIcon />
-
-    <OutputType>Library</OutputType>
-
-    <StartupObject />
-
-    <AssemblyName>DynamicallyGeneratedAssembly</AssemblyName>
-
-    <RootNamespace>DynamicallyGeneratedAssembly</RootNamespace>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\IoC.Configuration.Tests\bin\Debug\DynamicFiles\CSharpFiles\DynamicFile_0.cs" Link="DynamicFile_0.cs" />
-    <Compile Include="..\IoC.Configuration.Tests\bin\Debug\DynamicFiles\CSharpFiles\DynamicFile_1.cs" Link="DynamicFile_1.cs" />
-    <Compile Include="..\IoC.Configuration.Tests\bin\Debug\DynamicFiles\CSharpFiles\DynamicFile_2.cs" Link="DynamicFile_2.cs" />
-    <Compile Include="..\IoC.Configuration.Tests\bin\Debug\DynamicFiles\CSharpFiles\DynamicFile_3.cs" Link="DynamicFile_3.cs" />
-    <Compile Include="..\IoC.Configuration.Tests\bin\Debug\DynamicFiles\CSharpFiles\DynamicFile_4.cs" Link="DynamicFile_4.cs" />
-    <Compile Include="..\IoC.Configuration.Tests\bin\Debug\DynamicFiles\CSharpFiles\DynamicFile_5.cs" Link="DynamicFile_5.cs" />
-    <Compile Include="..\IoC.Configuration.Tests\bin\Debug\DynamicFiles\CSharpFiles\DynamicFile_6.cs" Link="DynamicFile_6.cs" />
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_0.cs" />
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_1.cs" />
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_2.cs" />
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_3.cs" />
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_4.cs" />
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_5.cs" />
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_6.cs" />
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_7.cs" />
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_8.cs" />
+    <Compile Remove="DynamicallyGenericClasses\DynamicFile_9.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.5.0" />
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />
-    <PackageReference Include="log4net" Version="2.0.6" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="1.1.18" />
-    <PackageReference Include="MSTest.TestFramework" Version="1.1.18" />
-    <PackageReference Include="Ninject" Version="3.3.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />    
+  </ItemGroup>
+
+  <ItemGroup>  
+    <Folder Include="DynamicallyGenericClasses\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IoC.Configuration.Autofac\IoC.Configuration.Autofac.csproj" />
-    <ProjectReference Include="..\IoC.Configuration.Ninject\IoC.Configuration.Ninject.csproj" />
-    <ProjectReference Include="..\IoC.Configuration.Tests\IoC.Configuration.Tests.csproj" />
-    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
-    <ProjectReference Include="..\TestProjects.AssemblyToTestAssemblyResolution\TestProjects.AssemblyToTestAssemblyResolution.csproj" />
-    <ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly1\TestProjects.DynamicallyLoadedAssembly1.csproj" />
-    <ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly2\TestProjects.DynamicallyLoadedAssembly2.csproj" />
-    <ProjectReference Include="..\TestProjects.ModulesForPlugin1\TestProjects.ModulesForPlugin1.csproj" />
-    <ProjectReference Include="..\TestProjects.Modules\TestProjects.Modules.csproj" />
-    <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
-    <ProjectReference Include="..\TestProjects.TestForceLoadAssembly\TestProjects.TestForceLoadAssembly.csproj" />
-    <ProjectReference Include="..\TestProjects.TestPluginAssembly1\TestProjects.TestPluginAssembly1.csproj" />
-    <ProjectReference Include="..\TestProjects.TestPluginAssembly2\TestProjects.TestPluginAssembly2.csproj" />
-    <ProjectReference Include="..\TestProjects.TestPluginAssembly3\TestProjects.TestPluginAssembly3.csproj" />
-    <ProjectReference Include="..\TestsSharedLibrary\TestsSharedLibrary.csproj" />
+    <ProjectReference Include="..\..\..\..\DownloadedThirdPartySrc\Ninject\Ninject-master\src\Ninject\Ninject.csproj" />
   </ItemGroup>
 
 </Project>

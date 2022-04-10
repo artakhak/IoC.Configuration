@@ -1,40 +1,43 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using SharedServices.Interfaces;
 using System;
-using System.IO;
-using SharedServices.Interfaces;
-using TestsSharedLibrary;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using IoC.Configuration.AttributeValueTransformer;
+using IoC.Configuration.DiContainerBuilder.FileBased;
+using NUnit.Framework;
+using TestsSharedLibrary;
 
 namespace IoC.Configuration.Tests.DocumentationTests
 {
-    [TestClass] 
+    [TestFixture] 
     public class DemoTypeResolutions
     {
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             TestsHelper.SetupLogger();
         }
 
 
-        [TestMethod]
+        [Test]
         public void ResolveBindings()
         {
-            var diContainerBuilder = new DiContainerBuilder.DiContainerBuilder();
             using (var containerInfo = new DiContainerBuilder.DiContainerBuilder().StartFileBasedDi(
-                                                   new FileBasedConfigurationFileContentsProvider(
-                                                       Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")),
-                                                   Helpers.TestsEntryAssemblyFolder,
-                                                   (sender, e) =>
-                                                   {
-                                                       // Replace some elements in e.XmlDocument if needed,
-                                                       // before the configuration is loaded.
-                                                   })
-                                               .WithoutPresetDiContainer()
-                                              
-                                               .RegisterModules()
-                                               .Start())
+                         new FileBasedConfigurationParameters(new FileBasedConfigurationFileContentsProvider(
+                                 Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")),
+                             Helpers.TestsEntryAssemblyFolder, new LoadedAssembliesForTests())
+                         {
+                             AttributeValueTransformers = new IAttributeValueTransformer [] { new FileFolderPathAttributeValueTransformer() },
+                             ConfigurationFileXmlDocumentLoaded = (sender, e) =>
+                             {
+                                 // Replace some elements in e.XmlDocument if needed,
+                                 // before the configuration is loaded.
+                             }
+                         }, out _)
+                     .WithoutPresetDiContainer()
+                     .RegisterModules()
+                     .Start())
             {
                 var diContainer = containerInfo.DiContainer;
 
@@ -92,9 +95,9 @@ namespace IoC.Configuration.Tests.DocumentationTests
             Assert.AreEqual(3, resolvedInstances.Count);
 
             var typeOfInterface5 = typeof(IInterface5);
-            Assert.IsInstanceOfType(resolvedInstances[0], typeOfInterface5);
-            Assert.IsInstanceOfType(resolvedInstances[1], typeOfInterface5);
-            Assert.IsInstanceOfType(resolvedInstances[2], typeOfInterface5);
+            Assert.IsInstanceOf(typeOfInterface5, resolvedInstances[0]);
+            Assert.IsInstanceOf(typeOfInterface5, resolvedInstances[1]);
+            Assert.IsInstanceOf(typeOfInterface5, resolvedInstances[2]);
         }
     }
 }

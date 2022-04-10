@@ -23,11 +23,12 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 using IoC.Configuration.ConfigurationFile;
+using IoC.Configuration.DiContainer;
 using IoC.Configuration.DiContainerBuilder;
 using IoC.Configuration.OnApplicationStart;
 using IoC.Configuration.Tests.ConfigurationFileLoadFailureTests.TestClasses;
 using JetBrains.Annotations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using OROptimizer;
 using OROptimizer.Serializer;
 using SharedServices.Implementations;
@@ -36,25 +37,22 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Xml;
+using IoC.Configuration.AttributeValueTransformer;
+using IoC.Configuration.DiContainerBuilder.FileBased;
+using OROptimizer.Utilities.Xml;
 using TestsSharedLibrary;
-using TestsSharedLibrary.Diagnostics.Log;
 
 namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
 {
-    [TestClass]
+    [TestFixture]
     public class ConfigurationFileLoadFailureTests
     {
         private const string ConfigurationFileName = "IoCConfiguration_Overview.xml";
-        private  static readonly string RelativePathOfConfigurationFileToTestDepricatedTypeFactory;
-
+    
         private string _configurationFileRelativePath = ConfigurationFileName;
 
-        static ConfigurationFileLoadFailureTests()
-        {
-            RelativePathOfConfigurationFileToTestDepricatedTypeFactory = Path.Combine("DeprecatedCodeTests", "IoCConfiguration_DeprecatedTypeFactoryTests.xml");
-        }
         #region Member Functions
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             _configurationFileRelativePath = ConfigurationFileName;
@@ -65,24 +63,63 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
         private IContainerInfo LoadConfigurationFile([CanBeNull] Action<XmlDocument> modifyConfigurationFileOnLoad)
         {
             var diContainerBuilder = new DiContainerBuilder.DiContainerBuilder();
-            return diContainerBuilder.StartFileBasedDi(
-                                         new FileBasedConfigurationFileContentsProvider(
-                                             Path.Combine(Helpers.TestsEntryAssemblyFolder, _configurationFileRelativePath)), Helpers.TestsEntryAssemblyFolder,
-                                         (sender, e) =>
-                                         {
-                                             // Lets explicitly set the DiManager to Autofac. Since we are going to test failure, the Di manager implementation does not matter.
-                                             // However, this will give us predictability on what modules will be enabled.
-                                             e.XmlDocument.SelectElement("/iocConfiguration/diManagers").SetAttributeValue(ConfigurationFileAttributeNames.ActiveDiManagerName, "Autofac");
-                                             modifyConfigurationFileOnLoad?.Invoke(e.XmlDocument);
-                                         })
-                                     .WithoutPresetDiContainer()
-                                     .AddAdditionalDiModules(new SuccessfulConfigurationLoadTests.SuccessfulConfigurationLoadTests.TestModule2())
-                                     .RegisterModules()
-                                     .Start();
-        }
-        
 
-        [TestMethod]
+            var fileBasedConfigurationParameters = 
+                new FileBasedConfigurationParameters(new FileBasedConfigurationFileContentsProvider(
+                        Path.Combine(Helpers.TestsEntryAssemblyFolder, _configurationFileRelativePath)),
+                Helpers.TestsEntryAssemblyFolder, new LoadedAssembliesForTests())
+            {
+                ConfigurationFileXmlDocumentLoaded = (sender, e) =>
+                {
+                    // Lets explicitly set the DiManager to Autofac. Since we are going to test failure, the Di manager implementation does not matter.
+                    // However, this will give us predictability on what modules will be enabled.
+                    Helpers.EnsureConfigurationDirectoryExistsOrThrow(e.XmlDocument.SelectElement("/iocConfiguration/appDataDir").GetAttribute("path"));
+                    e.XmlDocument.SelectElement("/iocConfiguration/diManagers").SetAttributeValue(ConfigurationFileAttributeNames.ActiveDiManagerName, "Autofac");
+                    modifyConfigurationFileOnLoad?.Invoke(e.XmlDocument);
+                },
+                AttributeValueTransformers = new IAttributeValueTransformer[]
+                {
+                    new FileFolderPathAttributeValueTransformer()
+                }
+            };
+
+            return diContainerBuilder.StartFileBasedDi(fileBasedConfigurationParameters, out _)
+                .WithoutPresetDiContainer()
+                .AddAdditionalDiModules(new SuccessfulConfigurationLoadTests.SuccessfulConfigurationLoadTests.TestModule2())
+                .RegisterModules()
+                .Start();
+        }
+
+        #region TODO: Move the succes tests in this region to a separate success tests for replacing some configurations, and setup Autofac and Ninject tests.
+        [Test]
+        public void TestSuccessfulLoad_parameterSerializer_PresetParameterSerializersCanBeReplaced()
+        {
+            LoadConfigurationFile(xmlDocument =>
+            {
+                xmlDocument.SelectElement("/iocConfiguration/parameterSerializers/serializers/parameterSerializer",
+                        x => x.GetAttribute(ConfigurationFileAttributeNames.Type)
+                            .Equals(typeof(TypeBasedSimpleSerializerInt).FullName, StringComparison.Ordinal))
+                    .SetAttributeValue(ConfigurationFileAttributeNames.Type, typeof(IntParameterSerializer).FullName)
+                    .SetAttributeValue(ConfigurationFileAttributeNames.Assembly, "tests");
+            });
+        }
+
+        [TestCase(true)]
+        [TestCase(false)]
+        public void TestSuccessfulLoadPluginModules_onPluginAssemblyCanBeUsedInPluginSection(bool useAssemblyAlias)
+        {
+            LoadConfigurationFile(xmlDocument =>
+            {
+                var moduleElement = xmlDocument.SelectElement("/iocConfiguration/pluginsSetup/pluginSetup/dependencyInjection/modules/module",
+                        x => x.GetAttribute(ConfigurationFileAttributeNames.Type).Equals("ModulesForPlugin1.Autofac.AutofacModule1"))
+                    .SetAttributeValue(ConfigurationFileAttributeNames.Type, "Modules.Autofac.AutofacModule1");
+
+                if (useAssemblyAlias)
+                    moduleElement.SetAttributeValue(ConfigurationFileAttributeNames.Assembly, "modules");
+            });
+        }
+        #endregion
+        [Test]
         public void TestFailedLoad_additionalAssemblyProbingPaths_DuplicatePaths()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -96,7 +133,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ProbingPath), typeof(AdditionalAssemblyProbingPaths));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_additionalAssemblyProbingPaths_InvalidPath()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -106,17 +143,17 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ProbingPath));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_appDataDir_PathInvalid()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
             {
                 xmlDocument.SelectElement("/iocConfiguration/appDataDir")
-                           .SetAttributeValue(ConfigurationFileAttributeNames.Path, "Invalid path");
+                           .SetAttributeValue(ConfigurationFileAttributeNames.Path, "Invalid path::");
             }, typeof(ApplicationDataDirectory));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_assemblies_DuplicateAliases()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -130,7 +167,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ConfigurationFile.Assembly), typeof(Assemblies));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_assemblies_DuplicateNames()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -145,30 +182,9 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ConfigurationFile.Assembly), typeof(Assemblies));
         }
 
-        [TestMethod]
-        public void TestFailedLoad_assembly_AssemblyLoadFails()
-        {
-            using (new IoCServiceFactoryStaticContextMockSwicth(
-#pragma warning disable CS0612, CS0618
-                TypesListFactoryTypeGeneratorMock.ValidationFailureMethod.None
-#pragma warning restore CS0612, CS0618
-                ))
-            {
-                TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
-                {
-                    var assemblyName = "TestProjects.TestForceLoadAssembly";
+        
 
-                    xmlDocument.ValidateElementExists("/iocConfiguration/assemblies/assembly",
-                        x =>
-                            x.GetAttribute(ConfigurationFileAttributeNames.Name).Equals(assemblyName, StringComparison.Ordinal) &&
-                            x.GetAttribute(ConfigurationFileAttributeNames.LoadAssemblyAlways).Equals("true", StringComparison.Ordinal));
-
-                    IoCServiceFactoryMock.SetFailedAssemblies(new[] {assemblyName});
-                }, typeof(ConfigurationFile.Assembly));
-            }
-        }
-
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_assembly_AssemblyNameEndsWithDll()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -180,7 +196,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ConfigurationFile.Assembly));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_assembly_AssemblyNotInPluginFolder()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -196,7 +212,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ConfigurationFile.Assembly));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_assembly_InvalidAssembmblyName_FailedToResolvedInProbingPaths()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -208,18 +224,40 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ConfigurationFile.Assembly));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_assembly_InvalidOverrideDirectory()
         {
-            TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
+            using (new IoCServiceFactoryStaticContextMockSwitch())
             {
-                xmlDocument.SelectElement("/iocConfiguration/assemblies/assembly")
-                           .SetAttributeValue(ConfigurationFileAttributeNames.OverrideDirectory, @"k:\invalidDirectory")
-                           .SetAttributeValue(ConfigurationFileAttributeNames.LoadAssemblyAlways, "true");
-            }, typeof(ConfigurationFile.Assembly));
+                TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
+                {
+                    var assemblyName = "TestProjects.DynamicallyLoadedAssembly1";
+                    xmlDocument.SelectElement("/iocConfiguration/assemblies/assembly",
+                            xmlElement => xmlElement.GetAttribute("name") == assemblyName)
+                        .SetAttributeValue("overrideDirectory", @"TestFiles\ThirdPartyLibs");
+                    IoCServiceFactoryMock.SetFailedAssemblies(new[] { assemblyName });
+                }, typeof(ConfigurationFile.Assembly));
+            }
         }
 
-        [TestMethod]
+        [Test]
+        public void TestFailedLoad_assembly_AssemblyLoadFails()
+        {
+            using (new IoCServiceFactoryStaticContextMockSwitch())
+            {
+                TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
+                {
+                    var assemblyName = "OROptimizer.Shared";
+                    var invalidAssemblyName = $"{assemblyName}_Invalid";
+                    xmlDocument.SelectElement("/iocConfiguration/assemblies/assembly",
+                            xmlElement => xmlElement.GetAttribute("name") == assemblyName )
+                        .SetAttributeValue("name", invalidAssemblyName);
+                    IoCServiceFactoryMock.SetFailedAssemblies(new[] { invalidAssemblyName });
+                }, typeof(ConfigurationFile.Assembly));
+            }
+        }
+
+        [Test]
         public void TestFailedLoad_assembly_InvalidOwnerPlugin()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -229,7 +267,8 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ConfigurationFile.Assembly));
         }
 
-        [TestMethod]
+        
+        [Test]
         public void TestFailedLoad_DiManagerElement_InvalidConstructorParameter()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -243,7 +282,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(DiManagerElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_DiManagerElement_InvalidDiManagerAssemblyName()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -254,7 +293,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(DiManagerElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_DiManagerElement_InvalidDiManagerType()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -266,7 +305,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(DiManagerElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_DiManagerElement_NonExistentDiManagerType()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -277,7 +316,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(DiManagerElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_DiManagersElement_DuplicateDiManagerNames()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -290,7 +329,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(DiManagerElement), typeof(DiManagersElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_DiManagersElement_InvalidActiveDiManagerName()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -300,7 +339,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(DiManagersElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_implementation_InvalidConstructorParameters()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -315,7 +354,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(TypeBasedServiceImplementationElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_implementation_InvalidInjectedPropertyType()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -363,7 +402,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
         }
 
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_implementation_NonExistentInjectedProperty()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -378,7 +417,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(InjectedPropertyElement), typeof(TypeBasedServiceImplementationElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_modules_DuplicateModuleNames()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -388,7 +427,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ModuleElement), typeof(ModulesElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_modules_InvalidConstructorParameters()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -407,7 +446,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
         ///     defined
         ///     in diManagers element.
         /// </summary>
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_modules_InvalidNativeModuleType()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -419,7 +458,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ModuleElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_modules_ModuleIsInPluginAssembly()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -431,7 +470,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ModuleElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_modules_NonExistentModuleAssembly()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -442,7 +481,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ModuleElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_modules_NonExistentModuleType()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -453,7 +492,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ModuleElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_parameter_InvalidParameterInServiceImplementation()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -470,7 +509,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(TypeBasedServiceImplementationElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_parameter_NoSerializerForTheObject()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -486,7 +525,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ParameterElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_parameter_NoSuchParameterInServiceImplementationConstructor()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -502,7 +541,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ParameterElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_parameter_SerializerFailsToDeserializeTheObject()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -517,19 +556,9 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ParameterElement));
         }
 
-        [TestMethod]
-        public void TestFailedLoad_parameterSerializer_PresetParameterSerializersCannotBeReplaced()
-        {
-            TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
-            {
-                xmlDocument.SelectElement("/iocConfiguration/parameterSerializers/serializers/parameterSerializer",
-                               x => x.GetAttribute(ConfigurationFileAttributeNames.Type).Equals(typeof(TypeBasedSimpleSerializerInt).FullName, StringComparison.Ordinal))
-                           .SetAttributeValue(ConfigurationFileAttributeNames.Type, typeof(IntParameterSerializer).FullName)
-                           .SetAttributeValue(ConfigurationFileAttributeNames.Assembly, "tests");
-            }, typeof(ParameterSerializer));
-        }
+        
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_parameterSerializers_DefaultTypeIfMissingBothAttributes()
         {
             using (var containerInfo = LoadConfigurationFile(xmlDocument =>
@@ -544,7 +573,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_parameterSerializers_InvalidAssemblyAlias()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -556,7 +585,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ParameterSerializers));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_parameterSerializers_InvalidParameterSerializersTypeConstructorParameter()
         {
             Action<XmlDocument, bool> replaceSerializer = (xmlDocument, isInvalidParamTest) =>
@@ -585,7 +614,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument => { replaceSerializer(xmlDocument, true); }, typeof(ParameterSerializers));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_parameterSerializers_InvalidValueOfParameterSerializersType()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -597,7 +626,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ParameterSerializers));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_parameterSerializers_InvalidAssemblyAttributeValue_assembly()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -609,7 +638,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
 
       
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_parameterSerializers_MissingAttribute_serializerAggregatorType()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -619,7 +648,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ParameterSerializers));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_parameterSerializers_NonExistentTypeAsAValueofParameterSerializersType()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -630,7 +659,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ParameterSerializers));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_parameterSerializers_UsesDisabledPlugin()
         {
             TestFailedLoadConfigurationFile<DisabledPluginTypeUsedConfigurationParseException>(xmlDocument =>
@@ -649,7 +678,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
 
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_ParameterSerializersCollection_multipleSerializersForSameType()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -661,7 +690,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ParameterSerializer), typeof(ParameterSerializersCollection));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_PluginModules_DuplicateModuleNames()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -671,7 +700,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ModuleElement), typeof(ModulesElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_PluginModules_InvalidConstructorParameters()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -690,7 +719,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
         ///     defined
         ///     in diManagers element.
         /// </summary>
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_PluginModules_InvalidNativeModuleType()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -702,19 +731,50 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ModuleElement));
         }
 
-        [TestMethod]
-        public void TestFailedLoad_PluginModules_ModuleIsInNonPluginAssembly()
+        [TestCase(true)]
+        [TestCase(false)]
+        public void TestFailedLoad_PluginModules_ModuleBelongsToDifferentPlugin(bool useAssemblyAlias)
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
             {
-                xmlDocument.SelectElement("/iocConfiguration/pluginsSetup/pluginSetup/dependencyInjection/modules/module",
-                               x => x.GetAttribute(ConfigurationFileAttributeNames.Type).Equals("ModulesForPlugin1.Autofac.AutofacModule1"))
-                           .SetAttributeValue(ConfigurationFileAttributeNames.Type, "Modules.Autofac.AutofacModule1")
-                           .SetAttributeValue(ConfigurationFileAttributeNames.Assembly, "modules");
+                var xmlElement = xmlDocument.SelectElement(
+                        "/iocConfiguration/pluginsSetup/pluginSetup/dependencyInjection/modules/module",
+                        x => x.GetAttribute(ConfigurationFileAttributeNames.Type)
+                            .Equals("ModulesForPlugin1.Autofac.AutofacModule1"))
+                    .SetAttributeValue(ConfigurationFileAttributeNames.Type,
+                        "ModulesForPlugin2.Autofac.AutofacModule1");
+
+                if (useAssemblyAlias)
+                    xmlElement.SetAttributeValue(ConfigurationFileAttributeNames.Assembly, "modules_plugin2");
             }, typeof(ModuleElement));
         }
 
-        [TestMethod]
+        [TestCase(true)]
+        [TestCase(false)]
+        public void TestFailedLoad_PluginModules_PluginModuleIsUSedInNonPluginArea(bool useAssemblyAlias)
+        {
+            TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
+            {
+                var modulesElement = xmlDocument.SelectElement(
+                        "/iocConfiguration/dependencyInjection/modules");
+
+                var moduleElement = modulesElement.InsertChildElement(ConfigurationFileElementNames.Module);
+                moduleElement.SetAttributeValue(ConfigurationFileAttributeNames.Type,
+                    "ModulesForPlugin1.Autofac.AutofacModule1");
+
+                if (useAssemblyAlias)
+                    moduleElement.SetAttributeValue(ConfigurationFileAttributeNames.Assembly, "modules_plugin1");
+
+                moduleElement.InsertChildElement("parameters")
+                    .InsertChildElement("int32")
+                    .SetAttributeValue(ConfigurationFileAttributeNames.Name, "param1")
+                    .SetAttributeValue(ConfigurationFileAttributeNames.Value, "102");
+
+                
+            }, typeof(ModuleElement));
+        }
+
+        [Test]
         public void TestFailedLoad_PluginModules_NonExistentModuleAssembly()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -725,7 +785,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ModuleElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_PluginModules_NonExistentModuleType()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -736,7 +796,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ModuleElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_plugins_DuplicatePluginNames()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -747,7 +807,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(PluginElement), typeof(Plugins));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_plugins_PluginIsNotDefinedInPluginsSetupSections()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -758,7 +818,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(PluginElement), typeof(Plugins));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_plugins_PluginsDirectoryPathInvalid()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -768,7 +828,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(Plugins));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_plugins_PluginsDirectoryPathMissing()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -778,7 +838,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(PluginElement), typeof(Plugins));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_Plugins_services_DuplicateServiceTypes()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -788,7 +848,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(IServiceElement), typeof(Services));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_PluginSettings_DuplicateSettingNames()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -802,7 +862,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(SettingElement), typeof(SettingsElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_PluginSettings_RequiredSettingIsMissing()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -814,7 +874,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(SettingsElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_PluginSettings_RequiredSettingTypeIsInvalid()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -832,13 +892,13 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(SettingElement), typeof(SettingsElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_SchemaViolation()
         {
             TestFailedLoadConfigurationFile<Exception>(xmlDocument => { xmlDocument.SelectElement("/iocConfiguration").InsertChildElement("someInvalidElement"); }, null);
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_selfBoundService_InvalidConstructorParameters()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -853,7 +913,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(SelfBoundServiceElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_selfBoundService_InvalidInjectedPropertyType()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -870,25 +930,25 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(InjectedPropertyElement), typeof(SelfBoundServiceElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_selfBoundService_InvalidSelfBoundServiceType_AbstractClass()
         {
             TestFailedLoad_implementation_InvalidSelfBoundServiceType(typeof(Interface9_InvalidImpl_AbstrClass));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_selfBoundService_InvalidSelfBoundServiceType_Interface()
         {
             TestFailedLoad_implementation_InvalidSelfBoundServiceType(typeof(Interface9_InvalidImpl_Interface));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_selfBoundService_InvalidSelfBoundServiceType_NoPublicConstructors()
         {
             TestFailedLoad_implementation_InvalidSelfBoundServiceType(typeof(Interface9_InvalidImpl_NoPublicConstructor));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_selfBoundService_NonExistentInjectedProperty()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -903,32 +963,32 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(InjectedPropertyElement), typeof(SelfBoundServiceElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_service_InvalidServiceImplementation_AbstractClass()
         {
             
             TestFailedLoad_implementation_InvalidServiceImplementationType(typeof(IInterface9), typeof(Interface9_InvalidImpl_AbstrClass), false);
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_service_InvalidServiceImplementation_Interface()
         {
             TestFailedLoad_implementation_InvalidServiceImplementationType(typeof(IInterface9), typeof(Interface9_InvalidImpl_Interface), false);
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_service_InvalidServiceImplementation_NoPublicConstructors()
         {
             TestFailedLoad_implementation_InvalidServiceImplementationType(typeof(IInterface9), typeof(Interface9_InvalidImpl_NoPublicConstructor), false);
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_service_InvalidServiceImplementationType()
         {
             TestFailedLoad_implementation_InvalidServiceImplementationType(typeof(IInterface9), typeof(Interface1_Impl1), true);
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_service_MultipleImplementationsForServiceWithRegisterIfNotRegisteredOn()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -940,7 +1000,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ServiceElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_service_NonPluginSelfboundServiceInPluginSection()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -953,7 +1013,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(SelfBoundServiceElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_service_NonPluginServiceInPluginSection()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -969,7 +1029,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ServiceElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_service_PluginSelfboundServiceInNonPluginSection()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -982,7 +1042,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(SelfBoundServiceElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_service_PluginServiceInNonPluginSection()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -998,7 +1058,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(ServiceElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_services_DuplicateServiceTypes()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -1008,28 +1068,28 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(IServiceElement), typeof(Services));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_services_IPlugin_IsNotAllowedInServicesElement()
         {
             TestInvalidServiceTypeInServiceElement(typeof(IPlugin), "TestPluginAssembly1.Implementations.Plugin1",
                 "pluginassm1", new[] {ConfigurationFileElementNames.ValueInt64}, new[] {"25"});
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_services_ISettingsRequestor_IsNotAllowedInServicesElement()
         {
             TestInvalidServiceTypeInServiceElement(typeof(ISettingsRequestor), "SharedServices.FakeSettingsRequestor",
                 "shared_services", null, null);
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_services_IStartupAction_IsNotAllowedInServicesElement()
         {
             TestInvalidServiceTypeInServiceElement(typeof(IStartupAction), "DynamicallyLoadedAssembly1.Implementations.StartupAction1",
                 "dynamic1", null, null);
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_settings_DuplicateSettingNames()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -1041,7 +1101,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(SettingElement), typeof(SettingsElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_settings_RequiredSettingIsMissing()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -1051,7 +1111,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(SettingsElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_settings_RequiredSettingTypeIsInvalid()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -1065,7 +1125,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(SettingElement), typeof(SettingsElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_settingsRequestor_AbstractISettingsRequestorImplementation()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -1076,7 +1136,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(SettingsRequestorImplementationElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_settingsRequestor_InvalidConstructorParameters()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -1089,7 +1149,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(SettingsRequestorImplementationElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_settingsRequestor_InvalidSettingRequestorType()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -1100,7 +1160,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(SettingsRequestorImplementationElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_settingsRequestor_ISettingsRequestorImplementationInPluginAssembly()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -1111,7 +1171,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(SettingsRequestorImplementationElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_settingsRequestor_NonExistentSettingRequestorAssembly()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -1122,7 +1182,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(SettingsRequestorImplementationElement));
         }
 
-        [TestMethod]
+        [Test]
         public void TestFailedLoad_settingsRequestor_NonExistentSettingRequestorType()
         {
             TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
@@ -1196,7 +1256,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
             }, typeof(IServiceElement), typeof(Services));
         }
 
-        [TestMethod]
+        [Test]
         public void TestSuccessfulLoad()
         {
             ValidateLoadConfigurationFileSuccess(null);
@@ -1213,105 +1273,6 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
                 Assert.IsNotNull(resolvedInstance);
             }
         }
-       
-        #region Deprecated code tests
-#pragma warning disable CS0612, CS0618
-        [TestMethod]
-        public void TestFailedLoad_depricated_code_test_typeFactory_MissingParameters()
-        {
-            _configurationFileRelativePath = RelativePathOfConfigurationFileToTestDepricatedTypeFactory;
-
-            TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
-            {
-                xmlDocument.SelectElement("/iocConfiguration/dependencyInjection/autoGeneratedServices/typeFactory",
-                               x => x.GetAttribute(ConfigurationFileAttributeNames.Interface)
-                                     .Equals("DynamicallyLoadedAssembly2.ClassesUsedInDeprecatedClassTests.IActionValidatorFactory1"))
-                           .InsertChildElement(ConfigurationFileElementNames.TypeFactoryReturnedTypesIfSelector, 0)
-                           // parameter3 without parameter2 should fail. Note, also parameter3 is invalid for the implemented interface, but that will
-                           // be validated later by parent TypeFactory element handler.
-                           // Here we can't just use parameter2 and omit parameter1, since schema requires parameter1 in 'if' element, and schema validation
-                           // will fail the XML file, before we can test missing parameters.
-                           .SetAttributeValue("parameter1", "1")
-                           .SetAttributeValue("parameter3", "param3value")
-                           .InsertChildElement(ConfigurationFileElementNames.TypeFactoryReturnedType)
-                           .SetAttributeValue(ConfigurationFileAttributeNames.Type, "DynamicallyLoadedAssembly2.ClassesUsedInDeprecatedClassTests.ActionValidator3")
-                           .SetAttributeValue(ConfigurationFileAttributeNames.Assembly, "dynamic2");
-            }, typeof(TypeFactoryReturnedTypesIfSelector));
-        }
-
-        [TestMethod]
-        public void TestFailedLoad_depricated_code_test_typeFactory_NonPluginInterfaceUsedInPluginSection()
-        {
-            _configurationFileRelativePath = RelativePathOfConfigurationFileToTestDepricatedTypeFactory;
-
-            TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
-            {
-                xmlDocument.SelectElement("/iocConfiguration/pluginsSetup/pluginSetup",
-                               x => x.GetAttribute(ConfigurationFileAttributeNames.Plugin) == "Plugin1")
-                           .SelectChildElement($"{ConfigurationFileElementNames.DependencyInjection}/{ConfigurationFileElementNames.AutoGeneratedServices}")
-                           .InsertChildElement(ConfigurationFileElementNames.TypeFactory)
-                           .SetAttributeValue(ConfigurationFileAttributeNames.Interface, "DynamicallyLoadedAssembly2.ClassesUsedInDeprecatedClassTests.IActionValidatorFactory1")
-                           .SetAttributeValue(ConfigurationFileAttributeNames.Assembly, "dynamic2")
-                           .InsertChildElement(ConfigurationFileElementNames.TypeFactoryReturnedTypesDefaultSelector)
-                           .InsertChildElement(ConfigurationFileElementNames.TypeFactoryReturnedType)
-                           .SetAttributeValue(ConfigurationFileAttributeNames.Type, "DynamicallyLoadedAssembly2.ClassesUsedInDeprecatedClassTests.ActionValidator2")
-                           .SetAttributeValue(ConfigurationFileAttributeNames.Assembly, "dynamic2");
-            }, typeof(TypeFactory));
-        }
-
-        [TestMethod]
-        public void TestFailedLoad_depricated_code_test_typeFactory_PluginInterfaceUsedInGeneralSection()
-        {
-            _configurationFileRelativePath = RelativePathOfConfigurationFileToTestDepricatedTypeFactory;
-
-            TestFailedLoadConfigurationFileWithStandardError(xmlDocument =>
-            {
-                xmlDocument.SelectElement("/iocConfiguration/dependencyInjection/autoGeneratedServices")
-                           .InsertChildElement(ConfigurationFileElementNames.TypeFactory)
-                           .SetAttributeValue(ConfigurationFileAttributeNames.Interface, "TestPluginAssembly1.Interfaces.IResourceAccessValidatorFactory")
-                           .SetAttributeValue(ConfigurationFileAttributeNames.Assembly, "pluginassm1")
-                           .InsertChildElement(ConfigurationFileElementNames.TypeFactoryReturnedTypesDefaultSelector)
-                           .InsertChildElement(ConfigurationFileElementNames.TypeFactoryReturnedType)
-                           .SetAttributeValue(ConfigurationFileAttributeNames.Type, "TestPluginAssembly1.Interfaces.ResourceAccessValidator2")
-                           .SetAttributeValue(ConfigurationFileAttributeNames.Assembly, "pluginassm1");
-            }, typeof(TypeFactory));
-        }
-
-        [TestMethod]
-        public void TestFailedLoad_depricated_code_test_typeFactory_ValidationOfImplementedInterfaceFailed()
-        {
-            _configurationFileRelativePath = RelativePathOfConfigurationFileToTestDepricatedTypeFactory;
-
-            using (new IoCServiceFactoryStaticContextMockSwicth(TypesListFactoryTypeGeneratorMock.ValidationFailureMethod.ValidateImplementedInterface))
-            {
-                TestFailedLoadConfigurationFileWithStandardError(xmlDocument => { }, typeof(TypeFactory));
-            }
-        }
-
-        [TestMethod]
-        public void TestFailedLoad_depricated_code_test_typeFactory_ValidationOfParameterValuesFailed()
-        {
-            _configurationFileRelativePath = RelativePathOfConfigurationFileToTestDepricatedTypeFactory;
-
-            using (new IoCServiceFactoryStaticContextMockSwicth(TypesListFactoryTypeGeneratorMock.ValidationFailureMethod.ValidateParameterValues))
-            {
-                TestFailedLoadConfigurationFileWithStandardError(xmlDocument => { }, typeof(TypeFactoryReturnedTypesSelector), typeof(TypeFactory));
-            }
-        }
-
-        [TestMethod]
-        public void TestFailedLoad_depricated_code_test_typeFactory_ValidationOfSelectorReturnedTypeFailed()
-        {
-            _configurationFileRelativePath = RelativePathOfConfigurationFileToTestDepricatedTypeFactory;
-
-            using (new IoCServiceFactoryStaticContextMockSwicth(TypesListFactoryTypeGeneratorMock.ValidationFailureMethod.ValidateReturnedType))
-            {
-                TestFailedLoadConfigurationFileWithStandardError(xmlDocument => { }, typeof(TypeFactoryReturnedType), typeof(TypeFactory));
-            }
-        }
-#pragma warning restore CS0612, CS0618
-        #endregion
-
         #endregion
     }
 }

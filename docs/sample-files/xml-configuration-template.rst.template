@@ -1,0 +1,15 @@
+==========================
+XML Configuration Template
+==========================
+
+Here is a template XML configuration file that can be used to get started. This file can be found also in folder **IoC.Configuration.Content**, under the folder, where Nuget package **IoC.Configuration** is downloaded (see the screenshot below).
+This file can also be downloaded from `IoC.Configuration.Template.xml <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/IoC.Configuration.Content/IoC.Configuration.Template.xml>`_
+
+.. image:: ioc.configuration-files.jpg
+
+**Template file:**
+
+.. code-block:: xml
+   :linenos:
+   
+   <IncludedFilePlaceHolder>..\..\IoC.Configuration\IoC.Configuration.Content\IoC.Configuration.Template.xml</IncludedFilePlaceHolder>

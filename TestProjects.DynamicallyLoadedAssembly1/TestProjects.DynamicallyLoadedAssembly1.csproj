@@ -1,28 +1,51 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NETCOREAPP2_0</DefineConstants>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>bin\Release\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <RootNamespace>DynamicallyLoadedAssembly1</RootNamespace>
-  </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="OROptimizer.Shared" Version="2.0.0" />
-  </ItemGroup>
+	<PropertyGroup Label="Globals">
+		<SccProjectName>SAK</SccProjectName>
+		<SccProvider>SAK</SccProvider>
+		<SccAuxPath>SAK</SccAuxPath>
+		<SccLocalPath>SAK</SccLocalPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<EnableDefaultItems>false</EnableDefaultItems>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<OutputPath>bin\Debug</OutputPath>
+		<DefineConstants>TRACE;DEBUG;NETCOREAPP2_0</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<OutputPath>bin\Release\</OutputPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<RootNamespace>DynamicallyLoadedAssembly1</RootNamespace>
+	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Include="Implementations\CleanupJob1.cs" />
+	  <Compile Include="Implementations\CleanupJob2.cs" />
+	  <Compile Include="Implementations\CleanupJob3.cs" />
+	  <Compile Include="Implementations\CleanupJobData.cs" />
+	  <Compile Include="Implementations\CleanupJobData2.cs" />
+	  <Compile Include="Dog.cs" />
+	  <Compile Include="Implementations\Interface1_Impl1.cs" />
+	  <Compile Include="Implementations\Interface2_Impl1.cs" />
+	  <Compile Include="Implementations\Interface3_Impl1.cs" />
+	  <Compile Include="Implementations\SelfBoundService1.cs" />
+	  <Compile Include="Implementations\SelfBoundService2.cs" />
+	  <Compile Include="Implementations\SelfBoundService3.cs" />
+	  <Compile Include="Implementations\SomeSettings_Impl1.cs" />
+	  <Compile Include="Implementations\StartupAction1.cs" />
+	  <Compile Include="Implementations\StartupAction2.cs" />
+	  <Compile Include="Interfaces\IInterface1.cs" />
+	  <Compile Include="Interfaces\IInterface2.cs" />
+	  <Compile Include="Interfaces\IInterface3.cs" />
+	  <Compile Include="Interfaces\ISomeSettings.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="JetBrains.Annotations" Version="2020.3.0" PrivateAssets="All" ExcludeAssets="runtime" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
+	</ItemGroup>
 </Project>

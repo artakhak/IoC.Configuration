@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Element valueImplementation &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Implementation Type Constructor Parameters" href="implementation-constructor-parameters.html" />
+    <link rel="prev" title="Element proxyService" href="element-proxy-service.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="implementation-constructor-parameters.html" title="Implementation Type Constructor Parameters"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="element-proxy-service.html" title="Element proxyService"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >XML Configuration File</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="dependency-injection.html" >Dependency Injection</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="service-bindings.html" accesskey="U">Service Bindings</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Element <strong>valueImplementation</strong></a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="element-valueimplementation">
+<h1>Element <strong>valueImplementation</strong><a class="headerlink" href="#element-valueimplementation" title="Permalink to this headline">¶</a></h1>
+<p>Element <strong>valueImplementation</strong> can be used under element <strong>iocConfiguration/dependencyInjection/services/service</strong> (or <strong>iocConfiguration/pluginsSetup/pluginSetup/dependencyInjection/services/service</strong> for plugin section), to bind the service to a value specified using a value initialization element (e.g.,
+such elements as <strong>int32</strong>, <strong>int64</strong> <strong>collection</strong>, <strong>settingValue</strong>, <strong>classMember</strong>, <strong>object</strong>, <strong>constructedValue</strong>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Refer to <a class="reference internal" href="value-initialization-elements/index.html"><span class="doc">Value Initialization Elements</span></a> for details on value initialization elements.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Refer to <a class="reference internal" href="../sample-files/IoCConfiguration_valueImplementation.generated.html"><span class="doc">IoCConfiguration_valueImplementation.xml</span></a> for more examples on <strong>valueImplementation</strong> element.</p>
+</div>
+<section id="example-1-using-valueimplementation-to-bind-system-int32-to-a-setting-value">
+<h2>Example 1: Using <strong>valueImplementation</strong> to bind <strong>System.Int32</strong> to a setting value<a class="headerlink" href="#example-1-using-valueimplementation-to-bind-system-int32-to-a-setting-value" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">&lt;service</span> <span class="na">type=</span><span class="s">&quot;System.Int32&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">2</span>    <span class="nt">&lt;valueImplementation</span> <span class="na">scope=</span><span class="s">&quot;singleton&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">3</span>      <span class="nt">&lt;settingValue</span> <span class="na">settingName=</span><span class="s">&quot;defaultAppId&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">4</span>    <span class="nt">&lt;/valueImplementation&gt;</span>
+<span class="linenos">5</span><span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-using-valueimplementation-to-bind-system-double-to-3-5">
+<h2>Example 2: Using <strong>valueImplementation</strong> to bind <strong>System.Double</strong> to 3.5<a class="headerlink" href="#example-2-using-valueimplementation-to-bind-system-double-to-3-5" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">&lt;service</span> <span class="na">type=</span><span class="s">&quot;System.Double&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 2</span>    <span class="nt">&lt;valueImplementation</span> <span class="na">scope=</span><span class="s">&quot;singleton&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 3</span>        <span class="cm">&lt;!--</span>
+<span class="linenos"> 4</span><span class="cm">            The out of the box serializer for System.Double is</span>
+<span class="linenos"> 5</span><span class="cm">            OROptimizer.Serializer.TypeBasedSimpleSerializerDouble</span>
+<span class="linenos"> 6</span><span class="cm">            which is available in Nuget package OROptimizer.Shared.</span>
+<span class="linenos"> 7</span><span class="cm">        --&gt;</span>
+<span class="linenos"> 8</span>        <span class="nt">&lt;object</span> <span class="na">type=</span><span class="s">&quot;System.Double&quot;</span> <span class="na">value=</span><span class="s">&quot;3.5&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos"> 9</span>    <span class="nt">&lt;/valueImplementation&gt;</span>
+<span class="linenos">10</span><span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-3-using-valueimplementation-to-bind-service-to-class-member">
+<h2>Example 3: Using <strong>valueImplementation</strong> to bind service to class member<a class="headerlink" href="#example-3-using-valueimplementation-to-bind-service-to-class-member" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">&lt;service</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Interfaces.IDbConnection&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">2</span>    <span class="nt">&lt;valueImplementation</span> <span class="na">scope=</span><span class="s">&quot;transient&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">3</span>        <span class="nt">&lt;classMember</span>
+<span class="linenos">4</span>            <span class="na">class=</span><span class="s">&quot;IoC.Configuration.Tests.ValueImplementation.Services.IDbConnectionProvider&quot;</span>
+<span class="linenos">5</span>            <span class="na">memberName=</span><span class="s">&quot;GetDbConnection&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">6</span>    <span class="nt">&lt;/valueImplementation&gt;</span>
+<span class="linenos">7</span><span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-4-using-valueimplementation-to-bind-service-to-collection">
+<h2>Example 4: Using <strong>valueImplementation</strong> to bind service to collection<a class="headerlink" href="#example-4-using-valueimplementation-to-bind-service-to-collection" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">&lt;service</span>
+<span class="linenos"> 2</span>    <span class="na">type=</span><span class="s">&quot;System.Collections.Generic.IReadOnlyList[IoC.Configuration.Tests.ValueImplementation.Services.IAppInfo]&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span>    <span class="nt">&lt;valueImplementation</span> <span class="na">scope=</span><span class="s">&quot;singleton&quot;</span> <span class="nt">&gt;</span>
+<span class="linenos"> 5</span>        <span class="nt">&lt;collection&gt;</span>
+<span class="linenos"> 6</span>            <span class="nt">&lt;constructedValue</span> <span class="na">typeRef=</span><span class="s">&quot;AppInfo&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 7</span>              <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos"> 8</span>                <span class="nt">&lt;int32</span> <span class="na">name=</span><span class="s">&quot;paramId&quot;</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos"> 9</span>              <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">10</span>            <span class="nt">&lt;/constructedValue&gt;</span>
+<span class="linenos">11</span>
+<span class="linenos">12</span>            <span class="nt">&lt;constructedValue</span> <span class="na">typeRef=</span><span class="s">&quot;AppInfo&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">13</span>              <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">14</span>                <span class="nt">&lt;int32</span> <span class="na">name=</span><span class="s">&quot;paramId&quot;</span> <span class="na">value=</span><span class="s">&quot;2&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">15</span>              <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">16</span>            <span class="nt">&lt;/constructedValue&gt;</span>
+<span class="linenos">17</span>        <span class="nt">&lt;/collection&gt;</span>
+<span class="linenos">18</span>    <span class="nt">&lt;/valueImplementation&gt;</span>
+<span class="linenos">19</span><span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Element <strong>valueImplementation</strong></a><ul>
+<li><a class="reference internal" href="#example-1-using-valueimplementation-to-bind-system-int32-to-a-setting-value">Example 1: Using <strong>valueImplementation</strong> to bind <strong>System.Int32</strong> to a setting value</a></li>
+<li><a class="reference internal" href="#example-2-using-valueimplementation-to-bind-system-double-to-3-5">Example 2: Using <strong>valueImplementation</strong> to bind <strong>System.Double</strong> to 3.5</a></li>
+<li><a class="reference internal" href="#example-3-using-valueimplementation-to-bind-service-to-class-member">Example 3: Using <strong>valueImplementation</strong> to bind service to class member</a></li>
+<li><a class="reference internal" href="#example-4-using-valueimplementation-to-bind-service-to-collection">Example 4: Using <strong>valueImplementation</strong> to bind service to collection</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="element-proxy-service.html"
+                          title="previous chapter">Element <strong>proxyService</strong></a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="implementation-constructor-parameters.html"
+                          title="next chapter">Implementation Type Constructor Parameters</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/xml-configuration-file/element-value-implementation.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="implementation-constructor-parameters.html" title="Implementation Type Constructor Parameters"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="element-proxy-service.html" title="Element proxyService"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >XML Configuration File</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="dependency-injection.html" >Dependency Injection</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="service-bindings.html" >Service Bindings</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Element <strong>valueImplementation</strong></a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

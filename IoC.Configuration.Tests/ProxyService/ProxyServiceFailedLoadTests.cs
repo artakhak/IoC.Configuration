@@ -1,14 +1,15 @@
 ﻿using IoC.Configuration.ConfigurationFile;
 using IoC.Configuration.Tests.ProxyService.Services;
 using IoC.Configuration.Tests.TestTemplateFiles;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
 using System.Xml;
+using OROptimizer.Utilities.Xml;
 using TestsSharedLibrary.DependencyInjection;
 
 namespace IoC.Configuration.Tests.ProxyService
 {
-    [TestClass]
+    [TestFixture]
     public class ProxyServiceFailedLoadTests : IoCConfigurationTestsBase
     {
         private const string Plugin1Name = "Plugin1";
@@ -25,9 +26,9 @@ namespace IoC.Configuration.Tests.ProxyService
             return "IoCConfiguration_proxyService.xml";
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void ProxyServiceIsSameTypeAsServiceToProxy(DiImplementationType diImplementationType)
         {
             Helpers.TestExpectedConfigurationParseException(() =>
@@ -44,9 +45,9 @@ namespace IoC.Configuration.Tests.ProxyService
                 }), typeof(IServiceToProxyImplementationElement), typeof(ProxyServiceElement));
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void ProxyServiceIsNotAssignableFromServiceToProxy(DiImplementationType diImplementationType)
         {
             Helpers.TestExpectedConfigurationParseException(() =>
@@ -60,9 +61,9 @@ namespace IoC.Configuration.Tests.ProxyService
                 }), typeof(IServiceToProxyImplementationElement), typeof(ProxyServiceElement));
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void PluginProxyServiceInNonPluginSection(DiImplementationType diImplementationType)
         {
             Helpers.TestExpectedConfigurationParseException(() =>
@@ -81,9 +82,9 @@ namespace IoC.Configuration.Tests.ProxyService
                 }), typeof(ProxyServiceElement));
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void NonPluginProxyServiceInPluginSection(DiImplementationType diImplementationType)
         {
             Helpers.TestExpectedConfigurationParseException(() =>

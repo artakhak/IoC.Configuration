@@ -32,7 +32,7 @@ namespace IoC.Configuration
     {
         #region  Constructors
 
-        public Assembly(string absolutePath, string name, IPluginElement plugin)
+        public Assembly(string absolutePath, IPluginElement plugin)
         {
             AbsolutePath = absolutePath;
             Name = Path.GetFileNameWithoutExtension(absolutePath);

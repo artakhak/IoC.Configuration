@@ -25,9 +25,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Runtime.Loader;
 using IoC.Configuration.DiContainer;
 using JetBrains.Annotations;
+using OROptimizer;
 
 namespace IoC.Configuration.DependencyInjection
 {
@@ -58,7 +58,7 @@ namespace IoC.Configuration.DependencyInjection
 
         protected override void AddServiceRegistrations()
         {
-            var assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(_dynamicallyGeneratedAssemblyFilePath);
+            var assembly = GlobalsCoreAmbientContext.Context.LoadAssembly(_dynamicallyGeneratedAssemblyFilePath);
 
             foreach (var interfaceImplementationInfo in _interfaceImplementationsInfo)
             {

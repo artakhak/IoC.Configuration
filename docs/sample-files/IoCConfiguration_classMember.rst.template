@@ -1,0 +1,10 @@
+================================
+IoCConfiguration_classMember.xml
+================================
+
+This configuration file can be downloaded downloaded from `IoCConfiguration_classMember.xml <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests/IoCConfiguration_classMember.xml>`_.
+
+.. code-block:: xml
+   :linenos:
+
+   <IncludedFilePlaceHolder>..\..\IoC.Configuration.Tests\IoCConfiguration_classMember.xml</IncludedFilePlaceHolder>

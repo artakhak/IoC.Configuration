@@ -35,7 +35,7 @@ namespace IoC.Configuration.ConfigurationFile
         /// <summary>
         ///     The value is not null, if the configuration file is successfully loaded.
         /// </summary>
-        [CanBeNull]
+        [NotNull]
         IDiManagerElement ActiveDiManagerElement { get; }
 
         [NotNull]

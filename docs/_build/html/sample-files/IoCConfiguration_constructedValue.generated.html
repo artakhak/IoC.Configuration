@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>IoCConfiguration_constructedValue.xml &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="IoCConfiguration_classMember.xml" href="IoCConfiguration_classMember.generated.html" />
+    <link rel="prev" title="IoCConfiguration_collection.xml" href="IoCConfiguration_collection.generated.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="IoCConfiguration_classMember.generated.html" title="IoCConfiguration_classMember.xml"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="IoCConfiguration_collection.generated.html" title="IoCConfiguration_collection.xml"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Sample Files</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">IoCConfiguration_constructedValue.xml</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="iocconfiguration-constructedvalue-xml">
+<h1>IoCConfiguration_constructedValue.xml<a class="headerlink" href="#iocconfiguration-constructedvalue-xml" title="Permalink to this headline">¶</a></h1>
+<p>This configuration file can be downloaded downloaded from <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests/IoCConfiguration_constructedValue.xml">IoCConfiguration_constructedValue.xml</a>.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<span class="linenos">  2</span>
+<span class="linenos">  3</span><span class="cm">&lt;!--</span>
+<span class="linenos">  4</span><span class="cm">   The XML configuration file is validated against schema file IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd,</span>
+<span class="linenos">  5</span><span class="cm">   which can be found in folder IoC.Configuration.Content in output directory. constructed</span>
+<span class="linenos">  6</span><span class="cm">   The schema file can also be downloaded from</span>
+<span class="linenos">  7</span><span class="cm">   http://oroptimizer.com/ioc.configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd or in source code</span>
+<span class="linenos">  8</span><span class="cm">   project in Github.com.</span>
+<span class="linenos">  9</span>
+<span class="linenos"> 10</span><span class="cm">   To use Visual Studio code completion based on schema contents, right click Properties on this file in Visual Studio, and in Schemas</span>
+<span class="linenos"> 11</span><span class="cm">   field pick the schema IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd.</span>
+<span class="linenos"> 12</span>
+<span class="linenos"> 13</span><span class="cm">   Before running the tests make sure to execute IoC.Configuration\Tests\IoC.Configuration.Tests\PostBuildCommands.bat to copy the dlls into</span>
+<span class="linenos"> 14</span><span class="cm">   folders specified in this configuration file.</span>
+<span class="linenos"> 15</span><span class="cm">   Also, modify the batch file to copy the Autofac and Ninject assemblies from Nuget packages folder on machine, where the test is run.</span>
+<span class="linenos"> 16</span><span class="cm">--&gt;</span>
+<span class="linenos"> 17</span>
+<span class="linenos"> 18</span><span class="nt">&lt;iocConfiguration</span>
+<span class="linenos"> 19</span>     <span class="na">xmlns:xsi=</span><span class="s">&#39;http://www.w3.org/2001/XMLSchema-instance&#39;</span>
+<span class="linenos"> 20</span>     <span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">&quot;http://oroptimizer.com/IoC.Configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 21</span>
+<span class="linenos"> 22</span>  <span class="cm">&lt;!--The application should have write permissions to path specified in appDataDir.</span>
+<span class="linenos"> 23</span><span class="cm">    This is where dynamically generated DLLs are saved.--&gt;</span>
+<span class="linenos"> 24</span>  <span class="cm">&lt;!--NOTE: path should be an absolute path, or should be converted to absolute path by some implementation of</span>
+<span class="linenos"> 25</span><span class="cm">     IoC.Configuration.AttributeValueTransformer.IAttributeValueTransformer. In this example the paths are converted by</span>
+<span class="linenos"> 26</span><span class="cm">     IoC.Configuration.Tests.FileFolderPathAttributeValueTransformer.--&gt;</span>
+<span class="linenos"> 27</span>  <span class="nt">&lt;appDataDir</span>
+<span class="linenos"> 28</span>    <span class="na">path=</span><span class="s">&quot;TestFiles\AutogeneratedDlls\DynamicFiles_constructedValueTests&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 29</span>
+<span class="linenos"> 30</span>  <span class="nt">&lt;plugins</span> <span class="na">pluginsDirPath=</span><span class="s">&quot;TestFiles\PluginDlls&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 31</span>
+<span class="linenos"> 32</span>    <span class="cm">&lt;!--</span>
+<span class="linenos"> 33</span><span class="cm">        Plugin assemblies will be in a folder with similar name under pluginsDirPath folder.</span>
+<span class="linenos"> 34</span><span class="cm">        The plugin folders will be included in assembly resolution mechanism.</span>
+<span class="linenos"> 35</span><span class="cm">        --&gt;</span>
+<span class="linenos"> 36</span>
+<span class="linenos"> 37</span>    <span class="cm">&lt;!--A folder K:\...\IoC.Configuration\Tests\IoC.Configuration.Tests\bin\TestFiles\PluginDlls\Plugin1 should exist.  --&gt;</span>
+<span class="linenos"> 38</span>  <span class="nt">&lt;/plugins&gt;</span>
+<span class="linenos"> 39</span>
+<span class="linenos"> 40</span>  <span class="nt">&lt;additionalAssemblyProbingPaths&gt;</span>
+<span class="linenos"> 41</span>    <span class="nt">&lt;probingPath</span>
+<span class="linenos"> 42</span>      <span class="na">path=</span><span class="s">&quot;TestFiles\ThirdPartyLibs&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 43</span>    <span class="nt">&lt;probingPath</span>
+<span class="linenos"> 44</span>      <span class="na">path=</span><span class="s">&quot;TestFiles\ContainerImplementations\Autofac&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 45</span>    <span class="nt">&lt;probingPath</span>
+<span class="linenos"> 46</span>      <span class="na">path=</span><span class="s">&quot;TestFiles\ContainerImplementations\Ninject&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 47</span>    <span class="nt">&lt;probingPath</span>
+<span class="linenos"> 48</span>      <span class="na">path=</span><span class="s">&quot;TestFiles\DynamicallyLoadedDlls&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 49</span>  <span class="nt">&lt;/additionalAssemblyProbingPaths&gt;</span>
+<span class="linenos"> 50</span>
+<span class="linenos"> 51</span>  <span class="nt">&lt;assemblies&gt;</span>
+<span class="linenos"> 52</span>    <span class="cm">&lt;!--Assemblies should be in one of the following locations:</span>
+<span class="linenos"> 53</span><span class="cm">        1) Executable&#39;s folder</span>
+<span class="linenos"> 54</span><span class="cm">        2) In folder specified in additionalAssemblyProbingPaths element.</span>
+<span class="linenos"> 55</span><span class="cm">        3) In one of the plugin folders specified in plugins element (only for assemblies with plugin attribute) --&gt;</span>
+<span class="linenos"> 56</span>
+<span class="linenos"> 57</span>    <span class="cm">&lt;!--</span>
+<span class="linenos"> 58</span><span class="cm">    Use &quot;overrideDirectory&quot; attribute, to make the assembly path explicit, rather then searching for</span>
+<span class="linenos"> 59</span><span class="cm">    an assembly in predefined folders, which also include probing paths specified in additionalAssemblyProbingPaths element.</span>
+<span class="linenos"> 60</span><span class="cm">    --&gt;</span>
+<span class="linenos"> 61</span>    <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;IoC.Configuration.Autofac&quot;</span> <span class="na">alias=</span><span class="s">&quot;autofac_ext&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 62</span>    <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;IoC.Configuration.Ninject&quot;</span> <span class="na">alias=</span><span class="s">&quot;ninject_ext&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 63</span>
+<span class="linenos"> 64</span>    <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;TestProjects.Modules&quot;</span> <span class="na">alias=</span><span class="s">&quot;modules&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 65</span>
+<span class="linenos"> 66</span>    <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;TestProjects.DynamicallyLoadedAssembly1&quot;</span>
+<span class="linenos"> 67</span>              <span class="na">alias=</span><span class="s">&quot;dynamic1&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 68</span>
+<span class="linenos"> 69</span>    <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;TestProjects.DynamicallyLoadedAssembly2&quot;</span>
+<span class="linenos"> 70</span>              <span class="na">alias=</span><span class="s">&quot;dynamic2&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 71</span>
+<span class="linenos"> 72</span>    <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;TestProjects.SharedServices&quot;</span> <span class="na">alias=</span><span class="s">&quot;shared_services&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 73</span>
+<span class="linenos"> 74</span>    <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;IoC.Configuration.Tests&quot;</span> <span class="na">alias=</span><span class="s">&quot;tests&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 75</span>  <span class="nt">&lt;/assemblies&gt;</span>
+<span class="linenos"> 76</span>
+<span class="linenos"> 77</span>  <span class="nt">&lt;typeDefinitions&gt;</span>
+<span class="linenos"> 78</span>    <span class="nt">&lt;typeDefinition</span> <span class="na">alias=</span><span class="s">&quot;IAppInfo&quot;</span> <span class="na">type=</span><span class="s">&quot;IoC.Configuration.Tests.ConstructedValue.Services.IAppInfo&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 79</span>    <span class="nt">&lt;typeDefinition</span> <span class="na">alias=</span><span class="s">&quot;AppInfo&quot;</span> <span class="na">type=</span><span class="s">&quot;IoC.Configuration.Tests.ConstructedValue.Services.AppInfo&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 80</span>  <span class="nt">&lt;/typeDefinitions&gt;</span>
+<span class="linenos"> 81</span>
+<span class="linenos"> 82</span>  <span class="nt">&lt;parameterSerializers&gt;</span>
+<span class="linenos"> 83</span>    <span class="nt">&lt;serializers&gt;</span>
+<span class="linenos"> 84</span>      <span class="cm">&lt;!--Serializer IoC.Configuration.Tests.ConstructedValue.Services.AppInfoSerializer will be used to de-serialize value</span>
+<span class="linenos"> 85</span><span class="cm">      provided in element &lt;object&gt; into instance of type IoC.Configuration.Tests.ConstructedValue.Services.AppInfo--&gt;</span>
+<span class="linenos"> 86</span>      <span class="nt">&lt;parameterSerializer</span> <span class="na">type=</span><span class="s">&quot;IoC.Configuration.Tests.ConstructedValue.Services.AppInfoSerializer&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 87</span>        <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos"> 88</span>          <span class="cm">&lt;!--Demo of using constructedValue to inject constructor parameter value into parameter serializer.--&gt;</span>
+<span class="linenos"> 89</span>          <span class="nt">&lt;constructedValue</span> <span class="na">name=</span><span class="s">&quot;appDescriptionFormatter&quot;</span> <span class="na">type=</span><span class="s">&quot;IoC.Configuration.Tests.ConstructedValue.Services.AppDescriptionFormatter&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 90</span>            <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos"> 91</span>              <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;prefixToAddToDescription&quot;</span> <span class="na">value=</span><span class="s">&quot;AppData::&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos"> 92</span>            <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos"> 93</span>            <span class="nt">&lt;injectedProperties&gt;</span>
+<span class="linenos"> 94</span>              <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;PostfixToAddToDescription&quot;</span> <span class="na">value=</span><span class="s">&quot;::AppDataEnd&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos"> 95</span>            <span class="nt">&lt;/injectedProperties&gt;</span>
+<span class="linenos"> 96</span>          <span class="nt">&lt;/constructedValue&gt;</span>
+<span class="linenos"> 97</span>        <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos"> 98</span>      <span class="nt">&lt;/parameterSerializer&gt;</span>
+<span class="linenos"> 99</span>    <span class="nt">&lt;/serializers&gt;</span>
+<span class="linenos">100</span>  <span class="nt">&lt;/parameterSerializers&gt;</span>
+<span class="linenos">101</span>
+<span class="linenos">102</span>  <span class="cm">&lt;!--The value of type attribute should be a type that implements</span>
+<span class="linenos">103</span><span class="cm">    IoC.Configuration.DiContainer.IDiManager--&gt;</span>
+<span class="linenos">104</span>  <span class="nt">&lt;diManagers</span> <span class="na">activeDiManagerName=</span><span class="s">&quot;Autofac&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">105</span>    <span class="nt">&lt;diManager</span> <span class="na">name=</span><span class="s">&quot;Ninject&quot;</span> <span class="na">type=</span><span class="s">&quot;IoC.Configuration.Ninject.NinjectDiManager&quot;</span>
+<span class="linenos">106</span>               <span class="na">assembly=</span><span class="s">&quot;ninject_ext&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">107</span>      <span class="cm">&lt;!--</span>
+<span class="linenos">108</span><span class="cm">            Use parameters element to specify constructor parameters,</span>
+<span class="linenos">109</span><span class="cm">            if the type specified in &#39;type&#39; attribute has non-default constructor.</span>
+<span class="linenos">110</span><span class="cm">            --&gt;</span>
+<span class="linenos">111</span>      <span class="cm">&lt;!--&lt;parameters&gt;</span>
+<span class="linenos">112</span><span class="cm">            &lt;/parameters&gt;--&gt;</span>
+<span class="linenos">113</span>    <span class="nt">&lt;/diManager&gt;</span>
+<span class="linenos">114</span>
+<span class="linenos">115</span>    <span class="nt">&lt;diManager</span> <span class="na">name=</span><span class="s">&quot;Autofac&quot;</span> <span class="na">type=</span><span class="s">&quot;IoC.Configuration.Autofac.AutofacDiManager&quot;</span>
+<span class="linenos">116</span>               <span class="na">assembly=</span><span class="s">&quot;autofac_ext&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">117</span>    <span class="nt">&lt;/diManager&gt;</span>
+<span class="linenos">118</span>  <span class="nt">&lt;/diManagers&gt;</span>
+<span class="linenos">119</span>
+<span class="linenos">120</span>  <span class="cm">&lt;!--</span>
+<span class="linenos">121</span><span class="cm">    If settingsRequestor element is used, the type in type attribute should</span>
+<span class="linenos">122</span><span class="cm">    specify a type that implements IoC.Configuration.ISettingsRequestor.</span>
+<span class="linenos">123</span><span class="cm">    The implementation specifies a collection of required settings that should be present</span>
+<span class="linenos">124</span><span class="cm">    in settings element.</span>
+<span class="linenos">125</span><span class="cm">    Note, the type specified in type attribute is fully integrated into a dependency</span>
+<span class="linenos">126</span><span class="cm">    injection framework. In other words, constructor parameters will be injected using</span>
+<span class="linenos">127</span><span class="cm">    bindings specified in dependencyInjection element.</span>
+<span class="linenos">128</span><span class="cm">    --&gt;</span>
+<span class="linenos">129</span>
+<span class="linenos">130</span>  <span class="nt">&lt;settings&gt;</span>
+<span class="linenos">131</span>    <span class="nt">&lt;object</span> <span class="na">name=</span><span class="s">&quot;App1&quot;</span> <span class="na">typeRef=</span><span class="s">&quot;IAppInfo&quot;</span> <span class="na">value=</span><span class="s">&quot;1, App 1&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">132</span>
+<span class="linenos">133</span>    <span class="cm">&lt;!--Demo of constructedValue in settings element. --&gt;</span>
+<span class="linenos">134</span>    <span class="nt">&lt;constructedValue</span> <span class="na">name=</span><span class="s">&quot;App2&quot;</span> <span class="na">typeRef=</span><span class="s">&quot;AppInfo&quot;</span> <span class="nt">&gt;</span>
+<span class="linenos">135</span>      <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">136</span>        <span class="nt">&lt;int32</span> <span class="na">name=</span><span class="s">&quot;Id&quot;</span> <span class="na">value=</span><span class="s">&quot;2&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">137</span>      <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">138</span>      <span class="nt">&lt;injectedProperties&gt;</span>
+<span class="linenos">139</span>        <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;Description&quot;</span> <span class="na">value=</span><span class="s">&quot;App 2&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">140</span>      <span class="nt">&lt;/injectedProperties&gt;</span>
+<span class="linenos">141</span>    <span class="nt">&lt;/constructedValue&gt;</span>
+<span class="linenos">142</span>
+<span class="linenos">143</span>    <span class="cm">&lt;!--Demo of constructedValue used as a parameter value in another constructedValue.</span>
+<span class="linenos">144</span><span class="cm">    Constructing DecoratedAppInfo setting below is similar to creating an instance of AppInfoDecorator using the following C# code:</span>
+<span class="linenos">145</span><span class="cm">    new AppInfoDecorator(new AppInfoDecorator(new AppInfo(25, &quot;App 25&quot;)))</span>
+<span class="linenos">146</span><span class="cm">    --&gt;</span>
+<span class="linenos">147</span>    <span class="nt">&lt;constructedValue</span> <span class="na">name=</span><span class="s">&quot;DecoratedAppInfo&quot;</span> <span class="na">type=</span><span class="s">&quot;IoC.Configuration.Tests.ConstructedValue.Services.AppInfoDecorator&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">148</span>      <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">149</span>        <span class="nt">&lt;constructedValue</span> <span class="na">name=</span><span class="s">&quot;appInfo&quot;</span> <span class="na">type=</span><span class="s">&quot;IoC.Configuration.Tests.ConstructedValue.Services.AppInfoDecorator&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">150</span>          <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">151</span>            <span class="nt">&lt;constructedValue</span> <span class="na">name=</span><span class="s">&quot;appInfo&quot;</span> <span class="na">typeRef=</span><span class="s">&quot;AppInfo&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">152</span>              <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">153</span>                <span class="nt">&lt;int32</span> <span class="na">name=</span><span class="s">&quot;id&quot;</span> <span class="na">value=</span><span class="s">&quot;25&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">154</span>              <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">155</span>              <span class="nt">&lt;injectedProperties&gt;</span>
+<span class="linenos">156</span>                <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;Description&quot;</span> <span class="na">value=</span><span class="s">&quot;App 25&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">157</span>              <span class="nt">&lt;/injectedProperties&gt;</span>
+<span class="linenos">158</span>            <span class="nt">&lt;/constructedValue&gt;</span>
+<span class="linenos">159</span>          <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">160</span>        <span class="nt">&lt;/constructedValue&gt;</span>
+<span class="linenos">161</span>      <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">162</span>    <span class="nt">&lt;/constructedValue&gt;</span>
+<span class="linenos">163</span>  <span class="nt">&lt;/settings&gt;</span>
+<span class="linenos">164</span>
+<span class="linenos">165</span>  <span class="nt">&lt;dependencyInjection&gt;</span>
+<span class="linenos">166</span>    <span class="nt">&lt;modules&gt;</span>
+<span class="linenos">167</span>      <span class="nt">&lt;module</span> <span class="na">type=</span><span class="s">&quot;IoC.Configuration.Tests.ConstructedValue.Module1&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">168</span>        <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">169</span>          <span class="cm">&lt;!--Demo of constructedValue to inject constructor parameter and property into module. --&gt;</span>
+<span class="linenos">170</span>          <span class="nt">&lt;constructedValue</span> <span class="na">name=</span><span class="s">&quot;appInfo&quot;</span> <span class="na">typeRef=</span><span class="s">&quot;AppInfo&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">171</span>            <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">172</span>              <span class="nt">&lt;int32</span> <span class="na">name=</span><span class="s">&quot;id&quot;</span> <span class="na">value=</span><span class="s">&quot;3&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">173</span>            <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">174</span>            <span class="nt">&lt;injectedProperties&gt;</span>
+<span class="linenos">175</span>              <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;Description&quot;</span> <span class="na">value=</span><span class="s">&quot;App 3&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">176</span>            <span class="nt">&lt;/injectedProperties&gt;</span>
+<span class="linenos">177</span>          <span class="nt">&lt;/constructedValue&gt;</span>
+<span class="linenos">178</span>        <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">179</span>      <span class="nt">&lt;/module&gt;</span>
+<span class="linenos">180</span>    <span class="nt">&lt;/modules&gt;</span>
+<span class="linenos">181</span>
+<span class="linenos">182</span>    <span class="nt">&lt;services&gt;</span>
+<span class="linenos">183</span>      <span class="nt">&lt;service</span> <span class="na">typeRef=</span><span class="s">&quot;IAppInfo&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">184</span>        <span class="nt">&lt;valueImplementation</span> <span class="na">scope=</span><span class="s">&quot;singleton&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">185</span>
+<span class="linenos">186</span>          <span class="cm">&lt;!--Demo of constructedValue to provide an implementation for a service under valueImplementation element.--&gt;</span>
+<span class="linenos">187</span>          <span class="nt">&lt;constructedValue</span> <span class="na">typeRef=</span><span class="s">&quot;AppInfo&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">188</span>            <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">189</span>              <span class="nt">&lt;int32</span> <span class="na">name=</span><span class="s">&quot;id&quot;</span> <span class="na">value=</span><span class="s">&quot;8&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">190</span>            <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">191</span>            <span class="nt">&lt;injectedProperties&gt;</span>
+<span class="linenos">192</span>              <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;Description&quot;</span> <span class="na">value=</span><span class="s">&quot;App 8&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">193</span>            <span class="nt">&lt;/injectedProperties&gt;</span>
+<span class="linenos">194</span>          <span class="nt">&lt;/constructedValue&gt;</span>
+<span class="linenos">195</span>        <span class="nt">&lt;/valueImplementation&gt;</span>
+<span class="linenos">196</span>      <span class="nt">&lt;/service&gt;</span>
+<span class="linenos">197</span>
+<span class="linenos">198</span>      <span class="nt">&lt;service</span> <span class="na">type=</span><span class="s">&quot;System.Collections.Generic.IReadOnlyList[IoC.Configuration.Tests.ConstructedValue.Services.IAppInfo]&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">199</span>        <span class="nt">&lt;valueImplementation</span> <span class="na">scope=</span><span class="s">&quot;singleton&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">200</span>          <span class="nt">&lt;collection&gt;</span>
+<span class="linenos">201</span>            <span class="cm">&lt;!--Demo of constructedValue in collection--&gt;</span>
+<span class="linenos">202</span>            <span class="nt">&lt;constructedValue</span> <span class="na">typeRef=</span><span class="s">&quot;AppInfo&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">203</span>              <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">204</span>                <span class="nt">&lt;int32</span> <span class="na">name=</span><span class="s">&quot;id&quot;</span> <span class="na">value=</span><span class="s">&quot;10&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">205</span>              <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">206</span>              <span class="nt">&lt;injectedProperties&gt;</span>
+<span class="linenos">207</span>                <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;Description&quot;</span> <span class="na">value=</span><span class="s">&quot;App 10&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">208</span>              <span class="nt">&lt;/injectedProperties&gt;</span>
+<span class="linenos">209</span>            <span class="nt">&lt;/constructedValue&gt;</span>
+<span class="linenos">210</span>
+<span class="linenos">211</span>            <span class="nt">&lt;settingValue</span> <span class="na">settingName=</span><span class="s">&quot;App1&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">212</span>          <span class="nt">&lt;/collection&gt;</span>
+<span class="linenos">213</span>        <span class="nt">&lt;/valueImplementation&gt;</span>
+<span class="linenos">214</span>
+<span class="linenos">215</span>      <span class="nt">&lt;/service&gt;</span>
+<span class="linenos">216</span>
+<span class="linenos">217</span>    <span class="nt">&lt;/services&gt;</span>
+<span class="linenos">218</span>
+<span class="linenos">219</span>    <span class="nt">&lt;autoGeneratedServices&gt;</span>
+<span class="linenos">220</span>      <span class="cm">&lt;!--The scope for autoService implementations is always singleton --&gt;</span>
+<span class="linenos">221</span>
+<span class="linenos">222</span>      <span class="nt">&lt;autoService</span> <span class="na">interface=</span><span class="s">&quot;IoC.Configuration.Tests.ConstructedValue.Services.IAppInfoFactory&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">223</span>        <span class="nt">&lt;autoProperty</span> <span class="na">name=</span><span class="s">&quot;DefaultAppInfo&quot;</span> <span class="na">returnTypeRef=</span><span class="s">&quot;IAppInfo&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">224</span>
+<span class="linenos">225</span>          <span class="cm">&lt;!--Demo of constructedValue in autoProperty--&gt;</span>
+<span class="linenos">226</span>          <span class="nt">&lt;constructedValue</span> <span class="na">typeRef=</span><span class="s">&quot;AppInfo&quot;</span> <span class="nt">&gt;</span>
+<span class="linenos">227</span>            <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">228</span>              <span class="nt">&lt;int32</span> <span class="na">name=</span><span class="s">&quot;id&quot;</span> <span class="na">value=</span><span class="s">&quot;11&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">229</span>            <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">230</span>            <span class="nt">&lt;injectedProperties&gt;</span>
+<span class="linenos">231</span>              <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;Description&quot;</span> <span class="na">value=</span><span class="s">&quot;App 11&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">232</span>            <span class="nt">&lt;/injectedProperties&gt;</span>
+<span class="linenos">233</span>          <span class="nt">&lt;/constructedValue&gt;</span>
+<span class="linenos">234</span>        <span class="nt">&lt;/autoProperty&gt;</span>
+<span class="linenos">235</span>
+<span class="linenos">236</span>        <span class="cm">&lt;!--Demo of constructedValue in autoMethod--&gt;</span>
+<span class="linenos">237</span>        <span class="nt">&lt;autoMethod</span> <span class="na">name=</span><span class="s">&quot;CreateAppInfo&quot;</span> <span class="na">returnTypeRef=</span><span class="s">&quot;IAppInfo&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">238</span>          <span class="nt">&lt;default&gt;</span>
+<span class="linenos">239</span>            <span class="nt">&lt;constructedValue</span>  <span class="na">typeRef=</span><span class="s">&quot;AppInfo&quot;</span> <span class="nt">&gt;</span>
+<span class="linenos">240</span>              <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">241</span>                <span class="nt">&lt;int32</span> <span class="na">name=</span><span class="s">&quot;id&quot;</span> <span class="na">value=</span><span class="s">&quot;12&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">242</span>              <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">243</span>              <span class="nt">&lt;injectedProperties&gt;</span>
+<span class="linenos">244</span>                <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;Description&quot;</span> <span class="na">value=</span><span class="s">&quot;App 12&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">245</span>              <span class="nt">&lt;/injectedProperties&gt;</span>
+<span class="linenos">246</span>            <span class="nt">&lt;/constructedValue&gt;</span>
+<span class="linenos">247</span>          <span class="nt">&lt;/default&gt;</span>
+<span class="linenos">248</span>        <span class="nt">&lt;/autoMethod&gt;</span>
+<span class="linenos">249</span>      <span class="nt">&lt;/autoService&gt;</span>
+<span class="linenos">250</span>
+<span class="linenos">251</span>    <span class="nt">&lt;/autoGeneratedServices&gt;</span>
+<span class="linenos">252</span>  <span class="nt">&lt;/dependencyInjection&gt;</span>
+<span class="linenos">253</span>
+<span class="linenos">254</span>  <span class="nt">&lt;startupActions&gt;</span>
+<span class="linenos">255</span>    <span class="nt">&lt;startupAction</span> <span class="na">type=</span><span class="s">&quot;IoC.Configuration.Tests.ConstructedValue.Services.StartupAction1&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">256</span>      <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">257</span>        <span class="nt">&lt;constructedValue</span> <span class="na">name=</span><span class="s">&quot;appInfo&quot;</span> <span class="na">typeRef=</span><span class="s">&quot;AppInfo&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">258</span>          <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">259</span>            <span class="nt">&lt;int32</span> <span class="na">name=</span><span class="s">&quot;id&quot;</span> <span class="na">value=</span><span class="s">&quot;9&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">260</span>          <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">261</span>          <span class="nt">&lt;injectedProperties&gt;</span>
+<span class="linenos">262</span>            <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;Description&quot;</span> <span class="na">value=</span><span class="s">&quot;App 9&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">263</span>          <span class="nt">&lt;/injectedProperties&gt;</span>
+<span class="linenos">264</span>        <span class="nt">&lt;/constructedValue&gt;</span>
+<span class="linenos">265</span>      <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">266</span>    <span class="nt">&lt;/startupAction&gt;</span>
+<span class="linenos">267</span>
+<span class="linenos">268</span>  <span class="nt">&lt;/startupActions&gt;</span>
+<span class="linenos">269</span>
+<span class="linenos">270</span>  <span class="nt">&lt;pluginsSetup&gt;</span>
+<span class="linenos">271</span>  <span class="nt">&lt;/pluginsSetup&gt;</span>
+<span class="linenos">272</span><span class="nt">&lt;/iocConfiguration&gt;</span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="IoCConfiguration_collection.generated.html"
+                          title="previous chapter">IoCConfiguration_collection.xml</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="IoCConfiguration_classMember.generated.html"
+                          title="next chapter">IoCConfiguration_classMember.xml</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/sample-files/IoCConfiguration_constructedValue.generated.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="IoCConfiguration_classMember.generated.html" title="IoCConfiguration_classMember.xml"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="IoCConfiguration_collection.generated.html" title="IoCConfiguration_collection.xml"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Sample Files</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">IoCConfiguration_constructedValue.xml</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

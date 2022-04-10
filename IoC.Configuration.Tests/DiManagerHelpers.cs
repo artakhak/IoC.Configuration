@@ -48,24 +48,24 @@ namespace IoC.Configuration.Tests
 
         static DiManagerHelpers()
         {
-            var testDllsFolderPath = Helpers.GetTestDllsFolderPath();
+            var testFilesFolderPath = Helpers.GetTestFilesFolderPath();
 
-            ThirdPartyLibsFolder = Path.Combine(testDllsFolderPath, "ThirdPartyLibs");
-            DynamicallyLoadedDllsFolder = Path.Combine(testDllsFolderPath, "DynamicallyLoadedDlls");
+            ThirdPartyLibsFolder = Path.Combine(testFilesFolderPath, "ThirdPartyLibs");
+            DynamicallyLoadedDllsFolder = Path.Combine(testFilesFolderPath, "DynamicallyLoadedDlls");
 
             ImplementationTypes = new List<DiImplementationType>(Enum.GetValues(typeof(DiImplementationType)).Cast<DiImplementationType>());
 
             _diImplementationTypeToDiImplementationInfo[DiImplementationType.Autofac] =
                 new DiImplementationInfo(DiImplementationType.Autofac,
-                    Path.Combine(testDllsFolderPath, "ContainerImplementations", "Autofac"),
-                    Path.Combine(testDllsFolderPath, "ContainerImplementations", "Autofac", "IoC.Configuration.Autofac.dll"),
+                    Path.Combine(testFilesFolderPath, "ContainerImplementations", "Autofac"),
+                    Path.Combine(testFilesFolderPath, "ContainerImplementations", "Autofac", "IoC.Configuration.Autofac.dll"),
                     "IoC.Configuration.Autofac.AutofacDiManager",
                     "IoC.Configuration.Autofac.AutofacDiContainer");
 
             _diImplementationTypeToDiImplementationInfo[DiImplementationType.Ninject] =
                 new DiImplementationInfo(DiImplementationType.Ninject,
-                    Path.Combine(testDllsFolderPath, "ContainerImplementations", "Ninject"),
-                    Path.Combine(testDllsFolderPath, "ContainerImplementations", "Ninject", "IoC.Configuration.Ninject.dll"),
+                    Path.Combine(testFilesFolderPath, "ContainerImplementations", "Ninject"),
+                    Path.Combine(testFilesFolderPath, "ContainerImplementations", "Ninject", "IoC.Configuration.Ninject.dll"),
                     "IoC.Configuration.Ninject.NinjectDiManager",
                     "IoC.Configuration.Ninject.NinjectDiContainer");
         }

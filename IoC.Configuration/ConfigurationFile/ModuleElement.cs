@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright ï¿½ 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -92,13 +92,12 @@ namespace IoC.Configuration.ConfigurationFile
             base.Initialize();
 
             _typeInfo = _typeHelper.GetTypeInfo(this, ConfigurationFileAttributeNames.Type, ConfigurationFileAttributeNames.Assembly, ConfigurationFileAttributeNames.TypeRef);
-            if (OwningPluginElement == null)
+
+            if (_typeInfo.Assembly.Plugin != null)
             {
-                if (_typeInfo.Assembly.Plugin != null)
+                if (OwningPluginElement == null)
                     throw new ConfigurationParseException(this, $"Assembly '{_typeInfo.Assembly.Name}' with alias '{_typeInfo.Assembly.Alias}' belongs to plugin '{_typeInfo.Assembly.Plugin.Name}'. The module should be declared under plugin element '{ConfigurationFileElementNames.PluginsSetup}/{ConfigurationFileElementNames.PluginSetup}' for plugin '{_typeInfo.Assembly.Plugin.Name}'.");
-            }
-            else
-            {
+                
                 if (_typeInfo.Assembly.Plugin != OwningPluginElement)
                     throw new ConfigurationParseException(this, $"Assembly '{_typeInfo.Assembly.Name}' with alias '{_typeInfo.Assembly.Alias}' is not in a folder dedicated for plugin '{OwningPluginElement.Name}'. To use this module in plugin '{OwningPluginElement.Name}', move the assembly to plugin folder: '{Path.Combine(OwningPluginElement.Configuration.Plugins.PluginsDirectory, OwningPluginElement.Name)}'");
             }
@@ -160,10 +159,9 @@ namespace IoC.Configuration.ConfigurationFile
                     _typeInfo.TypeCSharpFullName, ownerDiManagerElement.Name, _configuration.DiManagers.ActiveDiManagerElement.Name);
             }
 
-            if (validBaseType != null && !_isDiManagerInactive)
+            if (validBaseType != null && !_isDiManagerInactive && this.Enabled)
             {
                 DiModule = _createInstanceFromTypeAndConstructorParameters.CreateInstance(this, validBaseType, _typeInfo.Type, _parameters?.AllParameters ?? new IParameterElement[0]);
-
                 LogHelper.Context.Log.InfoFormat("Created an instance of dependency injection module: {0}.", _typeInfo.TypeCSharpFullName);
             }
         }

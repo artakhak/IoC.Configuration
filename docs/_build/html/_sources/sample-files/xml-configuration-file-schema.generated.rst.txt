@@ -1,0 +1,1006 @@
+=============================
+XML Configuration File Schema
+=============================
+
+XML Configuration file is validated against the schema file **IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd** below, when the file is loaded by **IoC.Configuration**.
+
+This file can be found also in folder "IoC.Configuration.Content", under the folder where Nuget package **IoC.Configuration** is downloaded (see the screenshot below),
+or can also be downloaded from `IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/IoC.Configuration.Content/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd>`_ or
+from `oroptimizer.com/IoC.Configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd <http://oroptimizer.com/IoC.Configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd>`_.
+
+.. image:: ioc.configuration-files.jpg
+
+To use Visual Studio code completion based on this schema, right click "Properties" on the XML configuration file, and select the schema in "Schemas" text box in properties tab (see the screenshot below).
+
+ .. image:: selecting-schema-in-vs.jpg
+
+Alternatively, reference the schema in xmlConfiguration element as displayed below:
+
+.. code-block:: xml
+   :linenos:
+   
+   <iocConfiguration
+   	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+   	xsi:noNamespaceSchemaLocation="http://oroptimizer.com/IoC.Configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd">
+   	<!--...-->
+   <iocConfiguration>
+ 
+**XML configuration file schema:**
+
+.. code-block:: xml
+   :linenos:
+   
+   <?xml version="1.0" encoding="utf-8"?>
+   <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+   		   xmlns:xs="http://www.w3.org/2001/XMLSchema">
+   	<xs:simpleType name="scopeValues">
+   		<xs:restriction base="xs:string">
+   			<!--The same object will be used for all service resolutions -->
+   			<xs:enumeration value="singleton"/>
+
+   			<!--New object will be created per request-->
+   			<xs:enumeration value="transient"/>
+
+   			<!--The same object will be created per scope lifetime., however different objects will be created in different lifetime scopes.-->
+   			<xs:enumeration value="scopeLifetime"/>
+   		</xs:restriction>
+   	</xs:simpleType>
+
+   	<xs:simpleType name="collectionTypes">
+   		<xs:restriction base="xs:string">
+   			<xs:enumeration value="enumerable"/>
+   			<xs:enumeration value="list"/>
+   			<xs:enumeration value="readOnlyList"/>
+   			<xs:enumeration value="array"/>
+   		</xs:restriction>
+   	</xs:simpleType>
+
+   	<xs:simpleType name="DateTimeType">
+   		<xs:restriction base="xs:string">
+   			<xs:pattern
+   					value="[0-9]{4}-(0[1-9]|1(0|1|2))-(0[1-9]|[1-2][0-9]|3[0-1]) ([0-1][0-9]|2[0-3]):([0-5][0-9]):([0-5][0-9]).([0-9]{3})"/>
+   		</xs:restriction>
+   	</xs:simpleType>
+
+   	<xs:complexType name="doubleType">
+   		<xs:attribute name="value" use="required" type="xs:double"/>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedDoubleType">
+   		<xs:complexContent>
+   			<xs:extension base="doubleType">
+   				<xs:attribute name="name" use="required" type="xs:string"/>
+   			</xs:extension>
+   		</xs:complexContent>
+   	</xs:complexType>
+
+   	<xs:complexType name="byteType">
+   		<xs:attribute name="value" use="required" type="xs:byte"/>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedByteType">
+   		<xs:complexContent>
+   			<xs:extension base="byteType">
+   				<xs:attribute name="name" use="required" type="xs:string"/>
+   			</xs:extension>
+   		</xs:complexContent>
+   	</xs:complexType>
+
+   	<xs:complexType name="int16Type">
+   		<xs:attribute name="value" use="required" type="xs:short"/>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedInt16Type">
+   		<xs:complexContent>
+   			<xs:extension base="int16Type">
+   				<xs:attribute name="name" use="required" type="xs:string"/>
+   			</xs:extension>
+   		</xs:complexContent>
+   	</xs:complexType>
+
+   	<xs:complexType name="int32Type">
+   		<xs:attribute name="value" use="required" type="xs:int"/>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedInt32Type">
+   		<xs:complexContent>
+   			<xs:extension base="int32Type">
+   				<xs:attribute name="name" use="required" type="xs:string"/>
+   			</xs:extension>
+   		</xs:complexContent>
+   	</xs:complexType>
+
+   	<xs:complexType name="int64Type">
+   		<xs:attribute name="value" use="required" type="xs:long"/>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedInt64Type">
+   		<xs:complexContent>
+   			<xs:extension base="int64Type">
+   				<xs:attribute name="name" use="required" type="xs:string"/>
+   			</xs:extension>
+   		</xs:complexContent>
+   	</xs:complexType>
+
+   	<xs:complexType name="booleanType">
+   		<xs:attribute name="value" use="required" type="xs:boolean"/>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedBooleanType">
+   		<xs:complexContent>
+   			<xs:extension base="booleanType">
+   				<xs:attribute name="name" use="required" type="xs:string"/>
+   			</xs:extension>
+   		</xs:complexContent>
+   	</xs:complexType>
+
+   	<xs:complexType name="datetimeType">
+   		<xs:attribute name="value" use="required" type="DateTimeType"/>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedDatetimeType">
+   		<xs:complexContent>
+   			<xs:extension base="datetimeType">
+   				<xs:attribute name="name" use="required" type="xs:string"/>
+   			</xs:extension>
+   		</xs:complexContent>
+   	</xs:complexType>
+
+   	<xs:complexType name="stringType">
+   		<xs:attribute name="value" use="required" type="xs:string"/>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedStringType">
+   		<xs:complexContent>
+   			<xs:extension base="stringType">
+   				<xs:attribute name="name" use="required" type="xs:string"/>
+   			</xs:extension>
+   		</xs:complexContent>
+   	</xs:complexType>
+
+   	<xs:complexType name="settingValueType">
+   		<xs:attribute name="settingName" use="required" type="xs:string"/>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedSettingValueType">
+   		<xs:complexContent>
+   			<xs:extension base="settingValueType">
+   				<xs:attribute name="name" use="required" type="xs:string"/>
+   			</xs:extension>
+   		</xs:complexContent>
+   	</xs:complexType>
+
+   	<xs:complexType name="objectType">
+   		<xs:attribute name="type" use="optional" type="xs:string"/>
+   		<xs:attribute name="assembly" use="optional" type="xs:string"/>
+   		<xs:attribute name="typeRef" use="optional" type="xs:string"/>
+   		<xs:attribute name="value" use="required" type="xs:string"/>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedObjectType">
+   		<xs:complexContent>
+   			<xs:extension base="objectType">
+   				<xs:attribute name="name" use="required" type="xs:string"/>
+   			</xs:extension>
+   		</xs:complexContent>
+   	</xs:complexType>
+
+   	<xs:complexType name="classMemberType">
+   		<xs:sequence>
+   			<xs:element name="parameters" type="namedValuesType" minOccurs="0" maxOccurs="1"/>
+   		</xs:sequence>
+   		<xs:attribute name="class" use="optional" type="xs:string"/>
+   		<xs:attribute name="assembly" use="optional" type="xs:string"/>
+   		<xs:attribute name="classRef" use="optional" type="xs:string"/>
+   		<xs:attribute name="memberName" use="required" type="xs:string"/>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedClassMemberType">
+   		<xs:complexContent>
+   			<xs:extension base="classMemberType">
+   				<xs:attribute name="name" use="required" type="xs:string"/>
+   			</xs:extension>
+   		</xs:complexContent>
+   	</xs:complexType>
+
+   	<xs:complexType name="classMemberTypeWithDi">
+   		<xs:sequence>
+   			<xs:element name="parameters" type="namedValuesTypeWithDi" minOccurs="0" maxOccurs="1"/>
+   		</xs:sequence>
+   		<xs:attribute name="class" use="optional" type="xs:string"/>
+   		<xs:attribute name="assembly" use="optional" type="xs:string"/>
+   		<xs:attribute name="classRef" use="optional" type="xs:string"/>
+   		<xs:attribute name="memberName" use="required" type="xs:string"/>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedClassMemberTypeWithDi">
+   		<xs:complexContent>
+   			<xs:extension base="classMemberTypeWithDi">
+   				<xs:attribute name="name" use="required" type="xs:string"/>
+   			</xs:extension>
+   		</xs:complexContent>
+   	</xs:complexType>
+
+   	<xs:complexType name="injectedObjectType">
+   		<xs:attribute name="type" type="xs:string" use="optional"/>
+   		<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   		<xs:attribute name="typeRef" type="xs:string" use="optional"/>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedInjectedObjectType">
+   		<xs:complexContent>
+   			<xs:extension base="injectedObjectType">
+   				<xs:attribute name="name" use="required" type="xs:string"/>
+   			</xs:extension>
+   		</xs:complexContent>
+   	</xs:complexType>
+
+   	<xs:complexType name="parameterValueType">
+   		<xs:attribute name="paramName" use="required" type="xs:string"/>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedParameterValueType">
+   		<xs:complexContent>
+   			<xs:extension base="parameterValueType">
+   				<xs:attribute name="name" use="required" type="xs:string"/>
+   			</xs:extension>
+   		</xs:complexContent>
+   	</xs:complexType>
+
+   	<xs:complexType name="constructedValueType">
+   		<xs:sequence>
+   			<xs:element name="parameters" type="namedValuesType" minOccurs="0" maxOccurs="1"/>
+   			<xs:element name="injectedProperties" type="namedValuesType" minOccurs="0" maxOccurs="1"/>
+   		</xs:sequence>
+   		<xs:attribute name="type" type="xs:string" use="optional"/>
+   		<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   		<xs:attribute name="typeRef" type="xs:string" use="optional"/>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedConstructedValueType">
+   		<xs:complexContent>
+   			<xs:extension base="constructedValueType">
+   				<xs:attribute name="name" use="required" type="xs:string"/>
+   			</xs:extension>
+   		</xs:complexContent>
+   	</xs:complexType>
+
+   	<xs:complexType name="constructedValueTypeWithDi">
+   		<xs:sequence>
+   			<xs:element name="parameters" type="namedValuesTypeWithDi" minOccurs="0" maxOccurs="1"/>
+   			<xs:element name="injectedProperties" type="namedValuesTypeWithDi" minOccurs="0" maxOccurs="1"/>
+   		</xs:sequence>
+   		<xs:attribute name="type" type="xs:string" use="optional"/>
+   		<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   		<xs:attribute name="typeRef" type="xs:string" use="optional"/>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedConstructedValueTypeWithDi">
+   		<xs:complexContent>
+   			<xs:extension base="constructedValueTypeWithDi">
+   				<xs:attribute name="name" use="required" type="xs:string"/>
+   			</xs:extension>
+   		</xs:complexContent>
+   	</xs:complexType>
+
+   	<xs:complexType name="collectionType">
+   		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+   			<xs:choice>
+   				<xs:element name="byte" type="byteType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="int16" type="int16Type" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="int32" type="int32Type" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="int64" type="int64Type" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="double" type="doubleType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="boolean" type="booleanType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="datetime" type="datetimeType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="string" type="stringType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="object" type="objectType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="classMember" type="classMemberType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="constructedValue" type="constructedValueType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="collection" type="collectionType" minOccurs="1" maxOccurs="1"/>
+   			</xs:choice>
+   		</xs:sequence>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedCollectionType">
+   		<xs:complexContent>
+   			<xs:extension base="collectionType">
+   				<xs:attribute name="name" type="xs:string" use="required"/>
+   				<xs:attribute name="collectionType" type="collectionTypes" use="required"/>
+   				<xs:attribute name="itemType" type="xs:string" use="optional"/>
+   				<xs:attribute name="itemTypeRef" type="xs:string" use="optional"/>
+   				<xs:attribute name="itemTypeAssembly" type="xs:string" use="optional"/>
+   			</xs:extension>
+   		</xs:complexContent>
+   	</xs:complexType>
+
+   	<xs:complexType name="collectionTypeWithDi">
+   		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+   			<xs:choice>
+   				<xs:element name="byte" type="byteType"/>
+   				<xs:element name="int16" type="int16Type"/>
+   				<xs:element name="int32" type="int32Type"/>
+   				<xs:element name="int64" type="int64Type"/>
+   				<xs:element name="double" type="doubleType"/>
+   				<xs:element name="boolean" type="booleanType"/>
+   				<xs:element name="datetime" type="datetimeType"/>
+   				<xs:element name="string" type="stringType"/>
+   				<xs:element name="object" type="objectType"/>
+   				<xs:element name="classMember" type="classMemberTypeWithDi"/>
+   				<xs:element name="settingValue" type="settingValueType"/>
+   				<xs:element name="constructedValue" type="constructedValueTypeWithDi"/>
+   				<xs:element name="injectedObject" type="injectedObjectType"/>
+   				<xs:element name="collection" type="collectionTypeWithDi"/>
+   				<xs:element name="parameterValue" type="parameterValueType"/>
+   			</xs:choice>
+   		</xs:sequence>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedCollectionTypeWithDi">
+   		<xs:complexContent>
+   			<xs:extension base="collectionTypeWithDi">
+   				<xs:attribute name="name" use="required" type="xs:string"/>
+   				<xs:attribute name="collectionType" type="collectionTypes" use="required"/>
+   				<xs:attribute name="itemType" type="xs:string" use="optional"/>
+   				<xs:attribute name="itemTypeRef" type="xs:string" use="optional"/>
+   				<xs:attribute name="itemTypeAssembly" type="xs:string" use="optional"/>
+   			</xs:extension>
+   		</xs:complexContent>
+   	</xs:complexType>
+
+   	<xs:complexType name="defaultValuesType">
+   		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+   			<xs:choice>
+   				<xs:element name="byte" type="namedByteType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="int16" type="namedInt16Type" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="int32" type="namedInt32Type" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="int64" type="namedInt64Type" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="double" type="namedDoubleType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="boolean" type="namedBooleanType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="datetime" type="namedDatetimeType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="string" type="namedStringType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="constructedValue" type="namedConstructedValueType" minOccurs="1" maxOccurs="1"/>
+   			</xs:choice>
+   		</xs:sequence>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedValuesType">
+   		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+   			<xs:choice>
+   				<xs:element name="byte" type="namedByteType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="int16" type="namedInt16Type" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="int32" type="namedInt32Type" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="int64" type="namedInt64Type" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="double" type="namedDoubleType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="boolean" type="namedBooleanType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="datetime" type="namedDatetimeType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="string" type="namedStringType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="object" type="namedObjectType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="constructedValue" type="namedConstructedValueType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="collection" type="namedCollectionType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="classMember" type="namedClassMemberType" minOccurs="1" maxOccurs="1"/>
+   			</xs:choice>
+   		</xs:sequence>
+   	</xs:complexType>
+
+   	<xs:complexType name="settingValuesType">
+   		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+   			<xs:choice>
+   				<xs:element name="byte" type="namedByteType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="int16" type="namedInt16Type" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="int32" type="namedInt32Type" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="int64" type="namedInt64Type" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="double" type="namedDoubleType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="boolean" type="namedBooleanType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="datetime" type="namedDatetimeType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="string" type="namedStringType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="object" type="namedObjectType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="constructedValue" type="namedConstructedValueType" minOccurs="1" maxOccurs="1"/>
+   			</xs:choice>
+   		</xs:sequence>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedValuesTypeWithDi">
+   		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+   			<xs:choice>
+   				<xs:element name="byte" type="namedByteType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="int16" type="namedInt16Type" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="int32" type="namedInt32Type" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="int64" type="namedInt64Type" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="double" type="namedDoubleType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="boolean" type="namedBooleanType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="datetime" type="namedDatetimeType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="string" type="namedStringType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="object" type="namedObjectType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="settingValue" type="namedSettingValueType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="constructedValue" type="namedConstructedValueTypeWithDi" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="injectedObject" type="namedInjectedObjectType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="collection" type="namedCollectionTypeWithDi" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="classMember" type="namedClassMemberTypeWithDi" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="parameterValue" type="namedParameterValueType" minOccurs="1" maxOccurs="1"/>
+   			</xs:choice>
+   		</xs:sequence>
+   	</xs:complexType>
+
+   	<xs:element name="appDataDir">
+   		<xs:complexType>
+   			<xs:attribute name="path" type="xs:string" use="required"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="plugins">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element name="plugin" minOccurs="0" maxOccurs="unbounded">
+   					<xs:complexType>
+   						<xs:attribute name="name" type="xs:string" use="required"/>
+   						<xs:attribute name="enabled" type="xs:boolean" use="optional" default="true"/>
+   					</xs:complexType>
+   				</xs:element>
+   			</xs:sequence>
+   			<xs:attribute name="pluginsDirPath" type="xs:string" use="optional"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="additionalAssemblyProbingPaths">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element name="probingPath" minOccurs="0" maxOccurs="unbounded">
+   					<xs:complexType>
+   						<xs:attribute name="path" type="xs:string" use="required"/>
+   					</xs:complexType>
+   				</xs:element>
+   			</xs:sequence>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="assemblies">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element name="assembly" minOccurs="0" maxOccurs="unbounded">
+   					<xs:complexType>
+   						<xs:attribute name="name" type="xs:string" use="required"/>
+   						<xs:attribute name="alias" type="xs:string" use="required"/>
+   						<xs:attribute name="plugin" type="xs:string" use="optional"/>
+   						<!--loadAlways is deprecated and will be deleted in the future. 
+   							All assemblies in configuration file are now added as references to dynamically generated assembly, however
+   							.NET only loads assemblies that are used in referencing assembly-->
+   						<xs:attribute name="loadAlways" type="xs:boolean" use="optional" default="false"/>
+   						<xs:attribute name="overrideDirectory" type="xs:string" use="optional"/>
+   					</xs:complexType>
+   				</xs:element>
+   			</xs:sequence>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:complexType name="typeDefinition">
+   		<xs:sequence minOccurs="0" maxOccurs="1">
+   			<xs:element name="genericTypeParameters">
+   				<xs:complexType>
+   					<xs:sequence minOccurs="1" maxOccurs="unbounded">
+   						<xs:element type="typeDefinition" name="typeDefinition"></xs:element>
+   					</xs:sequence>
+   				</xs:complexType>
+   			</xs:element>
+   		</xs:sequence>
+   		<xs:attribute name="type" type="xs:string" use="required"/>
+   		<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   	</xs:complexType>
+
+   	<xs:complexType name="namedTypeDefinition">
+   		<xs:complexContent>
+   			<xs:extension base="typeDefinition">
+   				<xs:attribute name="alias" type="xs:string" use="required"/>
+   			</xs:extension>
+   		</xs:complexContent>
+   	</xs:complexType>
+
+   	<xs:element name="typeDefinitions">
+   		<xs:complexType>
+   			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+   				<xs:element name="typeDefinition" type="namedTypeDefinition"></xs:element>
+   			</xs:sequence>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<!--<xs:element name="attributeValueTransformer">
+           <xs:complexType>
+               <xs:sequence>
+                   <xs:element name="parameters" type="defaultValuesType" minOccurs="0" maxOccurs="1" />
+               </xs:sequence>
+               <xs:attribute name="type" type="xs:string" use="optional" />
+               <xs:attribute name="assembly" type="xs:string" use="optional" />
+               <xs:attribute name="typeRef" type="xs:string" use="optional" />
+           </xs:complexType>
+       </xs:element>
+
+       <xs:element name="attributeValueTransformers">
+           <xs:complexType>
+               <xs:sequence>
+                   <xs:element ref="attributeValueTransformer" minOccurs="0" maxOccurs="unbounded" />
+               </xs:sequence>
+           </xs:complexType>
+       </xs:element>-->
+
+   	<xs:element name="parameterSerializer">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element name="parameters" type="defaultValuesType" minOccurs="0" maxOccurs="1"/>
+   			</xs:sequence>
+   			<xs:attribute name="type" type="xs:string" use="optional"/>
+   			<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   			<xs:attribute name="typeRef" type="xs:string" use="optional"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="parameterSerializers">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element name="parameters" type="defaultValuesType" minOccurs="0" maxOccurs="1"/>
+   				<xs:element name="serializers">
+   					<xs:complexType>
+   						<xs:sequence>
+   							<xs:element ref="parameterSerializer" minOccurs="0" maxOccurs="unbounded"/>
+   						</xs:sequence>
+   					</xs:complexType>
+   				</xs:element>
+   			</xs:sequence>
+   			<xs:attribute name="serializerAggregatorType" type="xs:string" use="optional"/>
+   			<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   			<xs:attribute name="serializerAggregatorTypeRef" type="xs:string" use="optional"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="diManager">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element name="parameters" type="namedValuesType" minOccurs="0" maxOccurs="1"/>
+   			</xs:sequence>
+
+   			<xs:attribute name="name" type="xs:string" use="required"/>
+   			<xs:attribute name="type" type="xs:string" use="optional"/>
+   			<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   			<xs:attribute name="typeRef" type="xs:string" use="optional"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="diManagers">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element ref="diManager" minOccurs="1" maxOccurs="unbounded"/>
+   			</xs:sequence>
+   			<xs:attribute name="activeDiManagerName" type="xs:string" use="required"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="settings" type="settingValuesType">
+   	</xs:element>
+
+   	<xs:element name="controllerAssembly">
+   		<xs:complexType>
+   			<xs:attribute name="assembly" type="xs:string" use="required"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="controllerAssemblies">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element ref="controllerAssembly" minOccurs="0" maxOccurs="unbounded"/>
+   			</xs:sequence>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="webApi">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element ref="controllerAssemblies" minOccurs="0" maxOccurs="1"/>
+   			</xs:sequence>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="settingsRequestor">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element name="parameters" type="namedValuesTypeWithDi" minOccurs="0" maxOccurs="1"/>
+   			</xs:sequence>
+   			<xs:attribute name="type" type="xs:string" use="optional"/>
+   			<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   			<xs:attribute name="typeRef" type="xs:string" use="optional"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="modules">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element name="module" minOccurs="0" maxOccurs="unbounded">
+   					<xs:complexType>
+   						<xs:sequence>
+   							<xs:element name="parameters" type="namedValuesType" minOccurs="0" maxOccurs="1"/>
+   						</xs:sequence>
+   						<xs:attribute name="type" type="xs:string" use="optional"/>
+   						<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   						<xs:attribute name="typeRef" type="xs:string" use="optional"/>
+   						<xs:attribute name="enabled" type="xs:boolean" use="optional" default="true"/>
+   					</xs:complexType>
+   				</xs:element>
+   			</xs:sequence>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="implementation">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element name="parameters" type="namedValuesTypeWithDi" minOccurs="0" maxOccurs="1"/>
+   				<xs:element name="injectedProperties" type="namedValuesTypeWithDi" minOccurs="0" maxOccurs="1"/>
+   			</xs:sequence>
+   			<xs:attribute name="type" type="xs:string" use="optional"/>
+   			<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   			<xs:attribute name="typeRef" type="xs:string" use="optional"/>
+   			<xs:attribute name="scope" type="scopeValues" use="required"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="serviceToProxy">
+   		<xs:complexType>
+   			<xs:attribute name="type" type="xs:string" use="optional"/>
+   			<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   			<xs:attribute name="typeRef" type="xs:string" use="optional"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="valueImplementation">
+   		<xs:complexType>
+   			<xs:choice>
+   				<xs:element name="collection" type="collectionTypeWithDi"/>
+   				<xs:element name="settingValue" type="settingValueType"/>
+   				<xs:element name="object" type="objectType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="classMember" type="classMemberTypeWithDi" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="constructedValue" type="constructedValueTypeWithDi" minOccurs="1" maxOccurs="1"/>
+   			</xs:choice>
+   			<xs:attribute name="scope" type="scopeValues" use="required"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="service">
+   		<xs:complexType>
+   			<xs:sequence minOccurs="1" maxOccurs="unbounded">
+   				<xs:choice>
+   					<xs:element ref="implementation"/>
+   					<xs:element ref="valueImplementation"/>
+   				</xs:choice>
+   			</xs:sequence>
+   			<xs:attribute name="type" type="xs:string" use="optional"/>
+   			<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   			<xs:attribute name="typeRef" type="xs:string" use="optional"/>
+   			<xs:attribute name="registerIfNotRegistered" type="xs:boolean" default="false" use="optional"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="proxyService">
+   		<xs:complexType>
+   			<xs:sequence minOccurs="1" maxOccurs="1">
+   				<xs:element ref="serviceToProxy"/>
+   			</xs:sequence>
+   			<xs:attribute name="type" type="xs:string" use="optional"/>
+   			<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   			<xs:attribute name="typeRef" type="xs:string" use="optional"/>
+   			<xs:attribute name="registerIfNotRegistered" type="xs:boolean" default="false" use="optional"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="selfBoundService">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element name="parameters" type="namedValuesTypeWithDi" minOccurs="0" maxOccurs="1"/>
+   				<xs:element name="injectedProperties" type="namedValuesTypeWithDi" minOccurs="0" maxOccurs="1"/>
+   			</xs:sequence>
+   			<xs:attribute name="type" type="xs:string" use="optional"/>
+   			<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   			<xs:attribute name="typeRef" type="xs:string" use="optional"/>
+   			<xs:attribute name="scope" type="scopeValues" use="required"/>
+   			<xs:attribute name="registerIfNotRegistered" type="xs:boolean" default="false" use="optional"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="services">
+   		<xs:complexType>
+   			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+   				<xs:choice>
+   					<xs:element ref="service" minOccurs="1" maxOccurs="1"/>
+   					<xs:element ref="selfBoundService" minOccurs="1" maxOccurs="1"/>
+   					<xs:element ref="proxyService" minOccurs="1" maxOccurs="1"/>
+   				</xs:choice>
+   			</xs:sequence>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:complexType name="autoGeneratedMemberReturnValues">
+   		<xs:choice minOccurs="1" maxOccurs="1">
+   			<xs:element name="constructedValue" type="constructedValueTypeWithDi"/>
+   			<xs:element name="injectedObject" type="injectedObjectType"/>
+   			<xs:element name="byte" type="byteType"/>
+   			<xs:element name="int16" type="int16Type"/>
+   			<xs:element name="int32" type="int32Type"/>
+   			<xs:element name="int64" type="int64Type"/>
+   			<xs:element name="double" type="doubleType"/>
+   			<xs:element name="boolean" type="booleanType"/>
+   			<xs:element name="datetime" type="datetimeType"/>
+   			<xs:element name="string" type="stringType"/>
+   			<xs:element name="object" type="objectType"/>
+   			<xs:element name="settingValue" type="settingValueType"/>
+   			<xs:element name="collection" type="collectionTypeWithDi"/>
+   			<xs:element name="classMember" type="classMemberTypeWithDi"/>
+   			<xs:element name="parameterValue" type="parameterValueType"/>
+   		</xs:choice>
+   	</xs:complexType>
+
+   	<xs:element name="autoProperty">
+   		<xs:complexType>
+   			<xs:choice minOccurs="1" maxOccurs="1">
+   				<xs:element name="constructedValue" type="constructedValueTypeWithDi"/>
+   				<xs:element name="injectedObject" type="injectedObjectType"/>
+   				<xs:element name="byte" type="byteType"/>
+   				<xs:element name="int16" type="int16Type"/>
+   				<xs:element name="int32" type="int32Type"/>
+   				<xs:element name="int64" type="int64Type"/>
+   				<xs:element name="double" type="doubleType"/>
+   				<xs:element name="boolean" type="booleanType"/>
+   				<xs:element name="datetime" type="datetimeType"/>
+   				<xs:element name="string" type="stringType"/>
+   				<xs:element name="object" type="objectType"/>
+   				<xs:element name="settingValue" type="settingValueType"/>
+   				<xs:element name="collection" type="collectionTypeWithDi"/>
+   				<xs:element name="classMember" type="classMemberTypeWithDi"/>
+   				<xs:element name="parameterValue" type="parameterValueType"/>
+   			</xs:choice>
+   			<xs:attribute name="name" type="xs:string" use="required"/>
+   			<xs:attribute name="returnType" use="optional" type="xs:string"/>
+   			<xs:attribute name="assembly" use="optional" type="xs:string"/>
+   			<xs:attribute name="returnTypeRef" use="optional" type="xs:string"/>
+   			<xs:attribute name="declaringInterface" type="xs:string" use="optional"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="methodSignature">
+   		<xs:complexType>
+   			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+   				<xs:choice>
+   					<xs:element name="byte">
+   						<xs:complexType>
+   							<xs:attribute name="paramName" use="optional"></xs:attribute>
+   						</xs:complexType>
+   					</xs:element>
+
+   					<xs:element name="int16">
+   						<xs:complexType>
+   							<xs:attribute name="paramName" use="optional"></xs:attribute>
+   						</xs:complexType>
+   					</xs:element>
+
+   					<xs:element name="int32">
+   						<xs:complexType>
+   							<xs:attribute name="paramName" use="optional"></xs:attribute>
+   						</xs:complexType>
+   					</xs:element>
+
+   					<xs:element name="int64">
+   						<xs:complexType>
+   							<xs:attribute name="paramName" use="optional"></xs:attribute>
+   						</xs:complexType>
+   					</xs:element>
+
+   					<xs:element name="double">
+   						<xs:complexType>
+   							<xs:attribute name="paramName" use="optional"></xs:attribute>
+   						</xs:complexType>
+   					</xs:element>
+
+   					<xs:element name="boolean">
+   						<xs:complexType>
+   							<xs:attribute name="paramName" use="optional"></xs:attribute>
+   						</xs:complexType>
+   					</xs:element>
+
+   					<xs:element name="datetime">
+   						<xs:complexType>
+   							<xs:attribute name="paramName" use="optional"></xs:attribute>
+   						</xs:complexType>
+   					</xs:element>
+
+   					<xs:element name="string">
+   						<xs:complexType>
+   							<xs:attribute name="paramName" use="optional"></xs:attribute>
+   						</xs:complexType>
+   					</xs:element>
+
+   					<xs:element name="object">
+   						<xs:complexType>
+   							<xs:attribute name="paramName" use="optional"></xs:attribute>
+   							<xs:attribute name="type" type="xs:string" use="optional"/>
+   							<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   							<xs:attribute name="typeRef" type="xs:string" use="optional"/>
+   						</xs:complexType>
+   					</xs:element>
+   				</xs:choice>
+   			</xs:sequence>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="autoMethod">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element ref="methodSignature" minOccurs="0" maxOccurs="1"/>
+   				<xs:element name="if" minOccurs="0" maxOccurs="unbounded">
+   					<xs:complexType>
+   						<xs:complexContent>
+   							<xs:extension base="autoGeneratedMemberReturnValues">
+   								<xs:attribute name="parameter1" type="xs:string" use="optional"/>
+   								<xs:attribute name="parameter2" type="xs:string" use="optional"/>
+   								<xs:attribute name="parameter3" type="xs:string" use="optional"/>
+   								<xs:attribute name="parameter4" type="xs:string" use="optional"/>
+   								<xs:attribute name="parameter5" type="xs:string" use="optional"/>
+   								<xs:attribute name="parameter6" type="xs:string" use="optional"/>
+   								<xs:attribute name="parameter7" type="xs:string" use="optional"/>
+   								<xs:attribute name="parameter8" type="xs:string" use="optional"/>
+   								<xs:attribute name="parameter9" type="xs:string" use="optional"/>
+   								<xs:attribute name="parameter10" type="xs:string" use="optional"/>
+   							</xs:extension>
+   						</xs:complexContent>
+   					</xs:complexType>
+   				</xs:element>
+   				<xs:element name="default" type="autoGeneratedMemberReturnValues" minOccurs="1" maxOccurs="1"/>
+   			</xs:sequence>
+   			<xs:attribute name="name" type="xs:string" use="required"/>
+   			<xs:attribute name="returnType" use="optional" type="xs:string"/>
+   			<xs:attribute name="assembly" use="optional" type="xs:string"/>
+   			<xs:attribute name="returnTypeRef" use="optional" type="xs:string"/>
+   			<xs:attribute name="reuseValue" type="xs:boolean" use="optional" default="false"/>
+   			<xs:attribute name="declaringInterface" type="xs:string" use="optional"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="autoService">
+   		<xs:complexType>
+   			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+   				<xs:choice>
+   					<xs:element ref="autoMethod" minOccurs="1" maxOccurs="1"></xs:element>
+   					<xs:element ref="autoProperty" minOccurs="1" maxOccurs="1"></xs:element>
+   				</xs:choice>
+   			</xs:sequence>
+   			<xs:attribute name="interface" type="xs:string" use="optional"/>
+   			<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   			<xs:attribute name="interfaceRef" type="xs:string" use="optional"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<!--<xs:complexType name="additionalAssemblyReferencesType">
+       <xs:sequence minOccurs="0" maxOccurs="unbounded">
+         <xs:element name="assemblyRef">
+           <xs:complexType>
+             <xs:attribute name="alias" type="xs:string" />
+           </xs:complexType>
+         </xs:element>
+       </xs:sequence>
+     </xs:complexType>-->
+
+   	<xs:complexType name="autoServiceCodeGeneratorType">
+   		<xs:sequence minOccurs="1" maxOccurs="1">
+   			<xs:choice>
+   				<xs:element name="object" type="objectType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="constructedValue" type="constructedValueType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="classMember" type="classMemberType" minOccurs="1" maxOccurs="1"/>
+   			</xs:choice>
+   		</xs:sequence>
+   	</xs:complexType>
+
+   	<xs:element name="autoServiceCustom">
+   		<xs:complexType>
+   			<xs:sequence minOccurs="1" maxOccurs="1">
+   				<xs:element name="autoServiceCodeGenerator" type="autoServiceCodeGeneratorType" minOccurs="1"
+   							maxOccurs="1"/>
+   				<!--<xs:element name="additionalAssemblyReferences" type="additionalAssemblyReferencesType" minOccurs="0" maxOccurs="1" />-->
+   			</xs:sequence>
+
+   			<xs:attribute name="interface" type="xs:string" use="optional"/>
+   			<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   			<xs:attribute name="interfaceRef" type="xs:string" use="optional"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="autoGeneratedServices">
+   		<xs:complexType>
+   			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+   				<xs:choice>
+   					<xs:element ref="autoService" minOccurs="1" maxOccurs="1"/>
+   					<xs:element ref="autoServiceCustom" minOccurs="1" maxOccurs="1"/>
+   				</xs:choice>
+   			</xs:sequence>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="dependencyInjection">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element ref="modules" minOccurs="1" maxOccurs="1"/>
+   				<xs:element ref="services" minOccurs="1" maxOccurs="1"/>
+   				<xs:element ref="autoGeneratedServices" minOccurs="1" maxOccurs="1"/>
+   			</xs:sequence>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="startupAction">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element name="parameters" type="namedValuesTypeWithDi" minOccurs="0" maxOccurs="1"/>
+   				<xs:element name="injectedProperties" type="namedValuesTypeWithDi" minOccurs="0" maxOccurs="1"/>
+   			</xs:sequence>
+   			<xs:attribute name="type" type="xs:string" use="optional"/>
+   			<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   			<xs:attribute name="typeRef" type="xs:string" use="optional"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="startupActions">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element ref="startupAction" minOccurs="0" maxOccurs="unbounded"/>
+   			</xs:sequence>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="pluginImplementation">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element name="parameters" type="namedValuesTypeWithDi" minOccurs="0" maxOccurs="1"/>
+   				<xs:element name="injectedProperties" type="namedValuesTypeWithDi" minOccurs="0" maxOccurs="1"/>
+   			</xs:sequence>
+   			<xs:attribute name="type" type="xs:string" use="optional"/>
+   			<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   			<xs:attribute name="typeRef" type="xs:string" use="optional"/>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="pluginSetup">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element ref="pluginImplementation" minOccurs="1" maxOccurs="1"/>
+   				<xs:element ref="typeDefinitions" minOccurs="0" maxOccurs="1"/>
+   				<xs:element ref="settings" minOccurs="1" maxOccurs="1"/>
+   				<xs:element ref="webApi" minOccurs="0" maxOccurs="1"/>
+   				<xs:element ref="dependencyInjection" minOccurs="1" maxOccurs="1"/>
+   			</xs:sequence>
+
+   			<xs:attribute name="plugin" type="xs:string" use="required"/>
+   		</xs:complexType>
+
+   	</xs:element>
+
+   	<xs:element name="pluginsSetup">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element ref="pluginSetup" minOccurs="0" maxOccurs="unbounded"/>
+   			</xs:sequence>
+   		</xs:complexType>
+   	</xs:element>
+
+   	<xs:element name="iocConfiguration">
+   		<xs:complexType>
+   			<xs:sequence>
+   				<xs:element ref="appDataDir" minOccurs="1" maxOccurs="1"/>
+   				<xs:element ref="plugins" minOccurs="1" maxOccurs="1"/>
+   				<xs:element ref="additionalAssemblyProbingPaths" minOccurs="1" maxOccurs="1"/>
+   				<xs:element ref="assemblies" minOccurs="1" maxOccurs="1"/>
+   				<xs:element ref="typeDefinitions" minOccurs="0" maxOccurs="1"/>
+   				<!--<xs:element ref="attributeValueTransformers" minOccurs="0" maxOccurs="1" />-->
+   				<xs:element ref="parameterSerializers" minOccurs="1" maxOccurs="1"/>
+   				<xs:element ref="diManagers" minOccurs="1" maxOccurs="1"/>
+   				<xs:element ref="settingsRequestor" minOccurs="0" maxOccurs="1"/>
+   				<xs:element ref="settings" minOccurs="1" maxOccurs="1"/>
+   				<xs:element ref="webApi" minOccurs="0" maxOccurs="1"/>
+   				<xs:element ref="dependencyInjection" minOccurs="1" maxOccurs="1"/>
+   				<xs:element ref="startupActions" minOccurs="1" maxOccurs="1"/>
+   				<xs:element ref="pluginsSetup" minOccurs="1" maxOccurs="1"/>
+   			</xs:sequence>
+   		</xs:complexType>
+   	</xs:element>
+   </xs:schema>

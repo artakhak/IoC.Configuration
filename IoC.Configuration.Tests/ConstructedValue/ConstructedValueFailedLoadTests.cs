@@ -1,13 +1,14 @@
-﻿using IoC.Configuration.Tests.TestTemplateFiles;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using IoC.Configuration.ConfigurationFile;
+using IoC.Configuration.Tests.TestTemplateFiles;
+using NUnit.Framework;
 using System;
 using System.Xml;
-using IoC.Configuration.ConfigurationFile;
+using OROptimizer.Utilities.Xml;
 using TestsSharedLibrary.DependencyInjection;
 
 namespace IoC.Configuration.Tests.ConstructedValue
 {
-    [TestClass]
+    [TestFixture]
     public class ConstructedValueFailedLoadTests : IoCConfigurationTestsBase
     {
         private void LoadConfigurationFile(DiImplementationType diImplementationType,
@@ -20,11 +21,9 @@ namespace IoC.Configuration.Tests.ConstructedValue
         {
             return "IoCConfiguration_constructedValue.xml";
         }
-       
-
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void InvalidSettingReferenceInIfElement(DiImplementationType diImplementationType)
         {
             Helpers.TestExpectedConfigurationParseException(() =>

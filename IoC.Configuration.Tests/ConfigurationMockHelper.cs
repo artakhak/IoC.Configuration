@@ -9,13 +9,13 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Loader;
 using System.Text;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace IoC.Configuration.Tests
 {
     public class ConfigurationMockHelper : IDisposable
     {
-        private static readonly string TestDllsFolder = Helpers.GetTestDllsFolderPath();
+        private static readonly string TestFilesFolder = Helpers.GetTestFilesFolderPath();
 
         private TypeHelper _typeHelper;
         private AssemblyResolver _assemblyResolver;
@@ -36,7 +36,7 @@ namespace IoC.Configuration.Tests
 
             foreach (var relativeProbingPath in additionalProbingPathsRelativeToTestDllsFolder)
             {
-                var absoluteProbingPath = $"{Path.Combine(TestDllsFolder, relativeProbingPath)}";
+                var absoluteProbingPath = $"{Path.Combine(TestFilesFolder, relativeProbingPath)}";
                 if (!allProbingPaths.Contains(absoluteProbingPath))
                     allProbingPaths.Add(absoluteProbingPath);
             }
@@ -91,7 +91,7 @@ namespace IoC.Configuration.Tests
             pluginsMock.SetupGet(x => x.Parent).Returns(() => _configurationMock.Object);
             _configurationMock.SetupGet(x => x.Plugins).Returns(() => pluginsMock.Object);
 
-            pluginsMock.SetupGet(x => x.PluginsDirectory).Returns($"{Path.Combine(TestDllsFolder, "PluginDlls")}");
+            pluginsMock.SetupGet(x => x.PluginsDirectory).Returns($"{Path.Combine(TestFilesFolder, "PluginDlls")}");
             pluginsMock.SetupGet(x => x.AllPlugins).Returns(allPlugins);
 
             var pluginsSetupMock = CreateElementMock<IPluginsSetup>(ConfigurationFileElementNames.PluginsSetup);
@@ -103,7 +103,7 @@ namespace IoC.Configuration.Tests
             {
                 foreach (var pluginName in pluginNames)
                 {
-                    var pluginDirectory = $"{Path.Combine(TestDllsFolder, "PluginDlls", pluginName)}";
+                    var pluginDirectory = $"{Path.Combine(TestFilesFolder, "PluginDlls", pluginName)}";
 
                     if (!allProbingPaths.Contains(pluginDirectory))
                         allProbingPaths.Add(pluginDirectory);
@@ -194,12 +194,10 @@ namespace IoC.Configuration.Tests
                     assemblyData.IsExcluded ? null : assemblyData.Assembly);
             }
 
-            
-
             IAssembly CreateAssembly(Type typeInAssembly)
             {
                 var assembly = typeInAssembly.Assembly;
-                return new Assembly(assembly.Location, assembly.GetName().Name, null);
+                return new Assembly(assembly.Location, null);
             }
 
             assembliesMock.SetupGet(x => x.MsCorlibAssembly).Returns(CreateAssembly(typeof(int)));

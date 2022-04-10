@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Element selfBoundService &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Element proxyService" href="element-proxy-service.html" />
+    <link rel="prev" title="Element service" href="element-service.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="element-proxy-service.html" title="Element proxyService"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="element-service.html" title="Element service"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >XML Configuration File</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="dependency-injection.html" >Dependency Injection</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="service-bindings.html" accesskey="U">Service Bindings</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Element <strong>selfBoundService</strong></a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="element-selfboundservice">
+<h1>Element <strong>selfBoundService</strong><a class="headerlink" href="#element-selfboundservice" title="Permalink to this headline">¶</a></h1>
+<p>Element <strong>selfBoundService</strong> is used to bind a type specified in attributes <strong>type</strong> and <strong>assembly</strong> to itself.</p>
+<p>An example of <strong>selfBoundService</strong> element to bind type <strong>DynamicallyLoadedAssembly1.Implementations.SelfBoundService3</strong> in assembly with alias <strong>dynamic1</strong> to itself is shown below.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cm">&lt;!--...--&gt;</span>
+<span class="nt">&lt;services&gt;</span>
+    <span class="cm">&lt;!--...--&gt;</span>
+    <span class="nt">&lt;selfBoundService</span> <span class="na">type=</span><span class="s">&quot;DynamicallyLoadedAssembly1.Implementations.SelfBoundService3&quot;</span>
+                      <span class="na">assembly=</span><span class="s">&quot;dynamic1&quot;</span>
+                      <span class="na">scope=</span><span class="s">&quot;scopeLifetime&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/selfBoundService&gt;</span>
+    <span class="cm">&lt;!--...--&gt;</span>
+<span class="nt">&lt;/services&gt;</span>
+</pre></div>
+</div>
+<p>An instance of type <strong>DynamicallyLoadedAssembly1.Implementations.SelfBoundService3</strong> will be injected as a constructor parameter or into properties by the dependency injection, when type <strong>DynamicallyLoadedAssembly1.Implementations.SelfBoundService3</strong> is requested.</p>
+<p>Here is an example of injecting <strong>DynamicallyLoadedAssembly1.Implementations.SelfBoundService3</strong> as a constructor parameter <strong>selfBoundService3</strong>.</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">TestConstructorInjection</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="nf">TestConstructorInjection</span><span class="p">(</span><span class="w"></span>
+<span class="w">            </span><span class="n">DynamicallyLoadedAssembly1</span><span class="p">.</span><span class="n">Implementations</span><span class="p">.</span><span class="n">SelfBoundService3</span><span class="w"> </span><span class="n">selfBoundService3</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<section id="binding-scope">
+<h2>Binding Scope<a class="headerlink" href="#binding-scope" title="Permalink to this headline">¶</a></h2>
+<p>Attribute <strong>scope</strong> in element <strong>implementation</strong> under element <strong>service</strong> is used to specify binding resolution scope for resolved types (see <a class="reference internal" href="../resolving-types/resolution-scopes.html"><span class="doc">Resolution Scopes</span></a> for more details).
+The value of this attribute can be one of the following: <strong>singleton</strong>, <strong>transient</strong>, and <strong>scopeLifetime</strong>.</p>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Element <strong>selfBoundService</strong></a><ul>
+<li><a class="reference internal" href="#binding-scope">Binding Scope</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="element-service.html"
+                          title="previous chapter">Element <strong>service</strong></a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="element-proxy-service.html"
+                          title="next chapter">Element <strong>proxyService</strong></a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/xml-configuration-file/element-self-bound-service.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="element-proxy-service.html" title="Element proxyService"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="element-service.html" title="Element service"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >XML Configuration File</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="dependency-injection.html" >Dependency Injection</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="service-bindings.html" >Service Bindings</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Element <strong>selfBoundService</strong></a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

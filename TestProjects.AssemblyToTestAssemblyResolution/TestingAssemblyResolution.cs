@@ -1,4 +1,4 @@
-﻿namespace AssemblyTotestAssemblyResolution
+﻿namespace TestProjects.AssemblyToTestAssemblyResolution
 {
     public class TestingAssemblyResolution
     {

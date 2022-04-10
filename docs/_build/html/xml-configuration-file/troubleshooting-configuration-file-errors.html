@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Troubleshooting Configuration File Errors &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Loading IoC Configuration" href="../loading-ioc-configuration/index.html" />
+    <link rel="prev" title="Additional Services Provided by IoC.Configuration" href="additional-services.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../loading-ioc-configuration/index.html" title="Loading IoC Configuration"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="additional-services.html" title="Additional Services Provided by IoC.Configuration"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">XML Configuration File</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Troubleshooting Configuration File Errors</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="troubleshooting-configuration-file-errors">
+<h1>Troubleshooting Configuration File Errors<a class="headerlink" href="#troubleshooting-configuration-file-errors" title="Permalink to this headline">¶</a></h1>
+<p><strong>IoC.Configuration</strong> logs helpfull tips on source of configuration file load errors.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Refer to <a class="reference internal" href="../loading-ioc-configuration/index.html"><span class="doc">Loading IoC Configuration</span></a> for details on how to setup the logger.</p>
+</div>
+</div></blockquote>
+<p>Example of error logs is shown below:</p>
+<div class="highlight-rst notranslate"><div class="highlight"><pre><span></span>Fatal:
+Exception:Error in element &#39;settings&#39;:
+Required setting &#39;Int32Setting1&#39; should be of type &#39;System.Int32&#39;. Actual type is &#39;System.String&#39;. The setting is in plugin settings for plugin &#39;Plugin1&#39;. To fix the issue, either modify the implementation of method &#39;RequiredSettings&#39; in class &#39;TestPluginAssembly1.Implementations.Plugin1&#39;, or add the setting.
+Element location in configuration file:
+<span class="nt">&lt;iocConfiguration&gt;</span>
+    &lt;pluginsSetup&gt;
+            &lt;pluginSetup plugin=&quot;Plugin1&quot;&gt;
+                    &lt;settings&gt;
+                            &lt;int64 name=&quot;Int64Setting1&quot; value=&quot;38&quot;/&gt;
+                            &lt;string name=&quot;StringSetting1&quot; value=&quot;String Value 1&quot;/&gt;
+                            &lt;string name=&quot;Int32Setting1&quot; value=&quot;some text&quot;/&gt; &lt;--- Element &#39;string&#39; is the 3-th child element of element &#39;settings&#39;.
+
+   at IoC.Configuration.DiContainerBuilder.FileBased.FileBasedConfiguration.ValidateRequiredSettings(ISettings settings, ISettingsRequestor settingsRequestor)
+   at IoC.Configuration.DiContainerBuilder.FileBased.FileBasedConfiguration.ValidateRequiredSettings(IDiContainer diContainer)
+   at IoC.Configuration.DiContainerBuilder.FileBased.FileBasedConfiguration.OnContainerStarted()
+   at IoC.Configuration.DiContainerBuilder.DiContainerBuilderConfiguration.StartContainer()
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="additional-services.html"
+                          title="previous chapter">Additional Services Provided by IoC.Configuration</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../loading-ioc-configuration/index.html"
+                          title="next chapter">Loading IoC Configuration</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/xml-configuration-file/troubleshooting-configuration-file-errors.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../loading-ioc-configuration/index.html" title="Loading IoC Configuration"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="additional-services.html" title="Additional Services Provided by IoC.Configuration"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >XML Configuration File</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Troubleshooting Configuration File Errors</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

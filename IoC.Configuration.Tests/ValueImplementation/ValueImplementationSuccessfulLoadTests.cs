@@ -1,18 +1,20 @@
-﻿using System.Collections.Generic;
-using IoC.Configuration.Tests.TestTemplateFiles;
+﻿using IoC.Configuration.Tests.TestTemplateFiles;
 using IoC.Configuration.Tests.ValueImplementation.Services;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Linq;
 using SharedServices.Implementations;
 using SharedServices.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
+using NUnit.Framework;
 
 namespace IoC.Configuration.Tests.ValueImplementation
 {
-    public class ValueImplementationSuccessfulLoadTests : IoCConfigurationTestsForSuccessfullLoad
+    // TODO: add an example to documentation to demonstrate
+    // how interface can be bound to injected self bound class.
+    public abstract class ValueImplementationSuccessfulLoadTests : IoCConfigurationTestsForSuccessfulLoad
     {
-        protected readonly static string ValueImplementationConfigurationRelativePath = "IoCConfiguration_valueImplementation.xml";
+        protected static readonly string ValueImplementationConfigurationRelativePath = "IoCConfiguration_valueImplementation.xml";
 
-        [TestMethod]
+        [Test]
         public void TestRegisterIfNotRegistered()
         {
             List<List<IAppInfo>> listOfAppInfosLists; // = DiContainer.Resolve<IEnumerable<List<IAppInfo>>>().ToList();
@@ -44,19 +46,19 @@ namespace IoC.Configuration.Tests.ValueImplementation
             Assert.AreEqual(7, appInfoList[1].AppId);
         }
 
-        [TestMethod]
+        [Test]
         public void TestSingletoneScope()
         {
             Assert.AreSame(DiContainer.Resolve<IReadOnlyList<IAppInfo>>(), DiContainer.Resolve<IReadOnlyList<IAppInfo>>());
         }
 
-        [TestMethod]
+        [Test]
         public void TestTransientScope()
         {
             Assert.AreNotSame(DiContainer.Resolve<IAppInfo>(), DiContainer.Resolve<IAppInfo>());
         }
 
-        [TestMethod]
+        [Test]
         public void TestCollectionAsValue()
         {
             var appInfosList = DiContainer.Resolve<IReadOnlyList<IAppInfo>>();
@@ -66,7 +68,7 @@ namespace IoC.Configuration.Tests.ValueImplementation
             Assert.AreEqual(2, appInfosList[1].AppId);
         }
 
-        [TestMethod]
+        [Test]
         public void TestSettingAsValue()
         {
             var defaultIntValue = DiContainer.Resolve(typeof(int));
@@ -76,7 +78,7 @@ namespace IoC.Configuration.Tests.ValueImplementation
         }
 
 
-        [TestMethod]
+        [Test]
         public void TestConstructedValueAsValue()
         {
             var appInfo = DiContainer.Resolve<IAppInfo>();
@@ -85,7 +87,7 @@ namespace IoC.Configuration.Tests.ValueImplementation
             Assert.AreEqual(38, appInfo.AppId);
         }
 
-        [TestMethod]
+        [Test]
         public void TestObjectAsValue()
         {
             var doubleValue = (double)DiContainer.Resolve(typeof(double));
@@ -93,7 +95,7 @@ namespace IoC.Configuration.Tests.ValueImplementation
             Assert.AreEqual(3.5, doubleValue);
         }
 
-        [TestMethod]
+        [Test]
         public void TestNonStaticClassMemberAsValue()
         {
             var dbConnectionProvider = DiContainer.Resolve<IDbConnectionProvider>();
@@ -109,7 +111,7 @@ namespace IoC.Configuration.Tests.ValueImplementation
             Assert.AreEqual(sqlServerDbConnectionFromDbConnectionProvider.Password, sqlServerDbConnectionFromDi.Password);
         }
 
-        [TestMethod]
+        [Test]
         public void TestStaticClassMemberAsValue()
         {
             var actionValidatorFromDi = (ActionValidator3)DiContainer.Resolve<IActionValidator>();
@@ -119,7 +121,7 @@ namespace IoC.Configuration.Tests.ValueImplementation
             Assert.AreEqual(actionValidatorFromStaticMethod.IntParam, actionValidatorFromDi.IntParam);
         }
 
-        [TestMethod]
+        [Test]
         public void TestValueImplementationInPlugin()
         {
             var readOnlyListOfDoorType = Helpers.GetType("System.Collections.Generic.IReadOnlyList`1[[TestPluginAssembly1.Interfaces.IDoor, TestProjects.TestPluginAssembly1]]");
@@ -140,9 +142,8 @@ namespace IoC.Configuration.Tests.ValueImplementation
             Assert.AreEqual(4359934, doorColorProperty.GetValue(listOfDoor[1]));
             Assert.AreEqual(85.2, doorHeightProperty.GetValue(listOfDoor[1]));
         }
-
+        
         // TODO: Improve ClassMember slightly to store resolved owner objects of class members
         // instead of always getting these objects from the DI.
-
     }
 }

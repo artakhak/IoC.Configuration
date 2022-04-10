@@ -1,0 +1,10 @@
+========================================
+IoCConfiguration_valueImplementation.xml
+========================================
+
+This configuration file can be downloaded downloaded from `IoCConfiguration_valueImplementation.xml <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests/IoCConfiguration_valueImplementation.xml>`_.
+
+.. code-block:: xml
+   :linenos:
+   
+   <IncludedFilePlaceHolder>..\..\IoC.Configuration.Tests\IoCConfiguration_valueImplementation.xml</IncludedFilePlaceHolder>

@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>ASP.NET Core &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Trouble-shooting" href="../troubleshooting/index.html" />
+    <link rel="prev" title="Application Integration" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../troubleshooting/index.html" title="Trouble-shooting"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Application Integration"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Application Integration</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">ASP.NET Core</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="asp-net-core">
+<h1>ASP.NET Core<a class="headerlink" href="#asp-net-core" title="Permalink to this headline">¶</a></h1>
+<p><strong>IoC.Configuration</strong> can be used with <strong>ASP.NET Core</strong> to replace the dependency injection container that <strong>ASP.NET Core</strong> uses. This includes also re-solving <strong>ASP.NET Core</strong> controllers.</p>
+<p>Follow these steps to integrate <strong>IoC.Configuration</strong> with <strong>ASP.NET Core</strong>.</p>
+<ol class="arabic">
+<li><p>If necessary, use an element <strong>iocConfiguration/webApi</strong> (or <strong>iocConfiguration/pluginsSetup/pluginsSetup/webApi</strong> for configuring controllers for plugins) to list the assemblies that contain <strong>ASP.NET Core</strong> controllers.</p>
+<p>The <strong>IoC.Configuration</strong> user will have to iterate this assemblies and register them with <strong>ASP.NET Core</strong>, as will be shown in code in Step 3 below.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Element <strong>webApi</strong> is optional, and is only needed if we want to use <strong>IoC.Configuration</strong> to register controllers specified in a different assembly.</p>
+</div>
+<p>Here is an example of <strong>webApi</strong> element with an assembly with <strong>ASP.NET Core</strong> controllers:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span>    <span class="nt">&lt;webApi&gt;</span>
+<span class="linenos"> 2</span>        <span class="nt">&lt;controllerAssemblies&gt;</span>
+<span class="linenos"> 3</span>            <span class="cm">&lt;!--</span>
+<span class="linenos"> 4</span><span class="cm">            Specify assemblies with API controllers.</span>
+<span class="linenos"> 5</span><span class="cm">            The user of IoC.Configuration should add the assemblies to MVC using</span>
+<span class="linenos"> 6</span><span class="cm">            IMvcBuilder.AddApplicationPart(System.Reflection.Assembly)</span>
+<span class="linenos"> 7</span><span class="cm">            --&gt;</span>
+<span class="linenos"> 8</span>            <span class="nt">&lt;controllerAssembly</span> <span class="na">assembly=</span><span class="s">&quot;dynamic1&quot;</span><span class="nt">&gt;&lt;/controllerAssembly&gt;</span>
+<span class="linenos"> 9</span>        <span class="nt">&lt;/controllerAssemblies&gt;</span>
+<span class="linenos">10</span>    <span class="nt">&lt;/webApi&gt;</span>
+</pre></div>
+</div>
+</li>
+<li><p>If any assemblies with <strong>ASP.NET Core</strong> controllers were specified in Step 1, register bindings for controllers in these assemblies in dependency injection elements <strong>iocConfiguration/dependencyInjection/</strong> or <strong>iocConfiguration/pluginsSetup/pluginSetup/dependencyInjection/</strong>.</p></li>
+</ol>
+<p>Here is an exert from the configuration file demonstrating Steps 1 and 2.</p>
+<ul class="simple">
+<li><p>Element <strong>webApi</strong> on line 9 lists an assembly with an alias <strong>smart_xml_docs</strong> as an assembly with <strong>ASP.NET Core</strong> controllers (see <a class="reference internal" href="../xml-configuration-file/assemblies-and-probing-paths.html"><span class="doc">Assemblies and Probing Paths</span></a> on how to register assemblies).</p></li>
+<li><p>Element <strong>selfBoundService</strong> on line 17 specifies a binding for an  <strong>ASP.NET Core</strong> controller <strong>WebFileSystemApi.SmartXmlDocs.Controllers.SmartXmlTestController</strong> in assembly with alias <strong>smart_xml_docs</strong>.</p></li>
+</ul>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span>    <span class="nt">&lt;pluginsSetup&gt;</span>
+<span class="linenos"> 2</span>        <span class="nt">&lt;pluginSetup</span> <span class="na">plugin=</span><span class="s">&quot;SmartXmlDocs&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 3</span>            <span class="nt">&lt;pluginImplementation</span>
+<span class="linenos"> 4</span>                <span class="na">type=</span><span class="s">&quot;WebFileSystemApi.SmartXmlDocs.SmartXmlDocsPlugin&quot;</span>
+<span class="linenos"> 5</span>                <span class="na">assembly=</span><span class="s">&quot;smart_xml_docs&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 6</span>            <span class="nt">&lt;/pluginImplementation&gt;</span>
+<span class="linenos"> 7</span>            <span class="nt">&lt;settings&gt;</span>
+<span class="linenos"> 8</span>            <span class="nt">&lt;/settings&gt;</span>
+<span class="linenos"> 9</span>            <span class="nt">&lt;webApi&gt;</span>
+<span class="linenos">10</span>                <span class="nt">&lt;controllerAssemblies&gt;</span>
+<span class="linenos">11</span>                    <span class="nt">&lt;controllerAssembly</span> <span class="na">assembly=</span><span class="s">&quot;smart_xml_docs&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">12</span>                <span class="nt">&lt;/controllerAssemblies&gt;</span>
+<span class="linenos">13</span>            <span class="nt">&lt;/webApi&gt;</span>
+<span class="linenos">14</span>            <span class="nt">&lt;dependencyInjection&gt;</span>
+<span class="linenos">15</span>                <span class="nt">&lt;modules</span> <span class="nt">/&gt;</span>
+<span class="linenos">16</span>                <span class="nt">&lt;services&gt;</span>
+<span class="linenos">17</span>                    <span class="nt">&lt;selfBoundService</span>
+<span class="linenos">18</span>                        <span class="na">type=</span><span class="s">&quot;WebFileSystemApi.SmartXmlDocs.Controllers.SmartXmlTestController&quot;</span>
+<span class="linenos">19</span>                        <span class="na">assembly=</span><span class="s">&quot;smart_xml_docs&quot;</span> <span class="na">scope=</span><span class="s">&quot;transient&quot;</span> <span class="nt">&gt;</span>
+<span class="linenos">20</span>                    <span class="nt">&lt;/selfBoundService&gt;</span>
+<span class="linenos">21</span>                <span class="nt">&lt;/services&gt;</span>
+<span class="linenos">22</span>                <span class="nt">&lt;autoGeneratedServices&gt;</span>
+<span class="linenos">23</span>                <span class="nt">&lt;/autoGeneratedServices&gt;</span>
+<span class="linenos">24</span>            <span class="nt">&lt;/dependencyInjection&gt;</span>
+<span class="linenos">25</span>        <span class="nt">&lt;/pluginSetup&gt;</span>
+<span class="linenos">26</span>    <span class="nt">&lt;/pluginsSetup&gt;</span>
+</pre></div>
+</div>
+<p>Here is the code for controller class <strong>WebFileSystemApi.SmartXmlDocs.Controllers.SmartXmlTestController</strong>:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.AspNetCore.Mvc</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 2</span><span class="k">namespace</span><span class="w"> </span><span class="nn">WebFileSystemApi.SmartXmlDocs.Controllers</span><span class="w"></span>
+<span class="linenos"> 3</span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">    </span><span class="na">[Route(&quot;[controller]</span><span class="p">/[</span><span class="n">action</span><span class="p">]</span><span class="s">&quot;)]</span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">SmartXmlTestController</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Controller</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">        </span><span class="na">[HttpGet(&quot;{smartXmlFileId:long}&quot;)]</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">        </span><span class="k">public</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="nf">SmartXmlDoc</span><span class="p">(</span><span class="kt">long</span><span class="w"> </span><span class="n">smartXmlFileId</span><span class="p">)</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="s">$&quot;Smart XML File Id is {smartXmlFileId}&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">13</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<ol class="arabic" start="3">
+<li><p>Finally register <strong>IoC.Configuration</strong> with <strong>ASP.NET Core</strong> by using method <strong>public IServiceProvider ConfigureServices(IServiceCollection services)</strong> in Startup class as shown below. There are detailed code comments in the example below, so no farther explanations are provided.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Integration with <strong>ASP.NET Core</strong> is currently supported for <strong>IoC.Configuration.Autofac</strong>. Currently, the <strong>ASP.NET Core</strong> project will need to reference the Nuget packages <strong>Autofac</strong>, <strong>IoC.Configuration</strong>, and <strong>IoC.Configuration.Autofac</strong>. In future this might be improved to support other containers as well (such as <strong>Ninject</strong>), and to avoid referencing these packages in the project.</p>
+</div>
+</div></blockquote>
+</li>
+</ol>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">private</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">IContainerInfo</span><span class="w"> </span><span class="n">_containerInfo</span><span class="p">;</span><span class="w"></span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span><span class="k">public</span><span class="w"> </span><span class="n">IServiceProvider</span><span class="w"> </span><span class="nf">ConfigureServices</span><span class="p">(</span><span class="n">IServiceCollection</span><span class="w"> </span><span class="n">services</span><span class="p">)</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">    </span><span class="c1">// Do some ASP.NET Core configuration</span>
+<span class="linenos"> 6</span><span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">mvcBuilder</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">services</span><span class="p">.</span><span class="n">AddMvc</span><span class="p">()</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">        </span><span class="p">.</span><span class="n">AddMvcOptions</span><span class="p">(</span><span class="n">options</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">            </span><span class="c1">// ...</span>
+<span class="linenos">10</span><span class="w">        </span><span class="p">})</span><span class="w"></span>
+<span class="linenos">11</span><span class="w">        </span><span class="p">.</span><span class="n">AddJsonOptions</span><span class="p">(</span><span class="n">options</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"></span>
+<span class="linenos">12</span><span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">13</span><span class="w">            </span><span class="c1">// ...</span>
+<span class="linenos">14</span><span class="w">        </span><span class="p">})</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">        </span><span class="p">.</span><span class="n">AddControllersAsServices</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">rootDirectory</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">AppDomain</span><span class="p">.</span><span class="n">CurrentDomain</span><span class="p">.</span><span class="n">BaseDirectory</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="w">    </span><span class="c1">// Load IoC.Configuration into iocContainerBuilder</span>
+<span class="linenos">20</span><span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">iocContainerBuilder</span><span class="w"> </span><span class="p">=</span><span class="w"></span>
+<span class="linenos">21</span><span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="nf">DiContainerBuilder</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">            </span><span class="p">.</span><span class="n">StartFileBasedDi</span><span class="p">(</span><span class="w"></span>
+<span class="linenos">23</span><span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="nf">FileBasedConfigurationParameters</span><span class="p">(</span><span class="w"></span>
+<span class="linenos">24</span><span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="nf">FileBasedConfigurationFileContentsProvider</span><span class="p">(</span><span class="n">Path</span><span class="p">.</span><span class="n">Combine</span><span class="p">(</span><span class="n">rootDirectory</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;WebFileSystem.IoC.Configuration.xml&quot;</span><span class="p">)),</span><span class="w"></span>
+<span class="linenos">25</span><span class="w">                </span><span class="n">rootDirectory</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AllLoadedAssemblies</span><span class="p">())</span><span class="w"></span>
+<span class="linenos">26</span><span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">27</span><span class="w">                </span><span class="n">ConfigurationFileXmlDocumentLoaded</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="n">sender</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"></span>
+<span class="linenos">28</span><span class="w">                </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">29</span><span class="w">                    </span><span class="c1">// Do XML file transformations here</span>
+<span class="linenos">30</span><span class="w">                </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">31</span><span class="w">            </span><span class="p">},</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="kt">var</span><span class="w"> </span><span class="n">loadedConfiguration</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">32</span>
+<span class="linenos">33</span><span class="w">    </span><span class="c1">// Register controller assemblies in webApi elements in IoC.Configuration file</span>
+<span class="linenos">34</span><span class="w">    </span><span class="c1">// with ASP.NET Core.</span>
+<span class="linenos">35</span><span class="w">    </span><span class="n">Action</span><span class="p">&lt;</span><span class="n">IoC</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">ConfigurationFile</span><span class="p">.</span><span class="n">IWebApi</span><span class="p">&gt;</span><span class="w"> </span><span class="n">addControllersFromConfiguration</span><span class="w"> </span><span class="p">=</span><span class="w"></span>
+<span class="linenos">36</span><span class="w">        </span><span class="p">(</span><span class="n">webApi</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"></span>
+<span class="linenos">37</span><span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">38</span><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">webApi</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="k">null</span><span class="w"> </span><span class="p">||</span><span class="w"> </span><span class="n">webApi</span><span class="p">.</span><span class="n">ControllerAssemblies</span><span class="w"> </span><span class="p">==</span><span class="w"> </span><span class="k">null</span><span class="p">)</span><span class="w"></span>
+<span class="linenos">39</span><span class="w">                </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">40</span>
+<span class="linenos">41</span><span class="w">            </span><span class="k">foreach</span><span class="w"> </span><span class="p">(</span><span class="kt">var</span><span class="w"> </span><span class="n">controllerAssembly</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">webApi</span><span class="p">.</span><span class="n">ControllerAssemblies</span><span class="p">.</span><span class="n">Assemblies</span><span class="p">)</span><span class="w"></span>
+<span class="linenos">42</span><span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">43</span><span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">controllerAssembly</span><span class="p">.</span><span class="n">LoadedAssembly</span><span class="w"> </span><span class="p">!=</span><span class="w"> </span><span class="k">null</span><span class="p">)</span><span class="w"></span>
+<span class="linenos">44</span><span class="w">                    </span><span class="n">mvcBuilder</span><span class="p">.</span><span class="n">AddApplicationPart</span><span class="p">(</span><span class="n">controllerAssembly</span><span class="p">.</span><span class="n">LoadedAssembly</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">45</span><span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">46</span><span class="w">        </span><span class="p">};</span><span class="w"></span>
+<span class="linenos">47</span>
+<span class="linenos">48</span><span class="w">    </span><span class="c1">// Register controller assemblies in iocConfiguration/webApi element.</span>
+<span class="linenos">49</span><span class="w">    </span><span class="n">addControllersFromConfiguration</span><span class="p">(</span><span class="n">loadedConfiguration</span><span class="p">.</span><span class="n">WebApi</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">50</span>
+<span class="linenos">51</span><span class="w">    </span><span class="c1">// Now register controller assemblies in webApi elements under</span>
+<span class="linenos">52</span><span class="w">    </span><span class="c1">// iocConfiguration/pluginsSetup/pluginSetup elements.</span>
+<span class="linenos">53</span><span class="w">    </span><span class="k">foreach</span><span class="w"> </span><span class="p">(</span><span class="kt">var</span><span class="w"> </span><span class="n">pluginSetup</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">loadedConfiguration</span><span class="p">.</span><span class="n">PluginsSetup</span><span class="p">.</span><span class="n">AllPluginSetups</span><span class="p">)</span><span class="w"></span>
+<span class="linenos">54</span><span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">55</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pluginSetup</span><span class="p">.</span><span class="n">Enabled</span><span class="p">)</span><span class="w"></span>
+<span class="linenos">56</span><span class="w">            </span><span class="n">addControllersFromConfiguration</span><span class="p">(</span><span class="n">pluginSetup</span><span class="p">.</span><span class="n">WebApi</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">57</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">58</span>
+<span class="linenos">59</span><span class="w">    </span><span class="c1">// Build the Autofac container builder and start the IoC.Configuration.</span>
+<span class="linenos">60</span><span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">autofacContainerBuilder</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ContainerBuilder</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">61</span>
+<span class="linenos">62</span><span class="w">    </span><span class="c1">// Register ASP.NET Core services with Autofac, however skip</span>
+<span class="linenos">63</span><span class="w">    </span><span class="c1">// the services, the full name of which starts with &quot;WebFileSystemApi&quot;.</span>
+<span class="linenos">64</span><span class="w">    </span><span class="c1">// Registering bindings of non-Microsoft services will be done in</span>
+<span class="linenos">65</span><span class="w">    </span><span class="c1">// IoC.Configuration file.</span>
+<span class="linenos">66</span><span class="w">    </span><span class="n">autofacContainerBuilder</span><span class="p">.</span><span class="n">Populate</span><span class="p">(</span><span class="w"></span>
+<span class="linenos">67</span><span class="w">        </span><span class="n">services</span><span class="p">.</span><span class="n">Where</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"></span>
+<span class="linenos">68</span><span class="w">            </span><span class="p">!</span><span class="n">x</span><span class="p">.</span><span class="n">ServiceType</span><span class="p">.</span><span class="n">FullName</span><span class="p">.</span><span class="n">StartsWith</span><span class="p">(</span><span class="s">&quot;WebFileSystemApi&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">StringComparison</span><span class="p">.</span><span class="n">Ordinal</span><span class="p">)));</span><span class="w"></span>
+<span class="linenos">69</span>
+<span class="linenos">70</span><span class="w">    </span><span class="c1">// Since we provide an instance of</span>
+<span class="linenos">71</span><span class="w">    </span><span class="c1">// IoC.Configuration.Autofac.AutofacDiContainer,</span>
+<span class="linenos">72</span><span class="w">    </span><span class="c1">// IoC.Configuration.Autofac will not create and build instance of</span>
+<span class="linenos">73</span><span class="w">    </span><span class="c1">// Autofac.ContainerBuilder.</span>
+<span class="linenos">74</span><span class="w">    </span><span class="c1">// In this case, we need to call iocContainerStarter.Start() only after</span>
+<span class="linenos">75</span><span class="w">    </span><span class="c1">// we call autofacContainerBuilder.Build() below.</span>
+<span class="linenos">76</span><span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">iocContainerStarter</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">iocContainerBuilder</span><span class="w"></span>
+<span class="linenos">77</span><span class="w">        </span><span class="p">.</span><span class="n">WithDiContainer</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">AutofacDiContainer</span><span class="p">(</span><span class="n">autofacContainerBuilder</span><span class="p">))</span><span class="w"></span>
+<span class="linenos">78</span><span class="w">        </span><span class="p">.</span><span class="n">RegisterModules</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">79</span>
+<span class="linenos">80</span><span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">container</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">autofacContainerBuilder</span><span class="p">.</span><span class="n">Build</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">81</span><span class="w">    </span><span class="n">_containerInfo</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">iocContainerStarter</span><span class="p">.</span><span class="n">Start</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">82</span>
+<span class="linenos">83</span><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="nf">AutofacServiceProvider</span><span class="p">(</span><span class="n">container</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">84</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="w">    </span><span class="c1">// Make sure OnShutdown() is called on ASP.NET Core shutdown, to dispose of _containerInfo.</span>
+<span class="linenos">2</span><span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">OnShutdown</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">3</span><span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">4</span><span class="w">        </span><span class="n">_containerInfo</span><span class="p">?.</span><span class="n">Dispose</span><span class="p">();</span><span class="w"></span>
+<span class="linenos">5</span><span class="w">    </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="index.html"
+                          title="previous chapter">Application Integration</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../troubleshooting/index.html"
+                          title="next chapter">Trouble-shooting</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/application-integration/asp-net-core.generated.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../troubleshooting/index.html" title="Trouble-shooting"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Application Integration"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Application Integration</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">ASP.NET Core</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

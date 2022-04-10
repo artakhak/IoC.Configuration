@@ -275,7 +275,7 @@ namespace IoC.Configuration.ConfigurationFile
                     }
                     else
                     {
-                        errorMessage.Append(" and no parameters");
+                        errorMessage.Append(" and zero parameters");
                     }
 
 

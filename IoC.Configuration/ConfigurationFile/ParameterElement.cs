@@ -48,18 +48,6 @@ namespace IoC.Configuration.ConfigurationFile
 
         #region IParameterElement Interface Implementation
 
-        [Obsolete("Will be removed after 5/31/2019")]
-        object IParameterElement.DeserializedValue
-        {
-            get
-            {
-                if (_decoratedValueInitializerElement is IDeserializedValue deserializedValue)
-                    return deserializedValue.DeserializedValue;
-
-                return null;
-            }
-        }
-
         public override void Initialize()
         {
             base.Initialize();
@@ -68,36 +56,6 @@ namespace IoC.Configuration.ConfigurationFile
 
         public string Name { get; private set; }
 
-        [Obsolete("Will be removed after 5/31/2019")]
-        ValueInstantiationType INamedValueElement.ValueInstantiationType
-        {
-            get
-            {
-                if (IsResolvedFromDiContainer)
-                    return ValueInstantiationType.ResolveFromDiContext;
-
-                if (_decoratedValueInitializerElement is INamedValueElement namedValueElement)
-                    return namedValueElement.ValueInstantiationType;
-
-                if (_decoratedValueInitializerElement is IDeserializedValue deserializedValue)
-                    return ValueInstantiationType.DeserializeFromStringValue;
-
-                return ValueInstantiationType.Other;
-            }
-        }
-
         #endregion
-
-        [Obsolete("Will be removed after 5/31/2019. This property was deprecated since this does not apply to all parameters. Use IDeserializedValue.ValueAsString for parameters that are instances of IDeserializedValue.")]
-        string INamedValue.ValueAsString
-        {
-            get
-            {
-                if (DecoratedValueInitializerElement is IDeserializedValue deserializedValue)
-                    return deserializedValue.ValueAsString;
-
-                return string.Empty;
-            }
-        }
     }
 }

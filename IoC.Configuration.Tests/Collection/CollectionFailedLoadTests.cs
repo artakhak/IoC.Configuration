@@ -1,18 +1,16 @@
 ﻿using IoC.Configuration.ConfigurationFile;
 using IoC.Configuration.Tests.TestTemplateFiles;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using System;
-using System.Collections.Generic;
 using System.Xml;
-using IoC.Configuration.Tests.AutoService.Services;
+using OROptimizer.Utilities.Xml;
 using TestsSharedLibrary.DependencyInjection;
 
 namespace IoC.Configuration.Tests.Collection
 {
-    [TestClass]
+    [TestFixture]
     public class CollectionFailedLoadTests : IoCConfigurationTestsBase
     {
-
         private void LoadConfigurationFile(DiImplementationType diImplementationType,
                                            Action<XmlDocument> modifyConfigurationFileOnLoad)
         {
@@ -24,9 +22,8 @@ namespace IoC.Configuration.Tests.Collection
             return "IoCConfiguration_collection.xml";
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void CollectionItemIsOfInvalidType(DiImplementationType diImplementationType)
         {
             Helpers.TestExpectedConfigurationParseException(() =>
@@ -42,9 +39,8 @@ namespace IoC.Configuration.Tests.Collection
                 }), typeof(CollectionItemValueElement), typeof(ParameterElement));
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void CollectionTypeIsInvalidForParameter(DiImplementationType diImplementationType)
         {
             Helpers.TestExpectedConfigurationParseException(() =>

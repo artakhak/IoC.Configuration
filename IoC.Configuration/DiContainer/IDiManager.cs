@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using IoC.Configuration.DiContainer.BindingsForConfigFile;
 using JetBrains.Annotations;
 using OROptimizer.DynamicCode;
+using OROptimizer.ServiceResolver;
 
 namespace IoC.Configuration.DiContainer
 {
@@ -108,7 +109,7 @@ namespace IoC.Configuration.DiContainer
         Type ModuleType { get; }
 
         /// <summary>
-        ///     Starts the container. After this method is called,  calls to <see cref="IDiContainer.Resolve(Type)" /> can be made
+        ///     Starts the container. After this method is called,  calls to <see cref="IDiContainer"/>.<see cref="IServiceResolver.Resolve(Type)" /> can be made
         ///     to resolve services.
         /// </summary>
         /// <param name="diContainer">Dependency injection container to start.</param>

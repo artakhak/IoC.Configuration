@@ -35,9 +35,10 @@ internal static class ConfigurationFileElementExtensions
     {
         var pluginSetupElement = configurationFileElement.GetPluginSetupElement();
 
-        var typeDefinitions = pluginSetupElement == null ? configurationFileElement.Configuration.TypeDefinitions : pluginSetupElement.TypeDefinitions;
+        var typeDefinitions = pluginSetupElement != null && pluginSetupElement.TypeDefinitions != null ?
+            pluginSetupElement.TypeDefinitions : configurationFileElement.Configuration.TypeDefinitions;
 
-        return typeDefinitions.GetTypeDefinition(alias);
+        return typeDefinitions?.GetTypeDefinition(alias);
     }
 
     #endregion

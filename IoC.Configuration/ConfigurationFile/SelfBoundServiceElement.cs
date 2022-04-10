@@ -65,7 +65,6 @@ namespace IoC.Configuration.ConfigurationFile
 
         public bool RegisterIfNotRegistered { get; private set; }
 
-        Type IServiceElement.ServiceType => ValueTypeInfo.Type;
         public ITypeInfo ServiceTypeInfo => ValueTypeInfo;
 
         #endregion

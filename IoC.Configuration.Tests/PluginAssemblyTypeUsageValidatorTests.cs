@@ -1,24 +1,21 @@
 ﻿using IoC.Configuration.ConfigurationFile;
 using JetBrains.Annotations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using NUnit.Framework;
 using OROptimizer.Diagnostics.Log;
 using TestsSharedLibrary;
 using TestsSharedLibrary.Diagnostics.Log;
 
 namespace IoC.Configuration.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class PluginAssemblyTypeUsageValidatorTests
     {
-        private static readonly string TestDllsFolder = Helpers.GetTestDllsFolderPath();
-
-        private const string TypeDef1 = "TypeDef1";
-        private const string TypeDef2 = "TypeDef2";
+        private static readonly string TestFilesFolder = Helpers.GetTestFilesFolderPath();
 
         private const string OroptimizerSharedAssemblyAlias = "oroptimizer_shared";
         private const string IoCConfigAssemblyAlias = "ioc_config";
@@ -36,19 +33,16 @@ namespace IoC.Configuration.Tests
    
         private ConfigurationMockHelper _configurationMockHelper;
 
-        private ITypeInfo _nonPluginTypeInfo;
         private ITypeInfo _plugin1TypeInfo;
         private ITypeInfo _plugin2TypeInfo;
-        private ITypeInfo _plugin3ypeInfo;
 
-
-        [TestCleanup]
+        [TearDown]
         public void TestCleanup()
         {
             _configurationMockHelper.Dispose();
         }
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             TestsHelper.SetupLogger();
@@ -68,28 +62,27 @@ namespace IoC.Configuration.Tests
 
                     new ConfigurationMockHelper.AssemblyInfo(MsCoreLibAssemblyAlias, typeof(int).Assembly.GetName().Name, Path.GetDirectoryName(typeof(int).Assembly.Location)),
 
-                    new ConfigurationMockHelper.AssemblyInfo(DynamicallyLoadedAssembly1Alias, "TestProjects.DynamicallyLoadedAssembly1", Path.Combine(TestDllsFolder, "DynamicallyLoadedDlls")),
-                    new ConfigurationMockHelper.AssemblyInfo(DynamicallyLoadedAssembly2Alias, "TestProjects.DynamicallyLoadedAssembly2", Path.Combine(TestDllsFolder, "DynamicallyLoadedDlls")),
+                    new ConfigurationMockHelper.AssemblyInfo(DynamicallyLoadedAssembly1Alias, "TestProjects.DynamicallyLoadedAssembly1", Path.Combine(TestFilesFolder, "DynamicallyLoadedDlls")),
+                    new ConfigurationMockHelper.AssemblyInfo(DynamicallyLoadedAssembly2Alias, "TestProjects.DynamicallyLoadedAssembly2", Path.Combine(TestFilesFolder, "DynamicallyLoadedDlls")),
 
-                    new ConfigurationMockHelper.AssemblyInfo(TestPluginAssembly1Alias, "TestProjects.TestPluginAssembly1", Path.Combine(TestDllsFolder, "PluginDlls", "Plugin1")),
-                    new ConfigurationMockHelper.AssemblyInfo(TestPluginAssembly2Alias, "TestProjects.TestPluginAssembly2", Path.Combine(TestDllsFolder, "PluginDlls", "Plugin2")),
-                    new ConfigurationMockHelper.AssemblyInfo(TestPluginAssembly3Alias, "TestProjects.TestPluginAssembly3", Path.Combine(TestDllsFolder, "PluginDlls", "Plugin3"))
+                    new ConfigurationMockHelper.AssemblyInfo(TestPluginAssembly1Alias, "TestProjects.TestPluginAssembly1", Path.Combine(TestFilesFolder, "PluginDlls", "Plugin1")),
+                    new ConfigurationMockHelper.AssemblyInfo(TestPluginAssembly2Alias, "TestProjects.TestPluginAssembly2", Path.Combine(TestFilesFolder, "PluginDlls", "Plugin2")),
+                    new ConfigurationMockHelper.AssemblyInfo(TestPluginAssembly3Alias, "TestProjects.TestPluginAssembly3", Path.Combine(TestFilesFolder, "PluginDlls", "Plugin3"))
                 });
 
 
-            _nonPluginTypeInfo = TypeInfo.CreateNonArrayTypeInfo(Type.GetType("SharedServices.Interfaces.IInterface1, TestProjects.SharedServices"),
+            TypeInfo.CreateNonArrayTypeInfo(Type.GetType("SharedServices.Interfaces.IInterface1, TestProjects.SharedServices"),
                 _configurationMockHelper.ConfigurationMock.Object.Assemblies.GetAssemblyByAlias(SharedTestServicesAssemblyAlias), new ITypeInfo[] { });
 
             _plugin1TypeInfo = TypeInfo.CreateNonArrayTypeInfo(Type.GetType("TestPluginAssembly1.Interfaces.IRoom, TestProjects.TestPluginAssembly1"),
                 _configurationMockHelper.ConfigurationMock.Object.Assemblies.GetAssemblyByAlias(TestPluginAssembly1Alias), new ITypeInfo[] { });
             _plugin2TypeInfo = TypeInfo.CreateNonArrayTypeInfo(Type.GetType("TestPluginAssembly2.Interfaces.ICar, TestProjects.TestPluginAssembly2"),
                 _configurationMockHelper.ConfigurationMock.Object.Assemblies.GetAssemblyByAlias(TestPluginAssembly2Alias), new ITypeInfo[] { });
-            _plugin3ypeInfo = TypeInfo.CreateNonArrayTypeInfo(Type.GetType("TestPluginAssembly3.Implementations.Plugin3, TestProjects.TestPluginAssembly3"),
+            TypeInfo.CreateNonArrayTypeInfo(Type.GetType("TestPluginAssembly3.Implementations.Plugin3, TestProjects.TestPluginAssembly3"),
                 _configurationMockHelper.ConfigurationMock.Object.Assemblies.GetAssemblyByAlias(TestPluginAssembly3Alias), new ITypeInfo[] { });
-
         }
 
-        [TestMethod]
+        [Test]
         public void ValidateInterfaceSubclassing()
         {
             Type[] canHaveChildElementsThatUsePluginTypeInNonPluginSectionImplementationTypes = new Type[]
@@ -121,7 +114,7 @@ namespace IoC.Configuration.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TypeHasNoPluginsValidationTest()
         {
             var typeInfoMock = CreateTypeInfoMock(typeof(SharedServices.Interfaces.IInterface1));
@@ -131,7 +124,7 @@ namespace IoC.Configuration.Tests
         }
 
 
-        [TestMethod]
+        [Test]
         public void TypeHasPluginsInNonPluginSectionThatDoesNotAllowPluginTypesTest()
         {
             var typeInfoMock = CreateTypeInfoMock(typeof(SharedServices.Interfaces.IInterface1), _plugin1TypeInfo);
@@ -145,9 +138,8 @@ namespace IoC.Configuration.Tests
             mockValues.valueElementMock.Object);
         }
 
-        [DataTestMethod]
-        [DataRow(true)]
-        [DataRow(false)]
+        [TestCase(true)]
+        [TestCase(false)]
         public void TypeHasPluginsInNonPluginSectionThatAllowsPluginTypesTest(bool typeUsesMultiplePlugins)
         {
             ITypeInfo[] pluginTypeInfos;
@@ -192,7 +184,7 @@ namespace IoC.Configuration.Tests
              PluginTypeUsageInNonPluginSectionScenarios.TestedTypedElementUsesSinglePlugin
         }
 
-        [TestMethod]
+        [Test]
         public void TypeHasPluginAndHasValidAncestorThatUsesSamePluginInNonPluginSectionThatAllowsPluginTypesTest()
         {
             PluginTypeUsageInNonPluginSectionScenarios[] testScenario1Values = new[] {
@@ -321,18 +313,16 @@ namespace IoC.Configuration.Tests
             ElementUsesDifferentPlugin = 2,
             ElementUsesMultiplePlugins = 3
         }
-   
+        
+        [TestCase(false, UsingPluguinTypesInPluginSetupSectionTestScenarios.ElementUsesNoPlugin)]
+        [TestCase(false, UsingPluguinTypesInPluginSetupSectionTestScenarios.ElementUsesSamePlugin)]
+        [TestCase(false, UsingPluguinTypesInPluginSetupSectionTestScenarios.ElementUsesDifferentPlugin)]
+        [TestCase(false, UsingPluguinTypesInPluginSetupSectionTestScenarios.ElementUsesMultiplePlugins)]
 
-        [DataTestMethod]
-        [DataRow(false, UsingPluguinTypesInPluginSetupSectionTestScenarios.ElementUsesNoPlugin)]
-        [DataRow(false, UsingPluguinTypesInPluginSetupSectionTestScenarios.ElementUsesSamePlugin)]
-        [DataRow(false, UsingPluguinTypesInPluginSetupSectionTestScenarios.ElementUsesDifferentPlugin)]
-        [DataRow(false, UsingPluguinTypesInPluginSetupSectionTestScenarios.ElementUsesMultiplePlugins)]
-
-        [DataRow(true, UsingPluguinTypesInPluginSetupSectionTestScenarios.ElementUsesNoPlugin)]
-        [DataRow(true, UsingPluguinTypesInPluginSetupSectionTestScenarios.ElementUsesSamePlugin)]
-        [DataRow(true, UsingPluguinTypesInPluginSetupSectionTestScenarios.ElementUsesDifferentPlugin)]
-        [DataRow(true, UsingPluguinTypesInPluginSetupSectionTestScenarios.ElementUsesMultiplePlugins)]
+        [TestCase(true, UsingPluguinTypesInPluginSetupSectionTestScenarios.ElementUsesNoPlugin)]
+        [TestCase(true, UsingPluguinTypesInPluginSetupSectionTestScenarios.ElementUsesSamePlugin)]
+        [TestCase(true, UsingPluguinTypesInPluginSetupSectionTestScenarios.ElementUsesDifferentPlugin)]
+        [TestCase(true, UsingPluguinTypesInPluginSetupSectionTestScenarios.ElementUsesMultiplePlugins)]
         public void UsingPluguinTypesInPluginSetupSection(bool useTwoLevels, UsingPluguinTypesInPluginSetupSectionTestScenarios usingPluguinTypesInPluginSetupSectionTestScenarios)
         {
             var pluginData = _configurationMockHelper.GetPluginData("Plugin1");

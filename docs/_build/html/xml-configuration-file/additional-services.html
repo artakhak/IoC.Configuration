@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Additional Services Provided by IoC.Configuration &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Troubleshooting Configuration File Errors" href="troubleshooting-configuration-file-errors.html" />
+    <link rel="prev" title="Plugins" href="plugins.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="troubleshooting-configuration-file-errors.html" title="Troubleshooting Configuration File Errors"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="plugins.html" title="Plugins"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">XML Configuration File</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Additional Services Provided by IoC.Configuration</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="additional-services-provided-by-ioc-configuration">
+<h1>Additional Services Provided by IoC.Configuration<a class="headerlink" href="#additional-services-provided-by-ioc-configuration" title="Permalink to this headline">¶</a></h1>
+<p>In addition to registering types specified in XML configuration file and module classes, <strong>IoC.Configuration</strong> registers bindings for number of other interfaces.
+Instances of these interfaces can be accessed using constructor or property injection.</p>
+<p>Here are some of the interfaces mentioned above:</p>
+<ul class="simple">
+<li><p><strong>IoC.Configuration.DiContainer.IDiContainer</strong>: The <strong>IoC</strong> container.</p></li>
+<li><p><strong>IoC.Configuration.ConfigurationFile.IConfiguration</strong>: Stores the structure of XML configuration file.</p></li>
+<li><p><strong>ISettings</strong>: Stores the settings specified in element <strong>iocConfiguration/settings</strong> (see <a class="reference internal" href="settings.html"><span class="doc">Settings</span></a> for more details on settings).</p></li>
+<li><p><strong>IoC.Configurati.IPluginDataRepository</strong> and <strong>IoC.Configuration.ConfigurationFile.IPluginsSetup</strong>: Provides access to registered plugins data (see <a class="reference internal" href="plugins.html"><span class="doc">Plugins</span></a> for more details on plugins).</p></li>
+</ul>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="plugins.html"
+                          title="previous chapter">Plugins</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="troubleshooting-configuration-file-errors.html"
+                          title="next chapter">Troubleshooting Configuration File Errors</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/xml-configuration-file/additional-services.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="troubleshooting-configuration-file-errors.html" title="Troubleshooting Configuration File Errors"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="plugins.html" title="Plugins"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >XML Configuration File</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Additional Services Provided by IoC.Configuration</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

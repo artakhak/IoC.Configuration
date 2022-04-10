@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>object element &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="injectedObject element" href="injected-object.html" />
+    <link rel="prev" title="Predefined Type Value Initializer Elements" href="predefined-type-value-elements.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="injected-object.html" title="injectedObject element"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="predefined-type-value-elements.html" title="Predefined Type Value Initializer Elements"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >XML Configuration File</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Value Initialization Elements</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><strong>object</strong> element</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="object-element">
+<h1><strong>object</strong> element<a class="headerlink" href="#object-element" title="Permalink to this headline">¶</a></h1>
+<p>Element <strong>object</strong> is used to specify a value by using <strong>value</strong> attribute, that is de-serialize by a serializer specified in <strong>iocConfiguration/parameterSerializers/serializers/parameterSerializer</strong> elements.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Refer to <a class="reference internal" href="../parameter-serializers.html"><span class="doc">Parameter Serializers</span></a> for more details on parameter serializers.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl class="simple">
+<dt><strong>IoC.Configuration</strong> provides default parameter serializers for some types. The types for which parameter serializers are provided out of the box are:</dt><dd><p><strong>System.Byte</strong>, <strong>System.Int16</strong>, <strong>System.Int32</strong>, <strong>System.Int64</strong>, <strong>System.Double</strong>, <strong>System.Boolean</strong>, <strong>System.DateTime</strong>, <strong>System.String</strong>, and <strong>System.Guid</strong>.</p>
+</dd>
+</dl>
+</div>
+<section id="example-1-using-object-element-in-settings-element">
+<h2>Example 1: Using <strong>object</strong> element in <strong>settings</strong> element<a class="headerlink" href="#example-1-using-object-element-in-settings-element" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">&lt;settings&gt;</span>
+<span class="linenos">2</span>    <span class="nt">&lt;object</span> <span class="na">name=</span><span class="s">&quot;Project1Guid&quot;</span> <span class="na">typeRef=</span><span class="s">&quot;Guid&quot;</span>
+<span class="linenos">3</span>            <span class="na">value=</span><span class="s">&quot;EA91B230-3FF8-43FA-978B-3261493D58A3&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">4</span>    <span class="nt">&lt;object</span> <span class="na">name=</span><span class="s">&quot;Project2Guid&quot;</span> <span class="na">typeRef=</span><span class="s">&quot;Guid&quot;</span>
+<span class="linenos">5</span>            <span class="na">value=</span><span class="s">&quot;9EDC7F1A-6BD6-4277-9015-5A9277218681&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">6</span><span class="nt">&lt;/settings&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-using-object-element-to-specify-a-returned-value-in-autoproperty-and-automethod-elements">
+<h2>Example 2: Using <strong>object</strong> element to specify a returned value in <strong>autoProperty</strong> and <strong>autoMethod</strong> elements<a class="headerlink" href="#example-2-using-object-element-to-specify-a-returned-value-in-autoproperty-and-automethod-elements" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">&lt;autoGeneratedServices&gt;</span>
+<span class="linenos"> 2</span>    <span class="nt">&lt;autoService</span> <span class="na">interfaceRef=</span><span class="s">&quot;IProjectGuids&quot;</span> <span class="nt">&gt;</span>
+<span class="linenos"> 3</span>        <span class="nt">&lt;autoProperty</span> <span class="na">name=</span><span class="s">&quot;Project1&quot;</span> <span class="na">returnTypeRef=</span><span class="s">&quot;Guid&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 4</span>            <span class="nt">&lt;object</span> <span class="na">typeRef=</span><span class="s">&quot;Guid&quot;</span>
+<span class="linenos"> 5</span>                    <span class="na">value=</span><span class="s">&quot;966FE6A6-76AC-4895-84B2-47E27E58FD02&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos"> 6</span>        <span class="nt">&lt;/autoProperty&gt;</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span>        <span class="nt">&lt;autoMethod</span> <span class="na">name=</span><span class="s">&quot;GetDefaultProject&quot;</span>
+<span class="linenos"> 9</span>                    <span class="na">returnTypeRef=</span><span class="s">&quot;Guid&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">10</span>            <span class="nt">&lt;default&gt;</span>
+<span class="linenos">11</span>                <span class="nt">&lt;object</span> <span class="na">typeRef=</span><span class="s">&quot;Guid&quot;</span>
+<span class="linenos">12</span>                        <span class="na">value=</span><span class="s">&quot;1E08071B-D02C-4830-AE3C-C9E78A29EA37&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">13</span>            <span class="nt">&lt;/default&gt;</span>
+<span class="linenos">14</span>        <span class="nt">&lt;/autoMethod&gt;</span>
+<span class="linenos">15</span>    <span class="nt">&lt;/autoService&gt;</span>
+<span class="linenos">16</span><span class="nt">&lt;autoGeneratedServices&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-3-using-object-element-to-specify-constructor-and-injected-property-values-for-service-implementation">
+<h2>Example 3: Using <strong>object</strong> element to specify constructor and injected property values for service implementation<a class="headerlink" href="#example-3-using-object-element-to-specify-constructor-and-injected-property-values-for-service-implementation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">&lt;service</span> <span class="na">type=</span><span class="s">&quot;TestPluginAssembly1.Interfaces.IRoom&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 2</span>    <span class="nt">&lt;implementation</span> <span class="na">type=</span><span class="s">&quot;TestPluginAssembly1.Implementations.Room&quot;</span> <span class="na">scope=</span><span class="s">&quot;transient&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 3</span>        <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos"> 4</span>            <span class="nt">&lt;object</span> <span class="na">name=</span><span class="s">&quot;door1&quot;</span> <span class="na">type=</span><span class="s">&quot;TestPluginAssembly1.Interfaces.IDoor&quot;</span>
+<span class="linenos"> 5</span>                    <span class="na">value=</span><span class="s">&quot;5,185.1&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 6</span>            <span class="nt">&lt;injectedObject</span> <span class="na">name=</span><span class="s">&quot;door2&quot;</span>
+<span class="linenos"> 7</span>                            <span class="na">type=</span><span class="s">&quot;TestPluginAssembly1.Interfaces.IDoor&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 8</span>        <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos"> 9</span>        <span class="nt">&lt;injectedProperties&gt;</span>
+<span class="linenos">10</span>            <span class="nt">&lt;object</span> <span class="na">name=</span><span class="s">&quot;Door2&quot;</span>
+<span class="linenos">11</span>                    <span class="na">type=</span><span class="s">&quot;TestPluginAssembly1.Interfaces.IDoor&quot;</span>
+<span class="linenos">12</span>                    <span class="na">value=</span><span class="s">&quot;7,187.3&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">13</span>        <span class="nt">&lt;/injectedProperties&gt;</span>
+<span class="linenos">14</span>    <span class="nt">&lt;/implementation&gt;</span>
+<span class="linenos">15</span><span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><strong>object</strong> element</a><ul>
+<li><a class="reference internal" href="#example-1-using-object-element-in-settings-element">Example 1: Using <strong>object</strong> element in <strong>settings</strong> element</a></li>
+<li><a class="reference internal" href="#example-2-using-object-element-to-specify-a-returned-value-in-autoproperty-and-automethod-elements">Example 2: Using <strong>object</strong> element to specify a returned value in <strong>autoProperty</strong> and <strong>autoMethod</strong> elements</a></li>
+<li><a class="reference internal" href="#example-3-using-object-element-to-specify-constructor-and-injected-property-values-for-service-implementation">Example 3: Using <strong>object</strong> element to specify constructor and injected property values for service implementation</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="predefined-type-value-elements.html"
+                          title="previous chapter">Predefined Type Value Initializer Elements</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="injected-object.html"
+                          title="next chapter"><strong>injectedObject</strong> element</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/xml-configuration-file/value-initialization-elements/object.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="injected-object.html" title="injectedObject element"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="predefined-type-value-elements.html" title="Predefined Type Value Initializer Elements"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >XML Configuration File</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Value Initialization Elements</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><strong>object</strong> element</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Resolution Scopes &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Multiple Bindings" href="resolving-to-multiple-types.html" />
+    <link rel="prev" title="Resolving Types" href="index.generated.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="resolving-to-multiple-types.html" title="Multiple Bindings"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.generated.html" title="Resolving Types"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.generated.html" accesskey="U">Resolving Types</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Resolution Scopes</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="resolution-scopes">
+<h1>Resolution Scopes<a class="headerlink" href="#resolution-scopes" title="Permalink to this headline">¶</a></h1>
+<p>Resolution scope determines if the same object or different objects will be returned by the container on subsequent requests of type.</p>
+<p><strong>IoC.Configuration</strong> supports three types of resolution scopes: <strong>Singleton</strong>, <strong>ScopeLifetime</strong>, and <strong>Transient scopes</strong>.</p>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#scope-singleton" id="id1">Scope: Singleton</a></p></li>
+<li><p><a class="reference internal" href="#scope-transient" id="id2">Scope: Transient</a></p></li>
+<li><p><a class="reference internal" href="#scope-scopelifetime" id="id3">Scope: ScopeLifetime</a></p></li>
+</ul>
+</div>
+<section id="scope-singleton">
+<h2><a class="toc-backref" href="#id1">Scope: Singleton</a><a class="headerlink" href="#scope-singleton" title="Permalink to this headline">¶</a></h2>
+<p>Singleton scope results in type being resolved to the same instance on subsequent requests.</p>
+<p>Here is an example of specifying <strong>Singleton</strong> resolution scope in method <strong>IoC.Configuration.DiContainer.ModuleAbstr.AddServiceRegistrations()</strong> (see <a class="reference internal" href="../bindings-in-modules/ioc-configuration-modules.html"><span class="doc">Type Bindings in IoC.Configuration Modules</span></a>):</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">TestDiModule</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">IoC</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">DiContainer</span><span class="p">.</span><span class="n">ModuleAbstr</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">AddServiceRegistrations</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">Bind</span><span class="p">&lt;</span><span class="n">SharedServices</span><span class="p">.</span><span class="n">Interfaces</span><span class="p">.</span><span class="n">IInterface9</span><span class="p">&gt;()</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">To</span><span class="p">&lt;</span><span class="n">SharedServices</span><span class="p">.</span><span class="n">Implementations</span><span class="p">.</span><span class="n">Interface9_Impl1</span><span class="p">&gt;()</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">SetResolutionScope</span><span class="p">(</span><span class="n">DiResolutionScope</span><span class="p">.</span><span class="n">Singleton</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Here is an example of specifying <strong>Singleton</strong> resolution scope in XML configuration file (see <a class="reference internal" href="../xml-configuration-file/service-bindings.html"><span class="doc">Service Bindings</span></a>):</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;service</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Interfaces.IInterface9&quot;</span> <span class="na">assembly=</span><span class="s">&quot;shared_services&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;implementation</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Implementations.Interface9_Impl1&quot;</span>
+                                <span class="na">assembly=</span><span class="s">&quot;shared_services&quot;</span>
+                                <span class="na">scope=</span><span class="s">&quot;singleton&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+<p>Here is an example of resolving types bound with <strong>Singleton</strong> scope resolution</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">private</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">SingletonScopeResolutionExample</span><span class="p">(</span><span class="n">IoC</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">DiContainer</span><span class="p">.</span><span class="n">IDiContainer</span><span class="w"> </span><span class="n">diContainer</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">service1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">diContainer</span><span class="p">.</span><span class="n">Resolve</span><span class="p">&lt;</span><span class="n">IInterface9</span><span class="p">&gt;();</span><span class="w"></span>
+<span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">service2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">diContainer</span><span class="p">.</span><span class="n">Resolve</span><span class="p">&lt;</span><span class="n">IInterface9</span><span class="p">&gt;();</span><span class="w"></span>
+<span class="w">    </span><span class="n">Assert</span><span class="p">.</span><span class="n">AreSame</span><span class="p">(</span><span class="n">service1</span><span class="p">,</span><span class="w"> </span><span class="n">service2</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="scope-transient">
+<h2><a class="toc-backref" href="#id2">Scope: Transient</a><a class="headerlink" href="#scope-transient" title="Permalink to this headline">¶</a></h2>
+<p><strong>Transient</strong> scope results in type being resolved to a newly created instance on each requests.</p>
+<p>Here is an example of specifying <strong>Transient</strong> resolution scope in method <strong>IoC.Configuration.DiContainer.ModuleAbstr.AddServiceRegistrations()</strong> (see <a class="reference internal" href="../bindings-in-modules/ioc-configuration-modules.html"><span class="doc">Type Bindings in IoC.Configuration Modules</span></a>):</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">TestDiModule</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">IoC</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">DiContainer</span><span class="p">.</span><span class="n">ModuleAbstr</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">AddServiceRegistrations</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">Bind</span><span class="p">&lt;</span><span class="n">DynamicallyLoadedAssembly1</span><span class="p">.</span><span class="n">Interfaces</span><span class="p">.</span><span class="n">IInterface2</span><span class="p">&gt;()</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">To</span><span class="p">&lt;</span><span class="n">SharedServices</span><span class="p">.</span><span class="n">DynamicallyLoadedAssembly1</span><span class="p">.</span><span class="n">Implementations</span><span class="p">.</span><span class="n">Interface2_Impl1</span><span class="p">&gt;()</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">SetResolutionScope</span><span class="p">(</span><span class="n">DiResolutionScope</span><span class="p">.</span><span class="n">Transient</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Here is an example of specifying <strong>Transient</strong> resolution scope in XML configuration file (see <a class="reference internal" href="../xml-configuration-file/service-bindings.html"><span class="doc">Service Bindings</span></a>):</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;service</span> <span class="na">type=</span><span class="s">&quot;DynamicallyLoadedAssembly1.Interfaces.IInterface2&quot;</span>
+            <span class="na">assembly=</span><span class="s">&quot;dynamic1&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;implementation</span> <span class="na">type=</span><span class="s">&quot;DynamicallyLoadedAssembly1.Implementations.Interface2_Impl1&quot;</span>
+                    <span class="na">assembly=</span><span class="s">&quot;dynamic1&quot;</span>
+                    <span class="na">scope=</span><span class="s">&quot;transient&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/implementation&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+<p>Here is an example of resolving types bound with <strong>Transient</strong> scope resolution</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">private</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">TransientScopeResolutionExample</span><span class="p">(</span><span class="n">IoC</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">DiContainer</span><span class="p">.</span><span class="n">IDiContainer</span><span class="w"> </span><span class="n">diContainer</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">Type</span><span class="w"> </span><span class="n">typeInterface2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Helpers</span><span class="p">.</span><span class="n">GetType</span><span class="p">(</span><span class="s">&quot;DynamicallyLoadedAssembly1.Interfaces.IInterface2&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">service1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">diContainer</span><span class="p">.</span><span class="n">Resolve</span><span class="p">(</span><span class="n">typeInterface2</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">service2</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">diContainer</span><span class="p">.</span><span class="n">Resolve</span><span class="p">(</span><span class="n">typeInterface2</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">Assert</span><span class="p">.</span><span class="n">AreNotSame</span><span class="p">(</span><span class="n">service1</span><span class="p">,</span><span class="w"> </span><span class="n">service2</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+<section id="scope-scopelifetime">
+<h2><a class="toc-backref" href="#id3">Scope: ScopeLifetime</a><a class="headerlink" href="#scope-scopelifetime" title="Permalink to this headline">¶</a></h2>
+<p><strong>ScopeLifetime</strong> scope results in type being resolved to the same instance on subsequent requests, if the same instance of <strong>IoC.Configuration.DiContainer.ILifeTimeScope</strong> is used as a parameter to method <strong>diContainer.Resolve(Type typeToResolve, ILifeTimeScope lifetimeScope)</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If <strong>DiResolutionScope.ScopeLifetime</strong> is not used when specifying the binding for the type, the value passed for <strong>ILifeTimeScope</strong> parameter in <strong>diContainer.Resolve(Type typeToResolve, ILifeTimeScope lifetimeScope)</strong> does not matter, and the type will be resolved with resolution scope used in type binding (e.g., <strong>Singleton</strong>, <strong>Transient</strong>).</p>
+</div>
+<p>Here is an example of specifying <strong>ScopeLifetime</strong> resolution scope in method <strong>IoC.Configuration.DiContainer.ModuleAbstr.AddServiceRegistrations()</strong> (see <a class="reference internal" href="../bindings-in-modules/ioc-configuration-modules.html"><span class="doc">Type Bindings in IoC.Configuration Modules</span></a>):</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">public</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">TestDiModule</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">IoC</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">DiContainer</span><span class="p">.</span><span class="n">ModuleAbstr</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">AddServiceRegistrations</span><span class="p">()</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">Bind</span><span class="p">&lt;</span><span class="n">DynamicallyLoadedAssembly1</span><span class="p">.</span><span class="n">Interfaces</span><span class="p">.</span><span class="n">IInterface3</span><span class="p">&gt;()</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">To</span><span class="p">&lt;</span><span class="n">DynamicallyLoadedAssembly1</span><span class="p">.</span><span class="n">Implementations</span><span class="p">.</span><span class="n">Interface3_Impl1</span><span class="p">&gt;()</span><span class="w"></span>
+<span class="w">        </span><span class="p">.</span><span class="n">SetResolutionScope</span><span class="p">(</span><span class="n">DiResolutionScope</span><span class="p">.</span><span class="n">ScopeLifetime</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Here is an example of specifying <strong>ScopeLifetime</strong> resolution scope in XML configuration file (see <a class="reference internal" href="../xml-configuration-file/service-bindings.html"><span class="doc">Service Bindings</span></a>):</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;service</span> <span class="na">type=</span><span class="s">&quot;DynamicallyLoadedAssembly1.Interfaces.IInterface3&quot;</span> <span class="na">assembly=</span><span class="s">&quot;dynamic1&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;implementation</span> <span class="na">type=</span><span class="s">&quot;DynamicallyLoadedAssembly1.Implementations.Interface3_Impl1&quot;</span>
+                                <span class="na">assembly=</span><span class="s">&quot;dynamic1&quot;</span>
+                                <span class="na">scope=</span><span class="s">&quot;scopeLifetime&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/implementation&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+<p>Here is an example of resolving types bound with <strong>ScopeLifetime</strong> scope resolution:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">private</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">LifetimeScopeResolutionExample</span><span class="p">(</span><span class="n">IoC</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">DiContainer</span><span class="p">.</span><span class="n">IDiContainer</span><span class="w"> </span><span class="n">diContainer</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">Type</span><span class="w"> </span><span class="n">typeInterface3</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">Helpers</span><span class="p">.</span><span class="n">GetType</span><span class="p">(</span><span class="w"></span>
+<span class="w">                        </span><span class="s">&quot;DynamicallyLoadedAssembly1.Interfaces.IInterface3&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="c1">// Same objects are created in default lifetime scope.</span>
+<span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">service1InMainScope</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">diContainer</span><span class="p">.</span><span class="n">Resolve</span><span class="p">(</span><span class="n">typeInterface3</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">service2InMainScope</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">diContainer</span><span class="p">.</span><span class="n">Resolve</span><span class="p">(</span><span class="n">typeInterface3</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="n">Assert</span><span class="p">.</span><span class="n">AreSame</span><span class="p">(</span><span class="n">service1InMainScope</span><span class="p">,</span><span class="w"> </span><span class="n">service2InMainScope</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">    </span><span class="k">using</span><span class="w"> </span><span class="p">(</span><span class="kt">var</span><span class="w"> </span><span class="n">lifeTimeScope</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">diContainer</span><span class="p">.</span><span class="n">StartLifeTimeScope</span><span class="p">())</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// IDiContainer.Resolve(Type, ILifetimeScope) returns</span>
+<span class="w">        </span><span class="c1">// the same object for the same scope lifeTimeScope.</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">service1InScope1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">diContainer</span><span class="p">.</span><span class="n">Resolve</span><span class="p">(</span><span class="n">typeInterface3</span><span class="p">,</span><span class="w"> </span><span class="n">lifeTimeScope</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">service2InScope1</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">diContainer</span><span class="p">.</span><span class="n">Resolve</span><span class="p">(</span><span class="n">typeInterface3</span><span class="p">,</span><span class="w"> </span><span class="n">lifeTimeScope</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="n">Assert</span><span class="p">.</span><span class="n">AreSame</span><span class="p">(</span><span class="n">service1InScope1</span><span class="p">,</span><span class="w"> </span><span class="n">service2InScope1</span><span class="p">);</span><span class="w"></span>
+
+<span class="w">        </span><span class="c1">// However, the objects are different from the ones created in main</span>
+<span class="w">        </span><span class="c1">// lifetime scope.</span>
+<span class="w">        </span><span class="n">Assert</span><span class="p">.</span><span class="n">AreNotSame</span><span class="p">(</span><span class="n">service1InScope1</span><span class="p">,</span><span class="w"> </span><span class="n">service1InMainScope</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Resolution Scopes</a><ul>
+<li><a class="reference internal" href="#scope-singleton">Scope: Singleton</a></li>
+<li><a class="reference internal" href="#scope-transient">Scope: Transient</a></li>
+<li><a class="reference internal" href="#scope-scopelifetime">Scope: ScopeLifetime</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="index.generated.html"
+                          title="previous chapter">Resolving Types</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="resolving-to-multiple-types.html"
+                          title="next chapter">Multiple Bindings</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/resolving-types/resolution-scopes.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="resolving-to-multiple-types.html" title="Multiple Bindings"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.generated.html" title="Resolving Types"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.generated.html" >Resolving Types</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Resolution Scopes</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

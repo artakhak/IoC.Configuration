@@ -78,24 +78,6 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
         public string Name => _namedValueElement.Name;
 
         /// <summary>
-        ///     Gets the value as string. Examples are "2", "true", etc.
-        /// </summary>
-        /// <value>
-        ///     The value as string.
-        /// </value>
-        [Obsolete("Will be removed after 5/31/2019")]
-        string INamedValue.ValueAsString
-        {
-            get
-            {
-                if (_namedValueElement is IDeserializedValue deserializedValue)
-                    return deserializedValue.ValueAsString;
-
-                return string.Empty;
-            }
-        }
-
-        /// <summary>
         ///     Can be null only if the parameter is declared with either 'object' or injectedObject elements, and the object type
         ///     referenced is in a disabled assembly.
         /// </summary>
@@ -106,14 +88,6 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
         #region Member Functions
 
         public bool IsResolvedFromDiContainer => _namedValueElement.IsResolvedFromDiContainer;
-
-        /// <summary>
-        ///     Normally for injectedObject element this value is <see cref="ValueInstantiationType.ResolveFromDiContext" />, for
-        ///     other elements (i.e., int16, int32, etc), the overridden value will be
-        ///     <see cref="ValueInstantiationType.DeserializeFromStringValue" />
-        /// </summary>
-        [Obsolete("Will be removed after 5/31/2019")]
-        public ValueInstantiationType ValueInstantiationType => _namedValueElement.ValueInstantiationType;
 
         /// <summary>
         ///     Can be null only if the parameter is declared with either 'object' or injectedObject elements, and the object type

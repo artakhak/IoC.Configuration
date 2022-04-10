@@ -22,9 +22,10 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System.IO;
-using System.Xml;
 using JetBrains.Annotations;
+using System.Xml;
 
 namespace IoC.Configuration.ConfigurationFile
 {
@@ -46,6 +47,7 @@ namespace IoC.Configuration.ConfigurationFile
 
             Path = this.GetAttributeValue<string>(ConfigurationFileAttributeNames.Path);
 
+            //Helpers.EnsureConfigurationDirectoryExistsOrThrow(this, Path, ConfigurationFileAttributeNames.Path);
             if (!Directory.Exists(Path))
                 throw new ConfigurationParseException(this, $"Directory '{Path}' specified in attribute '{ConfigurationFileAttributeNames.Path}' does not exist.");
         }

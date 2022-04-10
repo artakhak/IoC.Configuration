@@ -1,5 +1,4 @@
 ﻿using SharedServices.Interfaces;
-using IInterface1 = DynamicallyLoadedAssembly1.Interfaces.IInterface1;
 
 namespace DynamicallyLoadedAssembly2
 {

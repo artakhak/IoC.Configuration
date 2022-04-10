@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using IoC.Configuration.ConfigurationFile;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using IoC.Configuration.ConfigurationFile;
 using Moq;
+using NUnit.Framework;
+using System;
+using System.Collections.Generic;
 
 namespace IoC.Configuration.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class TypeInfoTests
     {
         private Mock<IAssembly> _plugin1AssemblyMock;
@@ -17,7 +16,7 @@ namespace IoC.Configuration.Tests
         private Mock<IPluginElement> _pluginElementMock1;
         private Mock<IPluginElement> _pluginElementMock2;
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             Mock<IPluginElement> CreatePluginElementMock(string pluginName)
@@ -46,7 +45,7 @@ namespace IoC.Configuration.Tests
             _nonPluginAssemblyMock = CreateAssemblyMock("Dynamic.NonPluginAssembly", "nonPluginAssembly", null);
         }
 
-        [TestMethod]
+        [Test]
         public void NonGenericTypeWithoutPluginTest()
         {
             var typeInfo = TypeInfo.CreateNonArrayTypeInfo(typeof(SharedServices.Interfaces.IInterface1), _nonPluginAssemblyMock.Object, new ITypeInfo[] { });
@@ -57,7 +56,7 @@ namespace IoC.Configuration.Tests
             Assert.AreEqual(0, uniquePluginTypes.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void NonGenericTypeWithPluginTest()
         {
             var typeInfo = TypeInfo.CreateNonArrayTypeInfo(typeof(SharedServices.Interfaces.IInterface1), _plugin2AssemblyMock.Object, new ITypeInfo[] { });
@@ -70,7 +69,7 @@ namespace IoC.Configuration.Tests
             Assert.AreEqual(_pluginElementMock2.Object, uniquePluginTypes[0].Assembly.Plugin);
         }
 
-        [TestMethod]
+        [Test]
         public void GenericTypeWithOnePluginTest1()
         {
             var typeInfo1 = TypeInfo.CreateNonArrayTypeInfo(typeof(SharedServices.Interfaces.IInterface1), _plugin1AssemblyMock.Object, new ITypeInfo[] { });
@@ -85,7 +84,7 @@ namespace IoC.Configuration.Tests
             Assert.AreEqual(_pluginElementMock1.Object, uniquePluginTypes[0].Assembly.Plugin);
         }
 
-        [TestMethod]
+        [Test]
         public void GenericTypeWithTwoPluginsTest()
         {
             var typeInfo1 = TypeInfo.CreateNonArrayTypeInfo(typeof(SharedServices.Interfaces.IInterface1), _plugin1AssemblyMock.Object, new ITypeInfo[] { });
@@ -105,7 +104,7 @@ namespace IoC.Configuration.Tests
             Assert.AreEqual(_pluginElementMock2.Object, uniquePluginTypes[1].Assembly.Plugin);
         }
 
-        [TestMethod]
+        [Test]
         public void GenericTypeWithOnePluginTest()
         {
             var typeInfo1 = TypeInfo.CreateNonArrayTypeInfo(typeof(SharedServices.Interfaces.IInterface1), _plugin1AssemblyMock.Object, new ITypeInfo[] { });
@@ -122,7 +121,7 @@ namespace IoC.Configuration.Tests
             Assert.AreEqual(_pluginElementMock1.Object, uniquePluginTypes[0].Assembly.Plugin);
         }
 
-        [TestMethod]
+        [Test]
         public void GenericTypeWithTwoPluginsTest2()
         {
             var typeInfo1 = TypeInfo.CreateNonArrayTypeInfo(typeof(SharedServices.Interfaces.IInterface1), _plugin1AssemblyMock.Object, new ITypeInfo[] { });
@@ -145,7 +144,7 @@ namespace IoC.Configuration.Tests
             Assert.AreEqual(_pluginElementMock2.Object, uniquePluginTypes[1].Assembly.Plugin);
         }
 
-        [TestMethod]
+        [Test]
         public void GenericTypeWithOnePluginsTest2()
         {
             var typeInfo1 = TypeInfo.CreateNonArrayTypeInfo(typeof(SharedServices.Interfaces.IInterface1), _plugin1AssemblyMock.Object, new ITypeInfo[] { });
@@ -165,9 +164,9 @@ namespace IoC.Configuration.Tests
             Assert.AreEqual(_pluginElementMock1.Object, uniquePluginTypes[0].Assembly.Plugin);
         }
 
-        [DataTestMethod]
-        [DataRow(true)]
-        [DataRow(false)]
+        
+        [TestCase(true)]
+        [TestCase(false)]
         public void ProcessTypeAndGenericParametersTests(bool testStopProcessing)
         {
             var typeInfo1 = TypeInfo.CreateNonArrayTypeInfo(typeof(SharedServices.Interfaces.IInterface1), _nonPluginAssemblyMock.Object, new ITypeInfo[] { });

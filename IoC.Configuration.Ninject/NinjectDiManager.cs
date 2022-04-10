@@ -22,6 +22,7 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using IoC.Configuration.DiContainer;
 using IoC.Configuration.DiContainer.BindingsForConfigFile;
 using JetBrains.Annotations;
@@ -72,7 +73,7 @@ namespace IoC.Configuration.Ninject
 
             DiManagerImplementationHelper.AddCodeForOnDiContainerReadyMethod(moduleClassContents);
             // Add Load() method
-            moduleClassContents.AppendLine($"public override void Load()");
+            moduleClassContents.AppendLine("public override void Load()");
             moduleClassContents.AppendLine("{");
 
             foreach (var service in moduleServiceConfigurationElements)
@@ -189,7 +190,7 @@ namespace IoC.Configuration.Ninject
                         moduleClassContents.Append("InTransientScope()");
                         break;
                     case DiResolutionScope.ScopeLifetime:
-                        moduleClassContents.Append($"InScope(context => _diContainer.CurrentLifeTimeScope)");
+                        moduleClassContents.Append("InScope(context => _diContainer.CurrentLifeTimeScope)");
                         break;
                     // Thread scope is not supported by Autofac, and therefore not used in Ninject as well.
                     //case DiResolutionScope.Thread:

@@ -1,0 +1,263 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Assemblies and Probing Paths &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Using Types in Configuration File" href="using-types-in-configuration.html" />
+    <link rel="prev" title="XML Configuration File" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="using-types-in-configuration.html" title="Using Types in Configuration File"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="XML Configuration File"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">XML Configuration File</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Assemblies and Probing Paths</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="assemblies-and-probing-paths">
+<h1>Assemblies and Probing Paths<a class="headerlink" href="#assemblies-and-probing-paths" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#element-appdatadir" id="id1">Element: <strong>appDataDir</strong></a></p></li>
+<li><p><a class="reference internal" href="#element-plugins" id="id2">Element: <strong>plugins</strong></a></p></li>
+<li><p><a class="reference internal" href="#element-additionalassemblyprobingpaths" id="id3">Element: <strong>additionalAssemblyProbingPaths</strong></a></p></li>
+<li><p><a class="reference internal" href="#element-assemblies-and-assembly" id="id4">Element: <strong>assemblies</strong> and <strong>assembly</strong></a></p>
+<ul>
+<li><p><a class="reference internal" href="#attributes-in-assembly-element" id="id5">Attributes in <strong>assembly</strong> element</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<p>Elements <strong>appDataDir</strong>, <strong>plugins</strong>, <strong>additionalAssemblyProbingPaths</strong>, and <strong>assemblies</strong> define the assemblies and paths that the <strong>IoC.Configuration</strong> will search to locate the assembles.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For more information about plugins refer to section <a class="reference internal" href="plugins.html"><span class="doc">Plugins</span></a>.</p>
+</div>
+<section id="element-appdatadir">
+<h2><a class="toc-backref" href="#id1">Element: <strong>appDataDir</strong></a><a class="headerlink" href="#element-appdatadir" title="Permalink to this headline">¶</a></h2>
+<p>This element specifies the folder, where <strong>IoC.Configuration</strong> saves dynamically generated DLLs. The application should have write permissions to path specified in <strong>appDataDir</strong>.</p>
+<p>Example of <strong>appDataDir</strong> in configuration file:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;appDataDir</span> <span class="na">path=</span><span class="s">&quot;K:\...\IoC.Configuration.Tests\bin\TestFiles\DynamicFiles&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="element-plugins">
+<h2><a class="toc-backref" href="#id2">Element: <strong>plugins</strong></a><a class="headerlink" href="#element-plugins" title="Permalink to this headline">¶</a></h2>
+<p>This element specifies the root folder, where plugin assemblies are, using the attribute <strong>pluginsDirPath</strong>, as well as might have <strong>plugin</strong> child elements to declare plugins (for more information about plugins refer to section <a class="reference internal" href="plugins.html"><span class="doc">Plugins</span></a>).</p>
+<p>The assemblies related to a plugin should be copied to a folder [plugins root folder]/[plugin name], where [plugins root folder] is the value of attribute <strong>pluginsDirPath</strong> of <strong>/iocConfiguration/plugins</strong> element, and [plugin name] is the value of <strong>name</strong> attribute in <strong>/iocConfiguration/plugins/plugin</strong> element.</p>
+<p>For example the assemblies for plugin <strong>Plugin1</strong> below should be in folder “<strong>K:\…\TestDlls\PluginDlls\Plugin1</strong>”.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;plugins</span> <span class="na">pluginsDirPath=</span><span class="s">&quot;K:\...\TestDlls\PluginDlls&quot;</span><span class="nt">&gt;</span>
+
+    <span class="cm">&lt;!--</span>
+<span class="cm">    Plugin assemblies will be in a folder with similar name under pluginsDirPath folder.</span>
+<span class="cm">    The plugin folders will be included in assembly resolution mechanism.</span>
+<span class="cm">    --&gt;</span>
+
+    <span class="cm">&lt;!--A folder K:\...\TestDlls\PluginDlls\Plugin1 should exist.  --&gt;</span>
+    <span class="nt">&lt;plugin</span> <span class="na">name=</span><span class="s">&quot;Plugin1&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;plugin</span> <span class="na">name=</span><span class="s">&quot;Plugin2&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;plugin</span> <span class="na">name=</span><span class="s">&quot;Plugin3&quot;</span> <span class="na">enabled=</span><span class="s">&quot;false&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/plugins&gt;</span>
+</pre></div>
+</div>
+<p>Here is an example of file structure with plugin folders.</p>
+<img alt="../_images/plugin-folders.jpg" src="../_images/plugin-folders.jpg" />
+</section>
+<section id="element-additionalassemblyprobingpaths">
+<h2><a class="toc-backref" href="#id3">Element: <strong>additionalAssemblyProbingPaths</strong></a><a class="headerlink" href="#element-additionalassemblyprobingpaths" title="Permalink to this headline">¶</a></h2>
+<p>This element specifies additional folders that <strong>IoC.Configuration</strong> will use for assembly resolution (this includes resolving assemblies defined in element <strong>assemblies</strong> as well as re-solving assemblies, on which assemblies in <strong>assemblies</strong> elements depend).</p>
+<p>Here is an example of <strong>additionalAssemblyProbingPaths</strong> element:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;additionalAssemblyProbingPaths&gt;</span>
+    <span class="nt">&lt;probingPath</span> <span class="na">path=</span><span class="s">&quot;K:\...\TestDlls\ThirdPartyLibs&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;probingPath</span> <span class="na">path=</span><span class="s">&quot;K:\...\TestDlls\ContainerImplementations\Autofac&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;probingPath</span> <span class="na">path=</span><span class="s">&quot;K:\...\TestDlls\ContainerImplementations\Ninject&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;probingPath</span> <span class="na">path=</span><span class="s">&quot;K:\...\TestDlls\DynamicallyLoadedDlls&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;probingPath</span> <span class="na">path=</span><span class="s">&quot;K:\...\TestDlls\TestAssemblyResolution&quot;</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/additionalAssemblyProbingPaths&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="element-assemblies-and-assembly">
+<h2><a class="toc-backref" href="#id4">Element: <strong>assemblies</strong> and <strong>assembly</strong></a><a class="headerlink" href="#element-assemblies-and-assembly" title="Permalink to this headline">¶</a></h2>
+<p>The elements <strong>assemblies</strong> and <strong>assembly</strong> specify all the assemblies that can be used when referencing types in XML configuration file. The assemblies in <strong>assemblies</strong> and their dependencies are resolved by looking up for assemblies in folders specified in elements <strong>plugins</strong>, <strong>additionalAssemblyProbingPaths</strong>, in addition to default folders (e.g., application startup folder, standard folder for <strong>.Net Core</strong> assemblies, etc).</p>
+<p>Here is an example of <strong>assemblies</strong> element:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span>    <span class="nt">&lt;assemblies&gt;</span>
+<span class="linenos"> 2</span>        <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;TestProjects.TestForceLoadAssembly&quot;</span>
+<span class="linenos"> 3</span>                      <span class="na">alias=</span><span class="s">&quot;TestForceLoadAssembly&quot;</span>
+<span class="linenos"> 4</span>                      <span class="na">overrideDirectory=</span><span class="s">&quot;K:\...\TestDlls\DynamicallyLoadedDlls&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span>        <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;OROptimizer.Shared&quot;</span> <span class="na">alias=</span><span class="s">&quot;oroptimizer_shared&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 7</span>        <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;IoC.Configuration&quot;</span> <span class="na">alias=</span><span class="s">&quot;ioc_config&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 8</span>        <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;IoC.Configuration.Autofac&quot;</span> <span class="na">alias=</span><span class="s">&quot;autofac_ext&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 9</span>        <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;IoC.Configuration.Ninject&quot;</span> <span class="na">alias=</span><span class="s">&quot;ninject_ext&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">10</span>
+<span class="linenos">11</span>        <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;TestProjects.Modules&quot;</span> <span class="na">alias=</span><span class="s">&quot;modules&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">12</span>        <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;TestProjects.DynamicallyLoadedAssembly1&quot;</span> <span class="na">alias=</span><span class="s">&quot;dynamic1&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">13</span>        <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;TestProjects.DynamicallyLoadedAssembly2&quot;</span> <span class="na">alias=</span><span class="s">&quot;dynamic2&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span>        <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;TestProjects.TestPluginAssembly1&quot;</span> <span class="na">alias=</span><span class="s">&quot;pluginassm1&quot;</span> <span class="na">plugin=</span><span class="s">&quot;Plugin1&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">16</span>        <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;TestProjects.ModulesForPlugin1&quot;</span> <span class="na">alias=</span><span class="s">&quot;modules_plugin1&quot;</span> <span class="na">plugin=</span><span class="s">&quot;Plugin1&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">17</span>        <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;TestProjects.TestPluginAssembly2&quot;</span> <span class="na">alias=</span><span class="s">&quot;pluginassm2&quot;</span> <span class="na">plugin=</span><span class="s">&quot;Plugin2&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">18</span>        <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;TestProjects.TestPluginAssembly3&quot;</span> <span class="na">alias=</span><span class="s">&quot;pluginassm3&quot;</span> <span class="na">plugin=</span><span class="s">&quot;Plugin3&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">19</span>
+<span class="linenos">20</span>        <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;TestProjects.SharedServices&quot;</span> <span class="na">alias=</span><span class="s">&quot;shared_services&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">21</span>        <span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;IoC.Configuration.Tests&quot;</span> <span class="na">alias=</span><span class="s">&quot;tests&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">22</span>    <span class="nt">&lt;/assemblies&gt;</span>
+</pre></div>
+</div>
+<section id="attributes-in-assembly-element">
+<h3><a class="toc-backref" href="#id5">Attributes in <strong>assembly</strong> element</a><a class="headerlink" href="#attributes-in-assembly-element" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p><strong>name</strong>: Specifies the assembly name without the file extension. Example of this attribute value is <strong>IoC.Configuration.Autofac</strong> (see the XML above).</p></li>
+<li><p><strong>alias</strong>: A short unique alias to use, when referencing the assembly in other elements.</p>
+<blockquote>
+<div><p>Here is an example of element that references the assembly with alias <strong>dynamic1</strong>:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;services&gt;</span>
+    <span class="nt">&lt;service</span> <span class="na">type=</span><span class="s">&quot;DynamicallyLoadedAssembly1.Interfaces.IInterface1&quot;</span> <span class="na">assembly=</span><span class="s">&quot;dynamic1&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;implementation</span> <span class="na">type=</span><span class="s">&quot;DynamicallyLoadedAssembly1.Implementations.Interface1_Impl1&quot;</span>
+                        <span class="na">assembly=</span><span class="s">&quot;dynamic1&quot;</span> <span class="na">scope=</span><span class="s">&quot;singleton&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;/implementation&gt;</span>
+    <span class="nt">&lt;/service&gt;</span>
+<span class="nt">&lt;/services&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p><strong>plugin</strong>: An assembly that is in a plugin folder should include this attribute with value specifying the plugin name.</p>
+<blockquote>
+<div><p>Here is an example of assembly <strong>TestProjects.ModulesForPlugin1</strong> with the value of attribute plugin being <strong>Plugin1</strong>.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;TestProjects.ModulesForPlugin1&quot;</span> <span class="na">alias=</span><span class="s">&quot;modules_plugin1&quot;</span> <span class="na">plugin=</span><span class="s">&quot;Plugin1&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>There should exist some <strong>plugin</strong> element under element <strong>plugins</strong>, with the value of attribute <strong>name</strong> equal to <strong>Plugin1</strong>.</p>
+</div>
+</div></blockquote>
+</li>
+<li><p><strong>overrideDirectory</strong>: Specifies the directory, where the assembly should be loaded from. Normally this attribute should not be included in element, and the folders specified in elements <strong>plugins</strong>, <strong>additionalAssemblyProbingPaths</strong>, in addition to default folders will be searched to locate tbe assembly.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<blockquote>
+<div><p>Use this attribute in rare circumstances, to override the default behaviour.</p>
+</div></blockquote>
+<p>Here is an example of <strong>overrideDirectory</strong> attribute usage.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;assembly</span> <span class="na">name=</span><span class="s">&quot;TestProjects.TestForceLoadAssembly&quot;</span>
+                      <span class="na">alias=</span><span class="s">&quot;TestForceLoadAssembly&quot;</span>
+                      <span class="na">overrideDirectory=</span><span class="s">&quot;K:\...\TestDlls\DynamicallyLoadedDlls&quot;</span> <span class="nt">/&gt;</span>
+</pre></div>
+</div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Assemblies and Probing Paths</a><ul>
+<li><a class="reference internal" href="#element-appdatadir">Element: <strong>appDataDir</strong></a></li>
+<li><a class="reference internal" href="#element-plugins">Element: <strong>plugins</strong></a></li>
+<li><a class="reference internal" href="#element-additionalassemblyprobingpaths">Element: <strong>additionalAssemblyProbingPaths</strong></a></li>
+<li><a class="reference internal" href="#element-assemblies-and-assembly">Element: <strong>assemblies</strong> and <strong>assembly</strong></a><ul>
+<li><a class="reference internal" href="#attributes-in-assembly-element">Attributes in <strong>assembly</strong> element</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="index.html"
+                          title="previous chapter">XML Configuration File</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="using-types-in-configuration.html"
+                          title="next chapter">Using Types in Configuration File</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/xml-configuration-file/assemblies-and-probing-paths.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="using-types-in-configuration.html" title="Using Types in Configuration File"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="XML Configuration File"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >XML Configuration File</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Assemblies and Probing Paths</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

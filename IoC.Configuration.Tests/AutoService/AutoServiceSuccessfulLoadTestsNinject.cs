@@ -1,18 +1,18 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using TestsSharedLibrary.DependencyInjection;
 
 namespace IoC.Configuration.Tests.AutoService
 {
-    [TestClass]
-    public class AutoServiceSuccessfulLoadTestsNinject : AutoServiceSuccessfulLoadTests
+    [TestFixture]
+    public class AutoServiceSuccessfulLoadTestsNinject : AutoServiceCustomSuccessfulLoadTests
     {
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext testContext)
+        [OneTimeSetUp]
+        public static void ClassInitialize()
         {
             OnClassInitialize(DiImplementationType.Ninject, AutoServiceConfigurationRelativePath);
         }
 
-        [ClassCleanup]
+        [OneTimeTearDown]
         public static void ClassCleanup()
         {
             OnClassCleanup();

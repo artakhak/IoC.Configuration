@@ -1,7 +1,39 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Implementations\Class1.cs" />
+    <Compile Include="Implementations\DemoProxyServiceUser.cs" />
+    <Compile Include="Implementations\DemoProxyService_Extension_Impl.cs" />
+    <Compile Include="Implementations\Door.cs" />
+    <Compile Include="Implementations\DoorSerializer.cs" />
+    <Compile Include="Implementations\DoorSerializer2.cs" />
+    <Compile Include="Implementations\Interface1_Impl1.cs" />
+    <Compile Include="Implementations\Interface1_Impl2.cs" />
+    <Compile Include="Implementations\Interface1_Impl3.cs" />
+    <Compile Include="Implementations\Interface5_Plugin1Impl.cs" />
+    <Compile Include="Implementations\InvalidSettingsRequestorInPluginAssembly.cs" />
+    <Compile Include="Implementations\MySqlDbConnection.cs" />
+    <Compile Include="Implementations\Plugin1.cs" />
+    <Compile Include="Implementations\Plugin1ActionValidator.cs" />
+    <Compile Include="Implementations\Plugin1_Interface1_Impl1.cs" />
+    <Compile Include="Implementations\Plugin1_Simple.cs" />
+    <Compile Include="Implementations\Room.cs" />
+    <Compile Include="Implementations\UnsignedIntSerializerWithParameters.cs" />
+    <Compile Include="Implementations\Window.cs" />
+    <Compile Include="Interfaces\IDemoProxyService.cs" />
+    <Compile Include="Interfaces\IDemoProxyService_Extension.cs" />
+    <Compile Include="Interfaces\IDoor.cs" />
+    <Compile Include="Interfaces\IPlugin1_Interface1.cs" />
+    <Compile Include="Interfaces\IResourceAccessValidator.cs" />
+    <Compile Include="Interfaces\IResourceAccessValidatorFactory.cs" />
+    <Compile Include="Interfaces\IRoom.cs" />
+    <Compile Include="Interfaces\ResourceAccessValidator1.cs" />
+    <Compile Include="Interfaces\ResourceAccessValidator2.cs" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TestProjects.AssemblyToTestAssemblyResolution\TestProjects.AssemblyToTestAssemblyResolution.csproj" />
     <ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly1\TestProjects.DynamicallyLoadedAssembly1.csproj" />
@@ -24,6 +56,6 @@
     <OutputPath>bin\Debug</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="OROptimizer.Shared" Version="2.0.0" />
+    <PackageReference Include="OROptimizer.Shared" Version="2.1.1" />
   </ItemGroup>
 </Project>

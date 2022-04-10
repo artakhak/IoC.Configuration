@@ -1,20 +1,20 @@
 ﻿using IoC.Configuration.ConfigurationFile;
 using IoC.Configuration.DiContainer.BindingsForConfigFile;
 using JetBrains.Annotations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using NUnit.Framework;
 using SharedServices.Interfaces;
 using System;
 using System.IO;
 using System.Linq;
-using TestsSharedLibrary;
+using TestsHelper = TestsSharedLibrary.TestsHelper;
 
 namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
 {
-    [TestClass]
+    [TestFixture]
     public class TypeHelperTests
     {
-        private static readonly string TestDllsFolder = Helpers.GetTestDllsFolderPath();
+        private static readonly string TestFilesFolder = Helpers.GetTestFilesFolderPath();
 
         private const string TypeDef1 = "TypeDef1";
         private const string TypeDef2 = "TypeDef2";
@@ -35,13 +35,13 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
 
         private ConfigurationMockHelper _configurationMockHelper;
 
-        [TestCleanup]
+        [TearDown]
         public void TestCleanup()
         {
             _configurationMockHelper.Dispose();
         }
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             TestsHelper.SetupLogger();
@@ -60,11 +60,11 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
 
                     new ConfigurationMockHelper.AssemblyInfo(MsCoreLibAssemblyAlias, typeof(int).Assembly.GetName().Name, Path.GetDirectoryName(typeof(int).Assembly.Location)),
 
-                    new ConfigurationMockHelper.AssemblyInfo(DynamicallyLoadedAssembly1Alias, "TestProjects.DynamicallyLoadedAssembly1", Path.Combine(TestDllsFolder, "DynamicallyLoadedDlls")),
-                    new ConfigurationMockHelper.AssemblyInfo(DynamicallyLoadedAssembly2Alias, "TestProjects.DynamicallyLoadedAssembly2", Path.Combine(TestDllsFolder, "DynamicallyLoadedDlls")),
+                    new ConfigurationMockHelper.AssemblyInfo(DynamicallyLoadedAssembly1Alias, "TestProjects.DynamicallyLoadedAssembly1", Path.Combine(TestFilesFolder, "DynamicallyLoadedDlls")),
+                    new ConfigurationMockHelper.AssemblyInfo(DynamicallyLoadedAssembly2Alias, "TestProjects.DynamicallyLoadedAssembly2", Path.Combine(TestFilesFolder, "DynamicallyLoadedDlls")),
 
-                    new ConfigurationMockHelper.AssemblyInfo(TestPluginAssembly1Alias, "TestProjects.TestPluginAssembly1", Path.Combine(TestDllsFolder, "PluginDlls", "Plugin1")),
-                    new ConfigurationMockHelper.AssemblyInfo(TestPluginAssembly2Alias, "TestProjects.TestPluginAssembly2", Path.Combine(TestDllsFolder, "PluginDlls", "Plugin2"))
+                    new ConfigurationMockHelper.AssemblyInfo(TestPluginAssembly1Alias, "TestProjects.TestPluginAssembly1", Path.Combine(TestFilesFolder, "PluginDlls", "Plugin1")),
+                    new ConfigurationMockHelper.AssemblyInfo(TestPluginAssembly2Alias, "TestProjects.TestPluginAssembly2", Path.Combine(TestFilesFolder, "PluginDlls", "Plugin2"))
                 });
 
             _configurationMockHelper.ConfigureTypeDefinitions(new ConfigurationMockHelper.TypeDefinitionInfo[]
@@ -80,19 +80,19 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             _typeHelper = new TypeHelper(_assemblyLocator, new TypeParser(), pluginAssemblyTypeUsageValidatorMock.Object);
         }
 
-        [TestMethod]
+        [Test]
         public void UsingTypesInMsCorLibAssemblyWithoutAddingAssemblyTests()
         {
             UsingTypesInPredefinedAssemblyWithoutAddingAssemblyTests(typeof(int), MsCoreLibAssemblyAlias);
         }
 
-        [TestMethod]
+        [Test]
         public void UsingTypesInIoCConfigAssemblyWithoutAddingAssemblyTests()
         {
             UsingTypesInPredefinedAssemblyWithoutAddingAssemblyTests(typeof(IoC.Configuration.IAssembly), IoCConfigAssemblyAlias);
         }
 
-        [TestMethod]
+        [Test]
         public void UsingTypesInOroptimizerSharedAssemblyWithoutAddingAssemblyTests()
         {
             UsingTypesInPredefinedAssemblyWithoutAddingAssemblyTests(typeof(OROptimizer.IGlobalsCore), OroptimizerSharedAssemblyAlias);
@@ -149,15 +149,15 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
 
         }
 
-        [DataTestMethod]
-        [DataRow(ConfigurationFileElementNames.ValueBoolean, typeof(bool))]
-        [DataRow(ConfigurationFileElementNames.ValueByte, typeof(byte))]
-        [DataRow(ConfigurationFileElementNames.ValueDateTime, typeof(DateTime))]
-        [DataRow(ConfigurationFileElementNames.ValueDouble, typeof(double))]
-        [DataRow(ConfigurationFileElementNames.ValueInt16, typeof(Int16))]
-        [DataRow(ConfigurationFileElementNames.ValueInt32, typeof(Int32))]
-        [DataRow(ConfigurationFileElementNames.ValueInt64, typeof(Int64))]
-        [DataRow(ConfigurationFileElementNames.ValueString, typeof(string))]
+        
+        [TestCase(ConfigurationFileElementNames.ValueBoolean, typeof(bool))]
+        [TestCase(ConfigurationFileElementNames.ValueByte, typeof(byte))]
+        [TestCase(ConfigurationFileElementNames.ValueDateTime, typeof(DateTime))]
+        [TestCase(ConfigurationFileElementNames.ValueDouble, typeof(double))]
+        [TestCase(ConfigurationFileElementNames.ValueInt16, typeof(Int16))]
+        [TestCase(ConfigurationFileElementNames.ValueInt32, typeof(Int32))]
+        [TestCase(ConfigurationFileElementNames.ValueInt64, typeof(Int64))]
+        [TestCase(ConfigurationFileElementNames.ValueString, typeof(string))]
         public void PrimitiveTypeElementTests(string elementName, Type expectedType)
         {
             var elementMock = CreateTypedElementMockWithParent<IParameterElement, IParameters>(elementName, null, null, null);
@@ -168,7 +168,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
         }
 
 
-        [TestMethod]
+        [Test]
         public void UsingNonStandardTypeAttributeTests()
         {
             string typeFullName = typeof(IInterface1).FullName;
@@ -190,7 +190,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             }, typeof(IServiceElement), null);
         }
 
-        [TestMethod]
+        [Test]
         public void UsingNonStandardTypeRefAttributeTests()
         {
             string typeFullName = typeof(IInterface1).FullName;
@@ -210,7 +210,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             }, typeof(IServiceElement), null);
         }
 
-        [TestMethod]
+        [Test]
         public void UsingNonStandardAssemblyAttributeTests()
         {
             string typeFullName = typeof(IInterface1).FullName;
@@ -238,7 +238,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             }, typeof(IServiceElement), null);
         }
 
-        [TestMethod]
+        [Test]
         public void InvalidPluginAssemblyTypeUsageDetectorFailureTest()
         {
             Mock<IServiceElement> CreateMockElement()
@@ -266,10 +266,9 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                     ConfigurationFileAttributeNames.TypeRef);
             }, typeof(IServiceElement), null);
         }
-
-        [DataTestMethod]
-        [DataRow(true)]
-        [DataRow(false)]
+        
+        [TestCase(true)]
+        [TestCase(false)]
         public void TypeParserFailureTest(bool useTypeParserMockThatAlwaysFails)
         {
             string typeFullName = "System.Collections.Generic.IEnumerable[SharedServices.Interfaces.IInterface1]";
@@ -312,7 +311,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             }, typeof(IServiceElement), null);
         }
 
-        [TestMethod]
+        [Test]
         public void InvalidTypeRefValueFailureTests()
         {
             string typeFullName = typeof(IInterface1).FullName;
@@ -334,7 +333,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             }, typeof(IServiceElement), null);
         }
 
-        [TestMethod]
+        [Test]
         public void TypeRefAndTypeAttributesUsedTogetherFailureTests()
         {
             string typeFullName = typeof(IInterface1).FullName;
@@ -357,7 +356,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             }, typeof(IServiceElement), null);
         }
 
-        [TestMethod]
+        [Test]
         public void TypeRefAndAssemblyAttributesUsedTogetherFailureTests()
         {
             string typeFullName = typeof(IInterface1).FullName;
@@ -381,7 +380,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             }, typeof(IServiceElement), null);
         }
         
-        [TestMethod]
+        [Test]
         public void AssemblyWithoutTypeFailureTests()
         {
             string typeFullName = typeof(IInterface1).FullName;
@@ -407,7 +406,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
         }
 
 
-        [TestMethod]
+        [Test]
         public void BothTypeAndTypeRefMissingFailureTests()
         {
             string typeFullName = typeof(IInterface1).FullName;
@@ -430,7 +429,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             }, typeof(IServiceElement), null);
         }
 
-        [TestMethod]
+        [Test]
         public void InvalidTypeSpecifiedFailureTests()
         {
             string typeFullName = typeof(IInterface1).FullName;
@@ -456,7 +455,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             }, typeof(IServiceElement), null);
         }
 
-        [TestMethod]
+        [Test]
         public void NonExistentAssemblySpecifiedFailureTests()
         {
             string typeFullName = typeof(IInterface1).FullName;
@@ -482,7 +481,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             }, typeof(IServiceElement), null);
         }
 
-        [TestMethod]
+        [Test]
         public void InvalidAssemblySpecifiedFailureTests()
         {
             string typeFullName = typeof(IInterface1).FullName;
@@ -508,7 +507,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             }, typeof(IServiceElement), null);
         }
 
-        [TestMethod]
+        [Test]
         public void GenericTypeWithAssemblySpecifiedTest1()
         {
             var typeDefinitionElementMock = CreateTypedElementMockWithParent<ITypeDefinitionsElement, ITypeDefinitionsElement>(ConfigurationFileElementNames.TypeDefinition,
@@ -523,7 +522,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 "SharedServices.Implementations.Generic.Generic1_1<TestPluginAssembly1.Implementations.Interface1_Impl1>");
         }
 
-        [TestMethod]
+        [Test]
         public void GenericTypeWithAssemblySpecifiedTest2()
         {
             var typeDefinitionElementMock = CreateTypedElementMockWithParent<ITypeDefinitionsElement, ITypeDefinitionsElement>(ConfigurationFileElementNames.TypeDefinition,
@@ -538,7 +537,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 "SharedServices.Implementations.Generic.Generic1_1<SharedServices.Implementations.Interface1_Impl1>");
         }
 
-        [TestMethod]
+        [Test]
         public void GenericLocalType()
         {
             var serviceElementMock = CreateTypedElementMockWithParent<IServices, IServiceElement>(ConfigurationFileElementNames.Service,

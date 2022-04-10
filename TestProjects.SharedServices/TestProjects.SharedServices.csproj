@@ -1,29 +1,104 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <RootNamespace>SharedServices</RootNamespace>
-  </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="ClassesUsedInDepricatedClassTests\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\2.0.0\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.2F7CE7FF-CB22-40B0-9691-EAC689C03A36.xsd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="OROptimizer.Shared" Version="2.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
-  </ItemGroup>
+	<PropertyGroup Label="Globals">
+		<SccProjectName>SAK</SccProjectName>
+		<SccProvider>SAK</SccProvider>
+		<SccAuxPath>SAK</SccAuxPath>
+		<SccLocalPath>SAK</SccLocalPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<EnableDefaultItems>false</EnableDefaultItems>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	</PropertyGroup>
+	<PropertyGroup>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<RootNamespace>SharedServices</RootNamespace>
+	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Include="DataContracts\ActionTypes.cs" />
+	  <Compile Include="FakeSettingsRequestor.cs" />
+	  <Compile Include="Implementations\ActionValidator2.cs" />
+	  <Compile Include="Implementations\ActionValidator3.cs" />
+	  <Compile Include="Implementations\Airplane\Airplane.cs" />
+	  <Compile Include="Implementations\Airplane\AirplaneEngine.cs" />
+	  <Compile Include="Implementations\Airplane\AirplaneEngineBlade.cs" />
+	  <Compile Include="Implementations\Airplane\AirplaneEngineRotor.cs" />
+	  <Compile Include="Implementations\Generic\Generic1_1.cs" />
+	  <Compile Include="Implementations\Generic\Generic2_1.cs" />
+	  <Compile Include="Implementations\Generic\Generic3_1.cs" />
+	  <Compile Include="Implementations\Generic\Generic4_2.cs" />
+	  <Compile Include="Implementations\Interface10_Impl1.cs" />
+	  <Compile Include="Implementations\Interface11_Impl1.cs" />
+	  <Compile Include="Implementations\Interface12_Impl1.cs" />
+	  <Compile Include="Implementations\Interface13_Impl1.cs" />
+	  <Compile Include="Implementations\Interface14_Impl1.cs" />
+	  <Compile Include="Implementations\Interface1_Impl1.cs" />
+	  <Compile Include="Implementations\Interface1_Impl2.cs" />
+	  <Compile Include="Implementations\Interface1_Impl3.cs" />
+	  <Compile Include="Implementations\Interface2_Impl1.cs" />
+	  <Compile Include="Implementations\Interface2_Impl2.cs" />
+	  <Compile Include="Implementations\Interface2_Impl3.cs" />
+	  <Compile Include="Implementations\Interface2_Impl4.cs" />
+	  <Compile Include="Implementations\Interface3_Impl1.cs" />
+	  <Compile Include="Implementations\Interface3_Impl2.cs" />
+	  <Compile Include="Implementations\Interface3_Impl3.cs" />
+	  <Compile Include="Implementations\Interface4_Impl1.cs" />
+	  <Compile Include="Implementations\Interface5_Impl1.cs" />
+	  <Compile Include="Implementations\Interface6_Impl1.cs" />
+	  <Compile Include="Implementations\Interface6_Impl2.cs" />
+	  <Compile Include="Implementations\Interface7_Impl1.cs" />
+	  <Compile Include="Implementations\Interface8_Impl1.cs" />
+	  <Compile Include="Implementations\Interface8_Impl2.cs" />
+	  <Compile Include="Implementations\Interface9_Impl1.cs" />
+	  <Compile Include="Implementations\Interface9_InvalidImpl_AbstrClass.cs" />
+	  <Compile Include="Implementations\Interface9_InvalidImpl_Interface.cs" />
+	  <Compile Include="Implementations\Interface9_InvalidImpl_NoPublicCOnstructor.cs" />
+	  <Compile Include="Implementations\PluginBaseForTests.cs" />
+	  <Compile Include="Implementations\SelfBoundService1.cs" />
+	  <Compile Include="Implementations\SqliteDbConnection.cs" />
+	  <Compile Include="Implementations\SqlServerDbConnection.cs" />
+	  <Compile Include="Implementations\StartupActionBaseForTests.cs" />
+	  <Compile Include="Interfaces\Airplane\IAirplane.cs" />
+	  <Compile Include="Interfaces\Airplane\IAirplaneEngine.cs" />
+	  <Compile Include="Interfaces\Airplane\IAirplaneEngineBlade.cs" />
+	  <Compile Include="Interfaces\Airplane\IAirplaneEngineRotor.cs" />
+	  <Compile Include="Interfaces\Generic\IGeneric1_1.cs" />
+	  <Compile Include="Interfaces\Generic\IGeneric2_1.cs" />
+	  <Compile Include="Interfaces\Generic\IGeneric3_1.cs" />
+	  <Compile Include="Interfaces\Generic\IGeneric4_2.cs" />
+	  <Compile Include="Interfaces\IActionValidator.cs" />
+	  <Compile Include="Interfaces\ICleanupJob.cs" />
+	  <Compile Include="Interfaces\ICleanupJobData.cs" />
+	  <Compile Include="Interfaces\ICleanupJobFactory.cs" />
+	  <Compile Include="Interfaces\IDbConnection.cs" />
+	  <Compile Include="Interfaces\IGenericInterface1.cs" />
+	  <Compile Include="Interfaces\IInterface1.cs" />
+	  <Compile Include="Interfaces\IInterface10.cs" />
+	  <Compile Include="Interfaces\IInterface11.cs" />
+	  <Compile Include="Interfaces\IInterface12.cs" />
+	  <Compile Include="Interfaces\IInterface13.cs" />
+	  <Compile Include="Interfaces\IInterface14.cs" />
+	  <Compile Include="Interfaces\IInterface2.cs" />
+	  <Compile Include="Interfaces\IInterface3.cs" />
+	  <Compile Include="Interfaces\IInterface4.cs" />
+	  <Compile Include="Interfaces\IInterface5.cs" />
+	  <Compile Include="Interfaces\IInterface6.cs" />
+	  <Compile Include="Interfaces\IInterface7.cs" />
+	  <Compile Include="Interfaces\IInterface8.cs" />
+	  <Compile Include="Interfaces\IInterface9.cs" />
+	  <Compile Include="Interfaces\IPluginState.cs" />
+	  <Compile Include="Interfaces\IStartupActionState.cs" />
+	  <Compile Include="StartupActionState.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="JetBrains.Annotations" Version="2020.3.0" PrivateAssets="All" ExcludeAssets="runtime" />
+	</ItemGroup>
+	<ItemGroup>
+		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\2.0.0\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+	</ItemGroup>
 </Project>

@@ -1,0 +1,10 @@
+﻿================================
+IoCConfiguration_autoService.xml
+================================
+
+This configuration file can be downloaded downloaded from `IoCConfiguration_autoService.xml <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests/IoCConfiguration_autoService.xml>`_.
+
+.. code-block:: xml
+   :linenos:
+   
+    <IncludedFilePlaceHolder>..\..\IoC.Configuration.Tests\IoCConfiguration_autoService.xml</IncludedFilePlaceHolder>  

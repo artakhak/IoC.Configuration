@@ -22,24 +22,28 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
+using IoC.Configuration.ConfigurationFile;
+using IoC.Configuration.DiContainer;
+using IoC.Configuration.DiContainerBuilder;
+using IoC.Configuration.DiContainerBuilder.FileBased;
+using IoC.Configuration.OnApplicationStart;
+using IoC.Configuration.Tests.AutoService.Services;
+using IoC.Configuration.Tests.ProxyService.Services;
+using JetBrains.Annotations;
+using NUnit.Framework;
+using OROptimizer;
+using OROptimizer.Diagnostics.Log;
+using SharedServices;
+using SharedServices.Implementations;
+using SharedServices.Interfaces;
+using SharedServices.Interfaces.Airplane;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using IoC.Configuration.ConfigurationFile;
-using IoC.Configuration.DiContainer;
-using IoC.Configuration.DiContainerBuilder;
-using IoC.Configuration.OnApplicationStart;
-using IoC.Configuration.Tests.AutoService.Services;
-using IoC.Configuration.Tests.ProxyService.Services;
-using JetBrains.Annotations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OROptimizer;
-using SharedServices;
-using SharedServices.Implementations;
-using SharedServices.Interfaces;
-using SharedServices.Interfaces.Airplane;
+using OROptimizer.Utilities.Xml;
 using TestsSharedLibrary;
 using TestsSharedLibrary.DependencyInjection;
 using TestsSharedLibrary.Diagnostics.Log;
@@ -48,9 +52,8 @@ using IInterface2 = SharedServices.Interfaces.IInterface2;
 
 namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
 {
-    public class SuccessfulConfigurationLoadTests
+    public abstract class SuccessfulConfigurationLoadTests
     {
-        #region Member Variables
         private static IContainerInfo _containerInfo;
         private static IDiContainer _diContainer;
 
@@ -61,11 +64,14 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
 
         private static List<IStartupAction> _startupActionsToTest;
 
-        #endregion
-
-        #region Member Functions
         protected static void ClassCleanupCommon()
         {
+            if (_containerInfo == null)
+            {
+                LogHelper.Context.Log.ErrorFormat("The value of {0} cannot be null.", nameof(_containerInfo));
+                return;
+            }
+            
             _containerInfo.Dispose();
 
             Assert.IsTrue(_mainLifeTimeScopeTerminatedExecuted);
@@ -76,6 +82,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
       
         protected static void ClassInitializeCommon(DiImplementationType diImplementationType, Action<ConfigurationFileXmlDocumentLoadedEventArgs> configurationFileXmlDocumentLoadedEventHandler)
         {
+            // JetBrains.ReSharper.TestRunner.Merged
             TestsHelper.SetupLogger();
             Log4Tests.LogLevel = LogLevel.Debug;
 
@@ -83,20 +90,29 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
 
             _mainLifeTimeScopeTerminatedExecuted = false;
             var diContainerBuilder = new DiContainerBuilder.DiContainerBuilder();
-            _containerInfo = diContainerBuilder.StartFileBasedDi(
-                                                   new FileBasedConfigurationFileContentsProvider(
-                                                       Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")),
-                                                   Helpers.TestsEntryAssemblyFolder,
-                                                   (sender, e) =>
-                                                   {
-                                                       Helpers.ReplaceActiveDiManagerInConfigurationFile(e.XmlDocument, _diImplementationType);
-                                                       configurationFileXmlDocumentLoadedEventHandler?.Invoke(e);
-                                                   })
-                                               .WithoutPresetDiContainer()
-                                               .AddAdditionalDiModules(new TestModule2())
-                                               .RegisterModules()
-                                               .Start();
 
+
+            var fileBasedConfigurationParameters = new FileBasedConfigurationParameters(new FileBasedConfigurationFileContentsProvider(
+                    Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")),
+                Helpers.TestsEntryAssemblyFolder, new LoadedAssembliesForTests())
+            {
+                AttributeValueTransformers = new[] { new FileFolderPathAttributeValueTransformer() },
+                ConfigurationFileXmlDocumentLoaded = (sender, e) =>
+                {
+                    Helpers.EnsureConfigurationDirectoryExistsOrThrow(e.XmlDocument.SelectElement("/iocConfiguration/appDataDir").GetAttribute("path"));
+
+                    Helpers.ReplaceActiveDiManagerInConfigurationFile(e.XmlDocument, _diImplementationType);
+                    configurationFileXmlDocumentLoadedEventHandler?.Invoke(e);
+                }
+            };
+
+            _containerInfo = diContainerBuilder.StartFileBasedDi(
+                    fileBasedConfigurationParameters, out _)
+                .WithoutPresetDiContainer()
+                .AddAdditionalDiModules(new TestModule2())
+                .RegisterModules()
+                .Start();
+            
             _diContainer = _containerInfo.DiContainer;
 
             var injectedStartupActionsHelper = _diContainer.Resolve<ClassToTestServicesInjection<IStartupAction>>();
@@ -130,15 +146,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             return allModules[0];
         }
 
-        [TestMethod]
-        public void LoadAlwaysAttributeTest()
-        {
-            // Test attributes "loadAlways" and "overrideDirectory" in element "assembly"
-            Assert.IsNotNull(AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(
-                x => "TestProjects.TestForceLoadAssembly".Equals(x.GetName().Name, StringComparison.OrdinalIgnoreCase)));
-        }
-
-        [TestMethod]
+        [Test]
         public void PluginSettingsTest_SettingInGlobalSettings()
         {
             var pluginRepository = _diContainer.Resolve<IPluginDataRepository>();
@@ -149,44 +157,51 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             Assert.AreEqual(pluginData.Settings.GetSettingValueOrThrow<double>("MaxCharge"), 155.7);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(Exception))]
+        [Test]
         public void PluginSettingsTest_SettingInPluginSettings()
         {
-            var pluginRepository = _diContainer.Resolve<IPluginDataRepository>();
+            TestsSharedLibrary.TestsHelper.ValidateExceptionIsThrown(() =>
+            {
+                var pluginRepository = _diContainer.Resolve<IPluginDataRepository>();
 
-            var pluginData = pluginRepository.GetPluginData("Plugin1");
+                var pluginData = pluginRepository.GetPluginData("Plugin1");
 
-            Assert.AreEqual(pluginData.Settings.GetSettingValueOrThrow<int>("Int32Setting1"), 25);
+                Assert.AreEqual(pluginData.Settings.GetSettingValueOrThrow<int>("Int32Setting1"), 25);
 
-            // This line will throw an exception, since the setting is of int type.
-            Assert.AreEqual(pluginData.Settings.GetSettingValueOrThrow<double>("Int32Setting1"), 25);
+                // This line will throw an exception, since the setting is of int type.
+                Assert.AreEqual(pluginData.Settings.GetSettingValueOrThrow<double>("Int32Setting1"), 25);
+            });
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(Exception))]
+        [Test]
         public void SettingInConfigurationButWithDifferentTypeTest()
         {
-            var settings = _diContainer.Resolve<ISettings>();
-            Assert.IsTrue(settings.GetSettingValue("MaxCharge", 17.5, out var settingValueDouble) && settingValueDouble == 155.7);
-            Assert.IsTrue(!settings.GetSettingValue("MaxCharge", 17, out var settingValueInt) && settingValueInt == 17);
+            TestsSharedLibrary.TestsHelper.ValidateExceptionIsThrown(() =>
+            {
+                var settings = _diContainer.Resolve<ISettings>();
+                Assert.IsTrue(settings.GetSettingValue("MaxCharge", 17.5, out var settingValueDouble) && settingValueDouble == 155.7);
+                Assert.IsTrue(!settings.GetSettingValue("MaxCharge", 17, out var settingValueInt) && settingValueInt == 17);
 
-            // This line will throw an exception.
-            settings.GetSettingValueOrThrow<int>("MaxCharge");
+                // This line will throw an exception.
+                settings.GetSettingValueOrThrow<int>("MaxCharge");
+            });
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(Exception))]
+        [Test]
         public void SettingNotInConfigurationTest()
         {
-            var settings = _diContainer.Resolve<ISettings>();
-            Assert.IsTrue(!settings.GetSettingValue("NoSuchSetting", 15.3, out var settingValue) && settingValue == 15.3);
+            TestsSharedLibrary.TestsHelper.ValidateExceptionIsThrown(() =>
+            {
+                var settings = _diContainer.Resolve<ISettings>();
+                Assert.IsTrue(!settings.GetSettingValue("NoSuchSetting", 15.3, out var settingValue) &&
+                              settingValue == 15.3);
 
-            // This line will throw an exception.
-            settings.GetSettingValueOrThrow<int>("NoSuchSetting");
+                // This line will throw an exception.
+                settings.GetSettingValueOrThrow<int>("NoSuchSetting");
+            });
         }
 
-        [TestMethod]
+        [Test]
         public void SettingsTest()
         {
             var settings = _diContainer.Resolve<ISettings>();
@@ -195,7 +210,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             Assert.AreEqual(settings.GetSettingValueOrThrow<double>("MaxCharge"), 155.7);
         }
 
-        [TestMethod]
+        [Test]
         public void StartupActionAndPluginsStartedTest()
         {
             ValidateStartupActions(StartupActionState.StartCalled);
@@ -212,45 +227,45 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             Assert.AreEqual(expectedReturnTypes.Length, returnedObjects.Count);
 
             for (var i = 0; i < returnedObjects.Count; ++i)
-                Assert.IsInstanceOfType(returnedObjects[i], expectedReturnTypes[i]);
+                Assert.IsInstanceOf(expectedReturnTypes[i], returnedObjects[i]);
         }
        
-        [TestMethod]
+        [Test]
         public void TestConstructedSettingValueInjectedIntoServiceImplementationConstructorParamsAndProperties()
         {
             var servicesInjectionTester = _diContainer.Resolve<ClassToTestServicesInjection<IInterface12>>();
-            Assert.IsInstanceOfType(servicesInjectionTester.Implementations[0], typeof(Interface12_Impl1));
+            Assert.IsInstanceOf<Interface12_Impl1>(servicesInjectionTester.Implementations[0]);
 
             var interface12_Value = (Interface12_Impl1)servicesInjectionTester.Implementations[0];
 
-            Assert.IsInstanceOfType(interface12_Value.Property1, typeof(Interface11_Impl1));
-            Assert.IsInstanceOfType(interface12_Value.Property2, typeof(Interface11_Impl1));
+            Assert.IsInstanceOf<Interface11_Impl1>(interface12_Value.Property1);
+            Assert.IsInstanceOf<Interface11_Impl1>(interface12_Value.Property2);
             Assert.AreSame(interface12_Value.Property1, interface12_Value.Property2);
 
             var interface11_Value = (Interface11_Impl1)interface12_Value.Property1;
 
-            Assert.IsInstanceOfType(interface11_Value.Property1, typeof(Interface10_Impl1));
+            Assert.IsInstanceOf<Interface10_Impl1>(interface11_Value.Property1);
             Assert.AreEqual(13, interface11_Value.Property1.Property1);
-            Assert.AreEqual("Value 1", interface11_Value.Property1.Property2, false);
+            Assert.AreEqual("Value 1", interface11_Value.Property1.Property2);
 
-            Assert.IsInstanceOfType(interface11_Value.Property2, typeof(Interface10_Impl1));
+            Assert.IsInstanceOf<Interface10_Impl1>(interface11_Value.Property2);
             Assert.AreEqual(17, interface11_Value.Property2.Property1);
-            Assert.AreEqual("Value 2", interface11_Value.Property2.Property2, false);
+            Assert.AreEqual("Value 2", interface11_Value.Property2.Property2);
         }
 
-        [TestMethod]
+        [Test]
         public void TestSettingValueUsedAsServiceImplementation()
         {
             var servicesInjectionTester = _diContainer.Resolve<ClassToTestServicesInjection<IDbConnection>>();
 
-            Assert.IsInstanceOfType(servicesInjectionTester.Implementations[0], typeof(SqliteDbConnection));
+            Assert.IsInstanceOf<SqliteDbConnection>(servicesInjectionTester.Implementations[0]);
 
             var sqliteDbConnection = (SqliteDbConnection)servicesInjectionTester.Implementations[0];
 
             Assert.AreEqual(@"c:\SQLiteFiles\MySqliteDb.sqlite", sqliteDbConnection.FilePath);
         }
 
-        [TestMethod]
+        [Test]
         public void TestCircularReferences()
         {
             var interface3Impl = _diContainer.Resolve<IInterface3>();
@@ -268,7 +283,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
         ///     <see cref="IoC.Configuration.DiContainer.ModuleAbstr.AddServiceRegistrations" />.
         ///     This test just does a basic smoke test of modules.
         /// </summary>
-        [TestMethod]
+        [Test]
         public void TestCommonAndPluginModules()
         {
             var injectionTest = _diContainer.Resolve<ClassToTestServicesInjection<IInterface1>>();
@@ -297,7 +312,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             injectionTest.ValidateImplementationTypes(implementationTypes);
         }
 
-        [TestMethod]
+        [Test]
         public void TestConstructorParametersAndInjectedPropertiesInImplementation()
         {
             var injectedServicesWrapper = _diContainer.Resolve<ClassToTestServicesInjection<IInterface2>>();
@@ -362,7 +377,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TestConstructedValueInjectedIntoServiceImplementationConstructorParametersAndProperties()
         {
             var injectedServicesWrapper = _diContainer.Resolve<ClassToTestServicesInjection<IAirplane>>();
@@ -386,7 +401,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
 
        
 
-        [TestMethod]
+        [Test]
         public void TestLifetimeScope()
         {
             var interfaceType = Helpers.GetType("DynamicallyLoadedAssembly1.Interfaces.IInterface3");
@@ -396,7 +411,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             var service2InMainScope = _diContainer.Resolve(interfaceType);
 
             Assert.AreSame(service1InMainScope, service2InMainScope);
-            Assert.AreEqual("DynamicallyLoadedAssembly1.Implementations.Interface3_Impl1", service1InMainScope.GetType().FullName, false);
+            Assert.AreEqual("DynamicallyLoadedAssembly1.Implementations.Interface3_Impl1", service1InMainScope.GetType().FullName);
 
             object serviceInScope1;
             object serviceInScope2;
@@ -423,7 +438,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
         }
 
 
-        [TestMethod]
+        [Test]
         public void TestModuleConstructorParameters()
         {
             //var dependencyInjectionElement = _applicationBuilder.Configuration.DependencyInjection;
@@ -449,7 +464,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             Assert.AreEqual(103, Helpers.GetPropertyValue<int>(GetModule(dependencyInjectionElement, "ModulesForPlugin1.IoC.DiModule1").DiModule, "Property1"));
         }
 
-        [TestMethod]
+        [Test]
         public void TestMultipleConstructors()
         {
             ConstructorInfo constructorInfo;
@@ -463,18 +478,18 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             var injectionTester = _diContainer.Resolve<ClassToTestServicesInjection<IInterface8>>();
 
             Assert.AreEqual(2, injectionTester.Implementations.Count);
-            Assert.IsInstanceOfType(injectionTester.Implementations[0], typeof(Interface8_Impl1));
-            Assert.IsInstanceOfType(injectionTester.Implementations[1], typeof(Interface8_Impl2));
+            Assert.IsInstanceOf<Interface8_Impl1>(injectionTester.Implementations[0]);
+            Assert.IsInstanceOf<Interface8_Impl2>(injectionTester.Implementations[1]);
 
             var implementation1 = (Interface8_Impl1) injectionTester.Implementations[0];
             Assert.IsNull(implementation1.Property1, "Default constructor should have been used, therefore Property1 should have been null.");
 
             var implementation2 = (Interface8_Impl2) injectionTester.Implementations[1];
             Assert.IsNotNull(implementation2.Property1, "Non default constructor should have been used, therefore Property1 should have been non-null.");
-            Assert.IsInstanceOfType(implementation2.Property1, typeof(Interface9_Impl1));
+            Assert.IsInstanceOf<Interface9_Impl1>(implementation2.Property1);
         }
 
-        [TestMethod]
+        [Test]
         public void TestNestedLifetimeScopes()
         {
             var interfaceType = Helpers.GetType("DynamicallyLoadedAssembly1.Interfaces.IInterface3");
@@ -497,7 +512,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TestObjectTypeConstructorParameters()
         {
             var room = _diContainer.Resolve(Helpers.GetType("TestPluginAssembly1.Interfaces.IRoom"));
@@ -510,7 +525,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             Assert.AreEqual(Helpers.GetPropertyValue<double>(doorPropertyValue, "Height"), 185.1);
         }
 
-        [TestMethod]
+        [Test]
         public void TestObjectTypePropertyInjection()
         {
             var room = _diContainer.Resolve(Helpers.GetType("TestPluginAssembly1.Interfaces.IRoom"));
@@ -524,7 +539,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
         }
 
 
-        [TestMethod]
+        [Test]
         public void TestPluginConstructorParameterInjections()
         {
             var pluginRepository = _diContainer.Resolve<IPluginDataRepository>();
@@ -533,7 +548,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             Assert.AreEqual(Helpers.GetPropertyValue<long>(pluginData.Plugin, "Property1"), 25, "Configuration file specifies param1=25 injected into constructor.");
         }
 
-        [TestMethod]
+        [Test]
         public void TestPluginPropertyInjection()
         {
             var pluginRepository = _diContainer.Resolve<IPluginDataRepository>();
@@ -543,7 +558,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             Assert.AreEqual(Helpers.GetPropertyValue<long>(pluginData.Plugin, "Property2"), 35, "Configuration file specifies 35 in property injection element.");
         }
 
-        [TestMethod]
+        [Test]
         public void TestRegisterIfNotRegistered()
         {
             var injectionTester1 = _diContainer.Resolve<ClassToTestServicesInjection<IInterface6>>();
@@ -559,7 +574,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             injectionTester2.ValidateHasImplementation(typeof(Interface7_Impl1));
         }
 
-        [TestMethod]
+        [Test]
         public void TestRegisterIfNotRegisteredInSelfBoundService()
         {
             var configuration = _diContainer.Resolve<IConfiguration>();
@@ -571,7 +586,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             Assert.IsNotNull(_diContainer.Resolve<SelfBoundService1>());
         }
 
-        [TestMethod]
+        [Test]
         public void TestSelfBoundServiceConstructorParametersInjection()
         {
             var serviceType = Helpers.GetType("DynamicallyLoadedAssembly1.Implementations.SelfBoundService1");
@@ -582,7 +597,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             Assert.IsTrue(Helpers.GetType("DynamicallyLoadedAssembly1.Interfaces.IInterface1").IsAssignableFrom(Helpers.GetPropertyValue<object>(resolvedObject, "Property3").GetType()));
         }
 
-        [TestMethod]
+        [Test]
         public void TestSelfBoundServiceInLifetimeScope()
         {
             var serviceType = Helpers.GetType("DynamicallyLoadedAssembly1.Implementations.SelfBoundService3");
@@ -617,7 +632,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             Assert.AreNotSame(serviceInScope1, serviceInScope2);
         }
 
-        [TestMethod]
+        [Test]
         public void TestSelfBoundServiceInSingletoneScope()
         {
             var serviceType = Helpers.GetType("DynamicallyLoadedAssembly1.Implementations.SelfBoundService1");
@@ -629,7 +644,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             Assert.AreSame(implementation1, implementation2);
         }
 
-        [TestMethod]
+        [Test]
         public void TestSelfBoundServiceInTransientScope()
         {
             var serviceType = Helpers.GetType("DynamicallyLoadedAssembly1.Implementations.SelfBoundService2");
@@ -641,7 +656,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             Assert.AreNotSame(service1, service2);
         }
 
-        [TestMethod]
+        [Test]
         public void TestSelfBoundServicePropertiesInjections()
         {
             var serviceType = Helpers.GetType("DynamicallyLoadedAssembly1.Implementations.SelfBoundService2");
@@ -652,7 +667,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             Assert.IsTrue(Helpers.GetType("DynamicallyLoadedAssembly1.Interfaces.IInterface1").IsAssignableFrom(Helpers.GetPropertyValue<object>(resolvedObject, "Property3").GetType()));
         }
 
-        [TestMethod]
+        [Test]
         public void TestServiceImplementationsInPlugins()
         {
             var servicesInjectionTester = _diContainer.Resolve<ClassToTestServicesInjection<IInterface5>>();
@@ -665,24 +680,24 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             servicesInjectionTester.ValidateDoesNotHaveImplementation("TestPluginAssembly3.Implementations.Interface5_Plugin3Impl");
         }
 
-        [TestMethod]
+        [Test]
         public void TestServicesDefinedInPlugin()
         {
             var room = _diContainer.Resolve(Helpers.GetType("TestPluginAssembly1.Interfaces.IRoom"));
-            Assert.AreEqual(room.GetType().FullName, "TestPluginAssembly1.Implementations.Room", false);
+            Assert.AreEqual(room.GetType().FullName, "TestPluginAssembly1.Implementations.Room");
         }
 
-        [TestMethod]
+        [Test]
         public void TestSingletoneScope()
         {
             var implementation1 = _diContainer.Resolve(Helpers.GetType("DynamicallyLoadedAssembly1.Interfaces.IInterface1"));
             var implementation2 = _diContainer.Resolve(Helpers.GetType("DynamicallyLoadedAssembly1.Interfaces.IInterface1"));
 
             Assert.AreSame(implementation1, implementation2);
-            Assert.AreEqual("DynamicallyLoadedAssembly1.Implementations.Interface1_Impl1", implementation1.GetType().FullName, false);
+            Assert.AreEqual("DynamicallyLoadedAssembly1.Implementations.Interface1_Impl1", implementation1.GetType().FullName);
         }
 
-        [TestMethod]
+        [Test]
         public void TestTransientScope()
         {
             var implementation1 = _diContainer.Resolve(Helpers.GetType("DynamicallyLoadedAssembly1.Interfaces.IInterface2"));
@@ -690,11 +705,11 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
 
             Assert.AreNotSame(implementation1, implementation2);
 
-            Assert.AreEqual("DynamicallyLoadedAssembly1.Implementations.Interface2_Impl1", implementation1.GetType().FullName, false);
-            Assert.AreEqual(implementation1.GetType().FullName, implementation2.GetType().FullName, false);
+            Assert.AreEqual("DynamicallyLoadedAssembly1.Implementations.Interface2_Impl1", implementation1.GetType().FullName);
+            Assert.AreEqual(implementation1.GetType().FullName, implementation2.GetType().FullName);
         }
 
-        [TestMethod]
+        [Test]
         public void TestWebApiAssembliesLoaded()
         {
             var configuration = _diContainer.Resolve<IoC.Configuration.ConfigurationFile.IConfiguration>();
@@ -706,7 +721,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
 
             Assert.AreEqual(1, allControllerAssemblies.Count);
 
-            Assert.AreEqual("TestProjects.DynamicallyLoadedAssembly1", allControllerAssemblies[0].LoadedAssembly?.GetName().Name, false);
+            Assert.AreEqual("TestProjects.DynamicallyLoadedAssembly1", allControllerAssemblies[0].LoadedAssembly?.GetName().Name);
 
             var plugin1WebApi = configuration.PluginsSetup?.GetPluginSetup("Plugin1")?.WebApi;
 
@@ -716,11 +731,11 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             allControllerAssemblies = new List<IWebApiControllerAssembly>(plugin1WebApi.ControllerAssemblies.Assemblies);
 
             Assert.AreEqual(2, allControllerAssemblies.Count);
-            Assert.AreEqual("TestProjects.TestPluginAssembly1", allControllerAssemblies[0].LoadedAssembly?.GetName().Name, false);
-            Assert.AreEqual("TestProjects.Plugin1WebApiControllers", allControllerAssemblies[1].LoadedAssembly?.GetName().Name, false);
+            Assert.AreEqual("TestProjects.TestPluginAssembly1", allControllerAssemblies[0].LoadedAssembly?.GetName().Name);
+            Assert.AreEqual("TestProjects.Plugin1WebApiControllers", allControllerAssemblies[1].LoadedAssembly?.GetName().Name);
         }
 
-        [TestMethod]
+        [Test]
         public void ServiceProxyTest()
         {
             ActionValidatorsUser actionValidatorsUser = _diContainer.Resolve<ActionValidatorsUser>();
@@ -747,43 +762,25 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
                 Assert.AreEqual(((IStartupActionState) startupAction).StartupActionState, expectedSartupActionState);
         }
 
-        #endregion
-
-        #region Nested Types
-
         public class TestModule1 : ModuleAbstr
         {
-            #region Member Variables
-
             [NotNull]
             private readonly Dictionary<Type, object> _serviceTypeToMockedImplementationObjectMap;
-
-            #endregion
-
-            #region  Constructors
 
             public TestModule1([NotNull] Dictionary<Type, object> serviceTypeToMockedImplementationObjectMap)
             {
                 _serviceTypeToMockedImplementationObjectMap = serviceTypeToMockedImplementationObjectMap;
             }
 
-            #endregion
-
-            #region Member Functions
-
             protected override void AddServiceRegistrations()
             {
                 foreach (var keyValuePair in _serviceTypeToMockedImplementationObjectMap)
                     Bind(keyValuePair.Key).To(typeResolver => keyValuePair.Value);
             }
-
-            #endregion
         }
 
         public class TestModule2 : ModuleAbstr
         {
-            #region Member Functions
-
             protected override void AddServiceRegistrations()
             {
                 Bind<ClassToTestServicesInjection<IInterface1>>().ToSelf();
@@ -798,11 +795,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
                 Bind<ClassToTestServicesInjection<IDbConnection>>().ToSelf();
                 Bind<ClassToTestServicesInjection<IInterface12>>().ToSelf();
             }
-
-            #endregion
         }
-
-        #endregion
     }
 }
  

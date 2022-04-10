@@ -22,28 +22,30 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
-using System;
+
 using IoC.Configuration.DiContainer;
 using JetBrains.Annotations;
 using Ninject;
+using System;
 
 namespace IoC.Configuration.Ninject
 {
     public class NinjectDiContainer : IDiContainer
     {
-        #region Member Variables
-
         [NotNull]
         private readonly object _lockObject = new object();
 
-        #endregion
-
-        #region  Constructors
-
-        public NinjectDiContainer() : this(new StandardKernel())
+        public NinjectDiContainer() : this(new IoCConfigurationNinjectKernel())
         {
         }
 
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="kernel">
+        /// Kernel to use.
+        /// Use an instance of <see cref="IoCConfigurationNinjectKernel"/> to support binding some collection types, such as IEnumerable...(finish)
+        /// </param>
         public NinjectDiContainer(IKernel kernel)
         {
             Kernel = kernel;
@@ -52,10 +54,6 @@ namespace IoC.Configuration.Ninject
 
             MainLifeTimeScope.LifeTimeScopeTerminated += (sender, e) => { Kernel.Dispose(); };
         }
-
-        #endregion
-
-        #region IDiContainer Interface Implementation
 
         [NotNull]
         public ILifeTimeScope CurrentLifeTimeScope { get; private set; }
@@ -70,7 +68,7 @@ namespace IoC.Configuration.Ninject
 
         public T Resolve<T>() where T : class
         {
-            return (T) Resolve(typeof(T), MainLifeTimeScope);
+            return (T)Resolve(typeof(T), MainLifeTimeScope);
         }
 
         public object Resolve(Type type)
@@ -85,6 +83,14 @@ namespace IoC.Configuration.Ninject
 
         public object Resolve(Type type, ILifeTimeScope lifeTimeScope)
         {
+            // TODO (future improvement): Log resolutions based on configuration in new element
+            // <diagnostics><logTypeResolutions> 
+            // Also, use an interceptor for IDiContainer (wrapper), which will do additional diagnostics, such us storing the time of the last
+            // type that we tried to resolve (and which is still being resolved), and will show a warning, if the object was being resolved for more than couple 
+            // of seconds (along with the thread Id, and possibly the stack trace)
+            //if (LogHelper.Context.Log.IsDebugEnabled)
+            //    LogHelper.Context.Log.Debug($"Resolving type {type.FullName}. Thread Id is {Thread.CurrentThread.ManagedThreadId}.");
+
             lock (_lockObject)
             {
                 var previousLifeTimeScope = CurrentLifeTimeScope;
@@ -96,6 +102,8 @@ namespace IoC.Configuration.Ninject
                 finally
                 {
                     CurrentLifeTimeScope = previousLifeTimeScope;
+                    //if (LogHelper.Context.Log.IsDebugEnabled)
+                    //    LogHelper.Context.Log.Debug($"Did resolve type {type.FullName}. Thread Id is {Thread.CurrentThread.ManagedThreadId}.");
                 }
             }
         }
@@ -110,13 +118,16 @@ namespace IoC.Configuration.Ninject
             // Nothing to do
         }
 
-        #endregion
-
-        #region Member Functions
-
+        /* TODO: If the next version of Ninject version is ever available (V5 or higher), then
+         IKernel will be replaced with IReadOnlyKernel 
+         and the container will be instantiated as follows:       
+        
+         var kernelConfiguration = new KernelConfiguration(INinjectSettings settings, INinjectModule[] modules);
+         IReadOnlyKernel kernel = kernelConfiguration.BuildReadOnlyKernel();
+         var service = kernel.Get<T>();
+         */
         [NotNull]
         public IKernel Kernel { get; }
 
-        #endregion
     }
 }

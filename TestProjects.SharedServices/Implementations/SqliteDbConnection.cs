@@ -4,7 +4,6 @@ namespace SharedServices.Implementations
 {
     public class SqliteDbConnection : IDbConnection
     {
-
         public SqliteDbConnection(string filePath)
         {
             FilePath = filePath;

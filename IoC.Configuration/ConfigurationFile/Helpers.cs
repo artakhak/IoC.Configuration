@@ -35,9 +35,7 @@ namespace IoC.Configuration.ConfigurationFile
 {
     public static class Helpers
     {
-        #region Member Functions
-
-        private static bool AreParametersAMatch([NotNull] [ItemNotNull] MethodInfo methodInfo,
+        private static bool AreParametersAMatch([NotNull] MethodInfo methodInfo,
                                                 [NotNull] [ItemNotNull] Type[] parameterTypes)
         {
             var parameterInfos = methodInfo.GetParameters();
@@ -114,15 +112,14 @@ namespace IoC.Configuration.ConfigurationFile
 
             if (attributeValue.Length > 0)
             {
-                var attributeValueCapitalized = $"{char.ToUpper(attributeValue[0])}{attributeValue.Substring(1)}";
+                string attributeValueCapitalized;
 
                 if (attributeValue.Length == 1)
                     attributeValueCapitalized = attributeValue.ToUpper();
                 else
                     attributeValueCapitalized = $"{char.ToUpper(attributeValue[0])}{attributeValue.Substring(1)}";
 
-                var enumValue = default(T);
-                if (Enum.TryParse(attributeValueCapitalized, out enumValue))
+                if (Enum.TryParse<T>(attributeValueCapitalized, out var enumValue))
                     return enumValue;
             }
 
@@ -212,36 +209,6 @@ namespace IoC.Configuration.ConfigurationFile
             return configurationFileElement.GetAttributeValue<string>(ConfigurationFileAttributeNames.Name);
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="assemblyLocator"></param>
-        /// <param name="requestorFileElement"></param>
-        /// <param name="assemblyElement"></param>
-        /// <param name="typeFullName"></param>
-        /// <returns></returns>
-        /// <exception cref="ConfigurationParseException">Throws this exception if the type is not in an assembly.</exception>
-        [Obsolete("Use ITypeHelper.GetTypeInfo(). Will be removed after 5/31/2019.")]
-        internal static Type GetTypeInAssembly([NotNull] IAssemblyLocator assemblyLocator, [NotNull] IConfigurationFileElement requestorFileElement, [NotNull] IAssembly assemblyElement, [NotNull] string typeFullName)
-        {
-            System.Reflection.Assembly assembly = null;
-
-            try
-            {
-                assembly = assemblyLocator.LoadAssembly(Path.GetFileName(assemblyElement.AbsolutePath), Path.GetDirectoryName(assemblyElement.AbsolutePath));
-            }
-            catch
-            {
-                throw new ConfigurationParseException(assemblyElement, $"Failed to load assembly '{assemblyElement.AbsolutePath}'.");
-            }
-
-            var type = assembly.GetType(typeFullName, false, false);
-
-            if (type == null)
-                throw new ConfigurationParseException(requestorFileElement, $"Type '{typeFullName}' was not found in an assembly '{assemblyElement.AbsolutePath}'. Assembly is specified in an element '{ConfigurationFileElementNames.Assembly}' with the value of attribute '{ConfigurationFileAttributeNames.Alias}' equal to '{assemblyElement.Alias}'.");
-
-            return type;
-        }
-
         public static bool IsMethodAMatch(MethodInfo methodInfo, string methodName, Type[] parameterTypes)
         {
             return methodInfo.IsPublic &&
@@ -258,8 +225,8 @@ namespace IoC.Configuration.ConfigurationFile
 
             for (var attrIndex = 0; attrIndex < xmlElement.Attributes.Count; ++attrIndex)
             {
-                var attriute = xmlElement.Attributes[attrIndex];
-                xmlElementText.Append($" {attriute.Name}=\"{attriute.Value}\"");
+                var attribute = xmlElement.Attributes[attrIndex];
+                xmlElementText.Append($" {attribute.Name}=\"{attribute.Value}\"");
             }
 
             if (!xmlElement.HasChildNodes)
@@ -270,6 +237,46 @@ namespace IoC.Configuration.ConfigurationFile
             return xmlElementText.ToString();
         }
 
-        #endregion
+        // EnsureConfigurationDirectoryExistsOrThrow code might be uncommented some-time in the future. If not, will be removed
+        ///// <summary>
+        ///// Checks if directory specified in parameter <paramref name="directoryPath"/> exists, and tries to create the directory, if it does not exist.
+        ///// </summary>
+        ///// <exception cref="ConfigurationParseException">Throws this exception if the directory does not exist and could not be created.</exception>
+        //public static void EnsureConfigurationDirectoryExistsOrThrow([NotNull] IConfigurationFileElement configurationFileElement, [NotNull] string directoryPath,
+        //    [NotNull] string attributeName)
+        //{
+        //    if (TryEnsureConfigurationDirectoryExists(directoryPath))
+        //        return;
+
+        //    throw new ConfigurationParseException(configurationFileElement, $"Directory '{directoryPath}' specified in attribute '{attributeName}' does not exist.");
+        //}
+
+        // EnsureConfigurationDirectoryExistsOrThrow code might be uncommented some-time in the future. If not, will be removed
+        ///// <summary>
+        ///// Checks if directory specified in parameter <paramref name="directoryPath"/> exists, and tries to create the directory, if it does not exist.
+        ///// </summary>
+        //public static bool TryEnsureConfigurationDirectoryExists([NotNull] string directoryPath)
+        //{
+        //    if (Directory.Exists(directoryPath))
+        //        return true;
+
+        //    var errorMessageTemplate = "Failed to create the directory '{0}'.";
+
+        //    try
+        //    {
+        //        var directoryInfo = Directory.CreateDirectory(directoryPath);
+
+        //        if (directoryInfo.Exists)
+        //            return true;
+
+        //        LogHelper.Context.Log.Error(string.Format(errorMessageTemplate, directoryPath));
+        //        return false;
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        LogHelper.Context.Log.Error(string.Format(errorMessageTemplate, directoryPath), e);
+        //        return false;
+        //    }
+        //}
     }
 }

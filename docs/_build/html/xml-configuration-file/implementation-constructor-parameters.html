@@ -1,0 +1,244 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Implementation Type Constructor Parameters &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Property Injection" href="property-injection.html" />
+    <link rel="prev" title="Element valueImplementation" href="element-value-implementation.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="property-injection.html" title="Property Injection"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="element-value-implementation.html" title="Element valueImplementation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >XML Configuration File</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="dependency-injection.html" >Dependency Injection</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="service-bindings.html" accesskey="U">Service Bindings</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Implementation Type Constructor Parameters</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="implementation-type-constructor-parameters">
+<h1>Implementation Type Constructor Parameters<a class="headerlink" href="#implementation-type-constructor-parameters" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<ul class="simple">
+<li><p><a class="reference internal" href="#element-parameters" id="id1">Element parameters</a></p></li>
+<li><p><a class="reference internal" href="#example-1" id="id2">Example 1</a></p></li>
+<li><p><a class="reference internal" href="#example-2" id="id3">Example 2</a></p></li>
+<li><p><a class="reference internal" href="#example-3" id="id4">Example 3</a></p></li>
+</ul>
+</div>
+<p>Normally we do not need to specify constructor parameters when specifying type bindings, since the constuctor parameters will be injected. However, in some cases we want to explicitly specify constructor parameter values in bound type.</p>
+<p>Here are some of the cases when explicitly specifying constructor parameters might be useful:</p>
+<ul class="simple">
+<li><p>The bound type has multiple constructors, and we want to explicitly specify which constructor should be used.</p></li>
+<li><p>The bound type constructor has some parameters, which cannot be injected since no bindings are provided for the types of these parameters.</p></li>
+<li><p>We want to explicitly specify the constructor parameter values (say for primitive types, such as System.Int32, System.Double, etc), instead of relying on <strong>IoC</strong> container to inject these constructor parameter values.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Normally, if there are multiple constructors, the <strong>IoC</strong> container will pick the constructor with largest number of parameters. This pattern is true for <strong>Autofac</strong> and <strong>Ninject</strong>, however might be different for other implementations.</p>
+</div>
+<section id="element-parameters">
+<h2><a class="toc-backref" href="#id1">Element parameters</a><a class="headerlink" href="#element-parameters" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Use <strong>parameters</strong> in element <strong>implementation</strong> or <strong>selfBoundService</strong> to provide constructor parameter values.</p></li>
+<li><p>If <strong>parameters</strong> is used without any values (see Example 1 below), than the default constructor will be used to construct an instance of bound type, even if there are other constructors. In this case an exception will be thrown if the bound type does not have a default constructor. To let the <strong>IoC</strong> pick the constructor, do not use any <strong>parameters</strong> element in <strong>implementation</strong> and <strong>selfBoundService</strong> elements.</p></li>
+<li><p><strong>IoC.Configuration</strong> will use parameter serializers specified in element <strong>iocConfiguration/parameterSerializers</strong> to de-serialize the values of parameters specified in child elements of element <strong>parameters</strong> (see <a class="reference internal" href="parameter-serializers.html"><span class="doc">Parameter Serializers</span></a>).</p></li>
+<li><p>When the <strong>IoC.Configuration</strong> uses reflection to find the constructor using parameter types specified under <strong>parameters</strong> element. If no constructor is found, and exception will be thrown.</p></li>
+</ul>
+</section>
+<section id="example-1">
+<h2><a class="toc-backref" href="#id2">Example 1</a><a class="headerlink" href="#example-1" title="Permalink to this headline">¶</a></h2>
+<p>In the example below, type <strong>DynamicallyLoadedAssembly1.Implementations.SelfBoundService1</strong> is bound to itself.</p>
+<ul class="simple">
+<li><p>When injecting an instance of <strong>DynamicallyLoadedAssembly1.Implementations.SelfBoundService1</strong>, the object will be constructed using the constructor with three parameters of types <strong>System.Int32</strong>, <strong>System.Double</strong>, and <strong>DynamicallyLoadedAssembly1.Interfaces.IInterface1</strong>.</p></li>
+<li><p>The first and second parameter values will be de-serialized from textual values <strong>14</strong> and <strong>15.3</strong>.</p></li>
+<li><p>The third parameter value will be injected by <strong>IoC.Configuration</strong>, since <strong>injectedObject</strong> is used for this parameter. A binding for <strong>DynamicallyLoadedAssembly1.Interfaces.IInterface1</strong> should be specified in XML configuration file or in modules being loaded.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>IoC.Configuration</strong> will automatically register a self bound service for a type specified in element <strong>injectedObject</strong>, if the type is not an abstract type or an interface, and if it is not already registered in configuration file. Therefore, if in example below we replace <strong>DynamicallyLoadedAssembly1.Interfaces.IInterface1</strong> with <strong>DynamicallyLoadedAssembly1.Interfaces.IInterface1_Implementation</strong> (i.e., non-abstract implementation of <strong>DynamicallyLoadedAssembly1.Interfaces.IInterface1</strong>), there will be no need to provide a binding for <strong>DynamicallyLoadedAssembly1.Interfaces.IInterface1_Implementation</strong>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Using <strong>injectedObject</strong>, we can specify a type other than a type registered for interface <strong>DynamicallyLoadedAssembly1.Interfaces.IInterface1</strong> (i.e., the type of parameter <strong>param3</strong>). In other words, no matter what bindings are specified for interface <strong>DynamicallyLoadedAssembly1.Interfaces.IInterface1</strong>, the object injected for parameter <strong>param3</strong> will be of type specified in <strong>injectedObject</strong> element.</p>
+</div>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;selfBoundService</span> <span class="na">type=</span><span class="s">&quot;DynamicallyLoadedAssembly1.Implementations.SelfBoundService1&quot;</span>
+                  <span class="na">assembly=</span><span class="s">&quot;dynamic1&quot;</span>
+                  <span class="na">scope=</span><span class="s">&quot;singleton&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;parameters&gt;</span>
+        <span class="nt">&lt;int32</span> <span class="na">name=</span><span class="s">&quot;param1&quot;</span> <span class="na">value=</span><span class="s">&quot;14&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;double</span> <span class="na">name=</span><span class="s">&quot;param2&quot;</span> <span class="na">value=</span><span class="s">&quot;15.3&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;injectedObject</span> <span class="na">name=</span><span class="s">&quot;param3&quot;</span>
+                        <span class="na">type=</span><span class="s">&quot;DynamicallyLoadedAssembly1.Interfaces.IInterface1&quot;</span>
+                        <span class="na">assembly=</span><span class="s">&quot;dynamic1&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/parameters&gt;</span>
+<span class="nt">&lt;/selfBoundService&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2">
+<h2><a class="toc-backref" href="#id3">Example 2</a><a class="headerlink" href="#example-2" title="Permalink to this headline">¶</a></h2>
+<p>In the example below, interface <strong>SharedServices.Interfaces.IRoom</strong> is bound to class <strong>SharedServices.Implementations.Room</strong>.</p>
+<p>When injecting an instance of <strong>SharedServices.Interfaces.IRoom</strong>, an object of type <strong>SharedServices.Implementations.Room</strong> will be constructed using a constructor with two parameter, both of type <strong>SharedServices.Interfaces.IDoor</strong>.</p>
+<ul class="simple">
+<li><p>The first parameter value will be de-seriazed from string <strong>“5,185.1”</strong> provided in attribute <strong>value</strong> in element <strong>object</strong>. A parameter serializer for type <strong>SharedServices.Interfaces.IDoor</strong> should be specified in element <strong>iocConfiguration/parameterSerializers/serializers</strong> (see <a class="reference internal" href="parameter-serializers.html"><span class="doc">Parameter Serializers</span></a> for more details).</p></li>
+<li><p>The second parameter value will be injected by <strong>IoC.Configuration</strong>, since <strong>injectedObject</strong> is used for parameter value.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>IoC.Configuration</strong> will automatically register a self bound service for a type specified in element <strong>injectedObject</strong>, if the type is not an abstract type or an interface, and if it is not already registered in configuration file. Therefore, no need to register a binding for type <strong>SharedServices.Interfaces.OakDoor</strong> used in <strong>injectedObject</strong> for parameter <strong>door2</strong>, since this type is non-abstract and non-interface.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Using <strong>injectedObject</strong>, we can specify a type other than a type registered for interface <strong>SharedServices.Interfaces.IDoor</strong> (i.e., the type of parameter <strong>door2</strong>). In other words, no matter what bindings are specified for interface <strong>SharedServices.Interfaces.IDoor</strong>, the object injected for parameter <strong>door2</strong> will be of type specified in <strong>injectedObject</strong> element.</p>
+</div>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;service</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Interfaces.IRoom&quot;</span> <span class="na">assembly=</span><span class="s">&quot;shared_services&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;implementation</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Implementations.Room&quot;</span>
+                    <span class="na">assembly=</span><span class="s">&quot;shared_services&quot;</span>
+                    <span class="na">scope=</span><span class="s">&quot;transient&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;parameters&gt;</span>
+            <span class="nt">&lt;object</span> <span class="na">name=</span><span class="s">&quot;door1&quot;</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Interfaces.IDoor&quot;</span>
+                    <span class="na">assembly=</span><span class="s">&quot;shared_services&quot;</span>
+                    <span class="na">value=</span><span class="s">&quot;5,185.1&quot;</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;injectedObject</span> <span class="na">name=</span><span class="s">&quot;door2&quot;</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Interfaces.OakDoor&quot;</span>
+                            <span class="na">assembly=</span><span class="s">&quot;shared_services&quot;</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/parameters&gt;</span>
+    <span class="nt">&lt;/implementation&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-3">
+<h2><a class="toc-backref" href="#id4">Example 3</a><a class="headerlink" href="#example-3" title="Permalink to this headline">¶</a></h2>
+<p>In the example below, a default constructor will be used to construct an instance of <strong>SharedServices.Implementations.Interface8_Impl1</strong>, even though type <strong>SharedServices.Implementations.Interface8_Impl1</strong> has also a non default constructor. The reason the default constructor is picked is that empty <strong>parameters</strong> element is used under element <strong>implementation</strong>.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;service</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Interfaces.IInterface8&quot;</span>
+                 <span class="na">assembly=</span><span class="s">&quot;shared_services&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;implementation</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Implementations.Interface8_Impl1&quot;</span>
+                            <span class="na">assembly=</span><span class="s">&quot;shared_services&quot;</span>
+                            <span class="na">scope=</span><span class="s">&quot;singleton&quot;</span><span class="nt">&gt;</span>
+
+        <span class="nt">&lt;parameters&gt;</span>
+        <span class="nt">&lt;/parameters&gt;</span>
+    <span class="nt">&lt;/implementation&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+<p>In the example below, non-default constructor will be used to construct an instance of <strong>SharedServices.Implementations.Interface8_Impl1</strong>, since no <strong>parameters</strong> element is used, and the type <strong>SharedServices.Implementations.Interface8_Impl1</strong> has both parameter-less constructor as well as constructor with parameters.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;service</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Interfaces.IInterface8&quot;</span>
+                 <span class="na">assembly=</span><span class="s">&quot;shared_services&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;implementation</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Implementations.Interface8_Impl1&quot;</span>
+                            <span class="na">assembly=</span><span class="s">&quot;shared_services&quot;</span>
+                            <span class="na">scope=</span><span class="s">&quot;singleton&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;/implementation&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Implementation Type Constructor Parameters</a><ul>
+<li><a class="reference internal" href="#element-parameters">Element parameters</a></li>
+<li><a class="reference internal" href="#example-1">Example 1</a></li>
+<li><a class="reference internal" href="#example-2">Example 2</a></li>
+<li><a class="reference internal" href="#example-3">Example 3</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="element-value-implementation.html"
+                          title="previous chapter">Element <strong>valueImplementation</strong></a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="property-injection.html"
+                          title="next chapter">Property Injection</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/xml-configuration-file/implementation-constructor-parameters.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="property-injection.html" title="Property Injection"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="element-value-implementation.html" title="Element valueImplementation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >XML Configuration File</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="dependency-injection.html" >Dependency Injection</a> &#187;</li>
+          <li class="nav-item nav-item-3"><a href="service-bindings.html" >Service Bindings</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Implementation Type Constructor Parameters</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

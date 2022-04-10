@@ -1,25 +1,25 @@
 ﻿using IoC.Configuration.Tests.AutoService.Services;
 using IoC.Configuration.Tests.TestTemplateFiles;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SharedServices.DataContracts;
 using SharedServices.Implementations;
 using SharedServices.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using SharedServices.DataContracts;
+using NUnit.Framework;
 
 namespace IoC.Configuration.Tests.AutoService
 {
-    public class AutoServiceSuccessfulLoadTests : IoCConfigurationTestsForSuccessfullLoad
+    public abstract class AutoServiceCustomSuccessfulLoadTests : IoCConfigurationTestsForSuccessfulLoad
     {
         // Set UseOverviewConfigurationFile to true, to test that auto-generated services are properly
         // setup in overview configuration file.
         private static bool UseOverviewConfigurationFile = false;
 
-        protected readonly static string AutoServiceConfigurationRelativePath =
+        protected static readonly string AutoServiceConfigurationRelativePath =
             UseOverviewConfigurationFile ? "IoCConfiguration_Overview.xml" : "IoCConfiguration_autoService.xml";
 
-        [TestMethod]
+        [Test]
         public void AutoService_IProjectGuids_Tests()
         {
             var projectGuids = DiContainer.Resolve<IProjectGuids>();
@@ -37,7 +37,7 @@ namespace IoC.Configuration.Tests.AutoService
             Assert.AreEqual(3, projectGuids.NotImplementedProperty);
         }
 
-        [TestMethod]
+        [Test]
         public void AutoService_IActionValidatorFactory_DefaultActionValidator_Tests()
         {
             var actionValidatorFactory = DiContainer.Resolve<IActionValidatorFactory>();
@@ -45,7 +45,7 @@ namespace IoC.Configuration.Tests.AutoService
             Assert.AreSame(DiContainer.Resolve<ActionValidatorDefault>(), actionValidatorFactory.DefaultActionValidator);
         }
 
-        [TestMethod]
+        [Test]
         public void AutoService_IActionValidatorFactory_PublicProjectId_Tests()
         {
             var actionValidatorFactory = DiContainer.Resolve<IActionValidatorFactory>();
@@ -53,7 +53,7 @@ namespace IoC.Configuration.Tests.AutoService
             Assert.AreEqual(Guid.Parse("95E352DD-5C79-49D0-BD51-D62153570B61"), actionValidatorFactory.PublicProjectId);
         }
 
-        [TestMethod]
+        [Test]
         public void AutoService_IActionValidatorFactory_GetValidators_1_Tests1()
         {
             var actionValidatorFactory = DiContainer.Resolve<IActionValidatorFactory>();
@@ -155,7 +155,7 @@ namespace IoC.Configuration.Tests.AutoService
             Assert.AreEqual("DynamicallyLoadedAssembly2.ActionValidator4", actionValidators[2].GetType().FullName);
         }
 
-        [TestMethod]
+        [Test]
         public void AutoService_IActionValidatorFactory_GetValidators_2_Tests()
         {
             var actionValidatorFactory = DiContainer.Resolve<IActionValidatorFactory>();
@@ -197,7 +197,7 @@ namespace IoC.Configuration.Tests.AutoService
             Assert.IsTrue(actionValidatorValuesProvider.DefaultActionValidator.GetType().IsNestedPrivate);
         }
 
-        [TestMethod]
+        [Test]
         public void AutoService_IMemberAmbiguityDemo_Tests()
         {
             var memberAmbiguityDemo = DiContainer.Resolve<IMemberAmbiguityDemo>();
@@ -284,19 +284,19 @@ namespace IoC.Configuration.Tests.AutoService
 
             // IMemberAmbiguityDemo_Parent2.GetNumericValue()
             Assert.AreEqual(17.3, memberAmbiguityDemo_Parent2.GetNumericValue());
-            Assert.IsInstanceOfType(memberAmbiguityDemo_Parent2.GetNumericValue(), typeof(double));
+            Assert.IsInstanceOf<double>(memberAmbiguityDemo_Parent2.GetNumericValue());
 
             // IMemberAmbiguityDemo_Parent1_Parent.GetNumericValue()
             Assert.AreEqual(19, ambiguityDemo_Parent1_Parent.GetNumericValue());
-            Assert.IsInstanceOfType(ambiguityDemo_Parent1_Parent.GetNumericValue(), typeof(int));
+            Assert.IsInstanceOf<int>(ambiguityDemo_Parent1_Parent.GetNumericValue());
 
             // IMemberAmbiguityDemo_Parent1.NumericValue
             Assert.AreEqual(18.2, memberAmbiguityDemo_Parent1.NumericValue);
-            Assert.IsInstanceOfType(memberAmbiguityDemo_Parent1.NumericValue, typeof(double));
+            Assert.IsInstanceOf<double>(memberAmbiguityDemo_Parent1.NumericValue);
 
             // IMemberAmbiguityDemo_Parent2.NumericValue
             Assert.AreEqual(14, memberAmbiguityDemo_Parent2.NumericValue);
-            Assert.IsInstanceOfType(memberAmbiguityDemo_Parent2.NumericValue, typeof(int));
+            Assert.IsInstanceOf<int>(memberAmbiguityDemo_Parent2.NumericValue);
 
             // int IMemberAmbiguityDemo.MethodWithOptionalParameters(int param1, double param2 = 3.5, int param3=7);
             Assert.AreEqual(17, memberAmbiguityDemo.MethodWithOptionalParameters(3, 3.5, 7));
@@ -313,7 +313,7 @@ namespace IoC.Configuration.Tests.AutoService
             var enumarableOfInt = ambiguityDemo_Parent1_Parent.GetIntValues(1, ref strParam);
 
             Assert.IsNull(enumarableOfInt);
-            Assert.AreEqual("str value", strParam, true);
+            Assert.IsTrue(string.Equals("str value", strParam, StringComparison.Ordinal ));
 
             // IEnumerable<int> IMemberAmbiguityDemo_Parent1_Parent.GetIntValues(out int param1, string param2);
             enumarableOfInt = ambiguityDemo_Parent1_Parent.GetIntValues(out var outParam, "some value");
@@ -321,7 +321,7 @@ namespace IoC.Configuration.Tests.AutoService
             Assert.AreEqual(0, outParam);
         }
 
-        [TestMethod]
+        [Test]
         public void AutoService_ResourceAccessValidatorFactory_Tests()
         {
             var serviceType = Helpers.GetType("TestPluginAssembly1.Interfaces.IResourceAccessValidatorFactory");
@@ -361,7 +361,7 @@ namespace IoC.Configuration.Tests.AutoService
             Assert.AreEqual(Helpers.GetType("TestPluginAssembly1.Interfaces.ResourceAccessValidator1"), validators[1].GetType());
         }
 
-        [TestMethod]
+        [Test]
         public void ReUseValueAttribute_Tests()
         {
             var actionValidatorFactory = DiContainer.Resolve<IActionValidatorFactory>();
@@ -420,7 +420,7 @@ namespace IoC.Configuration.Tests.AutoService
             validateReuseResult(validators1, validators2, false, 4);
         }
 
-        [TestMethod]
+        [Test]
         public void ParameterValue_Tests()
         {
             var appInfoFactory = DiContainer.Resolve<IAppInfoFactory>();
@@ -428,7 +428,28 @@ namespace IoC.Configuration.Tests.AutoService
             var appInfo = appInfoFactory.CreateAppInfo(10, "App 10");
 
             Assert.AreEqual(10, appInfo.AppId);
-            Assert.AreEqual("App 10", appInfo.AppDescription, false);
+            Assert.AreEqual("App 10", appInfo.AppDescription);
+        }
+
+        [Test]
+        public void NullableParametersAndReturnTypes_Tests()
+        {
+            var nullableTypesTestInterfaceInstance = DiContainer.Resolve<INullableTypesTestInterface>();
+           
+            Assert.AreEqual(17, nullableTypesTestInterfaceInstance.GetNullableInt());
+
+            var nullablesList = nullableTypesTestInterfaceInstance.GetNullablesList();
+
+            Assert.AreEqual(12, nullablesList[0]);
+            Assert.AreEqual(18, nullablesList[1]);
+
+            Assert.AreEqual(23, nullableTypesTestInterfaceInstance.MethodWithNullableParameter(null));
+
+            List<double?> nullableValuesList = new List<double?>();
+            nullableValuesList.Add(18);
+            nullableValuesList.Add(null);
+
+            Assert.AreEqual(19, nullableTypesTestInterfaceInstance.MethodWithParameterAsListOfNullableValues(nullableValuesList));
         }
     }
 }

@@ -23,11 +23,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
 using IoC.Configuration.ConfigurationFile;
-using IoC.Configuration.DynamicCode;
 using JetBrains.Annotations;
 using OROptimizer.Serializer;
+using System;
 
 namespace IoC.Configuration
 {
@@ -41,13 +40,13 @@ namespace IoC.Configuration
         /// <summary>
         ///     Creates an instance of <see cref="IAssemblyLocator" />.
         /// </summary>
-        /// <param name="getConfugurationFunc">
+        /// <param name="getConfigurationFunc">
         ///     A <see cref="System.Func{IConfiguration}" /> objects that returns an instance of
         ///     <see cref="IConfiguration" />
         /// </param>
         /// <param name="entryAssemblyFolder"></param>
         [NotNull]
-        IAssemblyLocator CreateAssemblyLocator([NotNull] Func<IConfiguration> getConfugurationFunc, [NotNull] string entryAssemblyFolder);
+        IAssemblyLocator CreateAssemblyLocator([NotNull] Func<IConfiguration> getConfigurationFunc, [NotNull] string entryAssemblyFolder);
 
         [NotNull]
         IClassMemberValueInitializerHelper CreateClassMemberValueInitializerHelper([NotNull] ITypeHelper typeHelper);
@@ -65,13 +64,6 @@ namespace IoC.Configuration
         /// <returns></returns>
         [NotNull]
         ITypeHelper CreateTypeHelper([NotNull] IAssemblyLocator assemblyLocator);
-
-        /// <summary>
-        ///     Creates an instance of <see cref="ITypesListFactoryTypeGenerator" />
-        /// </summary>
-        [NotNull]
-        [Obsolete("Will be removed after 5/31/2019")]
-        ITypesListFactoryTypeGenerator CreateTypesListFactoryTypeGenerator([NotNull] ITypeBasedSimpleSerializerAggregator typeBasedSimpleSerializerAggregator);
 
         /// <summary>
         ///     Returns instance of <see cref="IProhibitedServiceTypesInServicesElementChecker" />.

@@ -25,6 +25,7 @@
 
 using System;
 using System.Collections.Generic;
+using IoC.Configuration.DiContainer;
 using JetBrains.Annotations;
 using OROptimizer.Diagnostics.Log;
 using OROptimizer.DynamicCode;
@@ -52,12 +53,12 @@ namespace IoC.Configuration.ConfigurationFile
 
         public void AddChild(IConfigurationFileElement child)
         {
-            InterceptValueInitialzerException(() => DecoratedValueInitializerElement.AddChild(child));
+            InterceptValueInitializerException(() => DecoratedValueInitializerElement.AddChild(child));
         }
 
         public void BeforeChildInitialize(IConfigurationFileElement child)
         {
-            InterceptValueInitialzerException(() => DecoratedValueInitializerElement.BeforeChildInitialize(child));
+            InterceptValueInitializerException(() => DecoratedValueInitializerElement.BeforeChildInitialize(child));
         }
 
         public IReadOnlyList<IConfigurationFileElement> Children => DecoratedValueInitializerElement.Children;
@@ -67,11 +68,6 @@ namespace IoC.Configuration.ConfigurationFile
         public IValueInitializerElement DecoratedValueInitializerElement { get; }
 
         public string ElementName => DecoratedValueInitializerElement.ElementName;
-
-        string IConfigurationFileElement.GenerateElementError(string message, IConfigurationFileElement parentElement)
-        {
-            return ErrorHelperAmbientContext.Context.GenerateElementError(DecoratedValueInitializerElement, message, parentElement);
-        }
 
         public string GenerateValueCSharp(IDynamicAssemblyBuilder dynamicAssemblyBuilder)
         {
@@ -89,13 +85,6 @@ namespace IoC.Configuration.ConfigurationFile
             return DecoratedValueInitializerElement.GetAttributeValue(attributeName);
         }
 
-        IPluginSetup IConfigurationFileElement.GetParentPluginSetupElement()
-        {
-#pragma warning disable CS0612, CS0618
-            return DecoratedValueInitializerElement.GetParentPluginSetupElement();
-#pragma warning restore CS0612, CS0618
-        }
-
         public IPluginSetup GetPluginSetupElement()
         {
             return DecoratedValueInitializerElement.GetPluginSetupElement();
@@ -104,6 +93,11 @@ namespace IoC.Configuration.ConfigurationFile
         public bool HasAttribute(string attributeName)
         {
             return DecoratedValueInitializerElement.HasAttribute(attributeName);
+        }
+
+        public void ValidateOnContainerLoaded(IDiContainer diContainer)
+        {
+            DecoratedValueInitializerElement.ValidateOnContainerLoaded(diContainer);
         }
 
         public IPluginElement OwningPluginElement => DecoratedValueInitializerElement.OwningPluginElement;
@@ -135,19 +129,19 @@ namespace IoC.Configuration.ConfigurationFile
 
         public virtual void Initialize()
         {
-            InterceptValueInitialzerException(DecoratedValueInitializerElement.Initialize);
+            InterceptValueInitializerException(DecoratedValueInitializerElement.Initialize);
         }
 
         public virtual bool IsResolvedFromDiContainer => DecoratedValueInitializerElement.IsResolvedFromDiContainer;
 
         public virtual void ValidateAfterChildrenAdded()
         {
-            InterceptValueInitialzerException(DecoratedValueInitializerElement.ValidateAfterChildrenAdded);
+            InterceptValueInitializerException(DecoratedValueInitializerElement.ValidateAfterChildrenAdded);
         }
 
         public virtual void ValidateOnTreeConstructed()
         {
-            InterceptValueInitialzerException(DecoratedValueInitializerElement.ValidateOnTreeConstructed);
+            InterceptValueInitializerException(DecoratedValueInitializerElement.ValidateOnTreeConstructed);
         }
 
         public virtual string XmlElementToString()
@@ -159,7 +153,7 @@ namespace IoC.Configuration.ConfigurationFile
 
         #region Member Functions
 
-        private void InterceptValueInitialzerException([NotNull] Action action)
+        private void InterceptValueInitializerException([NotNull] Action action)
         {
             try
             {
@@ -188,7 +182,7 @@ namespace IoC.Configuration.ConfigurationFile
         {
             var value = default(T);
 
-            InterceptValueInitialzerException(() => { value = funcToIntercept(); });
+            InterceptValueInitializerException(() => { value = funcToIntercept(); });
 
             return value;
         }

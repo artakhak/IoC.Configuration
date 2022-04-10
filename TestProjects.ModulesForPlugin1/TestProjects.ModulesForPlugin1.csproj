@@ -6,23 +6,30 @@
     <SccLocalPath>SAK</SccLocalPath>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <RootNamespace>ModulesForPlugin1</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Autofac\AutofacModule1.cs" />
+    <Compile Include="Ninject\IoC\DiModule1.cs" />
+    <Compile Include="Ninject\IoC\DiModule2.cs" />
+    <Compile Include="Ninject\NinjectModule1.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <PackageReference Include="Autofac" Version="4.5.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />
-    <PackageReference Include="Ninject" Version="3.3.0" />
-    <PackageReference Include="OROptimizer.Shared" Version="2.0.0" />
+    <PackageReference Include="Ninject" Version="3.3.4" />
+    <PackageReference Include="IoC.Configuration.Autofac" Version="2.0.0" />
+    <PackageReference Include="IoC.Configuration.Ninject" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
     <ProjectReference Include="..\TestProjects.TestPluginAssembly1\TestProjects.TestPluginAssembly1.csproj" />
     <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
-    <ProjectReference Include="..\IoC.Configuration.Autofac\IoC.Configuration.Autofac.csproj" />
-    <ProjectReference Include="..\IoC.Configuration.Ninject\IoC.Configuration.Ninject.csproj" />
   </ItemGroup>
 </Project>

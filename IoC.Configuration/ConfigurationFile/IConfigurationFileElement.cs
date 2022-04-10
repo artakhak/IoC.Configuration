@@ -49,15 +49,8 @@ namespace IoC.Configuration.ConfigurationFile
 
         bool Enabled { get; }
 
-        [Obsolete("Will be removed after 5/31/2019. Use ErrorHelperAmbientContext.Context.GenerateElementError")]
-        string GenerateElementError([NotNull] string message, IConfigurationFileElement parentElement = null);
-
         [CanBeNull]
         string GetAttributeValue([NotNull] string attributeName);
-
-        [Obsolete("Will be removed after 5/31/2019. Use GetPluginSetupElement")]
-        [CanBeNull]
-        IPluginSetup GetParentPluginSetupElement();
 
         [CanBeNull]
         IPluginSetup GetPluginSetupElement();
@@ -65,9 +58,16 @@ namespace IoC.Configuration.ConfigurationFile
         bool HasAttribute([NotNull] string attributeName);
 
         /// <summary>
+        /// Initializes the configuration element.
         /// </summary>
-        /// <exception cref="ConfigurationParseException"></exception>
+        /// <exception cref="ConfigurationParseException">Throws this exception.</exception>
         void Initialize();
+
+        /// <summary>
+        /// Validates the configuration element after the IoC container is loaded.
+        /// </summary>
+        /// <exception cref="ConfigurationParseException">Throws this exception.</exception>
+        void ValidateOnContainerLoaded(DiContainer.IDiContainer diContainer);
 
         /// <summary>
         ///     If not null, specifies the plugin to which the element is applicable. Otherwise, the element does not belong to any

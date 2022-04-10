@@ -1,15 +1,14 @@
 ﻿using IoC.Configuration.Tests.SettingValue.Services;
 using IoC.Configuration.Tests.TestTemplateFiles;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace IoC.Configuration.Tests.SettingValue
 {
-    public class SettingValueSuccessfulLoadTests : IoCConfigurationTestsForSuccessfullLoad
+    public abstract class SettingValueSuccessfulLoadTests : IoCConfigurationTestsForSuccessfulLoad
     {
         protected readonly static string SettingValueConfigurationRelativePath = "IoCConfiguration_settingValue_ReferencingInConfiguration.xml";
 
-
-        [TestMethod]
+        [Test]
         public void ValidateSettingValues()
         {
             Assert.AreEqual(-1, Settings.GetSettingValueOrThrow<int>("defaultInt"));
@@ -19,14 +18,14 @@ namespace IoC.Configuration.Tests.SettingValue
             Assert.AreEqual("Android", Settings.GetSettingValueOrThrow<string>("android"));
         }
 
-        [TestMethod]
+        [Test]
         public void SettingValueInValueImplementationTests()
         {
             int defaultInt = (int)DiContainer.Resolve(typeof(int));
             Assert.AreEqual(Settings.GetSettingValueOrThrow<int>("defaultInt"), defaultInt);
         }
 
-        [TestMethod]
+        [Test]
         public void SettingValueInCollectionTests()
         {
             var readonlyListOfInt = DiContainer.Resolve< System.Collections.Generic.IReadOnlyList<System.Int32> > ();
@@ -35,7 +34,7 @@ namespace IoC.Configuration.Tests.SettingValue
             Assert.AreEqual(Settings.GetSettingValueOrThrow<int>("app1"), readonlyListOfInt[1]);
         }
 
-        [TestMethod]
+        [Test]
         public void SettingValueInConstructedValueTests()
         {
             var appInfo = DiContainer.Resolve<IAppInfo>();
@@ -43,7 +42,7 @@ namespace IoC.Configuration.Tests.SettingValue
             Assert.AreEqual(Settings.GetSettingValueOrThrow<string>("defaultAppDescr"), appInfo.AppDescription);
         }
 
-        [TestMethod]
+        [Test]
         public void SettingValueInAutoMethodIfConditionAndReturnValuesTests()
         {
             var appIds = DiContainer.Resolve<IAppIds>();
@@ -63,14 +62,14 @@ namespace IoC.Configuration.Tests.SettingValue
             Assert.AreEqual(8, defaultPlatformAppIds[1]);
         }
 
-        [TestMethod]
+        [Test]
         public void SettingValueInAutoPropertyReturnValuesTests()
         {
             var appIds = DiContainer.Resolve<IAppIds>();
             Assert.AreEqual(Settings.GetSettingValueOrThrow<int>("defaultAppId"), appIds.MainAppId);
         }
 
-        [TestMethod]
+        [Test]
         public void SettingValueInPlugin()
         {
             var doorType = Helpers.GetType("TestPluginAssembly1.Interfaces.IDoor");

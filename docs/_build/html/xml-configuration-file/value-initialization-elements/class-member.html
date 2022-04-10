@@ -1,0 +1,257 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>classMember element &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="parameterValue element" href="parameterValue.html" />
+    <link rel="prev" title="settingValue element" href="setting-value.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="parameterValue.html" title="parameterValue element"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="setting-value.html" title="settingValue element"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >XML Configuration File</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Value Initialization Elements</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><strong>classMember</strong> element</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="classmember-element">
+<h1><strong>classMember</strong> element<a class="headerlink" href="#classmember-element" title="Permalink to this headline">¶</a></h1>
+<p>The <strong>classMember</strong> element is used to reference class member values (i.e., class variables, constant values, properties, method call results) in configuration file.</p>
+<p>This element uses attribute <strong>class</strong> (and optional attribute <strong>assembly</strong>), or alternatively, an attribute <strong>classRef</strong> to specify the class, as well as attribute <strong>memberName</strong>, to specify the class member name.</p>
+<p>The element <strong>classMember</strong> can be used to reference enum values as well. Example: &lt;classMember class=”SharedServices.DataContracts.ActionTypes” memberName=”ViewFilesList” /&gt;.</p>
+<section id="referencing-non-static-and-non-constant-class-members">
+<h2>Referencing non-static and non-constant class members<a class="headerlink" href="#referencing-non-static-and-non-constant-class-members" title="Permalink to this headline">¶</a></h2>
+<p>If the class member is non-static, and non-constant, <strong>IoC.Configuration</strong> will get the class member value by first resolving the class instance from the dependency injection container.</p>
+<p>If the class is non-interface, non-abstract, and has a public constructor, <strong>IoC.Configuration</strong> will generate a self-binding for the class.</p>
+<p>Otherwise, a binding should be provided either in configuration file, or in one of dependency injection modules.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Refer to <a class="reference internal" href="../../sample-files/IoCConfiguration_classMember.generated.html"><span class="doc">IoCConfiguration_classMember.xml</span></a> for more examples on <strong>classMember</strong> element.</p>
+</div>
+</section>
+<section id="example-1-using-classmember-to-provide-a-service-implementation">
+<h2>Example 1: Using <strong>classMember</strong> to provide a service implementation<a class="headerlink" href="#example-1-using-classmember-to-provide-a-service-implementation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">&lt;service</span> <span class="na">type=</span><span class="s">&quot;System.Int32&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 2</span>    <span class="nt">&lt;valueImplementation</span> <span class="na">scope=</span><span class="s">&quot;singleton&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 3</span>      <span class="cm">&lt;!--Example of classMember in valueImplementation.</span>
+<span class="linenos"> 4</span><span class="cm">      Since IAppIds.DefaultAppId is non-static,</span>
+<span class="linenos"> 5</span><span class="cm">      IAppIds will be resolved from dependency injection container, and the</span>
+<span class="linenos"> 6</span><span class="cm">      value of property DefaultAppId of resolved object will be bound</span>
+<span class="linenos"> 7</span><span class="cm">      to System.Int32</span>
+<span class="linenos"> 8</span><span class="cm">      --&gt;</span>
+<span class="linenos"> 9</span>        <span class="nt">&lt;classMember</span> <span class="na">classRef=</span><span class="s">&quot;IAppIds&quot;</span> <span class="na">memberName=</span><span class="s">&quot;DefaultAppId&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">10</span>    <span class="nt">&lt;/valueImplementation&gt;</span>
+<span class="linenos">11</span><span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-using-classmember-in-collection-element">
+<h2>Example 2: Using <strong>classMember</strong> in <strong>collection</strong> element<a class="headerlink" href="#example-2-using-classmember-in-collection-element" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">&lt;service</span> <span class="na">type=</span><span class="s">&quot;System.Collections.Generic.IReadOnlyList[System.Int32]&quot;</span> <span class="nt">&gt;</span>
+<span class="linenos">2</span>    <span class="nt">&lt;valueImplementation</span> <span class="na">scope=</span><span class="s">&quot;singleton&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">3</span>        <span class="nt">&lt;collection&gt;</span>
+<span class="linenos">4</span>            <span class="cm">&lt;!--Demo of classMember in collection element.--&gt;</span>
+<span class="linenos">5</span>            <span class="nt">&lt;classMember</span> <span class="na">classRef=</span><span class="s">&quot;ConstAndStaticAppIds&quot;</span> <span class="na">memberName=</span><span class="s">&quot;AppId1&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">6</span>            <span class="nt">&lt;classMember</span> <span class="na">classRef=</span><span class="s">&quot;IAppIds&quot;</span> <span class="na">memberName=</span><span class="s">&quot;DefaultAppId&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">7</span>        <span class="nt">&lt;/collection&gt;</span>
+<span class="linenos">8</span>    <span class="nt">&lt;/valueImplementation&gt;</span>
+<span class="linenos">9</span><span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-3-using-classmember-to-specify-a-returned-value-in-autoproperty-element">
+<h2>Example 3: Using <strong>classMember</strong> to specify a returned value in <strong>autoProperty</strong> element<a class="headerlink" href="#example-3-using-classmember-to-specify-a-returned-value-in-autoproperty-element" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">&lt;autoGeneratedServices&gt;</span>
+<span class="linenos">2</span>
+<span class="linenos">3</span>    <span class="cm">&lt;!--The scope for autoService implementations is always singleton --&gt;</span>
+<span class="linenos">4</span>    <span class="nt">&lt;autoService</span> <span class="na">interfaceRef=</span><span class="s">&quot;IAppIds&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">5</span>        <span class="nt">&lt;autoProperty</span> <span class="na">name=</span><span class="s">&quot;DefaultAppId&quot;</span> <span class="na">returnType=</span><span class="s">&quot;System.Int32&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">6</span>            <span class="cm">&lt;!--Example of using classMember attribute in auto property.--&gt;</span>
+<span class="linenos">7</span>            <span class="nt">&lt;classMember</span> <span class="na">class=</span><span class="s">&quot;System.Int32&quot;</span> <span class="na">memberName=</span><span class="s">&quot;MaxValue&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">8</span>        <span class="nt">&lt;/autoProperty&gt;</span>
+<span class="linenos">9</span>    <span class="nt">&lt;/autoService&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-3-referencing-class-member-in-if-element-under-automethod-element">
+<h2>Example 3: Referencing class member in <strong>if</strong> element under <strong>autoMethod</strong> element<a class="headerlink" href="#example-3-referencing-class-member-in-if-element-under-automethod-element" title="Permalink to this headline">¶</a></h2>
+<p>To reference class members in <strong>if</strong> element attributes in <strong>autoMethod</strong>, use <strong>_classMember:</strong> prefix followed by class full name (or type alias name, for a type declared in <strong>typeDefinition</strong> element), period, and the class member name.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Refer to <a class="reference internal" href="../autogenerated-services/index.html"><span class="doc">Autogenerated Services</span></a> and <a class="reference internal" href="../autogenerated-services/auto-method.html"><span class="doc">Element autoMethod</span></a> for more details on <strong>autoMethod</strong> element.</p>
+</div>
+<p>In the example below, we reference a class member <strong>IoC.Configuration.Tests.ClassMember.Services.IAppIds.DefaultAppId</strong> (it is assumed that the configuration has a <strong>typeDefinition</strong> element for a type <strong>IoC.Configuration.Tests.ClassMember.Services.IAppIds</strong>, that has an alias <strong>IAppIds</strong>)</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">&lt;autoService</span> <span class="na">interface=</span><span class="s">&quot;IoC.Configuration.Tests.ClassMember.Services.IAppIdToPriority&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 2</span>    <span class="nt">&lt;autoMethod</span> <span class="na">name=</span><span class="s">&quot;GetPriority&quot;</span> <span class="na">returnType=</span><span class="s">&quot;System.Int32&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 3</span>        <span class="nt">&lt;methodSignature&gt;</span>
+<span class="linenos"> 4</span>            <span class="nt">&lt;int32</span> <span class="na">paramName=</span><span class="s">&quot;appId&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos"> 5</span>        <span class="nt">&lt;/methodSignature&gt;</span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span>        <span class="cm">&lt;!--Property IoC.Configuration.Tests.ClassMember.Services.IAppIds.DefaultAppId</span>
+<span class="linenos"> 8</span><span class="cm">            is non-static, therefore IoC.Configuration.Tests.ClassMember.Services.IAppIds</span>
+<span class="linenos"> 9</span><span class="cm">            will be resolved from dependency injection container, and the value of property</span>
+<span class="linenos">10</span><span class="cm">            DefaultAppId in resolved object will be used in if condition--&gt;</span>
+<span class="linenos">11</span>        <span class="nt">&lt;if</span> <span class="na">parameter1=</span><span class="s">&quot;_classMember:IAppIds.DefaultAppId&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">12</span>            <span class="nt">&lt;int32</span> <span class="na">value=</span><span class="s">&quot;14&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">13</span>        <span class="nt">&lt;/if&gt;</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span>        <span class="nt">&lt;default&gt;</span>
+<span class="linenos">16</span>            <span class="nt">&lt;int32</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">17</span>        <span class="nt">&lt;/default&gt;</span>
+<span class="linenos">18</span>    <span class="nt">&lt;/autoMethod&gt;</span>
+<span class="linenos">19</span><span class="nt">&lt;/autoService&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-3-using-classmember-to-call-methods-with-parameters">
+<h2>Example 3: Using <strong>classMember</strong> to call methods with parameters<a class="headerlink" href="#example-3-using-classmember-to-call-methods-with-parameters" title="Permalink to this headline">¶</a></h2>
+<p>If the class member is a method, we can use <strong>parameters</strong> child element to specify parameter values when the method is called.</p>
+<p>See the usage of <strong>classMember</strong> elements in the example below.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">&lt;autoService</span> <span class="na">interface=</span><span class="s">&quot;IoC.Configuration.Tests.ClassMember.Services.IAppInfos&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 2</span>  <span class="nt">&lt;autoProperty</span> <span class="na">name=</span><span class="s">&quot;AllAppInfos&quot;</span>
+<span class="linenos"> 3</span>      <span class="na">returnType=</span><span class="s">&quot;System.Collections.Generic.IReadOnlyList[....Services.IAppInfo]&quot;</span> <span class="nt">&gt;</span>
+<span class="linenos"> 4</span>    <span class="nt">&lt;collection&gt;</span>
+<span class="linenos"> 5</span>      <span class="cm">&lt;!--</span>
+<span class="linenos"> 6</span><span class="cm">      An example of calling a non static factory method to create an instance of</span>
+<span class="linenos"> 7</span><span class="cm">      IAppInfo. Since method IAppInfoFactory.CreateAppInfo(appId, appDescription)</span>
+<span class="linenos"> 8</span><span class="cm">      is non-static, an instance of IAppInfoFactory will be resolved using the DI</span>
+<span class="linenos"> 9</span><span class="cm">      container.</span>
+<span class="linenos">10</span><span class="cm">      Also, since IAppInfoFactory is an interface, a binding for IAppInfoFactory</span>
+<span class="linenos">11</span><span class="cm">      should be configured in configuration file or in some module.</span>
+<span class="linenos">12</span><span class="cm">      --&gt;</span>
+<span class="linenos">13</span>      <span class="nt">&lt;classMember</span> <span class="na">class=</span><span class="s">&quot;...Tests.ClassMember.Services.IAppInfoFactory&quot;</span>
+<span class="linenos">14</span>                   <span class="na">memberName=</span><span class="s">&quot;CreateAppInfo&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">15</span>        <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">16</span>          <span class="nt">&lt;int32</span> <span class="na">name=</span><span class="s">&quot;appId&quot;</span> <span class="na">value=</span><span class="s">&quot;1258&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">17</span>          <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;appDescription&quot;</span>
+<span class="linenos">18</span>                  <span class="na">value=</span><span class="s">&quot;App info created with non-static method call.&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">19</span>        <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">20</span>      <span class="nt">&lt;/classMember&gt;</span>
+<span class="linenos">21</span>      <span class="cm">&lt;!--</span>
+<span class="linenos">22</span><span class="cm">      An example of calling a static factory method to create an instance</span>
+<span class="linenos">23</span><span class="cm">      of IAppInfo.</span>
+<span class="linenos">24</span><span class="cm">      --&gt;</span>
+<span class="linenos">25</span>      <span class="nt">&lt;classMember</span> <span class="na">class=</span><span class="s">&quot;....Tests.ClassMember.Services.StaticAppInfoFactory&quot;</span>
+<span class="linenos">26</span>                   <span class="na">memberName=</span><span class="s">&quot;CreateAppInfo&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">27</span>        <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">28</span>          <span class="nt">&lt;int32</span> <span class="na">name=</span><span class="s">&quot;appId&quot;</span> <span class="na">value=</span><span class="s">&quot;1259&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">29</span>          <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;appDescription&quot;</span>
+<span class="linenos">30</span>                  <span class="na">value=</span><span class="s">&quot;App info created with static method call.&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">31</span>        <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">32</span>      <span class="nt">&lt;/classMember&gt;</span>
+<span class="linenos">33</span>    <span class="nt">&lt;/collection&gt;</span>
+<span class="linenos">34</span>  <span class="nt">&lt;/autoProperty&gt;</span>
+<span class="linenos">35</span><span class="nt">&lt;/autoService&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><strong>classMember</strong> element</a><ul>
+<li><a class="reference internal" href="#referencing-non-static-and-non-constant-class-members">Referencing non-static and non-constant class members</a></li>
+<li><a class="reference internal" href="#example-1-using-classmember-to-provide-a-service-implementation">Example 1: Using <strong>classMember</strong> to provide a service implementation</a></li>
+<li><a class="reference internal" href="#example-2-using-classmember-in-collection-element">Example 2: Using <strong>classMember</strong> in <strong>collection</strong> element</a></li>
+<li><a class="reference internal" href="#example-3-using-classmember-to-specify-a-returned-value-in-autoproperty-element">Example 3: Using <strong>classMember</strong> to specify a returned value in <strong>autoProperty</strong> element</a></li>
+<li><a class="reference internal" href="#example-3-referencing-class-member-in-if-element-under-automethod-element">Example 3: Referencing class member in <strong>if</strong> element under <strong>autoMethod</strong> element</a></li>
+<li><a class="reference internal" href="#example-3-using-classmember-to-call-methods-with-parameters">Example 3: Using <strong>classMember</strong> to call methods with parameters</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="setting-value.html"
+                          title="previous chapter"><strong>settingValue</strong> element</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="parameterValue.html"
+                          title="next chapter"><strong>parameterValue</strong> element</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/xml-configuration-file/value-initialization-elements/class-member.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="parameterValue.html" title="parameterValue element"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="setting-value.html" title="settingValue element"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >XML Configuration File</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Value Initialization Elements</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><strong>classMember</strong> element</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

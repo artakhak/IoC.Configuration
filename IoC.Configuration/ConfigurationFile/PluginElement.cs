@@ -76,7 +76,9 @@ namespace IoC.Configuration.ConfigurationFile
             var pluginDirectory = GetPluginDirectory();
 
             if (!Directory.Exists(pluginDirectory))
-                throw new ConfigurationParseException(this, $"Plugin directory '{pluginDirectory}' does not exist.");
+            //if (!Helpers.TryEnsureConfigurationDirectoryExists(pluginDirectory))
+                throw new ConfigurationParseException(this, $"Plugin directory '{pluginDirectory}' does not exist.",
+                    this.Parent);
 
             if (!Enabled)
                 LogHelper.Context.Log.WarnFormat("Plugin '{0}' is disabled. Services, service implementations, settings, web API controllers and other configuration defined in this plugin will be ignored.", Name);

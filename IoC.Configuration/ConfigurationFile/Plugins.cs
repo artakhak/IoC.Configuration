@@ -79,6 +79,7 @@ namespace IoC.Configuration.ConfigurationFile
             {
                 PluginsDirectory = this.GetAttributeValue<string>(ConfigurationFileAttributeNames.PluginsDirPath);
 
+                //Helpers.EnsureConfigurationDirectoryExistsOrThrow(this, PluginsDirectory, ConfigurationFileAttributeNames.PluginsDirPath);
                 if (!Directory.Exists(PluginsDirectory))
                     throw new ConfigurationParseException(this, $"Directory '{PluginsDirectory}' specified in attribute '{ConfigurationFileAttributeNames.PluginsDirPath}' does not exist.");
             }

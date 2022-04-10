@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>collection element &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="constructedValue element" href="constructed-value.html" />
+    <link rel="prev" title="injectedObject element" href="injected-object.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="constructed-value.html" title="constructedValue element"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="injected-object.html" title="injectedObject element"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >XML Configuration File</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Value Initialization Elements</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><strong>collection</strong> element</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="collection-element">
+<h1><strong>collection</strong> element<a class="headerlink" href="#collection-element" title="Permalink to this headline">¶</a></h1>
+<p>Collection element is used to specify collection values.</p>
+<p>Based on the context, in which <strong>collection</strong> element is used, it might use <strong>collectionType</strong> and <strong>itemType</strong> attributes to specify collection type and collection items type, or these values will be derived by <strong>IoC.Configuration</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The possible values of <strong>collectionType</strong> attribute currently are <strong>enumerable</strong>, <strong>list</strong>, <strong>readOnlyList</strong>, and <strong>array</strong>.</p>
+</div>
+<p>For example, if <strong>collection</strong> is used to specified as a constructor parameter, or injected property value, <strong>collectionType</strong> and <strong>itemType</strong> attributes are required, along with the <strong>name</strong> attribute.</p>
+<p>On the other hand, if <strong>collection</strong> is used to provide a return value in <strong>autoProperty</strong> or <strong>autoMethod</strong> elements, this attributes are not used, and <strong>IoC.Configuration</strong> determines the type of the collection from the auto-generated property or method return type.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Refer to <a class="reference internal" href="../../sample-files/IoCConfiguration_collection.generated.html"><span class="doc">IoCConfiguration_collection.xml</span></a> for more examples on <strong>collection</strong> element.</p>
+</div>
+<section id="example-1-using-collection-element-to-specify-constructed-parameter-value-in-service-implementation">
+<h2>Example 1: Using <strong>collection</strong> element to specify constructed parameter value in service implementation<a class="headerlink" href="#example-1-using-collection-element-to-specify-constructed-parameter-value-in-service-implementation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">&lt;services&gt;</span>
+<span class="linenos"> 2</span>    <span class="nt">&lt;selfBoundService</span>
+<span class="linenos"> 3</span>        <span class="na">type=</span><span class="s">&quot;IoC.Configuration.Tests.Collection.Services.CollectionsTestClass1&quot;</span>
+<span class="linenos"> 4</span>        <span class="na">scope=</span><span class="s">&quot;singleton&quot;</span> <span class="nt">&gt;</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span>        <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos"> 7</span>            <span class="cm">&lt;!--Demo of collection element used as a constructor parameter.--&gt;</span>
+<span class="linenos"> 8</span>            <span class="nt">&lt;collection</span> <span class="na">name=</span><span class="s">&quot;readOnlyListParam&quot;</span>
+<span class="linenos"> 9</span>                        <span class="na">collectionType=</span><span class="s">&quot;readOnlyList&quot;</span>
+<span class="linenos">10</span>                        <span class="na">itemType=</span><span class="s">&quot;System.Int32&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">11</span>              <span class="nt">&lt;int32</span> <span class="na">value=</span><span class="s">&quot;17&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">12</span>              <span class="nt">&lt;int32</span> <span class="na">value=</span><span class="s">&quot;24&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">13</span>              <span class="nt">&lt;int32</span> <span class="na">value=</span><span class="s">&quot;27&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">14</span>            <span class="nt">&lt;/collection&gt;</span>
+<span class="linenos">15</span>
+<span class="linenos">16</span>            <span class="cm">&lt;!--Demo of collection element used as a constructor parameter.--&gt;</span>
+<span class="linenos">17</span>            <span class="nt">&lt;collection</span> <span class="na">name=</span><span class="s">&quot;arrayParam&quot;</span>
+<span class="linenos">18</span>                        <span class="na">collectionType=</span><span class="s">&quot;array&quot;</span>
+<span class="linenos">19</span>                        <span class="na">itemTypeRef=</span><span class="s">&quot;IInterface1&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">20</span>              <span class="nt">&lt;injectedObject</span> <span class="na">typeRef=</span><span class="s">&quot;IInterface1&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">21</span>              <span class="nt">&lt;constructedValue</span> <span class="na">typeRef=</span><span class="s">&quot;Interface1_Impl&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">22</span>                <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">23</span>                  <span class="nt">&lt;int32</span> <span class="na">name=</span><span class="s">&quot;param1&quot;</span> <span class="na">value=</span><span class="s">&quot;29&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">24</span>                <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">25</span>              <span class="nt">&lt;/constructedValue&gt;</span>
+<span class="linenos">26</span>            <span class="nt">&lt;/collection&gt;</span>
+<span class="linenos">27</span>        <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">28</span>    <span class="nt">&lt;/selfBoundService&gt;</span>
+<span class="linenos">29</span><span class="nt">&lt;services&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-using-collection-element-to-specify-injected-property-value">
+<h2>Example 2: Using <strong>collection</strong> element to specify injected property value<a class="headerlink" href="#example-2-using-collection-element-to-specify-injected-property-value" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">&lt;services&gt;</span>
+<span class="linenos"> 2</span>    <span class="nt">&lt;selfBoundService</span>
+<span class="linenos"> 3</span>        <span class="na">type=</span><span class="s">&quot;IoC.Configuration.Tests.Collection.Services.CollectionsTestClass1&quot;</span>
+<span class="linenos"> 4</span>        <span class="na">scope=</span><span class="s">&quot;singleton&quot;</span> <span class="nt">&gt;</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span>        <span class="nt">&lt;injectedProperties&gt;</span>
+<span class="linenos"> 7</span>            <span class="cm">&lt;!--Demo of collection element used to initialize</span>
+<span class="linenos"> 8</span><span class="cm">                the value of injected property.--&gt;</span>
+<span class="linenos"> 9</span>            <span class="nt">&lt;collection</span> <span class="na">name=</span><span class="s">&quot;EnumerableValues&quot;</span>
+<span class="linenos">10</span>                        <span class="na">collectionType=</span><span class="s">&quot;enumerable&quot;</span>
+<span class="linenos">11</span>                        <span class="na">itemType=</span><span class="s">&quot;SharedServices.Interfaces.IInterface1&quot;</span> <span class="nt">&gt;</span>
+<span class="linenos">12</span>              <span class="nt">&lt;constructedValue</span> <span class="na">typeRef=</span><span class="s">&quot;Interface1_Impl&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">13</span>                <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">14</span>                  <span class="nt">&lt;int32</span> <span class="na">name=</span><span class="s">&quot;param1&quot;</span> <span class="na">value=</span><span class="s">&quot;18&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">15</span>                <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">16</span>              <span class="nt">&lt;/constructedValue&gt;</span>
+<span class="linenos">17</span>              <span class="nt">&lt;settingValue</span> <span class="na">settingName=</span><span class="s">&quot;DefaultInterface1Value&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">18</span>              <span class="nt">&lt;injectedObject</span> <span class="na">typeRef=</span><span class="s">&quot;IInterface1&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">19</span>            <span class="nt">&lt;/collection&gt;</span>
+<span class="linenos">20</span>
+<span class="linenos">21</span>            <span class="cm">&lt;!--Demo of collection element used to initialize</span>
+<span class="linenos">22</span><span class="cm">                the value of injected property.--&gt;</span>
+<span class="linenos">23</span>            <span class="nt">&lt;collection</span> <span class="na">name=</span><span class="s">&quot;ListValues&quot;</span>
+<span class="linenos">24</span>                        <span class="na">collectionType=</span><span class="s">&quot;list&quot;</span>
+<span class="linenos">25</span>                        <span class="na">itemTypeRef=</span><span class="s">&quot;IInterface1&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">26</span>              <span class="nt">&lt;injectedObject</span> <span class="na">typeRef=</span><span class="s">&quot;IInterface1&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">27</span>              <span class="nt">&lt;settingValue</span> <span class="na">settingName=</span><span class="s">&quot;DefaultInterface1Value&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">28</span>              <span class="nt">&lt;constructedValue</span> <span class="na">typeRef=</span><span class="s">&quot;Interface1_Impl&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">29</span>                <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">30</span>                  <span class="nt">&lt;int32</span> <span class="na">name=</span><span class="s">&quot;param1&quot;</span> <span class="na">value=</span><span class="s">&quot;139&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">31</span>                <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">32</span>              <span class="nt">&lt;/constructedValue&gt;</span>
+<span class="linenos">33</span>            <span class="nt">&lt;/collection&gt;</span>
+<span class="linenos">34</span>        <span class="nt">&lt;/injectedProperties&gt;</span>
+<span class="linenos">35</span>    <span class="nt">&lt;/selfBoundService&gt;</span>
+<span class="linenos">36</span><span class="nt">&lt;services&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-3-using-collection-element-to-specify-a-returned-value-for-auto-generated-method">
+<h2>Example 3: Using <strong>collection</strong> element to specify a returned value for auto-generated method<a class="headerlink" href="#example-3-using-collection-element-to-specify-a-returned-value-for-auto-generated-method" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">&lt;autoGeneratedServices&gt;</span>
+<span class="linenos"> 2</span>    <span class="cm">&lt;!--Demo of collection element used in auto-implemented method and property</span>
+<span class="linenos"> 3</span><span class="cm">        return values.--&gt;</span>
+<span class="linenos"> 4</span>    <span class="nt">&lt;autoService</span> <span class="na">interface=</span><span class="s">&quot;IoC.Configuration.Tests.Collection.Services.IAutoService1&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 5</span>        <span class="nt">&lt;autoMethod</span> <span class="na">name=</span><span class="s">&quot;GetAllActionIds&quot;</span>
+<span class="linenos"> 6</span>                    <span class="na">returnType=</span><span class="s">&quot;System.Collections.Generic.IReadOnlyList[System.Int32]&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 7</span>            <span class="nt">&lt;methodSignature&gt;</span>
+<span class="linenos"> 8</span>                <span class="nt">&lt;int32</span> <span class="na">paramName=</span><span class="s">&quot;appId&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos"> 9</span>            <span class="nt">&lt;/methodSignature&gt;</span>
+<span class="linenos">10</span>            <span class="nt">&lt;if</span> <span class="na">parameter1=</span><span class="s">&quot;3&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">11</span>                <span class="nt">&lt;collection&gt;</span>
+<span class="linenos">12</span>                    <span class="nt">&lt;int32</span> <span class="na">value=</span><span class="s">&quot;27&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">13</span>                    <span class="nt">&lt;int32</span> <span class="na">value=</span><span class="s">&quot;17&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">14</span>                <span class="nt">&lt;/collection&gt;</span>
+<span class="linenos">15</span>            <span class="nt">&lt;/if&gt;</span>
+<span class="linenos">16</span>            <span class="nt">&lt;default&gt;</span>
+<span class="linenos">17</span>              <span class="nt">&lt;collection&gt;</span>
+<span class="linenos">18</span>                <span class="nt">&lt;int32</span> <span class="na">value=</span><span class="s">&quot;13&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">19</span>                <span class="nt">&lt;int32</span> <span class="na">value=</span><span class="s">&quot;27&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">20</span>                <span class="nt">&lt;int32</span> <span class="na">value=</span><span class="s">&quot;17&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">21</span>              <span class="nt">&lt;/collection&gt;</span>
+<span class="linenos">22</span>            <span class="nt">&lt;/default&gt;</span>
+<span class="linenos">23</span>        <span class="nt">&lt;/autoMethod&gt;</span>
+<span class="linenos">24</span>    <span class="nt">&lt;/autoService&gt;</span>
+<span class="linenos">25</span><span class="nt">&lt;/autoGeneratedServices&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-4-using-collection-element-to-provide-a-service-implementation">
+<h2>Example 4: Using <strong>collection</strong> element to provide a service implementation<a class="headerlink" href="#example-4-using-collection-element-to-provide-a-service-implementation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">&lt;service</span> <span class="na">type=</span><span class="s">&quot;System.Collections.Generic.IReadOnlyList[SharedServices.Interfaces.IDbConnection]&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 2</span>    <span class="nt">&lt;valueImplementation</span> <span class="na">scope=</span><span class="s">&quot;singleton&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 3</span>        <span class="nt">&lt;collection&gt;</span>
+<span class="linenos"> 4</span>            <span class="nt">&lt;settingValue</span> <span class="na">settingName=</span><span class="s">&quot;DefaultDBConnection&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span>            <span class="nt">&lt;constructedValue</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Implementations.SqlServerDbConnection&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 7</span>                <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos"> 8</span>                    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;serverName&quot;</span> <span class="na">value=</span><span class="s">&quot;SQLSERVER2012&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos"> 9</span>                    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;databaseName&quot;</span> <span class="na">value=</span><span class="s">&quot;DB1&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">10</span>                    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;userName&quot;</span> <span class="na">value=</span><span class="s">&quot;user1&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">11</span>                    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;password&quot;</span> <span class="na">value=</span><span class="s">&quot;password123&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">12</span>                <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">13</span>            <span class="nt">&lt;/constructedValue&gt;</span>
+<span class="linenos">14</span>
+<span class="linenos">15</span>            <span class="nt">&lt;constructedValue</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Implementations.SqlServerDbConnection&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">16</span>                <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">17</span>                    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;serverName&quot;</span> <span class="na">value=</span><span class="s">&quot;SQLSERVER2016&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">18</span>                    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;databaseName&quot;</span> <span class="na">value=</span><span class="s">&quot;DB2&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">19</span>                    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;userName&quot;</span> <span class="na">value=</span><span class="s">&quot;user2&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">20</span>                    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;password&quot;</span> <span class="na">value=</span><span class="s">&quot;password456&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">21</span>                <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">22</span>            <span class="nt">&lt;/constructedValue&gt;</span>
+<span class="linenos">23</span>
+<span class="linenos">24</span>            <span class="nt">&lt;constructedValue</span> <span class="na">type=</span><span class="s">&quot;TestPluginAssembly1.Implementations.MySqlDbConnection&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">25</span>                <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos">26</span>                    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;connectionString&quot;</span> <span class="na">value=</span><span class="s">&quot;user=User1;password=123&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">27</span>                <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">28</span>            <span class="nt">&lt;/constructedValue&gt;</span>
+<span class="linenos">29</span>        <span class="nt">&lt;/collection&gt;</span>
+<span class="linenos">30</span>    <span class="nt">&lt;/valueImplementation&gt;</span>
+<span class="linenos">31</span><span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><strong>collection</strong> element</a><ul>
+<li><a class="reference internal" href="#example-1-using-collection-element-to-specify-constructed-parameter-value-in-service-implementation">Example 1: Using <strong>collection</strong> element to specify constructed parameter value in service implementation</a></li>
+<li><a class="reference internal" href="#example-2-using-collection-element-to-specify-injected-property-value">Example 2: Using <strong>collection</strong> element to specify injected property value</a></li>
+<li><a class="reference internal" href="#example-3-using-collection-element-to-specify-a-returned-value-for-auto-generated-method">Example 3: Using <strong>collection</strong> element to specify a returned value for auto-generated method</a></li>
+<li><a class="reference internal" href="#example-4-using-collection-element-to-provide-a-service-implementation">Example 4: Using <strong>collection</strong> element to provide a service implementation</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="injected-object.html"
+                          title="previous chapter"><strong>injectedObject</strong> element</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="constructed-value.html"
+                          title="next chapter"><strong>constructedValue</strong> element</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/xml-configuration-file/value-initialization-elements/collection.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="constructed-value.html" title="constructedValue element"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="injected-object.html" title="injectedObject element"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >XML Configuration File</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Value Initialization Elements</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><strong>collection</strong> element</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

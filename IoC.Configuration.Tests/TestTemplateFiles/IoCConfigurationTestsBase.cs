@@ -1,36 +1,20 @@
 ﻿using IoC.Configuration.ConfigurationFile;
 using IoC.Configuration.DiContainer;
 using JetBrains.Annotations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OROptimizer.Diagnostics.Log;
 using System;
 using System.IO;
 using System.Xml;
+using NUnit.Framework;
 using TestsSharedLibrary;
 using TestsSharedLibrary.DependencyInjection;
 using TestsSharedLibrary.Diagnostics.Log;
 
 namespace IoC.Configuration.Tests.TestTemplateFiles
 {
-    //public abstract class IoCConfigurationTestsForFailedLoad : IoCConfigurationTestsBase
-    //{
-    //    protected override void OnTestInitialize()
-    //    {
-    //        base.OnTestInitialize();
-
-            
-    //    }
-
-    //    protected override void OnTestCleanup()
-    //    {
-    //        base.OnTestCleanup();
-    //    }
-
-    //    protected abstract DiImplementationType DiImplementationType { get; }
-    //}
     public abstract class IoCConfigurationTestsBase
     {
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             TestsHelper.SetupLogger();
@@ -44,8 +28,7 @@ namespace IoC.Configuration.Tests.TestTemplateFiles
            
         }
 
-
-        [TestCleanup]
+        [TearDown]
         public void TestCleanup()
         {
             OnTestCleanup();

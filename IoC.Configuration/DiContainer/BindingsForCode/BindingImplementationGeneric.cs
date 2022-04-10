@@ -25,6 +25,7 @@
 
 using System;
 using JetBrains.Annotations;
+using OROptimizer.Diagnostics.Log;
 
 namespace IoC.Configuration.DiContainer.BindingsForCode
 {
@@ -60,7 +61,21 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
         public IBindingImplementationGeneric<TService, TImplementation> OnImplementationObjectActivated(Action<IDiContainer, TImplementation> onImplementationActivated)
         {
             BindingImplementationConfiguration.OnImplementationObjectActivated =
-                (typeResolver, implementationObject) => onImplementationActivated(typeResolver, (TImplementation) implementationObject);
+                (typeResolver, implementationObject) =>
+                    {
+                        try
+                        {
+                            onImplementationActivated(typeResolver, (TImplementation)implementationObject);
+                        }
+                        catch(Exception e)
+                        {
+                            var errorMessage = $"Error when activating an implementation {typeof(TImplementation).FullName} of type {typeof(TService).FullName}";
+                            LogHelper.Context.Log.Error(errorMessage, e);
+                            throw new Exception(errorMessage);
+                        }
+                    };
+                   
+                    
             return this;
         }
 

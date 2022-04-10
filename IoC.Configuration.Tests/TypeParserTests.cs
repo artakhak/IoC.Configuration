@@ -1,5 +1,5 @@
 ﻿using IoC.Configuration.ConfigurationFile;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using OROptimizer.Diagnostics.Log;
 using System;
 using System.Text;
@@ -8,19 +8,19 @@ using TestsSharedLibrary.Diagnostics.Log;
 
 namespace IoC.Configuration.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class TypeParserTests
     {
         private TypeParser _typeParser = new TypeParser();
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             TestsHelper.SetupLogger();
             Log4Tests.LogLevel = LogLevel.Info;
         }
 
-        [TestCleanup]
+        [TearDown]
         public void TestCleanup()
         {
             LogHelper.RemoveContext();
@@ -29,58 +29,56 @@ namespace IoC.Configuration.Tests
         // errorMessage.AppendLine("Examples of valid type names are: IoC.Configuration._Class1, IoC.Configuration.IMyType[namespace1.IInterface1, namespace2.IInterface2, namespace2.Type2[namespace2.IInterface3]].");
 
 
-        [TestMethod]
+        [Test]
         public void NonGenericClassTest1()
         {
             var expectedTypeData = new TypeData("_Class1");
             ValidateSuccessfulParseResult("_Class1", expectedTypeData);
         }
 
-
-
-        [TestMethod]
+        [Test]
         public void NonGenericClassTest2()
         {
             var expectedTypeData = new TypeData("Class1");
             ValidateSuccessfulParseResult("Class1", expectedTypeData);
         }
 
-        [TestMethod]
+        [Test]
         public void NonGenericClassTest3()
         {
             var expectedTypeData = new TypeData("Namespace1._Class1");
             ValidateSuccessfulParseResult("Namespace1._Class1", expectedTypeData);
         }
 
-        [TestMethod]
+        [Test]
         public void NonGenericClassTest4()
         {
             var expectedTypeData = new TypeData("Namespace1.Class1");
             ValidateSuccessfulParseResult("Namespace1.Class1", expectedTypeData);
         }
 
-        [TestMethod]
+        [Test]
         public void NonGenericClassTest5()
         {
             var expectedTypeData = new TypeData("Namespace1.Class1");
             ValidateSuccessfulParseResult(" Namespace1.Class1 ", expectedTypeData);
         }
 
-        [TestMethod]
+        [Test]
         public void NonGenericClassTest6()
         {
             var expectedTypeData = new TypeData("_Namespace1._Class1_");
             ValidateSuccessfulParseResult(" _Namespace1._Class1_ ", expectedTypeData);
         }
 
-        [TestMethod]
+        [Test]
         public void NonGenericClassTest7()
         {
             var expectedTypeData = new TypeData("_Namespace1_._Class1_");
             ValidateSuccessfulParseResult(" _Namespace1_._Class1_ ", expectedTypeData);
         }
 
-        [TestMethod]
+        [Test]
         public void GenericClassTest1()
         {
             var expectedTypeData = new TypeData("Namespace1.Class1");
@@ -91,7 +89,7 @@ namespace IoC.Configuration.Tests
             ValidateSuccessfulParseResult($"Namespace1.Class1[Namespace2_.Class1]", expectedTypeData);
         }
 
-        [TestMethod]
+        [Test]
         public void GenericClassTest2()
         {
             var expectedTypeData = new TypeData("Namespace1.Class1");
@@ -102,7 +100,7 @@ namespace IoC.Configuration.Tests
             ValidateSuccessfulParseResult($" Namespace1.Class1 [ Namespace2_.Class1 ] ", expectedTypeData);
         }
 
-        [TestMethod]
+        [Test]
         public void GenericClassTest3()
         {
             var expectedTypeData = new TypeData("_Namespace1._Class1_");
@@ -116,7 +114,7 @@ namespace IoC.Configuration.Tests
             ValidateSuccessfulParseResult($"_Namespace1._Class1_[Namespace2_._Class1[Namespace3_._Class1_]]", expectedTypeData);
         }
 
-        [TestMethod]
+        [Test]
         public void GenericClassTest4()
         {
             var expectedTypeData = new TypeData("_Namespace1._Class1_");
@@ -130,7 +128,7 @@ namespace IoC.Configuration.Tests
             ValidateSuccessfulParseResult($" _Namespace1._Class1_ [ Namespace2_._Class1 [ Namespace3_._Class1_ ]  ] ", expectedTypeData);
         }
 
-        [TestMethod]
+        [Test]
         public void GenericClassTest5()
         {
             var expectedTypeData = new TypeData("_Namespace1._Class1_");
@@ -147,7 +145,7 @@ namespace IoC.Configuration.Tests
             ValidateSuccessfulParseResult($"_Namespace1._Class1_[Namespace2_._Class1,Namespace2_._Class2[Namespace3_._Class1_]]", expectedTypeData);
         }
 
-        [TestMethod]
+        [Test]
         public void GenericClassTest6()
         {
             var expectedTypeData = new TypeData("_Namespace1._Class1_");
@@ -164,7 +162,7 @@ namespace IoC.Configuration.Tests
             ValidateSuccessfulParseResult($" _Namespace1._Class1_ [ Namespace2_._Class1 , Namespace2_._Class2 [ Namespace3_._Class1_ ] ] ", expectedTypeData);
         }
 
-        [TestMethod]
+        [Test]
         public void GenericClassTest7()
         {
             var expectedTypeData = new TypeData("_Namespace1._Class1_");
@@ -181,7 +179,7 @@ namespace IoC.Configuration.Tests
             ValidateSuccessfulParseResult($"_Namespace1._Class1_[Namespace2_._Class1[Namespace3_._Class1_],Namespace2_._Class2]", expectedTypeData);
         }
 
-        [TestMethod]
+        [Test]
         public void GenericClassTest8()
         {
             var expectedTypeData = new TypeData("_Namespace1._Class1_");
@@ -198,7 +196,7 @@ namespace IoC.Configuration.Tests
             ValidateSuccessfulParseResult($" _Namespace1._Class1_ [ Namespace2_._Class1 [Namespace3_._Class1_] , Namespace2_._Class2 ] ", expectedTypeData);
         }
 
-        [TestMethod]
+        [Test]
         public void GenericClassTest9()
         {
             var expectedTypeData = new TypeData("_Namespace1._Class1_");
@@ -218,7 +216,7 @@ namespace IoC.Configuration.Tests
             ValidateSuccessfulParseResult($"_Namespace1._Class1_[Namespace2_._Class1[Namespace3_._Class1_],Namespace2_._Class2[Namespace3_._Class4_]]", expectedTypeData);
         }
 
-        [TestMethod]
+        [Test]
         public void GenericClassTest10()
         {
             var expectedTypeData = new TypeData("_Namespace1._Class1_");
@@ -238,7 +236,7 @@ namespace IoC.Configuration.Tests
             ValidateSuccessfulParseResult($" _Namespace1._Class1_ [ Namespace2_._Class1 [ Namespace3_._Class1_ ] , Namespace2_._Class2 [ Namespace3_._Class4_ ] ] ", expectedTypeData);
         }
 
-        [TestMethod]
+        [Test]
         public void ArrayClassTest()
         {
             var expectedTypeData = new TypeData("_Namespace1._Class1_");
@@ -246,7 +244,7 @@ namespace IoC.Configuration.Tests
             ValidateSuccessfulParseResult(" _Namespace1._Class1_#", expectedTypeData);
         }
 
-        [TestMethod]
+        [Test]
         public void GenericArrayClassTest()
         {
             var typeData1 = new TypeData("_Namespace1._Class1_");
@@ -278,34 +276,34 @@ namespace IoC.Configuration.Tests
             ValidateSuccessfulParseResult(" _Namespace1._Class1_[class4, class5#, _Namespace2._Class2_ [Class6 #] # ,  _Namespace3._Class3_ [ _Namespace4._Class4_ # ] # ] #", typeData1);
         }
 
-        [DataTestMethod]
-        [DataRow(" _Namespace1._Class1_[class1", 28)]
-        [DataRow("3Namespace1_._Class1", 0)]
-        [DataRow(" Namespace1_._Class1.", 21)]
-        [DataRow(" Namespace1_.._Class1", 13)]
-        [DataRow(" 3Namespace1_._Class1", 1)]
-        [DataRow(".Namespace1_._Class1", 0)]
-        [DataRow(" .Namespace1_._Class1", 1)]
-        [DataRow(" Namespace1_.3_Class1", 13)]
-        [DataRow(" Namespace1_.._Class1", 13)]
-        [DataRow(" Namespace1_. _Class1", 14)]
-        [DataRow(" Namespace1_._@Class1", 14)]
-        [DataRow("_Namespace1._Class1_]", 20)]
-        [DataRow("_Namespace1._Class1_,class2", 20)]
-        [DataRow("_Namespace1._Class1_[", 21)]
-        [DataRow("_Namespace1._Class1_[]", 21)]
-        [DataRow("_Namespace1._Class1_[class1, ]", 29)]
-        [DataRow("_Namespace1._Class1_[class1]]", 28)]
-        [DataRow(" _Namespace1._Class1_[class1", 28)]
-        [DataRow(" _Namespace1._Class1_[class1[class2[class3]]", 44)]
-        [DataRow("_Namespace1._Class1_[namespace1.class1[namespace1.class2],]", 58)]
-        [DataRow("_Namespace1._Class1_[namespace1.class1[namespace1.class2],namespace1.class3]]]", 76)]
-        [DataRow("_Namespace1._Class1_[namespace1.class1[namespace1.class2],namespace1.class3", 75)]
-        [DataRow(" _Namespace1._Class1_ [ namespace1.class1 [ namespace1.class2 ], namespace1.class3 [ class4 ]  ] ]", 97)]
-        [DataRow("class1#[class2]", 7)]
-        [DataRow("class1##", 7)]
-        [DataRow("class1[class2[]#", 14)]
-        [DataRow("class1[class2##]#", 14)]
+        
+        [TestCase(" _Namespace1._Class1_[class1", 28)]
+        [TestCase("3Namespace1_._Class1", 0)]
+        [TestCase(" Namespace1_._Class1.", 21)]
+        [TestCase(" Namespace1_.._Class1", 13)]
+        [TestCase(" 3Namespace1_._Class1", 1)]
+        [TestCase(".Namespace1_._Class1", 0)]
+        [TestCase(" .Namespace1_._Class1", 1)]
+        [TestCase(" Namespace1_.3_Class1", 13)]
+        [TestCase(" Namespace1_.._Class1", 13)]
+        [TestCase(" Namespace1_. _Class1", 14)]
+        [TestCase(" Namespace1_._@Class1", 14)]
+        [TestCase("_Namespace1._Class1_]", 20)]
+        [TestCase("_Namespace1._Class1_,class2", 20)]
+        [TestCase("_Namespace1._Class1_[", 21)]
+        [TestCase("_Namespace1._Class1_[]", 21)]
+        [TestCase("_Namespace1._Class1_[class1, ]", 29)]
+        [TestCase("_Namespace1._Class1_[class1]]", 28)]
+        [TestCase(" _Namespace1._Class1_[class1", 28)]
+        [TestCase(" _Namespace1._Class1_[class1[class2[class3]]", 44)]
+        [TestCase("_Namespace1._Class1_[namespace1.class1[namespace1.class2],]", 58)]
+        [TestCase("_Namespace1._Class1_[namespace1.class1[namespace1.class2],namespace1.class3]]]", 76)]
+        [TestCase("_Namespace1._Class1_[namespace1.class1[namespace1.class2],namespace1.class3", 75)]
+        [TestCase(" _Namespace1._Class1_ [ namespace1.class1 [ namespace1.class2 ], namespace1.class3 [ class4 ]  ] ]", 97)]
+        [TestCase("class1#[class2]", 7)]
+        [TestCase("class1##", 7)]
+        [TestCase("class1[class2[]#", 14)]
+        [TestCase("class1[class2##]#", 14)]
         public void InvalidTypeFullNameTests(string typeFullName, int errorIndex)
         {
             LogHelper.Context.Log.Info($"typeFullName='{typeFullName}'");

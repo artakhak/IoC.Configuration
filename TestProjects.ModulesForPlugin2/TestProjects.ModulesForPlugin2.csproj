@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <RootNamespace>ModulesForPlugin2</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Autofac\AutofacModule1.cs" />
+    <Compile Include="Ninject\NinjectModule1.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="4.5.0" />
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />
+    <PackageReference Include="Ninject" Version="3.3.4" />
+    <PackageReference Include="IoC.Configuration.Autofac" Version="2.0.0" />
+    <PackageReference Include="IoC.Configuration.Ninject" Version="2.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
+    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+  </ItemGroup>
+</Project>

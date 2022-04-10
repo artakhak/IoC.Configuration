@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using AssemblyTotestAssemblyResolution;
 using IoC.Configuration;
 using SharedServices.Implementations;
+using TestProjects.AssemblyToTestAssemblyResolution;
 
 namespace TestPluginAssembly1.Implementations
 {

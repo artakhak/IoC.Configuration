@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright Â© 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -220,32 +220,74 @@ namespace IoC.Configuration.ConfigurationFile
             if (assembly != null)
                 assemblyToLoadTypeFrom = LoadAssembly(assembly);
 
-            if (!_typeFullNameToTypeInfo.TryGetValue(typeFullNameWithGenericParameters, out var typeInfo))
-            {
-                IEnumerable<IoC.Configuration.IAssembly> assembliesToSearch;
+            var lastIndexOfDotInType = typeData.TypeFullNameWithoutGenericParameters.LastIndexOf('.');
+            string typePotentialNamespace = lastIndexOfDotInType > 0 && lastIndexOfDotInType < typeData.TypeFullNameWithoutGenericParameters.Length - 1 ? 
+                typeData.TypeFullNameWithoutGenericParameters.Substring(0, lastIndexOfDotInType) : null;
 
-                if (assembly != null)
+            IEnumerable<IoC.Configuration.IAssembly> assembliesToSearch;
+
+            if (assembly != null)
+            {
+                assembliesToSearch = new IoC.Configuration.IAssembly[] { assembly };
+            }
+            else
+            {
+                if (typePotentialNamespace != null)
                 {
-                    assembliesToSearch = new IoC.Configuration.IAssembly[] {assembly};
+                    var assembliesThatArePartOfNamespace = new List<IoC.Configuration.IAssembly>();
+                    var assembliesThatContainNamespacePart = new List<IoC.Configuration.IAssembly>();
+                    var assembliesThatDoNotContainNamespacePart = new List<IoC.Configuration.IAssembly>();
+
+                    foreach (var currentAssembly in requestingConfigurationFileElement.Configuration.Assemblies.AllAssembliesIncludingAssembliesNotInConfiguration)
+                    {
+                        if (typePotentialNamespace.StartsWith(currentAssembly.Name))
+                        {
+                            assembliesThatArePartOfNamespace.Add(currentAssembly);
+                        }
+                        else
+                        {
+                            var indexOfDot = currentAssembly.Name.IndexOf('.');
+
+                            if (indexOfDot >= 0 && typePotentialNamespace.StartsWith(
+                                    string.Concat(currentAssembly.Name.Substring(0, indexOfDot), ".")))
+                            {
+                                assembliesThatContainNamespacePart.Add(currentAssembly);
+                            }
+                            else
+                            {
+                                assembliesThatDoNotContainNamespacePart.Add(currentAssembly);
+                            }
+                        }
+
+                    }
+
+                    var assembliesToSearchList = new List<IoC.Configuration.IAssembly>(
+                        assembliesThatArePartOfNamespace.Count + assembliesThatContainNamespacePart.Count + assembliesThatDoNotContainNamespacePart.Count);
+
+                    assembliesToSearchList.AddRange(assembliesThatArePartOfNamespace);
+                    assembliesToSearchList.AddRange(assembliesThatContainNamespacePart);
+                    assembliesToSearchList.AddRange(assembliesThatDoNotContainNamespacePart);
+                    assembliesToSearch = assembliesToSearchList;
                 }
                 else
                 {
                     assembliesToSearch = requestingConfigurationFileElement.Configuration.Assemblies.AllAssembliesIncludingAssembliesNotInConfiguration;
                 }
+            }
+
+            if (!_typeFullNameToTypeInfo.TryGetValue(typeFullNameWithGenericParameters, out var typeInfo))
+            {
 
                 ITypeInfo tryFindTypeInAssemblies(bool tryLocalType)
                 {
+                    if (tryLocalType && typePotentialNamespace == null)
+                        return null;
+
                     var internalTypeNameStrBldr = new StringBuilder();
 
                     if (tryLocalType)
                     {
-                        var typeFullNameWithoutGenericParameters = typeData.TypeFullNameWithoutGenericParameters;
-
-                        var lastIndexOfDot = typeFullNameWithoutGenericParameters.LastIndexOf('.');
-                        if (lastIndexOfDot <= 0)
-                            return null;
-
-                        internalTypeNameStrBldr.Append($"{typeFullNameWithoutGenericParameters.Substring(0, lastIndexOfDot)}+{typeFullNameWithoutGenericParameters.Substring(lastIndexOfDot + 1)}");
+                        internalTypeNameStrBldr.Append($"{typePotentialNamespace}+{typeData.TypeFullNameWithoutGenericParameters.Substring(lastIndexOfDotInType + 1)}");
                     }
                     else
                     {

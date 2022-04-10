@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Predefined Type Value Initializer Elements &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="object element" href="object.html" />
+    <link rel="prev" title="Value Initialization Elements" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="object.html" title="object element"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Value Initialization Elements"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >XML Configuration File</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Value Initialization Elements</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Predefined Type Value Initializer Elements</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="predefined-type-value-initializer-elements">
+<h1>Predefined Type Value Initializer Elements<a class="headerlink" href="#predefined-type-value-initializer-elements" title="Permalink to this headline">¶</a></h1>
+<p>Predefined type value elements are elements used to provide values for some predefined types, such as <strong>System.Int32</strong>, <strong>System.Double</strong>, <strong>System.DateTime</strong>, etc.</p>
+<p>These elements have a name, that reflects the type of the value being specified (e.g., <strong>&lt;int32&gt;</strong>, &lt;datetime&gt;, etc).</p>
+<p>The value specified in <strong>value</strong> attribute in these elements is serialized/deserialized using one of the classes in package <strong>OROptimizer.Shared</strong>, that implement <strong>OROptimizer.Serializer.ITypeBasedSimpleSerializer</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Refer to <a class="reference internal" href="../parameter-serializers.html"><span class="doc">Parameter Serializers</span></a> for more details on parameter serializers.</p>
+</div>
+<p>For example the value specified in element <strong>datetime</strong> is serialized using serialized/deserialized using the class <strong>OROptimizer.Serializer.TypeBasedSimpleSerializerDateTime</strong>.</p>
+<p>The serializers used to serialize/deserialize the value in <strong>value</strong> element can be replaced, by specifying a different serializer in element <strong>iocConfiguration/parameterSerializers/serializers/parameterSerializer</strong> (see <a class="reference internal" href="../parameter-serializers.html"><span class="doc">Parameter Serializers</span></a>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To see the serializers loaded by <strong>IoC.Configuration</strong> for different types, run the <strong>IoC.Configuration</strong> with logging level set to <strong>INFO</strong>.</p>
+</div>
+<p>The following is the overview of predefined value initialization elements:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt><strong>byte</strong>: Used to specify values of type <strong>System.Byte</strong>.</dt><dd><p>The serializer class is <strong>OROptimizer.Serializer.TypeBasedSimpleSerializerByte</strong>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>int16</strong>: Used to specify values of type <strong>System.Int16</strong>.</dt><dd><p>The serializer class is <strong>OROptimizer.Serializer.TypeBasedSimpleSerializerShort</strong>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>int32</strong>: Used to specify values of type <strong>System.Int32</strong>.</dt><dd><p>The serializer class is <strong>OROptimizer.Serializer.TypeBasedSimpleSerializerInt</strong>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>int64</strong>: Used to specify values of type <strong>System.Int64</strong>.</dt><dd><p>The serializer class is <strong>OROptimizer.Serializer.TypeBasedSimpleSerializerLong</strong>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>double</strong>: Used to specify values of type <strong>System.Double</strong>.</dt><dd><p>The serializer class is <strong>OROptimizer.Serializer.TypeBasedSimpleSerializerDouble</strong>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>datetime</strong>: Used to specify values of type <strong>System.DateTime</strong>.</dt><dd><p>The serializer class is <strong>OROptimizer.Serializer.TypeBasedSimpleSerializerLong</strong>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>boolean</strong>: Used to specify values of type <strong>System.Boolean</strong>.</dt><dd><p>The serializer class is <strong>OROptimizer.Serializer.TypeBasedSimpleSerializerBoolean</strong>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>string</strong>: Used to specify values of type <strong>System.String</strong>.</dt><dd><p>The serializer class is <strong>OROptimizer.Serializer.TypeBasedSimpleSerializerString</strong>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt><strong>datetime</strong>: Used to specify values of type <strong>System.DateTime</strong>.</dt><dd><p>The serializer class is <strong>OROptimizer.Serializer.TypeBasedSimpleSerializerLong</strong>.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<section id="example-1-using-double-and-datetime-elements-as-service-implementation-constructor-parameters">
+<h2>Example 1: Using <strong>double</strong> and <strong>datetime</strong> elements as service implementation constructor parameters<a class="headerlink" href="#example-1-using-double-and-datetime-elements-as-service-implementation-constructor-parameters" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">&lt;service</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Interfaces.IInterface2&quot;</span> <span class="nt">&gt;</span>
+<span class="linenos"> 2</span>    <span class="cm">&lt;!--Test constructor parameters--&gt;</span>
+<span class="linenos"> 3</span>    <span class="nt">&lt;implementation</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Implementations.Interface2_Impl1&quot;</span>
+<span class="linenos"> 4</span>                    <span class="na">scope=</span><span class="s">&quot;singleton&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 5</span>      <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos"> 6</span>        <span class="nt">&lt;datetime</span> <span class="na">name=</span><span class="s">&quot;param1&quot;</span> <span class="na">value=</span><span class="s">&quot;2014-10-29 23:59:59.099&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 7</span>        <span class="nt">&lt;double</span> <span class="na">name=</span><span class="s">&quot;param2&quot;</span> <span class="na">value=</span><span class="s">&quot;125.1&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 8</span>        <span class="nt">&lt;injectedObject</span> <span class="na">name=</span><span class="s">&quot;param3&quot;</span>
+<span class="linenos"> 9</span>                        <span class="na">type=</span><span class="s">&quot;SharedServices.Interfaces.IInterface3&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">10</span>      <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">11</span>    <span class="nt">&lt;/implementation&gt;</span>
+<span class="linenos">12</span><span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-using-int32-element-to-specify-a-return-value-in-autoproperty-element">
+<h2>Example 2: Using <strong>int32</strong> element to specify a return value in autoProperty element<a class="headerlink" href="#example-2-using-int32-element-to-specify-a-return-value-in-autoproperty-element" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">&lt;autoService</span> <span class="na">interfaceRef=</span><span class="s">&quot;IProjectIds&quot;</span> <span class="nt">&gt;</span>
+<span class="linenos">2</span>    <span class="nt">&lt;autoProperty</span> <span class="na">name=</span><span class="s">&quot;DefaultProjectId&quot;</span> <span class="na">returnType=</span><span class="s">&quot;System.Int32&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">3</span>        <span class="nt">&lt;int32</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">4</span>    <span class="nt">&lt;/autoProperty&gt;</span>
+<span class="linenos">5</span><span class="nt">&lt;/autoService&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-int32-double-and-string-elements-in-settings-element">
+<h2>Example 2: <strong>int32</strong>, <strong>double</strong>, and <strong>string</strong> elements in <strong>settings</strong> element<a class="headerlink" href="#example-2-int32-double-and-string-elements-in-settings-element" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">&lt;settings&gt;</span>
+<span class="linenos">2</span>    <span class="nt">&lt;int32</span> <span class="na">name=</span><span class="s">&quot;SynchronizerFrequencyInMilliseconds&quot;</span> <span class="na">value=</span><span class="s">&quot;5000&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">3</span>    <span class="nt">&lt;double</span> <span class="na">name=</span><span class="s">&quot;MaxCharge&quot;</span> <span class="na">value=</span><span class="s">&quot;155.7&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">4</span>    <span class="nt">&lt;string</span> <span class="na">name=</span><span class="s">&quot;DisplayValue&quot;</span> <span class="na">value=</span><span class="s">&quot;Some display value&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">5</span><span class="nt">&lt;/settings&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Predefined Type Value Initializer Elements</a><ul>
+<li><a class="reference internal" href="#example-1-using-double-and-datetime-elements-as-service-implementation-constructor-parameters">Example 1: Using <strong>double</strong> and <strong>datetime</strong> elements as service implementation constructor parameters</a></li>
+<li><a class="reference internal" href="#example-2-using-int32-element-to-specify-a-return-value-in-autoproperty-element">Example 2: Using <strong>int32</strong> element to specify a return value in autoProperty element</a></li>
+<li><a class="reference internal" href="#example-2-int32-double-and-string-elements-in-settings-element">Example 2: <strong>int32</strong>, <strong>double</strong>, and <strong>string</strong> elements in <strong>settings</strong> element</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="index.html"
+                          title="previous chapter">Value Initialization Elements</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="object.html"
+                          title="next chapter"><strong>object</strong> element</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/xml-configuration-file/value-initialization-elements/predefined-type-value-elements.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="object.html" title="object element"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Value Initialization Elements"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >XML Configuration File</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Value Initialization Elements</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Predefined Type Value Initializer Elements</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

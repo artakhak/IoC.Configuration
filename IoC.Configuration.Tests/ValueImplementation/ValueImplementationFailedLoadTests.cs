@@ -1,22 +1,20 @@
-﻿using IoC.Configuration.Tests.TestTemplateFiles;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using IoC.Configuration.ConfigurationFile;
+using IoC.Configuration.Tests.TestTemplateFiles;
+using NUnit.Framework;
 using System;
 using System.Xml;
-using IoC.Configuration.ConfigurationFile;
+using OROptimizer.Utilities.Xml;
 using TestsSharedLibrary.DependencyInjection;
 
 namespace IoC.Configuration.Tests.ValueImplementation
 {
-    [TestClass]
+    [TestFixture]
     public class ValueImplementationFailedLoadTests : IoCConfigurationTestsBase
     {
-        private const string Plugin1Name = "Plugin1";
-
-
         private void LoadConfigurationFile(DiImplementationType diImplementationType,
                                            Action<XmlDocument> modifyConfigurationFileOnLoad)
         {
-            base.LoadConfigurationFile(diImplementationType, (container, configuration) => { }, null, modifyConfigurationFileOnLoad);
+            base.LoadConfigurationFile(diImplementationType, (_, _) => { }, null, modifyConfigurationFileOnLoad);
         }
 
         protected override string GetConfigurationRelativePath()
@@ -24,9 +22,8 @@ namespace IoC.Configuration.Tests.ValueImplementation
             return "IoCConfiguration_valueImplementation.xml";
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void InvalidImplementationType(DiImplementationType diImplementationType)
         {
             Helpers.TestExpectedConfigurationParseException(() =>
@@ -42,9 +39,9 @@ namespace IoC.Configuration.Tests.ValueImplementation
                 }), typeof(IValueBasedServiceImplementationElement));
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void NonExistentSettingValueAsImplementation(DiImplementationType diImplementationType)
         {
             Helpers.TestExpectedConfigurationParseException(() =>
@@ -60,9 +57,9 @@ namespace IoC.Configuration.Tests.ValueImplementation
                 }), typeof(SettingValueElement));
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void PluginServiceUsedInNonPluginSection(DiImplementationType diImplementationType)
         {
             Helpers.TestExpectedConfigurationParseException(() =>
@@ -82,9 +79,9 @@ namespace IoC.Configuration.Tests.ValueImplementation
                 }), typeof(ServiceElement));
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void NonPluginServiceUsedInPluginSection(DiImplementationType diImplementationType)
         {
             Helpers.TestExpectedConfigurationParseException(() =>

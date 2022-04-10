@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright Â© 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -23,6 +23,8 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
+using System;
+
 namespace IoC.Configuration.ConfigurationFile
 {
     public static class ConfigurationFileAttributeNames
@@ -44,7 +46,6 @@ namespace IoC.Configuration.ConfigurationFile
         public const string ItemType = "itemType";
         public const string ItemTypeAssembly = "itemTypeAssembly";
         public const string ItemTypeRef = "itemTypeRef";
-        public const string LoadAssemblyAlways = "loadAlways";
         public const string MemberName = "memberName";
         public const string Name = "name";
         public const string OverrideDirectory = "overrideDirectory";

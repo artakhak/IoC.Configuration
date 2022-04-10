@@ -154,3 +154,8 @@ texinfo_documents = [
      author, 'IoCConfiguration', 'One line description of project.',
      'Miscellaneous'),
 ]
+
+# Added by Artak Hakobyan to allow hide/show sections
+# https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets
+def setup(app):
+    app.add_css_file('custom.css')

@@ -1,36 +1,36 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OROptimizer.Diagnostics.Log;
+﻿using OROptimizer.Diagnostics.Log;
 using System.IO;
+using IoC.Configuration.DiContainerBuilder.FileBased;
+using NUnit.Framework;
 using TestsSharedLibrary.Diagnostics.Log;
 
 namespace IoC.Configuration.Tests.DocumentationTests
 {
-    [TestClass]
+    [TestFixture]
     public class DemoSettings
     {
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
             if (!LogHelper.IsContextInitialized)
                 LogHelper.RegisterContext(new LogHelper4TestsContext());
         }
 
-        [TestMethod]
+        [TearDown]
         public void TestSettings()
         {
             using (var containerInfo = new DiContainerBuilder.DiContainerBuilder()
-                  .StartFileBasedDi(
-                                new FileBasedConfigurationFileContentsProvider(
-                                    Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")),
-                                    Helpers.TestsEntryAssemblyFolder,
-                                    (sender, e) => { })
-                    .WithoutPresetDiContainer()
-                    .AddAdditionalDiModules(new TestDiModule())
-                    .RegisterModules()
-                    .Start())
+                       .StartFileBasedDi(new FileBasedConfigurationParameters(new FileBasedConfigurationFileContentsProvider(
+                               Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")),
+                           Helpers.TestsEntryAssemblyFolder, new LoadedAssembliesForTests())
+                       {
+                           AttributeValueTransformers = new[] { new FileFolderPathAttributeValueTransformer() }
+                       }, out _)
+                       .WithoutPresetDiContainer()
+                       .AddAdditionalDiModules(new TestDiModule())
+                       .RegisterModules()
+                       .Start())
             {
-                var diContainer = containerInfo.DiContainer;
-
                 Assert.IsNotNull(containerInfo.DiContainer.Resolve<TestInjectedSettings>());
             }
         }

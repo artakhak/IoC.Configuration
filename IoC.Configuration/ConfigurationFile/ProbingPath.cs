@@ -46,6 +46,7 @@ namespace IoC.Configuration.ConfigurationFile
             base.Initialize();
 
             Path = this.GetAttributeValue<string>(ConfigurationFileAttributeNames.Path);
+            //Helpers.EnsureConfigurationDirectoryExistsOrThrow(this, Path, ConfigurationFileAttributeNames.Path);
 
             if (!Directory.Exists(Path))
                 throw new ConfigurationParseException(this, $"The directory specified in attribute '{ConfigurationFileAttributeNames.Path}' does not exist.");

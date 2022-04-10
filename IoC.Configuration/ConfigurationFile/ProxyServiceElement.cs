@@ -43,23 +43,17 @@ namespace IoC.Configuration.ConfigurationFile
         private readonly ITypeHelper _typeHelper;
 
         [NotNull]
-        private readonly ITypeMemberLookupHelper _typeMemberLookupHelper;
-
-        [NotNull]
         private readonly IValidateServiceUsageInPlugin _validateServiceUsageInPlugin;
-
         #endregion
 
         #region  Constructors
 
         public ProxyServiceElement([NotNull] XmlElement xmlElement, IConfigurationFileElement parent,
                                    [NotNull] ITypeHelper typeHelper,
-                                   [NotNull] IValidateServiceUsageInPlugin validateServiceUsageInPlugin,
-                                   [NotNull] ITypeMemberLookupHelper typeMemberLookupHelper) : base(xmlElement, parent)
+                                   [NotNull] IValidateServiceUsageInPlugin validateServiceUsageInPlugin) : base(xmlElement, parent)
         {
             _validateServiceUsageInPlugin = validateServiceUsageInPlugin;
             _typeHelper = typeHelper;
-            _typeMemberLookupHelper = typeMemberLookupHelper;
         }
 
         #endregion
@@ -121,7 +115,7 @@ namespace IoC.Configuration.ConfigurationFile
         }
 
         public bool RegisterIfNotRegistered { get; private set; }
-        Type IServiceElement.ServiceType => ServiceTypeInfo.Type;
+      
         public ITypeInfo ServiceTypeInfo { get; private set; }
 
         #endregion

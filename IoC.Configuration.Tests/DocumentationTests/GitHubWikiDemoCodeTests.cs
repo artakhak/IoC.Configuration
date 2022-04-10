@@ -1,24 +1,26 @@
 ﻿
-using IoC.Configuration.Tests.SuccessfullDiModuleLoadTests;
-using IoC.Configuration.Tests.SuccessfullDiModuleLoadTests.TestClasses;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using IoC.Configuration.Tests.SuccessfulDiModuleLoadTests;
+using IoC.Configuration.Tests.SuccessfulDiModuleLoadTests.TestClasses;
+using NUnit.Framework;
 using OROptimizer;
 using System.IO;
+using IoC.Configuration.DiContainerBuilder.FileBased;
+using OROptimizer.Utilities.Xml;
 using TestsSharedLibrary.DependencyInjection;
 using TestsSharedLibrary.Diagnostics.Log;
 
 namespace IoC.Configuration.Tests
 {
-    [TestClass]
+    [TestFixture]
     public class GitHubWikiDemoCodeTests
     {
-        [TestCleanup]
+        [TearDown]
         public void TestCleanup()
         {
             OROptimizer.Diagnostics.Log.LogHelper.RemoveContext();
         }
 
-        [TestMethod]
+        [Test]
         public void FileConfigurationExample1()
         {
             TestsSharedLibrary.TestsHelper.SetupLogger();
@@ -27,17 +29,29 @@ namespace IoC.Configuration.Tests
                 Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml"));
 
             using (var containerInfo = new DiContainerBuilder.DiContainerBuilder()
-                           .StartFileBasedDi(configurationFileContentsProvider,
-                                Helpers.TestsEntryAssemblyFolder,
-                                (sender, e) =>
-                                {
-                                    // Replace some elements in e.XmlDocument if needed,
-                                    // before the configuration is loaded.
-                                })
-                           .WithoutPresetDiContainer()
-                           .AddAdditionalDiModules(new TestDiModule())
-                           .RegisterModules()
-                           .Start())
+                       .StartFileBasedDi(
+                           new FileBasedConfigurationParameters(configurationFileContentsProvider,
+                               Helpers.TestsEntryAssemblyFolder,
+                               new LoadedAssembliesForTests())
+                           {
+                               AdditionalReferencedAssemblies = new []
+                               {
+                                   // List additional assemblies that should be added to dynamically generated assembly as references
+                                   Path.Combine(Helpers.GetTestFilesFolderPath(), @"DynamicallyLoadedDlls\TestProjects.DynamicallyLoadedAssembly1.dll"),
+                                   Path.Combine(Helpers.GetTestFilesFolderPath(), @"DynamicallyLoadedDlls\TestProjects.DynamicallyLoadedAssembly2.dll")
+                               },
+                               AttributeValueTransformers = new[] {new FileFolderPathAttributeValueTransformer()},
+                               ConfigurationFileXmlDocumentLoaded = (sender, e) =>
+                               {
+                                   // Replace some elements in e.XmlDocument if needed,
+                                   // before the configuration is loaded.
+                                   Helpers.EnsureConfigurationDirectoryExistsOrThrow(e.XmlDocument.SelectElement("/iocConfiguration/appDataDir").GetAttribute("path"));
+                               }
+                           }, out _)
+                       .WithoutPresetDiContainer()
+                       .AddAdditionalDiModules(new TestDiModule())
+                       .RegisterModules()
+                       .Start())
             {
                 var container = containerInfo.DiContainer;
 
@@ -53,10 +67,9 @@ namespace IoC.Configuration.Tests
             }
         }
 
-        [TestMethod]
+        [Test]
         public void CodeBasedConfigurationExample1()
         {
-            OROptimizer.Diagnostics.Log.LogHelper.RegisterContext(new LogHelper4TestsContext());
             TestsSharedLibrary.TestsHelper.SetupLogger();
 
             // Probing paths are used to re-solve the dependencies.

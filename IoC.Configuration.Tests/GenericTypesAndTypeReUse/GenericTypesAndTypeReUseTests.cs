@@ -1,27 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Xml;
-using IoC.Configuration.ConfigurationFile;
+﻿using IoC.Configuration.ConfigurationFile;
 using IoC.Configuration.DiContainer;
 using IoC.Configuration.Tests.TestTemplateFiles;
 using JetBrains.Annotations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using OROptimizer.Diagnostics.Log;
 using OROptimizer.Serializer;
 using SharedServices.Implementations;
 using SharedServices.Implementations.Generic;
 using SharedServices.Interfaces;
 using SharedServices.Interfaces.Generic;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Xml;
+using IoC.Configuration.DiContainerBuilder.FileBased;
+using OROptimizer.Utilities.Xml;
 using TestsSharedLibrary;
 using TestsSharedLibrary.DependencyInjection;
 using TestsSharedLibrary.Diagnostics.Log;
 
 namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
 {
-    [TestClass]
+    [TestFixture]
     public class GenericTypesAndTypeReUseTests : IoCConfigurationTestsBase
     {
         #region Member Variables
@@ -38,17 +40,24 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
         #endregion
 
         #region Member Functions
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext testContext)
+        [OneTimeSetUp]
+        public static void ClassInitialize()
         {
             TestsHelper.SetupLogger();
             Log4Tests.LogLevel = LogLevel.Info;
 
             using (var containerInfo = new DiContainerBuilder.DiContainerBuilder()
-                                  .StartFileBasedDi(
-                                      new FileBasedConfigurationFileContentsProvider(_configurationRelativePath),
-                                      Helpers.TestsEntryAssemblyFolder, null)
-                                  .WithoutPresetDiContainer().RegisterModules().Start())
+                       .StartFileBasedDi(
+                           new FileBasedConfigurationParameters(new FileBasedConfigurationFileContentsProvider(_configurationRelativePath),
+                               Helpers.TestsEntryAssemblyFolder, new LoadedAssembliesForTests())
+                           {
+                               AttributeValueTransformers = new[] { new FileFolderPathAttributeValueTransformer() },
+                               ConfigurationFileXmlDocumentLoaded = (sender, e) =>
+                               {
+                                   Helpers.EnsureConfigurationDirectoryExistsOrThrow(e.XmlDocument.SelectElement("/iocConfiguration/appDataDir").GetAttribute("path"));
+                               }
+                           }, out _)
+                       .WithoutPresetDiContainer().RegisterModules().Start())
             {
                 var configuration = containerInfo.DiContainer.Resolve<IConfiguration>();
                 _typeDefinitionsElement = configuration.TypeDefinitions;
@@ -56,9 +65,8 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             }
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void GenericTypeTest1(DiImplementationType diImplementationType)
         {
             LoadConfigurationFileAndRunTest(diImplementationType, (diContainer, configuration) =>
@@ -67,15 +75,13 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
 
                 var implementation = diContainer.Resolve<IGeneric2_1<Generic3_1<int>>>();
 
-                Assert.IsInstanceOfType(implementation, typeof(Generic2_1<Generic3_1<int>>));
+                Assert.IsInstanceOf<Generic2_1<Generic3_1<int>>>(implementation);
                 Assert.AreEqual(17, implementation.Value.Value);
             }, false);
         }
 
-
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void GenericTypeTest2(DiImplementationType diImplementationType)
         {
             LoadConfigurationFileAndRunTest(diImplementationType, (diContainer, configuration) =>
@@ -163,9 +169,8 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             }
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void TestAllTypeDefinitions(DiImplementationType diImplementationType)
         {
             LoadConfigurationFileAndRunTest(diImplementationType, (diContainer, configuration) =>
@@ -230,10 +235,9 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
 
             }, false);
         }
-
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void TypeRefInModuleTest(DiImplementationType diImplementationType)
         {
             LoadConfigurationFileAndRunTest(diImplementationType, (diContainer, configuration) =>
@@ -369,19 +373,18 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             return typeNameStrBldr.ToString();
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void TypeRefInParametersSerializersEtcTest(DiImplementationType diImplementationType)
         {
             LoadConfigurationFileAndRunTest(diImplementationType, (diContainer, configuration) =>
             {
-                Assert.IsInstanceOfType(configuration.ParameterSerializers.TypeBasedSimpleSerializerAggregator,
-                    typeof(TypeBasedSimpleSerializerAggregator));
+                Assert.IsInstanceOf<TypeBasedSimpleSerializerAggregator>(configuration.ParameterSerializers.TypeBasedSimpleSerializerAggregator);
 
                 var restTypeRefTestClass3Serializer = configuration.ParameterSerializers.TypeBasedSimpleSerializerAggregator.GetSerializerForType(typeof(TestTypeRefTestClass3));
 
-                Assert.IsInstanceOfType(restTypeRefTestClass3Serializer, typeof(TestTypeRefTestClass3Serializer));
+                Assert.IsInstanceOf<TestTypeRefTestClass3Serializer>(restTypeRefTestClass3Serializer);
 
                 var servicesInjectionTester = diContainer.Resolve<ClassToTestServicesInjection<TestTypeRefTestClass1>>();
 
@@ -390,17 +393,17 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 var testTypeRefTestClass1 = servicesInjectionTester.Implementations[0];
 
 
-                Assert.IsInstanceOfType(testTypeRefTestClass1.Property1.Property1, typeof(Interface1_Impl1));
-                Assert.IsInstanceOfType(testTypeRefTestClass1.Property3.Property1, typeof(Interface1_Impl1));
+                Assert.IsInstanceOf<Interface1_Impl1>(testTypeRefTestClass1.Property1.Property1);
+                Assert.IsInstanceOf<Interface1_Impl1>(testTypeRefTestClass1.Property3.Property1);
 
                 Assert.AreEqual(5, testTypeRefTestClass1.Property2.Property1);
                 Assert.AreEqual(7, testTypeRefTestClass1.Property4.Property1);
             }, true);
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void TypeRefInPluginModuleTest(DiImplementationType diImplementationType)
         {
             LoadConfigurationFileAndRunTest(diImplementationType, (diContainer, configuration) =>
@@ -415,9 +418,9 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             });
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void TypeRefInPluginSelfBoundServiceTest(DiImplementationType diImplementationType)
         {
             LoadConfigurationFileAndRunTest(diImplementationType, (diContainer, configuration) =>
@@ -439,9 +442,9 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             });
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void TypeRefInPluginServiceAndImplementationsTest(DiImplementationType diImplementationType)
         {
             LoadConfigurationFileAndRunTest(diImplementationType, (diContainer, configuration) =>
@@ -462,9 +465,9 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
              });
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void TypeRefInPluginSettingsAndOverriddigTypeDefinitionTest(DiImplementationType diImplementationType)
         {
             LoadConfigurationFileAndRunTest(diImplementationType, (diContainer, configuration) =>
@@ -480,9 +483,9 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             });
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void TypeRefInSelfBoundServiceTest(DiImplementationType diImplementationType)
         {
             LoadConfigurationFileAndRunTest(diImplementationType, (diContainer, configuration) =>
@@ -500,9 +503,9 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             });
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void TypeRefInServiceAndImplementationsTest(DiImplementationType diImplementationType)
         {
             LoadConfigurationFileAndRunTest(diImplementationType, (diContainer, configuration) =>
@@ -516,9 +519,9 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             });
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac)]
-        [DataRow(DiImplementationType.Ninject)]
+        
+        [TestCase(DiImplementationType.Autofac)]
+        [TestCase(DiImplementationType.Ninject)]
         public void TypeRefInSettingsTest(DiImplementationType diImplementationType)
         {
             LoadConfigurationFileAndRunTest(diImplementationType, (diContainer, configuration) =>

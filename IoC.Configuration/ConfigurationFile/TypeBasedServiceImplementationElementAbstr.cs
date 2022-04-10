@@ -81,10 +81,8 @@ namespace IoC.Configuration.ConfigurationFile
             ValidateImplementationType();
         }
 
-        [CanBeNull]
         public IInjectedProperties InjectedProperties { get; private set; }
 
-        [CanBeNull]
         public IParameters Parameters { get; private set; }
 
         public override void ValidateAfterChildrenAdded()

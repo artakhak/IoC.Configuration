@@ -22,27 +22,29 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Loader;
 using IoC.Configuration.ConfigurationFile;
 using IoC.Configuration.DiContainer;
 using IoC.Configuration.DiContainerBuilder.CodeBased;
 using IoC.Configuration.OnApplicationStart;
 using JetBrains.Annotations;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using OROptimizer;
 using OROptimizer.Diagnostics.Log;
 using SharedServices.Implementations;
 using SharedServices.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.Loader;
+using IoC.Configuration.DiContainerBuilder.FileBased;
+using OROptimizer.Utilities.Xml;
 using TestsSharedLibrary;
 using TestsSharedLibrary.DependencyInjection;
 
 namespace IoC.Configuration.Tests.DiContainerBuilderTests
 {
-    [TestClass]
+    [TestFixture]
     public class DiContainerBuilderTests
     {
         #region Member Functions
@@ -117,17 +119,17 @@ namespace IoC.Configuration.Tests.DiContainerBuilderTests
             return (T)GlobalsCoreAmbientContext.Context.CreateInstance(assembly.GetType(classFullName), constructorParameters, out var errorMessage);
         }
 
-        [TestCleanup]
+        [TearDown]
         public void TestCleanup()
         {
             // Remove assembly resolution...
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac, true)]
-        [DataRow(DiImplementationType.Autofac, false)]
-        [DataRow(DiImplementationType.Ninject, true)]
-        [DataRow(DiImplementationType.Ninject, false)]
+        
+        [TestCase(DiImplementationType.Autofac, true)]
+        [TestCase(DiImplementationType.Autofac, false)]
+        [TestCase(DiImplementationType.Ninject, true)]
+        [TestCase(DiImplementationType.Ninject, false)]
         public void TestCodeBasedDiContainerBuilder(DiImplementationType diImplementationType, bool isLoggerNotSetTest)
         {
             var assemblyProbingPaths = new List<string>
@@ -205,11 +207,11 @@ namespace IoC.Configuration.Tests.DiContainerBuilderTests
             ioCBuilder.StartCodeBasedDi(diManagerClassFullName, diManagerClassAssemblyFilePath, diManagerConstructorParameters, Helpers.TestsEntryAssemblyFolder, assemblyProbingPaths);
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac, true)]
-        [DataRow(DiImplementationType.Autofac, false)]
-        [DataRow(DiImplementationType.Ninject, true)]
-        [DataRow(DiImplementationType.Ninject, false)]
+        
+        [TestCase(DiImplementationType.Autofac, true)]
+        [TestCase(DiImplementationType.Autofac, false)]
+        [TestCase(DiImplementationType.Ninject, true)]
+        [TestCase(DiImplementationType.Ninject, false)]
         public void TestFileBasedDiContainerBuilderWithDiContainerProvided(DiImplementationType diImplementationType, bool isLoggerNotSetTest)
         {
             RuntTests(isLoggerNotSetTest, () =>
@@ -219,14 +221,24 @@ namespace IoC.Configuration.Tests.DiContainerBuilderTests
                 var diContainerBuilder = new DiContainerBuilder.DiContainerBuilder();
 
                 using (var containerInfo = diContainerBuilder.StartFileBasedDi(
-                                                                 new FileBasedConfigurationFileContentsProvider(
-                                                                     Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")), Helpers.TestsEntryAssemblyFolder,
-                                                                 (sender, e) => ConfigurationFileXmlDocumentLoadedEventHandler(diImplementationType, e))
-                                                             .WithDiContainer(diContainer)
-                                                             .AddAdditionalDiModules(new DiModule1())
-                                                             .AddNativeModules(CreateNativeModule(diImplementationType))
-                                                             .RegisterModules()
-                                                             .Start())
+                               new FileBasedConfigurationParameters(
+                                   new FileBasedConfigurationFileContentsProvider(
+                                       Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")),
+                                   Helpers.TestsEntryAssemblyFolder,
+                                   new LoadedAssembliesForTests())
+                               {
+                                   ConfigurationFileXmlDocumentLoaded = (sender, e) =>
+                                   {
+                                       Helpers.EnsureConfigurationDirectoryExistsOrThrow(e.XmlDocument.SelectElement("/iocConfiguration/appDataDir").GetAttribute("path"));
+                                       ConfigurationFileXmlDocumentLoadedEventHandler(diImplementationType, e);
+                                   },
+                                   AttributeValueTransformers = new[] { new FileFolderPathAttributeValueTransformer() }
+                               }, out _)
+                           .WithDiContainer(diContainer)
+                           .AddAdditionalDiModules(new DiModule1())
+                           .AddNativeModules(CreateNativeModule(diImplementationType))
+                           .RegisterModules()
+                           .Start())
                 {
                     Assert.AreSame(diContainer, containerInfo.DiContainer);
 
@@ -237,25 +249,33 @@ namespace IoC.Configuration.Tests.DiContainerBuilderTests
             
         }
 
-        [DataTestMethod]
-        [DataRow(DiImplementationType.Autofac, true)]
-        [DataRow(DiImplementationType.Autofac, false)]
-        [DataRow(DiImplementationType.Ninject, true)]
-        [DataRow(DiImplementationType.Ninject, false)]
+        
+        [TestCase(DiImplementationType.Autofac, true)]
+        [TestCase(DiImplementationType.Autofac, false)]
+        [TestCase(DiImplementationType.Ninject, true)]
+        [TestCase(DiImplementationType.Ninject, false)]
         public void TestFileBasedDiContainerBuilderWithNoDiContainerProvided(DiImplementationType diImplementationType, bool isLoggerNotSetTest)
         {
             RuntTests(isLoggerNotSetTest, () =>
             {
                 var diContainerBuilder = new DiContainerBuilder.DiContainerBuilder();
                 using (var containerInfo = diContainerBuilder.StartFileBasedDi(
-                                                                 new FileBasedConfigurationFileContentsProvider(
-                                                                     Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")), Helpers.TestsEntryAssemblyFolder,
-                                                                 (sender, e) => ConfigurationFileXmlDocumentLoadedEventHandler(diImplementationType, e))
-                                                             .WithoutPresetDiContainer()
-                                                             .AddAdditionalDiModules(new DiModule1())
-                                                             .AddNativeModules(CreateNativeModule(diImplementationType))
-                                                             .RegisterModules()
-                                                             .Start())
+                               new FileBasedConfigurationParameters(new FileBasedConfigurationFileContentsProvider(
+                                       Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")), Helpers.TestsEntryAssemblyFolder,
+                                   new LoadedAssembliesForTests())
+                               {
+                                   AttributeValueTransformers = new [] {new FileFolderPathAttributeValueTransformer()},
+                                   ConfigurationFileXmlDocumentLoaded = (sender, e) =>
+                                   {
+                                       Helpers.EnsureConfigurationDirectoryExistsOrThrow(e.XmlDocument.SelectElement("/iocConfiguration/appDataDir").GetAttribute("path"));
+                                       ConfigurationFileXmlDocumentLoadedEventHandler(diImplementationType, e);
+                                   }
+                               }, out _)
+                               .WithoutPresetDiContainer()
+                               .AddAdditionalDiModules(new DiModule1())
+                               .AddNativeModules(CreateNativeModule(diImplementationType))
+                               .RegisterModules()
+                               .Start())
                 {
                     ValidateFileBasedDiContainer(diImplementationType, containerInfo.DiContainer);
                 }

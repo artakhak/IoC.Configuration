@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Loading from XML Configuration File &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Loading from Modules" href="loading-from-modules.html" />
+    <link rel="prev" title="Loading IoC Configuration" href="index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="loading-from-modules.html" title="Loading from Modules"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Loading IoC Configuration"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Loading IoC Configuration</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Loading from XML Configuration File</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="loading-from-xml-configuration-file">
+<h1>Loading from XML Configuration File<a class="headerlink" href="#loading-from-xml-configuration-file" title="Permalink to this headline">¶</a></h1>
+<p>An example of XML configuration file can be found at <a class="reference internal" href="../sample-files/IoCConfiguration_Overview.generated.html"><span class="doc">IoCConfiguration_Overview.xml</span></a>. This file is used in test project <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.Tests">IoC.Configuration.Tests</a>.</p>
+<p>-The XML Configuration file is validated against XML schema file <strong>IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd</strong> (see <a class="reference internal" href="../sample-files/xml-configuration-file-schema.generated.html"><span class="doc">XML Configuration File Schema</span></a>).
+-A template XML Configuration file <strong>IoC.Configuration.Template.xml</strong> can be found in folder <strong>IoC.Configuration.Content</strong>, where the Nuget package <strong>IoC.Configuration</strong> is installed (see <a class="reference internal" href="../sample-files/xml-configuration-template.generated.html"><span class="doc">XML Configuration Template</span></a>).</p>
+<p>To load the IoC configuration from XML configuration file use method <strong>IoC.Configuration.DiContainerBuilder.DiContainerBuilder.StartFileBasedDi()</strong> as shown below.</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">using</span><span class="w"> </span><span class="nn">OROptimizer.Xml</span><span class="p">;</span><span class="w"> </span><span class="c1">// add this using statement to be able to use XmlDocument extensions (i.e., e.XmlDocument.SelectElements(&quot;/iocConfiguration/diManagers&quot;), etc.)</span>
+<span class="linenos"> 2</span><span class="c1">// ...</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="k">using</span><span class="w"> </span><span class="p">(</span><span class="kt">var</span><span class="w"> </span><span class="n">containerInfo</span><span class="w"> </span><span class="p">=</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">DiContainerBuilder</span><span class="p">.</span><span class="n">DiContainerBuilder</span><span class="p">()</span><span class="w"></span>
+<span class="linenos"> 6</span><span class="w">        </span><span class="p">.</span><span class="n">StartFileBasedDi</span><span class="p">(</span><span class="w"></span>
+<span class="linenos"> 7</span><span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="nf">FileBasedConfigurationParameters</span><span class="p">(</span><span class="w"></span>
+<span class="linenos"> 8</span><span class="w">                </span><span class="k">new</span><span class="w"> </span><span class="nf">FileBasedConfigurationFileContentsProvider</span><span class="p">(</span><span class="w"></span>
+<span class="linenos"> 9</span><span class="w">                    </span><span class="n">Path</span><span class="p">.</span><span class="n">Combine</span><span class="p">(</span><span class="n">Helpers</span><span class="p">.</span><span class="n">TestsEntryAssemblyFolder</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;IoCConfiguration_Overview.xml&quot;</span><span class="p">)),</span><span class="w"></span>
+<span class="linenos">10</span><span class="w">                </span><span class="c1">// Provide the entry assembly folder. Normally this is the folder,</span>
+<span class="linenos">11</span><span class="w">                </span><span class="c1">// where the executable file is. However for test projects this might not</span>
+<span class="linenos">12</span><span class="w">                </span><span class="c1">// be the case. This folder will be used in assembly resolution.</span>
+<span class="linenos">13</span><span class="w">                </span><span class="n">Helpers</span><span class="p">.</span><span class="n">TestsEntryAssemblyFolder</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">14</span><span class="w">                </span><span class="k">new</span><span class="w"> </span><span class="nf">LoadedAssembliesForTests</span><span class="p">())</span><span class="w"></span>
+<span class="linenos">15</span><span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">                </span><span class="n">AdditionalReferencedAssemblies</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">string</span><span class="p">[]</span><span class="w"></span>
+<span class="linenos">17</span><span class="w">                </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">18</span><span class="w">                    </span><span class="c1">// List additional assemblies that should be added to dynamically generated assembly as references</span>
+<span class="linenos">19</span><span class="w">                    </span><span class="n">Path</span><span class="p">.</span><span class="n">Combine</span><span class="p">(</span><span class="n">Helpers</span><span class="p">.</span><span class="n">GetTestFilesFolderPath</span><span class="p">(),</span><span class="w"> </span><span class="s">@&quot;DynamicallyLoadedDlls\TestProjects.DynamicallyLoadedAssembly1.dll&quot;</span><span class="p">),</span><span class="w"></span>
+<span class="linenos">20</span><span class="w">                    </span><span class="n">Path</span><span class="p">.</span><span class="n">Combine</span><span class="p">(</span><span class="n">Helpers</span><span class="p">.</span><span class="n">GetTestFilesFolderPath</span><span class="p">(),</span><span class="w"> </span><span class="s">@&quot;DynamicallyLoadedDlls\TestProjects.DynamicallyLoadedAssembly2.dll&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="linenos">21</span><span class="w">                </span><span class="p">},</span><span class="w"></span>
+<span class="linenos">22</span><span class="w">                </span><span class="c1">// Set the value of AttributeValueTransformers to list of</span>
+<span class="linenos">23</span><span class="w">                </span><span class="c1">// IoC.Configuration.AttributeValuesProvider.IAttributeValueTransformer instances</span>
+<span class="linenos">24</span><span class="w">                </span><span class="c1">// to change some xml attribute values when the xml configuration is loaded,</span>
+<span class="linenos">25</span><span class="w">                </span><span class="c1">// before the configuration is parsed.</span>
+<span class="linenos">26</span><span class="w">                </span><span class="c1">// Good example of implementation of IoC.Configuration.AttributeValuesProvider.IAttributeValueTransformer</span>
+<span class="linenos">27</span><span class="w">                </span><span class="c1">// is IoC.Configuration.Tests.FileFolderPathAttributeValueTransformer.</span>
+<span class="linenos">28</span><span class="w">                </span><span class="n">AttributeValueTransformers</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IAttributeValueTransformer</span><span class="w"> </span><span class="p">[]</span><span class="w"></span>
+<span class="linenos">29</span><span class="w">                </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">30</span><span class="w">                    </span><span class="k">new</span><span class="w"> </span><span class="nf">FileFolderPathAttributeValueTransformer</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">31</span><span class="w">                </span><span class="p">},</span><span class="w"></span>
+<span class="linenos">32</span><span class="w">                </span><span class="n">ConfigurationFileXmlDocumentLoaded</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="p">(</span><span class="n">sender</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"></span>
+<span class="linenos">33</span><span class="w">                </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">34</span><span class="w">                    </span><span class="c1">// Replace some elements in e.XmlDocument if needed,</span>
+<span class="linenos">35</span><span class="w">                    </span><span class="c1">// before the configuration is loaded.</span>
+<span class="linenos">36</span><span class="w">                    </span><span class="c1">// For example, we can replace the value of attribute &#39;activeDiManagerName&#39; in element</span>
+<span class="linenos">37</span><span class="w">                    </span><span class="c1">// iocConfiguration.diManagers to use a different DI manager (say</span>
+<span class="linenos">38</span><span class="w">                    </span><span class="c1">// switch from Autofac to Ninject).</span>
+<span class="linenos">39</span><span class="w">                    </span><span class="n">Helpers</span><span class="p">.</span><span class="n">EnsureConfigurationDirectoryExistsOrThrow</span><span class="p">(</span><span class="n">e</span><span class="p">.</span><span class="n">XmlDocument</span><span class="p">.</span><span class="n">SelectElement</span><span class="p">(</span><span class="s">&quot;/iocConfiguration/appDataDir&quot;</span><span class="p">).</span><span class="n">GetAttribute</span><span class="p">(</span><span class="s">&quot;path&quot;</span><span class="p">));</span><span class="w"></span>
+<span class="linenos">40</span><span class="w">                    </span><span class="n">e</span><span class="p">.</span><span class="n">XmlDocument</span><span class="p">.</span><span class="n">SelectElements</span><span class="p">(</span><span class="s">&quot;/iocConfiguration/diManagers&quot;</span><span class="p">)</span><span class="w"></span>
+<span class="linenos">41</span><span class="w">                        </span><span class="p">.</span><span class="n">First</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">42</span><span class="w">                        </span><span class="p">.</span><span class="n">SetAttributeValue</span><span class="p">(</span><span class="s">&quot;activeDiManagerName&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Autofac&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="linenos">43</span><span class="w">                </span><span class="p">}</span><span class="w"></span>
+<span class="linenos">44</span><span class="w">            </span><span class="p">},</span><span class="w"> </span><span class="k">out</span><span class="w"> </span><span class="n">_</span><span class="p">)</span><span class="w"></span>
+<span class="linenos">45</span><span class="w">        </span><span class="c1">// Note, most of the time we will need to call method WithoutPresetDiContainer().</span>
+<span class="linenos">46</span><span class="w">        </span><span class="c1">// However, in some cases, we might need to create an instance of IoC.Configuration.DiContainer.IDiContainer,</span>
+<span class="linenos">47</span><span class="w">        </span><span class="c1">// and call the method WithDiContainer(IoC.Configuration.DiContainer.IDiContainer diContainer) instead.</span>
+<span class="linenos">48</span><span class="w">        </span><span class="c1">// This might be necessary when using the IoC.Configuration to configure dependency injection in</span>
+<span class="linenos">49</span><span class="w">        </span><span class="c1">// ASP.NET Core projects.</span>
+<span class="linenos">50</span><span class="w">        </span><span class="c1">// An example implementation of IDIContainer is IoC.Configuration.Autofac.AutofacDiContainer in</span>
+<span class="linenos">51</span><span class="w">        </span><span class="c1">// Nuget package IoC.Configuration.Autofac.</span>
+<span class="linenos">52</span><span class="w">        </span><span class="p">.</span><span class="n">WithoutPresetDiContainer</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">53</span>
+<span class="linenos">54</span><span class="w">        </span><span class="c1">// Note, native and IoC.Configuration modules can be specified in XML configuration file, in</span>
+<span class="linenos">55</span><span class="w">        </span><span class="c1">// iocConfiguration/dependencyInjection/modules/module elements.</span>
+<span class="linenos">56</span><span class="w">        </span><span class="c1">// However, if necessary, AddAdditionalDiModules() and AddNativeModules() can be used to load additional</span>
+<span class="linenos">57</span><span class="w">        </span><span class="c1">// IoC.Configuration modules (instances of IoC.Configuration.DiContainer.IDiModule), as well</span>
+<span class="linenos">58</span><span class="w">        </span><span class="c1">// as native (e.g, Ninject or Autofac) modules.</span>
+<span class="linenos">59</span><span class="w">        </span><span class="c1">// Also, AddAdditionalDiModules() and AddNativeModules() can be called multiple times in any order.</span>
+<span class="linenos">60</span><span class="w">        </span><span class="p">.</span><span class="n">AddAdditionalDiModules</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">TestDiModule</span><span class="p">())</span><span class="w"></span>
+<span class="linenos">61</span><span class="w">        </span><span class="p">.</span><span class="n">AddNativeModules</span><span class="p">(</span><span class="n">CreateModule</span><span class="p">&lt;</span><span class="kt">object</span><span class="p">&gt;(</span><span class="s">&quot;Modules.Autofac.AutofacModule1&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">62</span><span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="n">ParameterInfo</span><span class="p">[]</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ParameterInfo</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="kt">int</span><span class="p">),</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="p">}))</span><span class="w"></span>
+<span class="linenos">63</span><span class="w">        </span><span class="p">.</span><span class="n">RegisterModules</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">64</span><span class="w">        </span><span class="p">.</span><span class="n">Start</span><span class="p">())</span><span class="w"></span>
+<span class="linenos">65</span><span class="p">{</span><span class="w"></span>
+<span class="linenos">66</span><span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">diContainer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">containerInfo</span><span class="p">.</span><span class="n">DiContainer</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">67</span>
+<span class="linenos">68</span><span class="w">    </span><span class="c1">// Once the configuration is loaded, resolve types using IoC.Configuration.DiContainer.IDiContainer</span>
+<span class="linenos">69</span><span class="w">    </span><span class="c1">// Note, interface IoC.Configuration.DiContainerBuilder.IContainerInfo extends System.IDisposable,</span>
+<span class="linenos">70</span><span class="w">    </span><span class="c1">// and should be disposed, to make sure all the resources are properly disposed of.</span>
+<span class="linenos">71</span><span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">resolvedInstance</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">containerInfo</span><span class="p">.</span><span class="n">DiContainer</span><span class="p">.</span><span class="n">Resolve</span><span class="p">&lt;</span><span class="n">SharedServices</span><span class="p">.</span><span class="n">Interfaces</span><span class="p">.</span><span class="n">IInterface7</span><span class="p">&gt;();</span><span class="w"></span>
+<span class="linenos">72</span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<ul>
+<li><p>Once the configuration is loaded into <strong>containerInfo</strong> variable of type <strong>IoC.Configuration.DiContainerBuilder.IContainerInfo</strong>, resolve types using property <strong>DiContainer</strong> in <strong>IoC.Configuration.DiContainerBuilder.IContainerInfo</strong> (the property is of type <strong>IoC.Configuration.DiContainer.IDiContainer</strong>).</p></li>
+<li><p>Interface <strong>IoC.Configuration.DiContainerBuilder.IContainerInfo</strong> extends <strong>System.IDisposable</strong>.</p></li>
+<li><dl>
+<dt>Native and <strong>IoC.Configuration</strong> modules can be specified in XML configuration file, in <strong>iocConfiguration/dependencyInjection/modules/module</strong> elements. However, if necessary, use the following methods in <strong>IoC.Configuration.DiContainerBuilder.FileBased.IFileBasedDiModulesConfigurator</strong> to load additional <strong>IoC.Configuration</strong> modules (instances of IoC.Configuration.DiContainer.IDiModule), as well as native (e.g, Ninject or Autofac) modules:</dt><dd><ul class="simple">
+<li><p>IFileBasedDiModulesConfigurator.AddAdditionalDiModules(params IDiModule[] diModules)</p></li>
+<li><p>IFileBasedDiModulesConfigurator.AddNativeModules(params object[] nativeModules)</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These methods can be called multiple times in any order. In other words, we can add some <strong>IoC.Configuration</strong> modules using <strong>AddAdditionalDiModules</strong>, then some native modules using <strong>AddNativeModules()</strong>, then some more <strong>IoC.Configuration</strong> modules using <strong>AddAdditionalDiModules</strong>.</p>
+</div>
+</dd>
+</dl>
+</li>
+</ul>
+<section id="modifying-xml-configuration-at-runtime">
+<h2>Modifying XML Configuration at Runtime<a class="headerlink" href="#modifying-xml-configuration-at-runtime" title="Permalink to this headline">¶</a></h2>
+<p>The XML Configuration file can be modified at runtime by passing a delegate for parameter <strong>configurationFileXmlDocumentLoaded</strong> in method <strong>IoC.Configuration.DiContainerBuilder.StartFileBasedDi(IConfigurationFileContentsProvider configurationFileContentsProvider, string entryAssemblyFolder, ConfigurationFileXmlDocumentLoadedEventHandler configurationFileXmlDocumentLoaded = null)</strong>.</p>
+<p>This method loads the configuration file into an instance of <strong>System.Xml.XmlDocument</strong> object, and executes the delegate passed in parameter <strong>configurationFileXmlDocumentLoaded</strong>.</p>
+<p>By the time the delegate is executed, <strong>System.Xml.XmlDocument</strong> object is not yet validated against the XML schema file <strong>IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd</strong> (this is done after the delegate is executed). Therefore, the changes to <strong>System.Xml.XmlDocument</strong> object should be done in such a way that the XML document is still valid against this schema file.</p>
+<p>Example of modifying the XML document at runtime to replace the value of attribute <strong>activeDiManagerName</strong> in element <strong>/iocConfiguration/diManagers</strong> with <strong>Autofac</strong> is shown below (this is copied from the C# code above).</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">new</span><span class="w"> </span><span class="n">DiContainerBuilder</span><span class="p">.</span><span class="n">DiContainerBuilder</span><span class="p">()</span><span class="w"></span>
+<span class="w">       </span><span class="p">.</span><span class="n">StartFileBasedDi</span><span class="p">(</span><span class="w"></span>
+<span class="w">            </span><span class="c1">// Other parameters...</span>
+<span class="w">            </span><span class="p">(</span><span class="n">sender</span><span class="p">,</span><span class="w"> </span><span class="n">e</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">                </span><span class="n">e</span><span class="p">.</span><span class="n">XmlDocument</span><span class="p">.</span><span class="n">SelectElements</span><span class="p">(</span><span class="s">&quot;/iocConfiguration/diManagers&quot;</span><span class="p">).</span><span class="n">First</span><span class="p">()</span><span class="w"></span>
+<span class="w">                     </span><span class="p">.</span><span class="n">SetAttributeValue</span><span class="p">(</span><span class="s">&quot;activeDiManagerName&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Autofac&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="p">})</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#">Loading from XML Configuration File</a><ul>
+<li><a class="reference internal" href="#modifying-xml-configuration-at-runtime">Modifying XML Configuration at Runtime</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="index.html"
+                          title="previous chapter">Loading IoC Configuration</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="loading-from-modules.html"
+                          title="next chapter">Loading from Modules</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/loading-ioc-configuration/loading-from-xml.generated.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="loading-from-modules.html" title="Loading from Modules"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="Loading IoC Configuration"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Loading IoC Configuration</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Loading from XML Configuration File</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

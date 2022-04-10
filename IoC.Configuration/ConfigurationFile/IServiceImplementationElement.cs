@@ -31,23 +31,11 @@ namespace IoC.Configuration.ConfigurationFile
 {
     public interface IServiceImplementationElement : IConfigurationFileElement, ITypedItem
     {
-        #region Current Type Interface
-
-        [Obsolete("Use ImplementationTypeInfo.Assembly. Will be removed after 5/31/2019. Use ITypedItem.ValueTypeInfo.Assembly")]
-        [NotNull]
-        IAssembly Assembly { get; }
-
         ConditionalInjectionType ConditionalInjectionType { get; }
-
-        [Obsolete("Use ImplementationTypeInfo. Will be removed after 5/31/2019. Use ITypedItem.ValueTypeInfo.Type")]
-        [NotNull]
-        Type ImplementationType { get; }
 
         DiResolutionScope ResolutionScope { get; }
 
         [CanBeNull]
         Type WhenInjectedIntoType { get; }
-
-        #endregion
     }
 }

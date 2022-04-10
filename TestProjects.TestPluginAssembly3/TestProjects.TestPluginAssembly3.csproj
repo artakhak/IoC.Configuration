@@ -6,7 +6,9 @@
     <SccLocalPath>SAK</SccLocalPath>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <OutputPath>bin\Debug\</OutputPath>
@@ -19,10 +21,16 @@
     <RootNamespace>TestPluginAssembly3</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Implementations\Interface5_Plugin3Impl.cs" />
+    <Compile Include="Implementations\OracleDbConnection.cs" />
+    <Compile Include="Implementations\Plugin3.cs" />
+    <Compile Include="Implementations\Plugin3ActionValidator.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
     <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="OROptimizer.Shared" Version="2.0.0" />
+    <PackageReference Include="OROptimizer.Shared" Version="2.1.1" />
   </ItemGroup>
 </Project>

@@ -23,11 +23,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
+using JetBrains.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Xml;
-using JetBrains.Annotations;
-using OROptimizer;
 
 namespace IoC.Configuration.ConfigurationFile
 {
@@ -69,21 +68,6 @@ namespace IoC.Configuration.ConfigurationFile
         }
 
         public IEnumerable<IParameterElement> AllParameters => _parameters;
-
-        [Obsolete("Will be removed after 5/31/2019.")]
-        public ParameterInfo[] GetParameterValues()
-        {
-            var parameterInfos = new ParameterInfo[_parameters.Count];
-
-            for (var i = 0; i < _parameters.Count; ++i)
-            {
-                var parameter = _parameters[i];
-                parameterInfos[i] = new ParameterInfo(parameter.ValueTypeInfo.Type, parameter.DeserializedValue);
-            }
-
-            return parameterInfos;
-        }
-
         #endregion
     }
 }

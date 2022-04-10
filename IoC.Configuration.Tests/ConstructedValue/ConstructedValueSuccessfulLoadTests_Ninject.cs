@@ -1,18 +1,18 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using TestsSharedLibrary.DependencyInjection;
 
 namespace IoC.Configuration.Tests.ConstructedValue
 {
-    [TestClass]
+    [TestFixture]
     public class ConstructedValueSuccessfulLoadTests_Ninject : ConstructedValueSuccessfulLoadTests
     {
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext testContext)
+        [OneTimeSetUp]
+        public static void ClassInitialize()
         {
             OnClassInitialize(DiImplementationType.Ninject, ConstructedValueConfigurationRelativePath);
         }
 
-        [ClassCleanup]
+        [OneTimeTearDown]
         public static void ClassCleanup()
         {
             OnClassCleanup();

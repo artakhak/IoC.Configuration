@@ -23,25 +23,10 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
-using JetBrains.Annotations;
-
 namespace IoC.Configuration
 {
     public interface INamedValue : INamedItem, IValueInitializer
     {
-        #region Current Type Interface
-
-        /// <summary>
-        ///     Gets the value as string. Examples are "2", "true", etc.
-        /// </summary>
-        /// <value>
-        ///     The value as string.
-        /// </value>
-        [Obsolete("Will be removed after 5/31/2019. This property was deprecated since this does not apply to all parameters. Use IDeserializedValue.ValueAsString for parameters that are instances of IDeserializedValue.")]
-        [CanBeNull]
-        string ValueAsString { get; }
-
-        #endregion
+       
     }
 }

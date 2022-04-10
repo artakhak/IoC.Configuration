@@ -25,7 +25,6 @@
 using System;
 using System.Collections.Generic;
 using IoC.Configuration.ConfigurationFile;
-using IoC.Configuration.DynamicCode;
 using JetBrains.Annotations;
 using OROptimizer.Serializer;
 
@@ -33,43 +32,17 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
 {
     public class IoCServiceFactoryMock : IIoCServiceFactory
     {
-        #region Member Variables
-
         [CanBeNull]
         private AssemblyLocatorMock _assemblyLocatorMock;
 
         [NotNull]
         private readonly IIoCServiceFactory _ioCServiceFactory;
 
-        /// <summary>
-        ///     If the value is not set, default type generate will be used.
-        /// </summary>
 
-#pragma warning disable CS0612, CS0618
-        [CanBeNull]
-        private TypesListFactoryTypeGeneratorMock _typesListFactoryTypeGeneratorMock;
-
-        [NotNull]
-        private readonly TypesListFactoryTypeGeneratorMock.ValidationFailureMethod _typesListFactoryValidationFailureMethod;
-#pragma warning restore CS0612, CS0618
-
-        #endregion
-
-        #region  Constructors
-
-        public IoCServiceFactoryMock([NotNull] IIoCServiceFactory ioCServiceFactory,
-#pragma warning disable CS0612, CS0618
-                                     TypesListFactoryTypeGeneratorMock.ValidationFailureMethod typesListFactoryValidationFailureMethod
-#pragma warning restore CS0612, CS0618
-                                     )
+        public IoCServiceFactoryMock([NotNull] IIoCServiceFactory ioCServiceFactory)
         {
             _ioCServiceFactory = ioCServiceFactory;
-            _typesListFactoryValidationFailureMethod = typesListFactoryValidationFailureMethod;
         }
-
-        #endregion
-
-        #region IIoCServiceFactory Interface Implementation
 
         /// <summary>
         /// Creates the type helper.
@@ -82,26 +55,13 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
         /// <summary>
         /// Creates the type helper.
         /// </summary>
-        /// <param name="assemblyLocator">The assembly locator.</param>
         /// <returns></returns>
-        
-
-        public IAssemblyLocator CreateAssemblyLocator(Func<IConfiguration> getConfugurationFunc, string entryAssemblyFolder)
+        public IAssemblyLocator CreateAssemblyLocator(Func<IConfiguration> getConfigurationFunc, string entryAssemblyFolder)
         {
             if (_assemblyLocatorMock == null)
-                _assemblyLocatorMock = new AssemblyLocatorMock(_ioCServiceFactory.CreateAssemblyLocator(getConfugurationFunc, entryAssemblyFolder));
+                _assemblyLocatorMock = new AssemblyLocatorMock(_ioCServiceFactory.CreateAssemblyLocator(getConfigurationFunc, entryAssemblyFolder));
 
             return _assemblyLocatorMock;
-        }
-      
-        [Obsolete]
-        ITypesListFactoryTypeGenerator IIoCServiceFactory.CreateTypesListFactoryTypeGenerator(ITypeBasedSimpleSerializerAggregator typeBasedSimpleSerializerAggregator)
-        {
-            if (_typesListFactoryTypeGeneratorMock == null)
-                _typesListFactoryTypeGeneratorMock = new TypesListFactoryTypeGeneratorMock(
-                    _ioCServiceFactory.CreateTypesListFactoryTypeGenerator(typeBasedSimpleSerializerAggregator), _typesListFactoryValidationFailureMethod);
-
-            return _typesListFactoryTypeGeneratorMock;
         }
 
         public IProhibitedServiceTypesInServicesElementChecker GetProhibitedServiceTypesInServicesElementChecker()
@@ -129,10 +89,6 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
         public ITypeMemberLookupHelper TypeMemberLookupHelper => _ioCServiceFactory.TypeMemberLookupHelper;
         public IValidateServiceUsageInPlugin ValidateServiceUsageInPlugin => _ioCServiceFactory.ValidateServiceUsageInPlugin;
 
-        #endregion
-
-        #region Member Functions
-
         private static IoCServiceFactoryMock GetIoCServiceFactoryMock()
         {
             return (IoCServiceFactoryMock) IoCServiceFactoryAmbientContext.Context;
@@ -142,7 +98,5 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
         {
             GetIoCServiceFactoryMock()._assemblyLocatorMock.SetFailedToLoadAssemblies(assemblyNamesToFailWithoutExtensions);
         }
-
-        #endregion
     }
 }

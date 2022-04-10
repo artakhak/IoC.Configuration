@@ -29,16 +29,6 @@ namespace IoC.Configuration.ConfigurationFile
 {
     public interface INamedValueElement : INamedValue, IValueInitializerElement
     {
-        #region Current Type Interface
-
-        /// <summary>
-        ///     Normally for injectedObject element this value is <see cref="ValueInstantiationType.ResolveFromDiContext" />, for
-        ///     other elements (i.e., int16, int32, etc), the overridden value will be
-        ///     <see cref="ValueInstantiationType.DeserializeFromStringValue" />
-        /// </summary>
-        [Obsolete("Will be removed after 5/31/2019")]
-        ValueInstantiationType ValueInstantiationType { get; }
-
-        #endregion
+       
     }
 }

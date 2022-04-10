@@ -1,0 +1,10 @@
+=====================================
+IoCConfiguration_constructedValue.xml
+=====================================
+
+This configuration file can be downloaded downloaded from `IoCConfiguration_constructedValue.xml <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests/IoCConfiguration_constructedValue.xml>`_.
+
+.. code-block:: xml
+   :linenos:
+   
+   <IncludedFilePlaceHolder>..\..\IoC.Configuration.Tests\IoCConfiguration_constructedValue.xml</IncludedFilePlaceHolder>

@@ -50,22 +50,9 @@ namespace IoC.Configuration.ConfigurationFile
                 throw new ConfigurationParseException(requestingConfigurationFileElement, errorMessage.ToString());
             }
 
-
-#pragma warning disable CS0612, CS0618
-            // HUCK:  Temporary handling 
-            // No need to spend time to make changes to deprecated classes. 
-            // Will just ignore those for now. These classes will be deleted in few months anyway.
-            if (requestingConfigurationFileElement is ITypeFactory ||
-                requestingConfigurationFileElement is ITypeFactoryReturnedType)
-                return;
-
-#pragma warning restore CS0612, CS0618
-
-
             // If we got here, we have only one plugin type.
 
             var pluginTypeInfo = uniquePluginTypes[0];
-            var pluginName = pluginTypeInfo.Assembly.Plugin.Name;
 
             var pluginSetupElement = requestingConfigurationFileElement.GetPluginSetupElement();
 

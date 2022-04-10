@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright ï¿½ 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -27,9 +27,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Runtime.Loader;
 using IoC.Configuration.ConfigurationFile;
 using JetBrains.Annotations;
+using OROptimizer;
 using OROptimizer.Diagnostics.Log;
 
 namespace IoC.Configuration.DiContainer.BindingsForConfigFile
@@ -40,8 +40,6 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
     /// <seealso cref="IoC.Configuration.IAssemblyLocator" />
     public class AssemblyLocator : IAssemblyLocator
     {
-        #region Member Variables
-
         [NotNull]
         private readonly Dictionary<string, string> _assemblyNameToPath =
             new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
@@ -53,32 +51,24 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
         private readonly string _entryAssemblyFolder;
 
         [NotNull]
-        private readonly Func<IConfiguration> _getConfugurationFunc;
+        private readonly Func<IConfiguration> _getConfigurationFunc;
 
         [NotNull]
         private readonly Dictionary<string, System.Reflection.Assembly> _loadedAssemblies =
             new Dictionary<string, System.Reflection.Assembly>(StringComparer.OrdinalIgnoreCase);
 
-        #endregion
-
-        #region  Constructors
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="AssemblyLocator" /> class.
         /// </summary>
-        /// <param name="getConfugurationFunc">The get confuguration function.</param>
+        /// <param name="getConfigurationFunc">The get configuration function.</param>
         /// <param name="entryAssemblyFolder">The entry assembly folder.</param>
-        public AssemblyLocator([NotNull] Func<IConfiguration> getConfugurationFunc,
+        public AssemblyLocator([NotNull] Func<IConfiguration> getConfigurationFunc,
                                [NotNull] string entryAssemblyFolder)
         {
-            _getConfugurationFunc = getConfugurationFunc;
+            _getConfigurationFunc = getConfigurationFunc;
             _entryAssemblyFolder = entryAssemblyFolder;
             _dotNetAssembliesDirectory = Path.GetDirectoryName(typeof(object).Assembly.Location);
         }
-
-        #endregion
-
-        #region IAssemblyLocator Interface Implementation
 
         /// <summary>
         ///     Searches for assembly in the following folders among others:
@@ -108,7 +98,7 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
         {
             var pluginElement = pluginName == null
                 ? null
-                : _getConfugurationFunc?.Invoke()?.Plugins?.GetPlugin(pluginName);
+                : _getConfigurationFunc?.Invoke()?.Plugins?.GetPlugin(pluginName);
             return FindAssemblyPath(assemblyName, pluginElement == null ? null : new[] {pluginElement}, null,
                 out searchedDirectories);
         }
@@ -127,7 +117,7 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
         public string FindAssemblyPathInAllPluginFolders(string assemblyName,
                                                          string requestingAssemblyFolder)
         {
-            return FindAssemblyPath(assemblyName, _getConfugurationFunc?.Invoke()?.Plugins?.AllPlugins,
+            return FindAssemblyPath(assemblyName, _getConfigurationFunc?.Invoke()?.Plugins?.AllPlugins,
                 requestingAssemblyFolder, out var searchedDirectories);
         }
 
@@ -193,7 +183,7 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
                                 $"Could not find assembly '{assemblyNameWithExtension}' in probing paths and plugin directories.");
                     }
 
-                    assembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(assemblyAbsolutePath);
+                    assembly = GlobalsCoreAmbientContext.Context.LoadAssembly(assemblyAbsolutePath);
                 }
                 catch (Exception e)
                 {
@@ -205,10 +195,6 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
             _loadedAssemblies[assemblyNameWithoutExtension] = assembly;
             return assembly;
         }
-
-        #endregion
-
-        #region Member Functions
 
         private string FindAssemblyPath([NotNull] string assemblyName,
                                         [CanBeNull] [ItemNotNull] IEnumerable<IPluginElement> plugins, string requestingAssemblyFolder,
@@ -228,8 +214,7 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
             }
 
             var loadedAssembly = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x =>
-                string.Compare(assemblyNameWithoutExtension, x.GetName().Name, StringComparison.OrdinalIgnoreCase) ==
-                0);
+                string.Compare(assemblyNameWithoutExtension, x.GetName().Name, StringComparison.OrdinalIgnoreCase) == 0);
 
             if (loadedAssembly != null)
             {
@@ -246,7 +231,7 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
             allDirectoriesToSearch.Add(_dotNetAssembliesDirectory);
             allDirectoriesToSearch.Add(_entryAssemblyFolder);
 
-            var configuration = _getConfugurationFunc?.Invoke();
+            var configuration = _getConfigurationFunc?.Invoke();
             if (configuration?.AdditionalAssemblyProbingPaths != null)
                 foreach (var probingPath in configuration.AdditionalAssemblyProbingPaths.ProbingPaths)
                     if (probingPath.Enabled)
@@ -276,7 +261,5 @@ namespace IoC.Configuration.DiContainer.BindingsForConfigFile
 
             return null;
         }
-
-        #endregion
     }
 }

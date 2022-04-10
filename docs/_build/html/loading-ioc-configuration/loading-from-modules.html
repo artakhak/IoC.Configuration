@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Loading from Modules &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Resolving Types" href="../resolving-types/index.generated.html" />
+    <link rel="prev" title="Loading from XML Configuration File" href="loading-from-xml.generated.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../resolving-types/index.generated.html" title="Resolving Types"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="loading-from-xml.generated.html" title="Loading from XML Configuration File"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Loading IoC Configuration</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Loading from Modules</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="loading-from-modules">
+<h1>Loading from Modules<a class="headerlink" href="#loading-from-modules" title="Permalink to this headline">¶</a></h1>
+<p>To load the <strong>IoC</strong> configuration from XML configuration file use method <strong>IoC.Configuration.DiContainerBuilder.DiContainerBuilder.StartCodeBasedDi()</strong> as shown below.</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="w">   </span><span class="kt">var</span><span class="w"> </span><span class="n">assemblyProbingPaths</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">new</span><span class="p">[]</span><span class="w"></span>
+<span class="linenos"> 2</span><span class="w">   </span><span class="p">{</span><span class="w"></span>
+<span class="linenos"> 3</span><span class="w">       </span><span class="s">@&quot;K:\...\TestDlls\ThirdPartyLibs&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="linenos"> 4</span><span class="w">       </span><span class="s">@&quot;K:\...\TestDlls\ContainerImplementations\Autofac&quot;</span><span class="w"></span>
+<span class="linenos"> 5</span><span class="w">   </span><span class="p">};</span><span class="w"></span>
+<span class="linenos"> 6</span>
+<span class="linenos"> 7</span><span class="w">   </span><span class="k">using</span><span class="w"> </span><span class="p">(</span><span class="kt">var</span><span class="w"> </span><span class="n">containerInfo</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DiContainerBuilder</span><span class="p">.</span><span class="n">DiContainerBuilder</span><span class="p">()</span><span class="w"></span>
+<span class="linenos"> 8</span>
+<span class="linenos"> 9</span><span class="w">           </span><span class="c1">// Class IoC.Configuration.DiContainerBuilder.DiContainerBuilder has two overloaded methods StartCodeBasedDi(...)</span>
+<span class="linenos">10</span><span class="w">           </span><span class="c1">// DiContainerBuilder.StartCodeBasedDi(IoC.Configuration.DiContainer.IDiManager diManager,...) and</span>
+<span class="linenos">11</span><span class="w">           </span><span class="c1">// DiContainerBuilder.StartCodeBasedDi(string diManagerClassFullName, string diManagerClassAssemblyFilePath,...).</span>
+<span class="linenos">12</span><span class="w">           </span><span class="c1">// if the project references the library with implementation of IoC.Configuration.DiContainer.IDiManager,</span>
+<span class="linenos">13</span><span class="w">           </span><span class="c1">// the first one can be used. Otherwise the second overloaded method can be used, in which case reflection will be used to</span>
+<span class="linenos">14</span><span class="w">           </span><span class="c1">// create an instance of IoC.Configuration.DiContainer.IDiManager.</span>
+<span class="linenos">15</span><span class="w">           </span><span class="p">.</span><span class="n">StartCodeBasedDi</span><span class="p">(</span><span class="s">&quot;IoC.Configuration.Autofac.meake cleanAutofacDiManager&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">16</span><span class="w">                          </span><span class="s">@&quot;K:\...\TestDlls\ContainerImplementations\Autofac\IoC.Configuration.Autofac.dll&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">17</span><span class="w">                          </span><span class="k">new</span><span class="w"> </span><span class="n">ParameterInfo</span><span class="p">[</span><span class="m">0</span><span class="p">],</span><span class="w"> </span><span class="n">Helpers</span><span class="p">.</span><span class="n">TestsEntryAssemblyFolder</span><span class="p">,</span><span class="w"> </span><span class="n">assemblyProbingPaths</span><span class="p">)</span><span class="w"></span>
+<span class="linenos">18</span>
+<span class="linenos">19</span><span class="w">           </span><span class="c1">// Note, most of the time we will need to call method WithoutPresetDiContainer().</span>
+<span class="linenos">20</span><span class="w">           </span><span class="c1">// However, in some cases, we might need to create an instance of IoC.Configuration.DiContainer.IDiContainer,</span>
+<span class="linenos">21</span><span class="w">           </span><span class="c1">// and call the method WithDiContainer(IoC.Configuration.DiContainer.IDiContainer diContainer) instead.</span>
+<span class="linenos">22</span><span class="w">           </span><span class="c1">// This might be necessary when using the IoC.Configuration to configure dependency injection in</span>
+<span class="linenos">23</span><span class="w">           </span><span class="c1">// ASP.NET Core projects.</span>
+<span class="linenos">24</span><span class="w">           </span><span class="c1">// An example implementation of IDIContainer is IoC.Configuration.Autofac.AutofacDiContainer in</span>
+<span class="linenos">25</span><span class="w">           </span><span class="c1">// Nuget package IoC.Configuration.Autofac.</span>
+<span class="linenos">26</span><span class="w">           </span><span class="p">.</span><span class="n">WithoutPresetDiContainer</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">27</span>
+<span class="linenos">28</span><span class="w">           </span><span class="c1">// The methods AddDiModules(params IDiModule[] diModules),</span>
+<span class="linenos">29</span><span class="w">           </span><span class="c1">// AddNativeModules(params object[] nativeModules), and</span>
+<span class="linenos">30</span><span class="w">           </span><span class="c1">// AddNativeModules(string nativeModuleClassFullName, string nativeModuleClassAssemblyFilePath, ...)</span>
+<span class="linenos">31</span><span class="w">           </span><span class="c1">// are used to load IoC.Configuration modules (instances of IoC.Configuration.DiContainer.IDiModule), as well</span>
+<span class="linenos">32</span><span class="w">           </span><span class="c1">// as native (e.g, Ninject or Autofac) modules.</span>
+<span class="linenos">33</span><span class="w">           </span><span class="c1">// Also, these three methods can be called multiple times in any order.</span>
+<span class="linenos">34</span><span class="w">           </span><span class="p">.</span><span class="n">AddDiModules</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">TestDiModule</span><span class="p">())</span><span class="w"></span>
+<span class="linenos">35</span><span class="w">           </span><span class="p">.</span><span class="n">AddNativeModule</span><span class="p">(</span><span class="s">&quot;Modules.Autofac.AutofacModule1&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">36</span><span class="w">               </span><span class="s">@&quot;K:\...\TestDlls\DynamicallyLoadedDlls\TestProjects.Modules.dll&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="linenos">37</span><span class="w">               </span><span class="k">new</span><span class="w"> </span><span class="n">ParameterInfo</span><span class="p">[]</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ParameterInfo</span><span class="p">(</span><span class="k">typeof</span><span class="p">(</span><span class="kt">int</span><span class="p">),</span><span class="w"> </span><span class="m">5</span><span class="p">)</span><span class="w"> </span><span class="p">})</span><span class="w"></span>
+<span class="linenos">38</span>
+<span class="linenos">39</span><span class="w">           </span><span class="p">.</span><span class="n">RegisterModules</span><span class="p">()</span><span class="w"></span>
+<span class="linenos">40</span><span class="w">           </span><span class="p">.</span><span class="n">Start</span><span class="p">())</span><span class="w"></span>
+<span class="linenos">41</span><span class="w">   </span><span class="p">{</span><span class="w"></span>
+<span class="linenos">42</span><span class="w">       </span><span class="kt">var</span><span class="w"> </span><span class="n">diContainer</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">containerInfo</span><span class="p">.</span><span class="n">DiContainer</span><span class="p">;</span><span class="w"></span>
+<span class="linenos">43</span>
+<span class="linenos">44</span><span class="w">       </span><span class="c1">// Once the configuration is loaded, resolve types using IoC.Configuration.DiContainer.IDiContainer</span>
+<span class="linenos">45</span><span class="w">       </span><span class="c1">// Note, interface IoC.Configuration.DiContainerBuilder.IContainerInfo extends System.IDisposable,</span>
+<span class="linenos">46</span><span class="w">       </span><span class="c1">// and should be disposed, to make sure all the resources are properly disposed of.</span>
+<span class="linenos">47</span><span class="w">       </span><span class="kt">var</span><span class="w"> </span><span class="n">resolvedInstance</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="n">containerInfo</span><span class="p">.</span><span class="n">DiContainer</span><span class="p">.</span><span class="n">Resolve</span><span class="p">&lt;</span><span class="n">IInterface2</span><span class="p">&gt;();</span><span class="w"></span>
+<span class="linenos">48</span><span class="w">   </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<ul>
+<li><p>Once the configuration is loaded into <strong>containerInfo</strong> variable of type <strong>IoC.Configuration.DiContainerBuilder.IContainerInfo</strong>, resolve types using property <strong>DiContainer</strong> in <strong>IoC.Configuration.DiContainerBuilder.IContainerInfo</strong> (the property is of type <strong>IoC.Configuration.DiContainer.IDiContainer</strong>).</p></li>
+<li><p>Interface <strong>IoC.Configuration.DiContainerBuilder.IContainerInfo</strong> extends <strong>System.IDisposable</strong>.</p></li>
+<li><dl>
+<dt>Use one of the following overloaded methods in class <strong>IoC.Configuration.DiContainerBuilder.DiContainerBuilder</strong> to specify an instance of <strong>IoC.Configuration.DiContainer.IDiManager</strong>, that handles the type resolutions and translates the bindings in <strong>IoC.Configuration</strong> modules into native container bindings (e.g., Autofac and Ninject bindings).</dt><dd><ul class="simple">
+<li><p>DiContainerBuilder.StartCodeBasedDi(IDiManager diManager, string entryAssemblyFolder, params string[] assemblyProbingPaths)</p></li>
+<li><p>DiContainerBuilder.StartCodeBasedDi(string diManagerClassFullName, string diManagerClassAssemblyFilePath, ParameterInfo[] diManagerConstructorParameters, string entryAssemblyFolder, params string[] assemblyProbingPaths). This method is handy if the project does not reference the assembly with implementation of <strong>IoC.Configuration.DiContainer.IDiManager</strong>. <strong>IoC.Configuration</strong> will use refelction to load the type.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently two implementations of <strong>IoC.Configuration.DiContainer.IDiManager</strong> are available: <strong>IoC.Configuration.Autofac.AutofacDiManager</strong> and <strong>IoC.Configuration.Ninject.NinjectDiManager</strong>. These implementations are available in Nuget packages <a class="reference external" href="https://www.nuget.org/packages/IoC.Configuration.Autofac">IoC.Configuration.Autofac</a> and <a class="reference external" href="https://www.nuget.org/packages/IoC.Configuration.Ninject">IoC.Configuration.Ninject</a></p>
+</div>
+</dd>
+</dl>
+</li>
+<li><dl>
+<dt>The following methods in interface <strong>IoC.Configuration.DiContainerBuilder.CodeBased.ICodeBasedDiModulesConfigurator</strong> can be used to load <strong>IoC.Configuration</strong> modules <strong>IoC.Configuration</strong> modules (instances of <strong>IoC.Configuration.DiContainer.IDiModule</strong>), as well as native (e.g, Ninject or Autofac) modules:</dt><dd><ul class="simple">
+<li><p>ICodeBasedDiModulesConfigurator.AddDiModules(params IoC.Configuration.DiContainer.IDiModule[] diModules)</p></li>
+<li><p>ICodeBasedDiModulesConfigurator.AddNativeModules(params object[] nativeModules)</p></li>
+<li><p>ICodeBasedDiModulesConfigurator.AddNativeModule(string nativeModuleClassFullName, string nativeModuleClassAssemblyFilePath, ParameterInfo[] nativeModuleConstructorParameters)</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These methods can be called multiple times in any order.</p>
+</div>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="loading-from-xml.generated.html"
+                          title="previous chapter">Loading from XML Configuration File</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="../resolving-types/index.generated.html"
+                          title="next chapter">Resolving Types</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/loading-ioc-configuration/loading-from-modules.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../resolving-types/index.generated.html" title="Resolving Types"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="loading-from-xml.generated.html" title="Loading from XML Configuration File"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Loading IoC Configuration</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href="">Loading from Modules</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

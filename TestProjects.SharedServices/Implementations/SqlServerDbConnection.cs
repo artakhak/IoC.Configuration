@@ -4,6 +4,10 @@ namespace SharedServices.Implementations
 {
     public class SqlServerDbConnection : IDbConnection
     {
+        public SqlServerDbConnection(string connectionString)
+        {
+            ConnectionString = connectionString;
+        }
         public SqlServerDbConnection(string serverName, string databaseName, string userName, string password)
         {
             ServerName = serverName;

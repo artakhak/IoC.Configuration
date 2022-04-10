@@ -9,10 +9,12 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>IoC.Configuration.Autofac</RootNamespace>
     <AssemblyName>IoC.Configuration.Autofac</AssemblyName>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <Version>2.0.0</Version>
+    <Version>2.0.1</Version>
     <Company>OROptimizer</Company>
     <Authors>Artak Hakobyan</Authors>
     <Description>An Autofac extension for IoC.Configuration 2.
@@ -23,7 +25,7 @@ Look at http://iocconfiguration.readthedocs.io/</Description>
     <PackageLicenseUrl>https://opensource.org/licenses/mit-license.php</PackageLicenseUrl>
     <PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
     <RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
-    <PackageReleaseNotes>Changes to support IoC.Configuration 2.</PackageReleaseNotes>
+    <PackageReleaseNotes>Change the dependency versions for OROptimizer.Shared and IoC.Configuration.</PackageReleaseNotes>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\IoC.Configuration.Autofac.xml</DocumentationFile>
@@ -33,14 +35,20 @@ Look at http://iocconfiguration.readthedocs.io/</Description>
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AutofacDiContainer.cs" />
+    <Compile Include="AutofacDiManager.cs" />
+    <Compile Include="AutofacLifeTimeScope.cs" />
+    <Compile Include="AutofacModuleWrapper.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="..\IoC.Configuration.licenseheader" Link="IoC.Configuration.licenseheader" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Autofac" Version="4.5.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />
-    <PackageReference Include="JetBrains.Annotations" Version="10.2.1" />
+    <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" PrivateAssets="All" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="2.3.2" />
-    <PackageReference Include="OROptimizer.Shared" Version="2.0.0" />
+    <PackageReference Include="OROptimizer.Shared" Version="2.1.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />

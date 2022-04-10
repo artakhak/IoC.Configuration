@@ -1,18 +1,18 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using TestsSharedLibrary.DependencyInjection;
 
 namespace IoC.Configuration.Tests.ProxyService
 {
-    [TestClass]
+    [TestFixture]
     public class ProxyServiceSuccessfulLoadTests_Ninject : ProxyServiceSuccessfulLoadTests
     {
-        [ClassInitialize]
-        public static void ClassInitialize(TestContext testContext)
+        [OneTimeSetUp]
+        public static void ClassInitialize()
         {
             OnClassInitialize(DiImplementationType.Ninject, ProxyServiceConfigurationRelativePath);
         }
 
-        [ClassCleanup]
+        [OneTimeTearDown]
         public static void ClassCleanup()
         {
             OnClassCleanup();

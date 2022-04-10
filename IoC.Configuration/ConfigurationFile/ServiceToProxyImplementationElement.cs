@@ -51,9 +51,8 @@ namespace IoC.Configuration.ConfigurationFile
 
         #region IServiceToProxyImplementationElement Interface Implementation
 
-        public IAssembly Assembly => ValueTypeInfo.Assembly as IAssembly;
+      
         public ConditionalInjectionType ConditionalInjectionType { get; } = ConditionalInjectionType.None;
-        Type IServiceImplementationElement.ImplementationType => ValueTypeInfo.Type;
 
         public override void Initialize()
         {
@@ -61,7 +60,7 @@ namespace IoC.Configuration.ConfigurationFile
             ValueTypeInfo = _typeHelper.GetTypeInfo(this, ConfigurationFileAttributeNames.Type, ConfigurationFileAttributeNames.Assembly, ConfigurationFileAttributeNames.TypeRef);
         }
 
-        public DiResolutionScope ResolutionScope { get; } = DiResolutionScope.Transient;
+        public DiResolutionScope ResolutionScope => DiResolutionScope.Transient;
 
         public ITypeInfo ValueTypeInfo { get; private set; }
 

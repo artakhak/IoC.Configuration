@@ -25,6 +25,7 @@
 
 using System;
 using JetBrains.Annotations;
+using OROptimizer.ServiceResolver;
 
 namespace IoC.Configuration.DiContainer
 {
@@ -33,7 +34,7 @@ namespace IoC.Configuration.DiContainer
     ///     IoC.Configuration.Autofac and IoC.Configuration.Ninject Nuget packages.
     /// </summary>
     /// <seealso cref="System.IDisposable" />
-    public interface IDiContainer : IDisposable
+    public interface IDiContainer : IServiceResolver, IDisposable
     {
         #region Current Type Interface
 
@@ -42,6 +43,8 @@ namespace IoC.Configuration.DiContainer
         /// </summary>
         /// <value>
         ///     The current life time scope.
+        ///     Note, the methods <see cref="IServiceResolver.Resolve(Type)"/> and <see cref="IServiceResolver.Resolve{T}"/> use this
+        ///     scope to resolve services.
         /// </value>
         [CanBeNull]
         ILifeTimeScope CurrentLifeTimeScope { get; }
@@ -55,41 +58,32 @@ namespace IoC.Configuration.DiContainer
         [CanBeNull]
         ILifeTimeScope MainLifeTimeScope { get; }
 
+        /// 
         /// <summary>
-        ///     Resolved the type using the life time scope <see cref="CurrentLifeTimeScope" />.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        T Resolve<T>() where T : class;
-
-        /// <summary>
-        ///     Resolved the type using the life time scope <see cref="CurrentLifeTimeScope" />.
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        object Resolve(Type type);
-
-        /// <summary>
+        ///     Resolves an instance of type <typeparamref name="T"/> from DI container.
         ///     Sets the value of <see cref="IDiContainer.CurrentLifeTimeScope" /> to the value of parameter
         ///     <paramref name="lifeTimeScope" />,
         ///     resolved the object using<paramref name="lifeTimeScope" />, and restores the value of
         ///     <see cref="IDiContainer.CurrentLifeTimeScope" /> to its
         ///     previous value, after the type resolution is complete.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="lifeTimeScope"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">Service type.</typeparam>
+        /// <param name="lifeTimeScope">Lifetime scope.</param>
+        /// <exception cref="Exception">Throws an exception if type resolution fails.</exception>
+        [NotNull]
         T Resolve<T>(ILifeTimeScope lifeTimeScope) where T : class;
 
         /// <summary>
+        ///     Resolves an instance of type <paramref name="type"/> from DI container. 
         ///     Sets the value of <see cref="CurrentLifeTimeScope" /> to the value of parameter <paramref name="lifeTimeScope" />,
         ///     resolved the object using <paramref name="lifeTimeScope" />, and restores the value of
         ///     <see cref="CurrentLifeTimeScope" /> to its
         ///     previous value, after the type resolution is complete.
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="lifeTimeScope"></param>
-        /// <returns></returns>
+        /// <param name="type">Service type.</param>
+        /// <param name="lifeTimeScope">Lifetime scope.</param>
+        /// <exception cref="Exception">Throws an exception if type resolution fails.</exception>
+        [NotNull]
         object Resolve(Type type, ILifeTimeScope lifeTimeScope);
 
         /// <summary>

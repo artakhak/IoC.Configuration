@@ -104,11 +104,6 @@ namespace IoC.Configuration.DiContainerBuilder
         protected virtual void OnContainerStarted()
         {
         }
-
-        public virtual void ValidateConfiguration()
-        {
-        }
-
         #endregion
 
         #region Member Functions

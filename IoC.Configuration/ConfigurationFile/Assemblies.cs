@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright Â© 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -51,19 +51,16 @@ namespace IoC.Configuration.ConfigurationFile
 
         public Assemblies([NotNull] XmlElement xmlElement, [CanBeNull] IConfigurationFileElement parent) : base(xmlElement, parent)
         {
-            string generateAssemblyAlias(System.Reflection.Assembly assemblyParam)
-            {
-                return $"{assemblyParam.GetName().Name}_{GlobalsCoreAmbientContext.Context.GenerateUniqueId()}";
-            }
+           
 
             var assembly = typeof(int).Assembly;
-            MsCorlibAssembly = new IoC.Configuration.Assembly(assembly.Location, generateAssemblyAlias(assembly), null);
+            MsCorlibAssembly = new IoC.Configuration.Assembly(assembly.Location, null);
 
             assembly = typeof(Configuration).Assembly;
-            IoCConfigurationAssembly = new IoC.Configuration.Assembly(assembly.Location, generateAssemblyAlias(assembly), null);
+            IoCConfigurationAssembly = new IoC.Configuration.Assembly(assembly.Location, null);
 
             assembly = typeof(IGlobalsCore).Assembly;
-            OROptimizerSharedAssembly = new IoC.Configuration.Assembly(assembly.Location, generateAssemblyAlias(assembly), null);
+            OROptimizerSharedAssembly = new IoC.Configuration.Assembly(assembly.Location, null);
         }
 
         #endregion
@@ -72,10 +69,8 @@ namespace IoC.Configuration.ConfigurationFile
 
         public override void AddChild(IConfigurationFileElement child)
         {
-            if (child is IAssembly)
+            if (child is IAssembly assembly)
             {
-                var assembly = (IAssembly) child;
-
                 if (_nameToAssemblyMap.ContainsKey(assembly.Name))
                     throw new ConfigurationParseException(child, $"Assembly with name '{assembly.Name}' appears multiple times.", this);
 

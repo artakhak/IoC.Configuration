@@ -6,18 +6,28 @@
     <SccLocalPath>SAK</SccLocalPath>
   </PropertyGroup>
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <RootNamespace>Modules</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Autofac\AutofacModule1.cs" />
+    <Compile Include="IoC\DiModule1.cs" />
+    <Compile Include="IoC\DiModule2.cs" />
+    <Compile Include="Ninject\NinjectModule1.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly1\TestProjects.DynamicallyLoadedAssembly1.csproj" />
     <ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly2\TestProjects.DynamicallyLoadedAssembly2.csproj" />
     <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
     <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
-    <ProjectReference Include="..\IoC.Configuration.Autofac\IoC.Configuration.Autofac.csproj" />
-    <ProjectReference Include="..\IoC.Configuration.Ninject\IoC.Configuration.Ninject.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="IoC.Configuration.Autofac" Version="2.0.0" />
+    <PackageReference Include="IoC.Configuration.Ninject" Version="2.0.0" />
   </ItemGroup>
 </Project>

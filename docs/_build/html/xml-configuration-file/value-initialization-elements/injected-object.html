@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>injectedObject element &#8212; IoC.Configuration 1.0.1 documentation</title>
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/classic.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
+    
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="collection element" href="collection.html" />
+    <link rel="prev" title="object element" href="object.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="collection.html" title="collection element"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="object.html" title="object element"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >XML Configuration File</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" accesskey="U">Value Initialization Elements</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><strong>injectedObject</strong> element</a></li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <section id="injectedobject-element">
+<h1><strong>injectedObject</strong> element<a class="headerlink" href="#injectedobject-element" title="Permalink to this headline">¶</a></h1>
+<p>Element <strong>injectedObject</strong> can be used to specify a value that will be injected by <strong>IoC.Configuration</strong>.</p>
+<p>The type to inject is specified using either <strong>type</strong> attribute (and optional <strong>assembly</strong> attribute), or <strong>typeRef</strong> attribute.</p>
+<p>If the type to inject is non-abstract and non-interface, and has a public constructor, <strong>IoC.Configuration</strong> will create a binding for the type.</p>
+<p>Otherwise, a binding for the type should be specified either in configuration file, or in one of the loaded <strong>IoC</strong> modules.</p>
+<section id="example-1-using-injectedobject-element-to-specify-service-implementation-constructor-parameter-value">
+<h2>Example 1: Using <strong>injectedObject</strong> element to specify service implementation constructor parameter value<a class="headerlink" href="#example-1-using-injectedobject-element-to-specify-service-implementation-constructor-parameter-value" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">&lt;service</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Interfaces.IInterface2&quot;</span> <span class="nt">&gt;</span>
+<span class="linenos"> 2</span>    <span class="nt">&lt;implementation</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Implementations.Interface2_Impl1&quot;</span>
+<span class="linenos"> 3</span>                    <span class="na">scope=</span><span class="s">&quot;singleton&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 4</span>        <span class="nt">&lt;parameters&gt;</span>
+<span class="linenos"> 5</span>            <span class="nt">&lt;datetime</span> <span class="na">name=</span><span class="s">&quot;param1&quot;</span> <span class="na">value=</span><span class="s">&quot;2014-10-29 23:59:59.099&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 6</span>            <span class="nt">&lt;double</span> <span class="na">name=</span><span class="s">&quot;param2&quot;</span> <span class="na">value=</span><span class="s">&quot;125.1&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 7</span>            <span class="nt">&lt;injectedObject</span> <span class="na">name=</span><span class="s">&quot;param3&quot;</span>
+<span class="linenos"> 8</span>                            <span class="na">type=</span><span class="s">&quot;SharedServices.Interfaces.IInterface3&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 9</span>        <span class="nt">&lt;/parameters&gt;</span>
+<span class="linenos">10</span>    <span class="nt">&lt;/implementation&gt;</span>
+<span class="linenos">11</span><span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-using-injectedobject-element-to-specify-injected-property-value-in-service-implementation">
+<h2>Example 2: Using <strong>injectedObject</strong> element to specify injected property value in service implementation<a class="headerlink" href="#example-2-using-injectedobject-element-to-specify-injected-property-value-in-service-implementation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nt">&lt;service</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Interfaces.IInterface2&quot;</span> <span class="nt">&gt;</span>
+<span class="linenos"> 2</span>    <span class="nt">&lt;implementation</span> <span class="na">type=</span><span class="s">&quot;SharedServices.Implementations.Interface2_Impl2&quot;</span>
+<span class="linenos"> 3</span>                    <span class="na">scope=</span><span class="s">&quot;singleton&quot;</span><span class="nt">&gt;</span>
+<span class="linenos"> 4</span>        <span class="nt">&lt;injectedProperties&gt;</span>
+<span class="linenos"> 5</span>          <span class="nt">&lt;datetime</span> <span class="na">name=</span><span class="s">&quot;Property1&quot;</span>
+<span class="linenos"> 6</span>                    <span class="na">value=</span><span class="s">&quot;1915-04-24 00:00:00.001&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 7</span>          <span class="nt">&lt;double</span> <span class="na">name=</span><span class="s">&quot;Property2&quot;</span> <span class="na">value=</span><span class="s">&quot;365.41&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos"> 8</span>          <span class="nt">&lt;injectedObject</span> <span class="na">name=</span><span class="s">&quot;Property3&quot;</span>
+<span class="linenos"> 9</span>                          <span class="na">type=</span><span class="s">&quot;SharedServices.Interfaces.IInterface3&quot;</span> <span class="nt">/&gt;</span>
+<span class="linenos">10</span>        <span class="nt">&lt;/injectedProperties&gt;</span>
+<span class="linenos">11</span>    <span class="nt">&lt;/implementation&gt;</span>
+<span class="linenos">12</span><span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="example-2-using-injectedobject-element-to-specify-a-returned-value-in-autoproperty-element">
+<h2>Example 2: Using <strong>injectedObject</strong> element to specify a returned value in <strong>autoProperty</strong> element<a class="headerlink" href="#example-2-using-injectedobject-element-to-specify-a-returned-value-in-autoproperty-element" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nt">&lt;autoService</span> <span class="na">interface=</span><span class="s">&quot;IoC.Configuration.Tests.AutoService.Services.IActionValidatorFactory&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">2</span>    <span class="nt">&lt;autoProperty</span> <span class="na">name=</span><span class="s">&quot;DefaultActionValidator&quot;</span>
+<span class="linenos">3</span>                  <span class="na">returnType=</span><span class="s">&quot;SharedServices.Interfaces.IActionValidator&quot;</span><span class="nt">&gt;</span>
+<span class="linenos">4</span>      <span class="nt">&lt;injectedObject</span>
+<span class="linenos">5</span>            <span class="na">type=</span><span class="s">&quot;IoC.Configuration.Tests.AutoService.Services.ActionValidatorDefault&quot;</span><span class="nt">/&gt;</span>
+<span class="linenos">6</span>    <span class="nt">&lt;/autoProperty&gt;</span>
+<span class="linenos">7</span><span class="nt">&lt;/autoService&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+            <div class="clearer"></div>
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div>
+    <h3><a href="../../index.html">Table of Contents</a></h3>
+    <ul>
+<li><a class="reference internal" href="#"><strong>injectedObject</strong> element</a><ul>
+<li><a class="reference internal" href="#example-1-using-injectedobject-element-to-specify-service-implementation-constructor-parameter-value">Example 1: Using <strong>injectedObject</strong> element to specify service implementation constructor parameter value</a></li>
+<li><a class="reference internal" href="#example-2-using-injectedobject-element-to-specify-injected-property-value-in-service-implementation">Example 2: Using <strong>injectedObject</strong> element to specify injected property value in service implementation</a></li>
+<li><a class="reference internal" href="#example-2-using-injectedobject-element-to-specify-a-returned-value-in-autoproperty-element">Example 2: Using <strong>injectedObject</strong> element to specify a returned value in <strong>autoProperty</strong> element</a></li>
+</ul>
+</li>
+</ul>
+
+  </div>
+  <div>
+    <h4>Previous topic</h4>
+    <p class="topless"><a href="object.html"
+                          title="previous chapter"><strong>object</strong> element</a></p>
+  </div>
+  <div>
+    <h4>Next topic</h4>
+    <p class="topless"><a href="collection.html"
+                          title="next chapter"><strong>collection</strong> element</a></p>
+  </div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/xml-configuration-file/value-initialization-elements/injected-object.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="collection.html" title="collection element"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="object.html" title="object element"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >XML Configuration File</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="index.html" >Value Initialization Elements</a> &#187;</li>
+        <li class="nav-item nav-item-this"><a href=""><strong>injectedObject</strong> element</a></li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2018, Artak Hakobyan.
+      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
+    </div>
+  </body>
+</html>

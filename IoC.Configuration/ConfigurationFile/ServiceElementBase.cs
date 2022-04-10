@@ -71,8 +71,7 @@ namespace IoC.Configuration.ConfigurationFile
         }
 
         public bool RegisterIfNotRegistered { get; private set; }
-        Type IServiceElement.ServiceType => ServiceTypeInfo.Type;
-
+       
         public ITypeInfo ServiceTypeInfo { get; private set; }
 
         public override void ValidateAfterChildrenAdded()

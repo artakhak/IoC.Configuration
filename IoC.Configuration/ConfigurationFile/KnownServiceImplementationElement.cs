@@ -35,7 +35,7 @@ namespace IoC.Configuration.ConfigurationFile
     {
         #region  Constructors
 
-        public KnownServiceImplementationElement([NotNull] XmlElement xmlElement, [NotNull] IConfigurationFileElement parent,
+        protected KnownServiceImplementationElement([NotNull] XmlElement xmlElement, [NotNull] IConfigurationFileElement parent,
                                                  [NotNull] Type implementedServiceType,
                                                  [NotNull] IImplementedTypeValidator implementedTypeValidator,
                                                  [NotNull] IInjectedPropertiesValidator injectedPropertiesValidator,
@@ -61,9 +61,7 @@ namespace IoC.Configuration.ConfigurationFile
         }
 
         public bool RegisterIfNotRegistered => false;
-        Type IServiceElement.ServiceType => ServiceTypeInfo.Type;
 
-        [NotNull]
         public ITypeInfo ServiceTypeInfo { get; }
 
         #endregion

@@ -6,16 +6,10 @@ namespace ModulesForPlugin1.Ninject
 {
     public class NinjectModule1 : NinjectModule
     {
-        #region  Constructors
-
         public NinjectModule1(int param1)
         {
             Property1 = param1;
         }
-
-        #endregion
-
-        #region Member Functions
 
         public override void Load()
         {
@@ -23,7 +17,5 @@ namespace ModulesForPlugin1.Ninject
         }
 
         public int Property1 { get; }
-
-        #endregion
     }
 }
