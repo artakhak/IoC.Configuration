@@ -26,8 +26,8 @@
     <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="IoC.Configuration.Autofac" Version="2.0.0" />
-    <PackageReference Include="IoC.Configuration.Ninject" Version="2.0.0" />
     <PackageReference Include="IoC.Configuration" Version="2.1.0" />
+    <PackageReference Include="IoC.Configuration.Autofac" Version="2.0.1" />
+    <PackageReference Include="IoC.Configuration.Ninject" Version="2.1.0" />
   </ItemGroup>
 </Project>
