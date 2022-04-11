@@ -23,10 +23,10 @@
   &lt;Assembly Path="C:\Users\artak\.nuget\packages\ninject\3.3.4\lib\netstandard2.0\Ninject.dll" /&gt;&#xD;
   &lt;Assembly Path="K:\Projects\OROptimizer\MyGitHubProjects\UniversalExpressionParser\UniversalExpressionParser\bin\Debug\netstandard2.0\UniversalExpressionParser.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4bca9c83_002D783e_002D491e_002Dba17_002D9bb318a00bbe/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="LoadFromModules" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4bca9c83_002D783e_002D491e_002Dba17_002D9bb318a00bbe/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="LoadFromModules" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Project Location="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;IoC.Configuration.Tests&amp;gt;" /&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=600f4205_002D89d0_002D4eae_002D948e_002D5f4a85033fe4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from &amp;lt;Tests&amp;gt;\&amp;lt;IoC.Configuration.Tests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=600f4205_002D89d0_002D4eae_002D948e_002D5f4a85033fe4/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="All tests from &amp;lt;Tests&amp;gt;\&amp;lt;IoC.Configuration.Tests&amp;gt;" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;Or&gt;&#xD;
     &lt;Project Location="K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\IoC.Configuration.Tests" Presentation="&amp;lt;Tests&amp;gt;\&amp;lt;IoC.Configuration.Tests&amp;gt;" /&gt;&#xD;
     &lt;TestAncestor&gt;&#xD;

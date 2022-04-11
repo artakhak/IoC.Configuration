@@ -39,7 +39,6 @@
     <ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly1\TestProjects.DynamicallyLoadedAssembly1.csproj" />
     <ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly2\TestProjects.DynamicallyLoadedAssembly2.csproj" />
     <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
-    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <SccProjectName>SAK</SccProjectName>
@@ -57,5 +56,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="OROptimizer.Shared" Version="2.1.1" />
+    <PackageReference Include="IoC.Configuration" Version="2.1.0" />
   </ItemGroup>
 </Project>

@@ -1,56 +1,54 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup Label="Globals">
-		<SccProjectName>SAK</SccProjectName>
-		<SccProvider>SAK</SccProvider>
-		<SccAuxPath>SAK</SccAuxPath>
-		<SccLocalPath>SAK</SccLocalPath>
-	</PropertyGroup>
-	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
-		<RootNamespace>IoC.Configuration.Extensions</RootNamespace>
-		<AssemblyName>IoC.Configuration.Extensions</AssemblyName>
-		<EnableDefaultItems>false</EnableDefaultItems>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-	</PropertyGroup>
-	<PropertyGroup>
-		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<Version>1.0.0</Version>
-		<Company>OROptimizer</Company>
-		<Authors>Artak Hakobyan</Authors>
-		<Description>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>IoC.Configuration.Extensions</RootNamespace>
+    <AssemblyName>IoC.Configuration.Extensions</AssemblyName>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <Version>1.0.0</Version>
+    <Company>OROptimizer</Company>
+    <Authors>Artak Hakobyan</Authors>
+    <Description>
 			An extension for IoC.Configuration library.
 			Detailed documentation on IoC.Configuration is available at http://iocconfiguration.readthedocs.io
 			Look at http://iocconfiguration.readthedocs.io/
 		</Description>
-		<Copyright>Copyright 2018 (c) OROptimizer. All rights reserved.</Copyright>
-		<PackageTags>IoC Configuration dependencyinjection inversion of control autofac ninject xml Autofac</PackageTags>
-		<PackageLicenseUrl>https://opensource.org/licenses/mit-license.php</PackageLicenseUrl>
-		<PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
-		<PackageReleaseNotes>Changes to support IoC.Configuration 2.</PackageReleaseNotes>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<DocumentationFile>bin\Release\IoC.Configuration.Extensions.xml</DocumentationFile>
-		<NoWarn>1701;1702;1705;1591;</NoWarn>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<WarningLevel>3</WarningLevel>
-	</PropertyGroup>
-	<ItemGroup>
-	  <Compile Include="AssemblyScanning\AssemblyScannerForSelfBoundTypesModule.cs" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Include="..\IoC.Configuration.licenseheader" Link="IoC.Configuration.licenseheader" />
-		<!--<None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Copyright>Copyright 2018 (c) OROptimizer. All rights reserved.</Copyright>
+    <PackageTags>IoC Configuration dependencyinjection inversion of control autofac ninject xml Autofac</PackageTags>
+    <PackageLicenseUrl>https://opensource.org/licenses/mit-license.php</PackageLicenseUrl>
+    <PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
+    <PackageReleaseNotes>Changes to support IoC.Configuration 2.</PackageReleaseNotes>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\IoC.Configuration.Extensions.xml</DocumentationFile>
+    <NoWarn>1701;1702;1705;1591;</NoWarn>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>3</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyScanning\AssemblyScannerForSelfBoundTypesModule.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\IoC.Configuration.licenseheader" Link="IoC.Configuration.licenseheader" />
+    <!--<None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
 		<None Include="Properties\PublishProfiles\FolderProfile.pubxml.user" />-->
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="JetBrains.Annotations" Version="2021.2.0" PrivateAssets="all" ExcludeAssets="runtime">
-		  <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.CodeAnalysis" Version="2.3.2" />
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
-	</ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="JetBrains.Annotations" Version="2021.2.0" PrivateAssets="all" ExcludeAssets="runtime">
+      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.CodeAnalysis" Version="2.3.2" />
+    <PackageReference Include="IoC.Configuration" Version="2.1.0" />
+  </ItemGroup>
 </Project>

@@ -4,4 +4,7 @@ This file is used by the publish/package process of your project. You can custom
 by editing this MSBuild file. In order to learn more about this please visit https://go.microsoft.com/fwlink/?LinkID=208121. 
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <History>True|2022-04-11T00:23:10.9315802Z;True|2022-04-10T20:22:46.5451232-04:00;True|2022-04-10T20:20:58.5976492-04:00;True|2022-04-10T20:20:25.2689318-04:00;</History>
+  </PropertyGroup>
 </Project>

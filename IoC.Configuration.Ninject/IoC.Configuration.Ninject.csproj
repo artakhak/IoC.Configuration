@@ -23,10 +23,10 @@ Detailed documentation on IoC.Configuration is available at http://iocconfigurat
 Look at http://iocconfiguration.readthedocs.io/</Description>
     <Copyright>Copyright 2018 (c) OROptimizer. All rights reserved.</Copyright>
     <PackageTags>IoC Configuration dependencyinjection inversion of control autofac ninject xml Ninject</PackageTags>
-    <PackageLicenseUrl>https://opensource.org/licenses/mit-license.php</PackageLicenseUrl>
-    <PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
+	  <PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
     <RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
-    <PackageReleaseNotes>An improvement to properly resolve collection bindings that are due to a bug in Ninject 3.3.4. See the tests in test project IoC.Configuration.Ninject at https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.Ninject.Tests for mroe details.</PackageReleaseNotes>
+    <PackageReleaseNotes>An improvement to properly resolve collection bindings that are due to a bug in Ninject 3.3.4. See the tests in test project IoC.Configuration.Ninject at https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.Ninject.Tests for more details.</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\IoC.Configuration.Ninject.xml</DocumentationFile>
@@ -49,8 +49,6 @@ Look at http://iocconfiguration.readthedocs.io/</Description>
     </PackageReference>
     <PackageReference Include="Ninject" Version="3.3.4" />
     <PackageReference Include="OROptimizer.Shared" Version="2.1.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+    <PackageReference Include="IoC.Configuration" Version="2.1.0" />
   </ItemGroup>
 </Project>

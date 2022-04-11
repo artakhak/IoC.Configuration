@@ -1,36 +1,38 @@
 <Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup Label="Globals">
-		<SccProjectName>SAK</SccProjectName>
-		<SccProvider>SAK</SccProvider>
-		<SccAuxPath>SAK</SccAuxPath>
-		<SccLocalPath>SAK</SccLocalPath>
-	</PropertyGroup>
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<EnableDefaultItems>false</EnableDefaultItems>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-		<OutputPath>bin\Debug</OutputPath>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<OutputPath>bin\Release\</OutputPath>
-	</PropertyGroup>
-	<PropertyGroup>
-		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<RootNamespace>DynamicallyLoadedAssembly2</RootNamespace>
-	</PropertyGroup>
-	<ItemGroup>
-	  <Compile Include="ActionValidator4.cs" />
-	  <Compile Include="ClassesUsedInDeprecatedClassTests\ActionValidator1.cs" />
-	  <Compile Include="ClassesUsedInDeprecatedClassTests\ActionValidator2.cs" />
-	  <Compile Include="ClassesUsedInDeprecatedClassTests\ActionValidator3.cs" />
-	  <Compile Include="ClassesUsedInDeprecatedClassTests\IActionValidator.cs" />
-	  <Compile Include="ClassesUsedInDeprecatedClassTests\IActionValidatorFactory1.cs" />
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly1\TestProjects.DynamicallyLoadedAssembly1.csproj" />
-		<ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
-		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
-	</ItemGroup>
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>bin\Debug</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <RootNamespace>DynamicallyLoadedAssembly2</RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="ActionValidator4.cs" />
+    <Compile Include="ClassesUsedInDeprecatedClassTests\ActionValidator1.cs" />
+    <Compile Include="ClassesUsedInDeprecatedClassTests\ActionValidator2.cs" />
+    <Compile Include="ClassesUsedInDeprecatedClassTests\ActionValidator3.cs" />
+    <Compile Include="ClassesUsedInDeprecatedClassTests\IActionValidator.cs" />
+    <Compile Include="ClassesUsedInDeprecatedClassTests\IActionValidatorFactory1.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly1\TestProjects.DynamicallyLoadedAssembly1.csproj" />
+    <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="IoC.Configuration" Version="2.1.0" />
+  </ItemGroup>
 </Project>

@@ -16,6 +16,7 @@
     <PackageReference Include="coverlet.collector" Version="3.1.0" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="2.7.0" />
     <PackageReference Include="TestsSharedLibrary" Version="1.0.0" />
+    <PackageReference Include="IoC.Configuration" Version="2.1.0" />
   </ItemGroup>
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="call $(ProjectDir)PostBuildCommands.bat $(ConfigurationName) $(SolutionDir)" />
@@ -262,7 +263,6 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
     <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
   </ItemGroup>
   <ItemGroup>

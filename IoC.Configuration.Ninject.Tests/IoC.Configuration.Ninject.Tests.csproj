@@ -15,9 +15,9 @@
     <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
     <PackageReference Include="coverlet.collector" Version="3.1.0" />
     <PackageReference Include="IoC.Configuration.Ninject" Version="2.0.0" />
+    <PackageReference Include="IoC.Configuration.Ninject" Version="2.1.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\IoC.Configuration.Ninject\IoC.Configuration.Ninject.csproj" />
     <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
   </ItemGroup>
 </Project>

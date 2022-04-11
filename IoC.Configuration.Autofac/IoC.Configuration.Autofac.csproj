@@ -22,10 +22,10 @@ Detailed documentation on IoC.Configuration is available at http://iocconfigurat
 Look at http://iocconfiguration.readthedocs.io/</Description>
     <Copyright>Copyright 2018 (c) OROptimizer. All rights reserved.</Copyright>
     <PackageTags>IoC Configuration dependencyinjection inversion of control autofac ninject xml Autofac</PackageTags>
-    <PackageLicenseUrl>https://opensource.org/licenses/mit-license.php</PackageLicenseUrl>
-    <PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
+	  <PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
     <RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
-    <PackageReleaseNotes>Change the dependency versions for OROptimizer.Shared and IoC.Configuration.</PackageReleaseNotes>
+    <PackageReleaseNotes>Changed the dependency versions for OROptimizer.Shared and IoC.Configuration to latest versions of these packages.</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\IoC.Configuration.Autofac.xml</DocumentationFile>
@@ -49,8 +49,6 @@ Look at http://iocconfiguration.readthedocs.io/</Description>
     <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" PrivateAssets="All" ExcludeAssets="runtime" />
     <PackageReference Include="Microsoft.CodeAnalysis" Version="2.3.2" />
     <PackageReference Include="OROptimizer.Shared" Version="2.1.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+    <PackageReference Include="IoC.Configuration" Version="2.1.0" />
   </ItemGroup>
 </Project>
