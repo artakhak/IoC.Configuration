@@ -232,6 +232,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "code-samples", "code-sample
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassVisualizer", "..\ClassVisualizer\ClassVisualizer\ClassVisualizer.csproj", "{F664A3FD-BF1C-4CDF-BC4D-019E1B4A3D20}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OROptimizer.Shared.Log4Net", "..\OROptimizer.Shared.Log4Net\OROptimizer.Shared.Log4Net\OROptimizer.Shared.Log4Net.csproj", "{F3E0FD90-CBB5-4035-AD66-08CA8DAD12A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -330,6 +332,10 @@ Global
 		{F664A3FD-BF1C-4CDF-BC4D-019E1B4A3D20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F664A3FD-BF1C-4CDF-BC4D-019E1B4A3D20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F664A3FD-BF1C-4CDF-BC4D-019E1B4A3D20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3E0FD90-CBB5-4035-AD66-08CA8DAD12A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3E0FD90-CBB5-4035-AD66-08CA8DAD12A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3E0FD90-CBB5-4035-AD66-08CA8DAD12A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3E0FD90-CBB5-4035-AD66-08CA8DAD12A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -369,6 +375,8 @@ Global
 		{486FB99F-6540-47EE-AD93-FE8533BD2D7E} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
 		{AA610AEE-2519-4E9B-A50E-459BACB33BB1} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
 		{F664A3FD-BF1C-4CDF-BC4D-019E1B4A3D20} = {765045D6-D2F2-445E-BAEC-12E5381A1BA2}
+		{7EC41ECD-B261-4770-826C-E7AC5893A695} = {765045D6-D2F2-445E-BAEC-12E5381A1BA2}
+		{F3E0FD90-CBB5-4035-AD66-08CA8DAD12A9} = {765045D6-D2F2-445E-BAEC-12E5381A1BA2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1A1C25FA-E067-48BA-A479-2F251496CF15}

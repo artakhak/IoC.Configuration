@@ -7,7 +7,7 @@ namespace IoC.Configuration.DiContainer
     // TODO: either finish IoC.Configuration.DiContainer.TypeScannerModule and make this interface public, or get rid off this interface.
 
     /// <inheritdoc />
-    internal class ScannedTypeRegistrationInfo: IScannedTypeRegistrationInfo
+    public class ScannedTypeRegistrationInfo: IScannedTypeRegistrationInfo
     {
         // ReSharper disable once NotNullMemberIsNotInitialized
         public ScannedTypeRegistrationInfo([NotNull] Type serviceType)

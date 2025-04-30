@@ -389,7 +389,7 @@ namespace IoC.Configuration.ConfigurationFile
 
                 _typeFullNameToTypeInfo[typeFullNameWithGenericParameters] = typeInfo;
 
-                LogHelper.Context.Log.Info($"Loaded type '{typeInfo.TypeCSharpFullName}' from assembly '{typeInfo.Assembly.Name}' at '{typeInfo.Type.Assembly.Location}'.");
+                LogHelper.Context.Log.Debug($"Loaded type '{typeInfo.TypeCSharpFullName}' from assembly '{typeInfo.Assembly.Name}' at '{typeInfo.Type.Assembly.Location}'.");
             }
 
             if (assembly != null && !typeInfo.Assembly.Name.Equals(assembly.Name))

@@ -1,54 +1,66 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <EnableDefaultItems>false</EnableDefaultItems>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <AssemblyName>IoC.Configuration.Ninject</AssemblyName>
-    <RootNamespace>IoC.Configuration.Ninject</RootNamespace>
-    <Version>2.1.0</Version>
-    <Authors>Artak Hakobyan</Authors>
-    <Company>OROptimizer</Company>
-    <Description>A Ninject extension for IoC.Configuration 2. 
-Source code can be found at https://github.com/artakhak/IoC.Configuration
-Detailed documentation on IoC.Configuration is available at http://iocconfiguration.readthedocs.io
-Look at http://iocconfiguration.readthedocs.io/</Description>
-    <Copyright>Copyright 2018 (c) OROptimizer. All rights reserved.</Copyright>
-    <PackageTags>IoC Configuration dependencyinjection inversion of control autofac ninject xml Ninject</PackageTags>
-	  <PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
-    <PackageReleaseNotes>An improvement to properly resolve collection bindings that are due to a bug in Ninject 3.3.4. See the tests in test project IoC.Configuration.Ninject at https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.Ninject.Tests for more details.</PackageReleaseNotes>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\IoC.Configuration.Ninject.xml</DocumentationFile>
-    <NoWarn>1701;1702;1705;1591;</NoWarn>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="IoCConfigurationNinjectKernel.cs" />
-    <Compile Include="NinjectDiContainer.cs" />
-    <Compile Include="NinjectDiManager.cs" />
-    <Compile Include="NinjectLifeTimeScope.cs" />
-    <Compile Include="NinjectModuleWrapper.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\IoC.Configuration.licenseheader" Link="IoC.Configuration.licenseheader" />
-    <None Include="IoC.Configuration.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2021.2.0" PrivateAssets="all" ExcludeAssets="runtime">
-      <IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Ninject" Version="3.3.4" />
-    <PackageReference Include="OROptimizer.Shared" Version="2.1.1" />
-    <PackageReference Include="IoC.Configuration" Version="2.1.0" />
-  </ItemGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup Label="Globals">
+		<SccProjectName>SAK</SccProjectName>
+		<SccProvider>SAK</SccProvider>
+		<SccAuxPath>SAK</SccAuxPath>
+		<SccLocalPath>SAK</SccLocalPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<EnableDefaultItems>false</EnableDefaultItems>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	</PropertyGroup>
+	<PropertyGroup>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<AssemblyName>IoC.Configuration.Ninject</AssemblyName>
+		<RootNamespace>IoC.Configuration.Ninject</RootNamespace>
+		<Version>2.2.0</Version>
+		<Authors>Artak Hakobyan</Authors>
+		<Company>OROptimizer</Company>
+		<Description>
+			A Ninject extension for IoC.Configuration 2.
+			Source code can be found at https://github.com/artakhak/IoC.Configuration
+			Detailed documentation on IoC.Configuration is available at http://iocconfiguration.readthedocs.io
+			Look at http://iocconfiguration.readthedocs.io/
+		</Description>
+		<Copyright>Copyright 2018 (c) OROptimizer. All rights reserved.</Copyright>
+		<PackageTags>IoC Configuration dependencyinjection inversion of control autofac ninject xml Ninject</PackageTags>
+		<PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
+		<PackageReleaseNotes>
+			-Changed the dependency versions for OROptimizer.Shared and IoC.Configuration to latest versions of these packages.
+			-Moved to latest Ninject library version 3.3.6
+		</PackageReleaseNotes>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>bin\Release\IoC.Configuration.Ninject.xml</DocumentationFile>
+		<NoWarn>1701;1702;1705;1591;</NoWarn>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Include="IoCConfigurationNinjectKernel.cs" />
+		<Compile Include="NinjectDiContainer.cs" />
+		<Compile Include="NinjectDiManager.cs" />
+		<Compile Include="NinjectLifeTimeScope.cs" />
+		<Compile Include="NinjectModuleWrapper.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\IoC.Configuration.licenseheader" Link="IoC.Configuration.licenseheader" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="JetBrains.Annotations" Version="2021.2.0" PrivateAssets="all" ExcludeAssets="runtime">
+			<IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Ninject" Version="3.3.6" />
+		<!--
+		<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
+		<PackageReference Include="IoC.Configuration" Version="1.0.0" />
+		-->
+
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
+		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+	</ItemGroup>
 </Project>

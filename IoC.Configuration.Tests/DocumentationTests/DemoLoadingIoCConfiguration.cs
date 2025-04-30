@@ -27,7 +27,7 @@ namespace IoC.Configuration.Tests.DocumentationTests
             // Before the configuration is loaded, an instance of OROptimizer.Diagnostics.Log.ILogHelperContext
             // should be registered, using OROptimizer.Diagnostics.Log.LogHelper.RegisterContext(ILogHelperContext).
             // An implementation of ILogHelperContext for log4net,
-            // OROptimizer.Diagnostics.Log.Log4NetHelperContext, can be found in Nuget package OROptimizer.Shared.
+            // OROptimizer.Log4Net.Log4NetHelperContext, can be found in Nuget package OROptimizer.Shared.Log4Net.
             if (!OROptimizer.Diagnostics.Log.LogHelper.IsContextInitialized)
                 OROptimizer.Diagnostics.Log.LogHelper.RegisterContext(new LogHelper4TestsContext());
         }

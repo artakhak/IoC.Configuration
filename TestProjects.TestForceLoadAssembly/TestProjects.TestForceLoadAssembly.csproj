@@ -18,6 +18,9 @@
     <RootNamespace>TestForceLoadAssembly</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="OROptimizer.Shared" Version="2.1.1" />
+    <!--<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />-->
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
   </ItemGroup>
 </Project>

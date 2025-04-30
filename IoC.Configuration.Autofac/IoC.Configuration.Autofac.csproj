@@ -1,54 +1,66 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <RootNamespace>IoC.Configuration.Autofac</RootNamespace>
-    <AssemblyName>IoC.Configuration.Autofac</AssemblyName>
-    <EnableDefaultItems>false</EnableDefaultItems>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <Version>2.0.1</Version>
-    <Company>OROptimizer</Company>
-    <Authors>Artak Hakobyan</Authors>
-    <Description>An Autofac extension for IoC.Configuration 2.
-Detailed documentation on IoC.Configuration is available at http://iocconfiguration.readthedocs.io
-Look at http://iocconfiguration.readthedocs.io/</Description>
-    <Copyright>Copyright 2018 (c) OROptimizer. All rights reserved.</Copyright>
-    <PackageTags>IoC Configuration dependencyinjection inversion of control autofac ninject xml Autofac</PackageTags>
-	  <PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
-    <PackageReleaseNotes>Changed the dependency versions for OROptimizer.Shared and IoC.Configuration to latest versions of these packages.</PackageReleaseNotes>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\IoC.Configuration.Autofac.xml</DocumentationFile>
-    <NoWarn>1701;1702;1705;1591;</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <WarningLevel>3</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="AutofacDiContainer.cs" />
-    <Compile Include="AutofacDiManager.cs" />
-    <Compile Include="AutofacLifeTimeScope.cs" />
-    <Compile Include="AutofacModuleWrapper.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\IoC.Configuration.licenseheader" Link="IoC.Configuration.licenseheader" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.5.0" />
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.0.0" />
-    <PackageReference Include="JetBrains.Annotations" Version="2020.3.0" PrivateAssets="All" ExcludeAssets="runtime" />
-    <PackageReference Include="Microsoft.CodeAnalysis" Version="2.3.2" />
-    <PackageReference Include="OROptimizer.Shared" Version="2.1.1" />
-    <PackageReference Include="IoC.Configuration" Version="2.1.0" />
-  </ItemGroup>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup Label="Globals">
+		<SccProjectName>SAK</SccProjectName>
+		<SccProvider>SAK</SccProvider>
+		<SccAuxPath>SAK</SccAuxPath>
+		<SccLocalPath>SAK</SccLocalPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<RootNamespace>IoC.Configuration.Autofac</RootNamespace>
+		<AssemblyName>IoC.Configuration.Autofac</AssemblyName>
+		<EnableDefaultItems>false</EnableDefaultItems>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	</PropertyGroup>
+	<PropertyGroup>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<Version>2.2.0</Version>
+		<Company>OROptimizer</Company>
+		<Authors>Artak Hakobyan</Authors>
+		<Description>
+			An Autofac extension for IoC.Configuration 2.
+			Detailed documentation on IoC.Configuration is available at http://iocconfiguration.readthedocs.io
+			Look at http://iocconfiguration.readthedocs.io/
+		</Description>
+		<Copyright>Copyright 2018 (c) OROptimizer. All rights reserved.</Copyright>
+		<PackageTags>IoC Configuration dependencyinjection inversion of control autofac ninject xml Autofac</PackageTags>
+		<PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
+		<PackageReleaseNotes>
+			-Changed the dependency versions for OROptimizer.Shared and IoC.Configuration to latest versions of these packages.
+			-Moved to more recent Autofac library version 8.0.0
+		</PackageReleaseNotes>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>bin\Release\IoC.Configuration.Autofac.xml</DocumentationFile>
+		<NoWarn>1701;1702;1705;1591;</NoWarn>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<WarningLevel>3</WarningLevel>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Include="AutofacDiContainer.cs" />
+		<Compile Include="AutofacDiManager.cs" />
+		<Compile Include="AutofacLifeTimeScope.cs" />
+		<Compile Include="AutofacModuleWrapper.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\IoC.Configuration.licenseheader" Link="IoC.Configuration.licenseheader" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Autofac" Version="8.0.0" />
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+		<PackageReference Include="JetBrains.Annotations" Version="2020.3.0" PrivateAssets="All" ExcludeAssets="runtime" />
+		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.13.0" />
+		<!--
+		<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
+		<PackageReference Include="IoC.Configuration" Version="1.0.0" />
+		-->
+
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
+		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+	</ItemGroup>
 </Project>

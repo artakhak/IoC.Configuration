@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 namespace IoC.Configuration.DiContainer
 {
     // TODO: either finish IoC.Configuration.DiContainer.TypeScannerModule and make this interface public, or get rid off this interface.
-    internal interface IScannedTypeRegistrationInfo
+    public interface IScannedTypeRegistrationInfo
     {
         /// <summary>
         /// Interface type.

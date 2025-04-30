@@ -5,6 +5,7 @@ using System;
 using System.IO;
 using System.Linq;
 using IoC.Configuration.DiContainerBuilder.FileBased;
+using OROptimizer.Diagnostics.Log;
 using TestsHelper = TestsSharedLibrary.TestsHelper;
 
 namespace IoC.Configuration.Tests
@@ -16,7 +17,7 @@ namespace IoC.Configuration.Tests
         public static void ClassInitialize()
         {
             TestsHelper.SetupLogger();
-            TestsSharedLibrary.Diagnostics.Log.Log4Tests.LogLevel = TestsSharedLibrary.Diagnostics.Log.LogLevel.Debug;
+            TestsSharedLibrary.Diagnostics.Log.Log4Tests.LogLevel = LogLevel.Debug;
         }
 
         [Test]

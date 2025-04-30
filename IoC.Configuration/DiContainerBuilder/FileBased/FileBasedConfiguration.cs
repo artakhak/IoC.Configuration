@@ -216,7 +216,7 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                 if (childXmlElement == null)
                     continue;
 
-                LogHelper.Context.Log.InfoFormat("Processing element '{0}'", childXmlElement.XmlElementToString());
+                LogHelper.Context.Log.DebugFormat("Processing element '{0}'", childXmlElement.XmlElementToString());
 
                 var childElement = _configurationFileElementFactory.CreateConfigurationFileElement(childXmlElement, parentElement);
 
@@ -569,7 +569,7 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                         throw new Exception($"Errors in XML file: '{_fileBasedConfigurationParameters.ConfigurationFileContentsProvider.ConfigurationFileSourceDetails}'.");
                 });
 
-                LogHelper.Context.Log.InfoFormat("Processing element: {0}", rootElement.XmlElementToString());
+                LogHelper.Context.Log.DebugFormat("Processing element: {0}", rootElement.XmlElementToString());
 
                 Configuration = _configurationFileElementFactory.CreateConfiguration(rootElement);
 
@@ -662,9 +662,9 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 
         private void ProcessConfigurationFileElementAfterTreeConstructed(IConfigurationFileElement configurationFileElement, ref bool stopProcessing)
         {
-            LogHelper.Context.Log.InfoFormat("Post processing element '{0}' after tree constructed.", configurationFileElement);
+            LogHelper.Context.Log.DebugFormat("Post processing element '{0}' after tree constructed.", configurationFileElement);
             configurationFileElement.ValidateOnTreeConstructed();
-            LogHelper.Context.Log.InfoFormat("Finished processing element '{0}' after tree constructed.", configurationFileElement.ElementName);
+            LogHelper.Context.Log.DebugFormat("Finished processing element '{0}' after tree constructed.", configurationFileElement.ElementName);
         }
 
         private void ProcessDependencyInjectionSection([NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder,

@@ -236,47 +236,5 @@ namespace IoC.Configuration.ConfigurationFile
 
             return xmlElementText.ToString();
         }
-
-        // EnsureConfigurationDirectoryExistsOrThrow code might be uncommented some-time in the future. If not, will be removed
-        ///// <summary>
-        ///// Checks if directory specified in parameter <paramref name="directoryPath"/> exists, and tries to create the directory, if it does not exist.
-        ///// </summary>
-        ///// <exception cref="ConfigurationParseException">Throws this exception if the directory does not exist and could not be created.</exception>
-        //public static void EnsureConfigurationDirectoryExistsOrThrow([NotNull] IConfigurationFileElement configurationFileElement, [NotNull] string directoryPath,
-        //    [NotNull] string attributeName)
-        //{
-        //    if (TryEnsureConfigurationDirectoryExists(directoryPath))
-        //        return;
-
-        //    throw new ConfigurationParseException(configurationFileElement, $"Directory '{directoryPath}' specified in attribute '{attributeName}' does not exist.");
-        //}
-
-        // EnsureConfigurationDirectoryExistsOrThrow code might be uncommented some-time in the future. If not, will be removed
-        ///// <summary>
-        ///// Checks if directory specified in parameter <paramref name="directoryPath"/> exists, and tries to create the directory, if it does not exist.
-        ///// </summary>
-        //public static bool TryEnsureConfigurationDirectoryExists([NotNull] string directoryPath)
-        //{
-        //    if (Directory.Exists(directoryPath))
-        //        return true;
-
-        //    var errorMessageTemplate = "Failed to create the directory '{0}'.";
-
-        //    try
-        //    {
-        //        var directoryInfo = Directory.CreateDirectory(directoryPath);
-
-        //        if (directoryInfo.Exists)
-        //            return true;
-
-        //        LogHelper.Context.Log.Error(string.Format(errorMessageTemplate, directoryPath));
-        //        return false;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        LogHelper.Context.Log.Error(string.Format(errorMessageTemplate, directoryPath), e);
-        //        return false;
-        //    }
-        //}
     }
 }

@@ -35,6 +35,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using OROptimizer.Diagnostics.Log;
 using TestsSharedLibrary;
 using TestsSharedLibrary.DependencyInjection;
 using TestsSharedLibrary.Diagnostics.Log;

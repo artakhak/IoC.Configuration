@@ -155,10 +155,11 @@ namespace IoC.Configuration.Autofac
 
         [NotNull]
         public ContainerBuilder ContainerBuilder { get; }
-
-        private void OnContainerBuilt([NotNull] IContainer container)
+        
+        private void OnContainerBuilt([NotNull] ILifetimeScope lifetimeScope)
         {
-            Container = container;
+            if (lifetimeScope is IContainer container)
+                Container = container;
         }
 
         #endregion
