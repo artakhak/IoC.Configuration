@@ -52,15 +52,15 @@
 			<IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Ninject" Version="3.3.6" />
-		<!--
 		<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
+		<!--		
 		<PackageReference Include="IoC.Configuration" Version="1.0.0" />
 		-->
 
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
+		<!--<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
 		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
 	</ItemGroup>
 </Project>

@@ -53,14 +53,15 @@
 		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
 		<PackageReference Include="JetBrains.Annotations" Version="2020.3.0" PrivateAssets="All" ExcludeAssets="runtime" />
 		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.13.0" />
-		<!--
 		<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
+		<!--		
 		<PackageReference Include="IoC.Configuration" Version="1.0.0" />
 		-->
-
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
+		
+		<!--<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
 		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+		
 	</ItemGroup>
 </Project>

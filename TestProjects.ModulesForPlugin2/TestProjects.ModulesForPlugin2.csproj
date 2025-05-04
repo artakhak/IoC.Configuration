@@ -1,34 +1,37 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <EnableDefaultItems>false</EnableDefaultItems>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <RootNamespace>ModulesForPlugin2</RootNamespace>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="Autofac\AutofacModule1.cs" />
-    <Compile Include="Ninject\NinjectModule1.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Autofac" Version="8.0.0" />
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Ninject" Version="3.3.6" />
-    <!--<PackageReference Include="IoC.Configuration" Version="2.2.0" />
-    <PackageReference Include="IoC.Configuration.Autofac" Version="2.2.0" />-->
-    <PackageReference Include="IoC.Configuration.Ninject" Version="2.1.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
-    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
-    <ProjectReference Include="..\IoC.Configuration.Autofac\IoC.Configuration.Autofac.csproj" />
-  </ItemGroup>
+	<PropertyGroup Label="Globals">
+		<SccProjectName>SAK</SccProjectName>
+		<SccProvider>SAK</SccProvider>
+		<SccAuxPath>SAK</SccAuxPath>
+		<SccLocalPath>SAK</SccLocalPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<EnableDefaultItems>false</EnableDefaultItems>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	</PropertyGroup>
+	<PropertyGroup>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<RootNamespace>ModulesForPlugin2</RootNamespace>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Include="Autofac\AutofacModule1.cs" />
+		<Compile Include="Ninject\NinjectModule1.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Autofac" Version="8.0.0" />
+		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
+		<PackageReference Include="Ninject" Version="3.3.6" />
+		<!--
+		<PackageReference Include="IoC.Configuration" Version="2.2.0" />
+		<PackageReference Include="IoC.Configuration.Autofac" Version="2.2.0" />
+		<PackageReference Include="IoC.Configuration.Ninject" Version="2.1.0" />
+		-->
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
+		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+		<ProjectReference Include="..\IoC.Configuration.Autofac\IoC.Configuration.Autofac.csproj" />
+		<ProjectReference Include="..\IoC.Configuration.Ninject\IoC.Configuration.Ninject.csproj" />
+	</ItemGroup>
 </Project>

@@ -1,43 +1,43 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <EnableDefaultItems>false</EnableDefaultItems>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="Implementations\Car.cs" />
-    <Compile Include="Implementations\Interface5_Plugin2Impl.cs" />
-    <Compile Include="Implementations\Plugin1.cs" />
-    <Compile Include="Implementations\Plugin2.cs" />
-    <Compile Include="Implementations\Plugin2_TypeTests.cs" />
-    <Compile Include="Implementations\Wheel.cs" />
-    <Compile Include="Implementations\WheelSerializer.cs" />
-    <Compile Include="Interfaces\ICar.cs" />
-    <Compile Include="Interfaces\IWheel.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly1\TestProjects.DynamicallyLoadedAssembly1.csproj" />
-    <ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly2\TestProjects.DynamicallyLoadedAssembly2.csproj" />
-    <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
-    <ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
-    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
-  </ItemGroup>
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <RootNamespace>TestPluginAssembly2</RootNamespace>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>bin\Debug</OutputPath>
-    <WarningLevel>1</WarningLevel>
-  </PropertyGroup>
-  <ItemGroup>
-    <!--<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
-    <PackageReference Include="IoC.Configuration" Version="2.2.0" />-->
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<EnableDefaultItems>false</EnableDefaultItems>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Include="Implementations\Car.cs" />
+		<Compile Include="Implementations\Interface5_Plugin2Impl.cs" />
+		<Compile Include="Implementations\Plugin1.cs" />
+		<Compile Include="Implementations\Plugin2.cs" />
+		<Compile Include="Implementations\Plugin2_TypeTests.cs" />
+		<Compile Include="Implementations\Wheel.cs" />
+		<Compile Include="Implementations\WheelSerializer.cs" />
+		<Compile Include="Interfaces\ICar.cs" />
+		<Compile Include="Interfaces\IWheel.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly1\TestProjects.DynamicallyLoadedAssembly1.csproj" />
+		<ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly2\TestProjects.DynamicallyLoadedAssembly2.csproj" />
+		<ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
+		<!--<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
+		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+	</ItemGroup>
+	<PropertyGroup Label="Globals">
+		<SccProjectName>SAK</SccProjectName>
+		<SccProvider>SAK</SccProvider>
+		<SccAuxPath>SAK</SccAuxPath>
+		<SccLocalPath>SAK</SccLocalPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<RootNamespace>TestPluginAssembly2</RootNamespace>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<OutputPath>bin\Debug</OutputPath>
+		<WarningLevel>1</WarningLevel>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
+		<!--<PackageReference Include="IoC.Configuration" Version="2.2.0" />-->
+	</ItemGroup>
 </Project>

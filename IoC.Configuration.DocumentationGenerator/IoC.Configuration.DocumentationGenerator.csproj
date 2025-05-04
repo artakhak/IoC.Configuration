@@ -7,6 +7,7 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<!--<PackageReference Include="FileInclude" Version="1.0.3" />-->
+		<PackageReference Include="FileInclude" Version="1.0.5" />
 		<PackageReference Include="log4net" Version="3.0.4" />
 	</ItemGroup>
 	<ItemGroup>
@@ -15,14 +16,12 @@
 		</None>
 	</ItemGroup>
 	<ItemGroup>
-		<!--
 		<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
 		<PackageReference Include="OROptimizer.Shared.Log4Net" Version="1.0.0" />
-		-->
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\OROptimizer.Shared.Log4Net\OROptimizer.Shared.Log4Net\OROptimizer.Shared.Log4Net.csproj" />
+		<!--<ProjectReference Include="..\..\OROptimizer.Shared.Log4Net\OROptimizer.Shared.Log4Net\OROptimizer.Shared.Log4Net.csproj" />
 		<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
-		<ProjectReference Include="..\..\FileInclude\FileInclude\FileInclude.csproj" />
+		<ProjectReference Include="..\..\FileInclude\FileInclude\FileInclude.csproj" />-->
 	</ItemGroup>
 </Project>

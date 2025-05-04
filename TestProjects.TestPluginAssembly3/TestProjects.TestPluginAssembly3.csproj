@@ -28,11 +28,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
-    <ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
+    <!--<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
     <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <!--<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
-    <PackageReference Include="IoC.Configuration" Version="2.2.0" />-->
+    <PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
+    <!--<PackageReference Include="IoC.Configuration" Version="2.2.0" />-->
   </ItemGroup>
 </Project>

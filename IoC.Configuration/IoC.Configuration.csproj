@@ -54,11 +54,11 @@
 			<IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.13.0" />
-		<!--<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />-->
 		<PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
+		<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
 	</ItemGroup>
 	<ItemGroup>
-		<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
+		<!--<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
 	</ItemGroup>
 	<ItemGroup>
 		<Content Include="IoC.Cnfiguration.Content/*.*" copyToOutput="true">

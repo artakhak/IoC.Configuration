@@ -1,26 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <EnableDefaultItems>false</EnableDefaultItems>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>bin\Debug</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <RootNamespace>TestForceLoadAssembly</RootNamespace>
-  </PropertyGroup>
-  <ItemGroup>
-    <!--<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />-->
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
-  </ItemGroup>
+	<PropertyGroup Label="Globals">
+		<SccProjectName>SAK</SccProjectName>
+		<SccProvider>SAK</SccProvider>
+		<SccAuxPath>SAK</SccAuxPath>
+		<SccLocalPath>SAK</SccLocalPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<EnableDefaultItems>false</EnableDefaultItems>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<OutputPath>bin\Debug</OutputPath>
+	</PropertyGroup>
+	<PropertyGroup>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<RootNamespace>TestForceLoadAssembly</RootNamespace>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<!--<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
+	</ItemGroup>
 </Project>
