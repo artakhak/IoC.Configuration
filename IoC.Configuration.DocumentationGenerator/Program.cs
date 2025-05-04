@@ -1,8 +1,7 @@
-﻿using System.Text;
-using FileInclude;
+﻿using FileInclude;
 using OROptimizer.Diagnostics.Log;
-using OROptimizer.Log4Net;
 using OROptimizer.Utilities;
+using System.Text;
 
 // See https://aka.ms/new-console-template for more information
 LogHelper.RegisterContext(new OROptimizer.Log4Net.Log4NetHelperContext("IoC.Configuration.DocumentationGenerator.log4net.config"));

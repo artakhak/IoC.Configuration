@@ -52,7 +52,7 @@
 <div><p>Here is an example of registering the logger:</p>
 <div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="p">(!</span><span class="n">OROptimizer</span><span class="p">.</span><span class="n">Diagnostics</span><span class="p">.</span><span class="n">Log</span><span class="p">.</span><span class="n">LogHelper</span><span class="p">.</span><span class="n">IsContextInitialized</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="n">OROptimizer</span><span class="p">.</span><span class="n">Diagnostics</span><span class="p">.</span><span class="n">Log</span><span class="p">.</span><span class="n">LogHelper</span><span class="p">.</span><span class="n">RegisterContext</span><span class="p">(</span><span class="w"></span>
-<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="nf">OROptimizer.Log4Net.Log4NetHelperContext</span><span class="p">(</span><span class="s">&quot;MyApp.log4net.config&quot;</span><span class="p">));</span><span class="w"></span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="n">OROptimizer</span><span class="p">.</span><span class="n">Log4Net</span><span class="p">.</span><span class="n">Log4NetHelperContext</span><span class="p">(</span><span class="s">&quot;MyApp.log4net.config&quot;</span><span class="p">));</span><span class="w"></span>
 </pre></div>
 </div>
 </div></blockquote>

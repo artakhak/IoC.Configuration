@@ -7,8 +7,8 @@
 	</PropertyGroup>
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<PackageVersion>2.2.0</PackageVersion>
-		<Version>2.2.0</Version>
+		<PackageVersion>2.2.1</PackageVersion>
+		<Version>2.2.1</Version>
 		<PackageTags>IoC Configuration IoC+Configuration dependency+injection inversion+of+control Autofac Ninject IoC.Configuration dependency+injection+configuration</PackageTags>
 		<Authors>Artak Hakobyan</Authors>
 		<Company>OROptimizer</Company>
@@ -28,8 +28,7 @@
 		</Description>
 		<Copyright>Copyright 2018 (c) OROptimizer. All rights reserved.</Copyright>
 		<PackageReleaseNotes>
-			BREAKING CHANGE: Referencing the latest version of OROptimizer.Shared (2.2.0). The log4net classes in OROptimizer.Shared, 2.2.0 were moved to a new library OROptimizer.Shared.Log4Net,
-			therefore projects that used these classes in OROptimizer.Shared will need reference the package OROptimizer.Shared.Log4Net and use similar classes in namespace OROptimizer.Log4Net in that package.
+			Small fix to README.md
 		</PackageReleaseNotes>
 		<RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
 		<PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
@@ -68,6 +67,9 @@
 			<copyToOutput>true</copyToOutput>
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Remove="C:\Users\artak\.nuget\packages\oroptimizer.shared\2.2.0\contentFiles\any\netstandard2.0\README.md" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Include="Assembly.cs" />
@@ -406,5 +408,7 @@
 		</None>
 		<None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
 		<None Include="Properties\PublishProfiles\FolderProfile.pubxml.user" />
+		<None Include="README.md" />
+		<None Include="README.md.template" />
 	</ItemGroup>
 </Project>

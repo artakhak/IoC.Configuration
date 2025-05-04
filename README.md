@@ -1651,7 +1651,7 @@ Here is an example from configuration file above which has both native and conta
 	<!--Some configuration before this point...-->
 	<dependencyInjection>
 		<modules>
-			<!--Type Modules.IoC.DiModule1 is an IoC.Configuration module and is a subclass 
+			<!--Type Modules.IoC.DiModule1 is an IoC.Configuration module and is a subclass
                 of IoC.Configuration.DiContainer.ModuleAbstr-->
 			<module type="Modules.IoC.DiModule1" >
 				<parameters>
@@ -1665,7 +1665,7 @@ Here is an example from configuration file above which has both native and conta
 				<parameters>
 					<int32 name="param1" value="1" />
 				</parameters>
-			</module>			
+			</module>
 
 			<!--Type Modules.Ninject.NinjectModule1 is a Ninject module and is a
 				subclass of Ninject.Modules.NinjectModule-->
@@ -1673,9 +1673,9 @@ Here is an example from configuration file above which has both native and conta
 				<parameters>
 					<int32 name="param1" value="3" />
 				</parameters>
-			</module>			
+			</module>
 		</modules>
-	<dependencyInjection>
+	</dependencyInjection>
 ```
 
 ![](http://oroptimizer.com/IoC.Configuration/GitHubDocs/NativeModulesInConfigurationFile.png)
