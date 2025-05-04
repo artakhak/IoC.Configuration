@@ -14,11 +14,12 @@
 	</PropertyGroup>
 	<PropertyGroup>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<Version>2.2.0</Version>
+		<PackageVersion>2.1.0</PackageVersion>
+		<Version>2.1.0</Version>
 		<Company>OROptimizer</Company>
 		<Authors>Artak Hakobyan</Authors>
 		<Description>
-			An Autofac extension for IoC.Configuration 2.
+			An Autofac extension for IoC.Configuration.
 			Detailed documentation on IoC.Configuration is available at http://iocconfiguration.readthedocs.io
 			Look at http://iocconfiguration.readthedocs.io/
 		</Description>
@@ -31,6 +32,10 @@
 			-Moved to more recent Autofac library version 8.0.0
 		</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>IoC.Configuration.Autofac</Title>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryType>git</RepositoryType>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DocumentationFile>bin\Release\IoC.Configuration.Autofac.xml</DocumentationFile>
@@ -46,7 +51,14 @@
 		<Compile Include="AutofacModuleWrapper.cs" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Content Include="README.md" />
+	</ItemGroup>
+	<ItemGroup>
 		<None Include="..\IoC.Configuration.licenseheader" Link="IoC.Configuration.licenseheader" />
+		<None Include="README.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
 	<ItemGroup>
 		<PackageReference Include="Autofac" Version="8.0.0" />
@@ -54,14 +66,13 @@
 		<PackageReference Include="JetBrains.Annotations" Version="2020.3.0" PrivateAssets="All" ExcludeAssets="runtime" />
 		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.13.0" />
 		<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
-		<!--		
-		<PackageReference Include="IoC.Configuration" Version="1.0.0" />
-		-->
+		<PackageReference Include="IoC.Configuration" Version="2.2.0" />
 	</ItemGroup>
 	<ItemGroup>
 		
-		<!--<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
+		<!--
+		<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
 		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
-		
+		-->
 	</ItemGroup>
 </Project>

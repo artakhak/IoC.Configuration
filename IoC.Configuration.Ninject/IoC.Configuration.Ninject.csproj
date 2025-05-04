@@ -14,11 +14,12 @@
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<AssemblyName>IoC.Configuration.Ninject</AssemblyName>
 		<RootNamespace>IoC.Configuration.Ninject</RootNamespace>
+		<PackageVersion>2.2.0</PackageVersion>
 		<Version>2.2.0</Version>
 		<Authors>Artak Hakobyan</Authors>
 		<Company>OROptimizer</Company>
 		<Description>
-			A Ninject extension for IoC.Configuration 2.
+			A Ninject extension for IoC.Configuration.
 			Source code can be found at https://github.com/artakhak/IoC.Configuration
 			Detailed documentation on IoC.Configuration is available at http://iocconfiguration.readthedocs.io
 			Look at http://iocconfiguration.readthedocs.io/
@@ -32,6 +33,9 @@
 			-Moved to latest Ninject library version 3.3.6
 		</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Title>IoC.Configuration.Ninject</Title>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<DocumentationFile>bin\Release\IoC.Configuration.Ninject.xml</DocumentationFile>
@@ -45,6 +49,13 @@
 		<Compile Include="NinjectModuleWrapper.cs" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Content Include="README.md" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\IoC.Configuration.Autofac\README.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
 		<None Include="..\IoC.Configuration.licenseheader" Link="IoC.Configuration.licenseheader" />
 	</ItemGroup>
 	<ItemGroup>
@@ -53,14 +64,14 @@
 		</PackageReference>
 		<PackageReference Include="Ninject" Version="3.3.6" />
 		<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
-		<!--		
-		<PackageReference Include="IoC.Configuration" Version="1.0.0" />
-		-->
+		<PackageReference Include="IoC.Configuration" Version="2.2.0" />
 
 	</ItemGroup>
 
 	<ItemGroup>
-		<!--<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
+		<!--
+		<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
 		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+		-->
 	</ItemGroup>
 </Project>

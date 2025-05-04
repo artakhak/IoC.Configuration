@@ -1,338 +1,342 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>disable</Nullable>
-    <IsPackable>false</IsPackable>
-    <EnableDefaultItems>false</EnableDefaultItems>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <RootNamespace>IoC.Configuration.Tests</RootNamespace>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
-    <PackageReference Include="NUnit" Version="3.13.2" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
-    <PackageReference Include="Moq" Version="4.15.2" />
-    <PackageReference Include="coverlet.collector" Version="6.0.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis" Version="4.13.0" />
-    <PackageReference Include="TestsSharedLibrary" Version="1.0.3" />
-  </ItemGroup>
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="call $(ProjectDir)PostBuildCommands.bat $(ConfigurationName) $(SolutionDir)" />
-  </Target>
-  <ItemGroup>
-    <Compile Include="AssemblyReferencesInDynamicallyGeneratedAssembly\AssemblyReferencesInDynamicallyGeneratedAssemblyTests.cs" />
-    <Compile Include="AssemblyReferencesInDynamicallyGeneratedAssembly\AssemblyReferencesInDynamicallyGeneratedAssemblyTestsNinject.cs" />
-    <Compile Include="AssemblyReferencesInDynamicallyGeneratedAssembly\AssemblyReferencesInDynamicallyGeneratedAssemblyTestsAutofac.cs" />
-    <Compile Include="AssemblyReferencesInDynamicallyGeneratedAssembly\CustomAutoServiceCodeGenerator.cs" />
-    <Compile Include="AssemblyReferencesInDynamicallyGeneratedAssembly\IDogWeightsCalculator.cs" />
-    <Compile Include="AttributeInfo.cs" />
-    <Compile Include="AttributeValueTransformers\AttributeValueTransformersTests_Ninject.cs" />
-    <Compile Include="AttributeValueTransformers\AttributeValueTransformersTests_Autofac.cs" />
-    <Compile Include="AttributeValueTransformers\AttributeValueTransformersTests.cs" />
-    <Compile Include="AutoServiceCustom\AutoServiceCustomFailedLoadTests.cs" />
-    <Compile Include="AutoServiceCustom\AutoServiceCustomSuccessfulLoadTests.cs" />
-    <Compile Include="AutoServiceCustom\AutoServiceSuccessfulCustomLoadTestsAutofac.cs" />
-    <Compile Include="AutoServiceCustom\AutoServiceSuccessfulCustomLoadTestsNinject.cs" />
-    <Compile Include="AutoServiceCustom\ClassesForFailureTests\CustomAutoServiceCodeGeneratorForFailureTests.cs" />
-    <Compile Include="AutoServiceCustom\ClassesForFailureTests\DoesNotImplement_ICustomAutoServiceCodeGenerator.cs" />
-    <Compile Include="AutoServiceCustom\ClassesForFailureTests\DogAbstr.cs" />
-    <Compile Include="AutoServiceCustom\ClassesForFailureTests\AbstractDogWithNonPublicAccessLevel.cs" />
-    <Compile Include="AutoServiceCustom\SimpleDataRepository\RepositoryAttributes\RepositoryMethodMetadataForAddAttribute.cs" />
-    <Compile Include="AutoServiceCustom\SimpleDataRepository\RepositoryInterfaceImplementationGenerator.cs" />
-    <Compile Include="AutoServiceCustom\SimpleDataRepository\DataRepositories\IAuthorBooksRepository.cs" />
-    <Compile Include="AutoServiceCustom\SimpleDataRepository\DataRepositories\IBooksRepository.cs" />
-    <Compile Include="AutoServiceCustom\SimpleDataRepository\DataRepositories\IAuthorsRepository.cs" />
-    <Compile Include="AutoServiceCustom\SimpleDataRepository\Entities\AuthorBook.cs" />
-    <Compile Include="AutoServiceCustom\SimpleDataRepository\Entities\Book.cs" />
-    <Compile Include="AutoServiceCustom\SimpleDataRepository\Entities\Author.cs" />
-    <Compile Include="AutoServiceCustom\SimpleDataRepository\RepositoryAttributes\ColumnAttribute.cs" />
-    <Compile Include="AutoServiceCustom\SimpleDataRepository\RepositoryAttributes\DatabaseEntityAttribute.cs" />
-    <Compile Include="AutoServiceCustom\SimpleDataRepository\RepositoryAttributes\DataRepositoryAttribute.cs" />
-    <Compile Include="AutoServiceCustom\SimpleDataRepository\RepositoryAttributes\RepositoryMethodMetadataForAddOrUpdateAttribute.cs" />
-    <Compile Include="AutoServiceCustom\SimpleDataRepository\RepositoryAttributes\RepositoryMethodMetadataForDeleteAttribute.cs" />
-    <Compile Include="AutoServiceCustom\SimpleDataRepository\RepositoryAttributes\RepositoryMethodMetadataForSelectAttribute.cs" />
-    <Compile Include="AutoService\AutoServiceFailedLoadTests.cs" />
-    <Compile Include="AutoService\AutoServiceSuccessfulLoadTests.cs" />
-    <Compile Include="AutoService\AutoServiceSuccessfulLoadTestsAutofac.cs" />
-    <Compile Include="AutoService\AutoServiceSuccessfulLoadTestsNinject.cs" />
-    <Compile Include="AutoService\AutoServiceTestsModule.cs" />
-    <Compile Include="AutoService\Services\ActionValidator1.cs" />
-    <Compile Include="AutoService\Services\ActionValidator4.cs" />
-    <Compile Include="AutoService\Services\ActionValidatorDefault.cs" />
-    <Compile Include="AutoService\Services\ActionValidatorValuesProvider.cs" />
-    <Compile Include="AutoService\Services\ActionValidatorWithDependencyOnActionValidatorFactory.cs" />
-    <Compile Include="AutoService\Services\AppInfo.cs" />
-    <Compile Include="AutoService\Services\IActionValidatorFactory.cs" />
-    <Compile Include="AutoService\Services\IActionValidatorFactoryBase.cs" />
-    <Compile Include="AutoService\Services\IActionValidatorValuesProvider.cs" />
-    <Compile Include="AutoService\Services\IAppInfo.cs" />
-    <Compile Include="AutoService\Services\IAppInfoFactory.cs" />
-    <Compile Include="AutoService\Services\IInterface1.cs" />
-    <Compile Include="AutoService\Services\IInterface2.cs" />
-    <Compile Include="AutoService\Services\IMemberAmbiguityDemo.cs" />
-    <Compile Include="AutoService\Services\Interface1_Impl1.cs" />
-    <Compile Include="AutoService\Services\Interface2_Impl1.cs" />
-    <Compile Include="AutoService\Services\INullableTypesTestInterface.cs" />
-    <Compile Include="AutoService\Services\IProjectGuids.cs" />
-    <Compile Include="AutoService\Services\StaticAndConstMembers.cs" />
-    <Compile Include="ClassMember\ClassMemberFailedLoadTests.cs" />
-    <Compile Include="ClassMember\ClassMemberSuccessfulLoadTests.cs" />
-    <Compile Include="ClassMember\ClassMemberSuccessfulLoadTests_Autofac.cs" />
-    <Compile Include="ClassMember\ClassMemberSuccessfulLoadTests_Ninject.cs" />
-    <Compile Include="ClassMember\Module1.cs" />
-    <Compile Include="ClassMember\Services\AppIdVars.cs" />
-    <Compile Include="ClassMember\Services\AppInfo.cs" />
-    <Compile Include="ClassMember\Services\AppInfoFactory.cs" />
-    <Compile Include="ClassMember\Services\AppTypes.cs" />
-    <Compile Include="ClassMember\Services\ConstAndStaticAppIds.cs" />
-    <Compile Include="ClassMember\Services\IAppIds.cs" />
-    <Compile Include="ClassMember\Services\IAppIdToPriority.cs" />
-    <Compile Include="ClassMember\Services\IAppInfo.cs" />
-    <Compile Include="ClassMember\Services\IAppInfoFactory.cs" />
-    <Compile Include="ClassMember\Services\IAppInfos.cs" />
-    <Compile Include="ClassMember\Services\StaticAppInfoFactory.cs" />
-    <Compile Include="ClassMember\Services\StaticMethodsWithParameters.cs" />
-    <Compile Include="ClassToTestServicesInjection.cs" />
-    <Compile Include="Collection\CollectionFailedLoadTests.cs" />
-    <Compile Include="Collection\CollectionSuccessfulLoadTests.cs" />
-    <Compile Include="Collection\CollectionSuccessfulLoadTests_Autofac.cs" />
-    <Compile Include="Collection\CollectionSuccessfulLoadTests_Ninject.cs" />
-    <Compile Include="Collection\Module1.cs" />
-    <Compile Include="Collection\Services\CollectionsTestClass1.cs" />
-    <Compile Include="Collection\Services\DemoCollectionInjection.cs" />
-    <Compile Include="Collection\Services\IAutoService1.cs" />
-    <Compile Include="Collection\Services\Interface1_Impl.cs" />
-    <Compile Include="Collection\Services\TestLocalTypesClass.cs" />
-    <Compile Include="ConfigurationFileLoadFailureTests\AssemblyLocatorMock.cs" />
-    <Compile Include="ConfigurationFileLoadFailureTests\ConfigurationFileLoadFailureTests.cs" />
-    <Compile Include="ConfigurationFileLoadFailureTests\IoCServiceFactoryMock.cs" />
-    <Compile Include="ConfigurationFileLoadFailureTests\IoCServiceFactoryStaticContextMockSwitch.cs" />
-    <Compile Include="ConfigurationFileLoadFailureTests\TestClasses\Class1.cs" />
-    <Compile Include="ConfigurationFileLoadFailureTests\TestClasses\FakeDiManager\FakeDiManager.cs" />
-    <Compile Include="ConfigurationFileLoadFailureTests\TestClasses\IntParameterSerializer.cs" />
-    <Compile Include="ConfigurationFileLoadFailureTests\TestClasses\InvalidDiManagar.cs" />
-    <Compile Include="ConfigurationFileLoadFailureTests\TestClasses\InvalidTypeBasedSimpleSerializerAggregator.cs" />
-    <Compile Include="ConfigurationFileLoadFailureTests\TestClasses\SettingsRequestorAbstr.cs" />
-    <Compile Include="ConfigurationFileLoadFailureTests\TestClasses\TypeBasedSimpleSerializerAggregatorForTest.cs" />
-    <Compile Include="ConfigurationMockHelper.cs" />
-    <Compile Include="ConstructedValue\ConstructedValueFailedLoadTests.cs" />
-    <Compile Include="ConstructedValue\ConstructedValueSuccessfulLoadTests.cs" />
-    <Compile Include="ConstructedValue\ConstructedValueSuccessfulLoadTests_Autofac.cs" />
-    <Compile Include="ConstructedValue\ConstructedValueSuccessfulLoadTests_Ninject.cs" />
-    <Compile Include="ConstructedValue\Module1.cs" />
-    <Compile Include="ConstructedValue\Services\AppDescriptionFormatter.cs" />
-    <Compile Include="ConstructedValue\Services\AppInfo.cs" />
-    <Compile Include="ConstructedValue\Services\AppInfoDecorator.cs" />
-    <Compile Include="ConstructedValue\Services\AppInfoSerializer.cs" />
-    <Compile Include="ConstructedValue\Services\IAppDescriptionFormatter.cs" />
-    <Compile Include="ConstructedValue\Services\IAppInfo.cs" />
-    <Compile Include="ConstructedValue\Services\IAppInfoFactory.cs" />
-    <Compile Include="ConstructedValue\Services\StartupAction1.cs" />
-    <Compile Include="ConstructedValue\Services\StartupActionsRetriever.cs" />
-    <Compile Include="DependencyInjectionTestClasses\Plugin3.cs" />
-    <Compile Include="DependencyInjection\DiImplementationInfo.cs" />
-    <Compile Include="DependencyInjection\DiImplementationType.cs" />
-    <Compile Include="DiContainerBuilderTests\DiContainerBuilderTests.cs" />
-    <Compile Include="DiManagerHelpers.cs" />
-    <Compile Include="DocumentationTests\ReferencesInDynamicAssembly\CustomAutoServiceCodeGeneratorDemo.cs" />
-    <Compile Include="DocumentationTests\ReferencesInDynamicAssembly\FileBasedConfigurationParameters_AdditionalReferencedAssemblies.cs" />
-    <Compile Include="DocumentationTests\AutoServiceCustom\ConnectionStrings.cs" />
-    <Compile Include="DocumentationTests\AutoServiceCustom\DemoAutoServiceCustom.cs" />
-    <Compile Include="DocumentationTests\AutoServiceCustom\DemoCustomAutoServiceCodeGenerator.cs" />
-    <Compile Include="DocumentationTests\AutoServiceCustom\ISimpleAutoImplementedInterface1.cs" />
-    <Compile Include="DocumentationTests\AutoServiceCustom\ISimpleAutoImplementedInterface2.cs" />
-    <Compile Include="DocumentationTests\AutoServiceCustom\SimpleMethodMetadataAttribute.cs" />
-    <Compile Include="DocumentationTests\DemoLoadingIoCConfiguration.cs" />
-    <Compile Include="DocumentationTests\DemoServiceBindingsInModules.cs" />
-    <Compile Include="DocumentationTests\DemoSettings.cs" />
-    <Compile Include="DocumentationTests\DemoTypeResolutions.cs" />
-    <Compile Include="DocumentationTests\GitHubWikiDemoCodeTests.cs" />
-    <Compile Include="DocumentationTests\Plugin1.cs" />
-    <Compile Include="DocumentationTests\SetupForAspNetCoreDemo.cs" />
-    <Compile Include="FileFolderPathAttributeValueTransformer.cs" />
-    <Compile Include="GenericTypesAndTypeReUse\GenericTypesAndTypeReUseTests.cs" />
-    <Compile Include="GenericTypesAndTypeReUse\SettingsRequestor.cs" />
-    <Compile Include="GenericTypesAndTypeReUse\StartupAction1.cs" />
-    <Compile Include="GenericTypesAndTypeReUse\TestModule.cs" />
-    <Compile Include="GenericTypesAndTypeReUse\TypeHelperTests.cs" />
-    <Compile Include="Helpers.cs" />
-    <Compile Include="LoadedAssembliesForTests.cs" />
-    <Compile Include="PluginAssemblyTypeUsageValidatorTests.cs" />
-    <Compile Include="PrimitiveTypeDefaultBindingsModule.cs" />
-    <Compile Include="ProxyService\ProxyServiceFailedLoadTests.cs" />
-    <Compile Include="ProxyService\ProxyServiceSuccessfulLoadTests.cs" />
-    <Compile Include="ProxyService\ProxyServiceSuccessfulLoadTests_Autofac.cs" />
-    <Compile Include="ProxyService\ProxyServiceSuccessfulLoadTests_Ninject.cs" />
-    <Compile Include="ProxyService\Services\ActionValidatorsUser.cs" />
-    <Compile Include="ProxyService\Services\AppData.cs" />
-    <Compile Include="ProxyService\Services\AppManager2User.cs" />
-    <Compile Include="ProxyService\Services\AppManagerUser.cs" />
-    <Compile Include="ProxyService\Services\IAppData.cs" />
-    <Compile Include="ProxyService\Services\IAppManager.cs" />
-    <Compile Include="ProxyService\Services\IAppManager2.cs" />
-    <Compile Include="ProxyService\Services\IAppManager_Extension.cs" />
-    <Compile Include="ProxyService\Services\IInterface1.cs" />
-    <Compile Include="ProxyService\Services\IInterface1_Extension.cs" />
-    <Compile Include="ProxyService\Services\IInterface1_Extension_Impl1.cs" />
-    <Compile Include="ProxyService\Services\Interface1User.cs" />
-    <Compile Include="SettingValue\Services\AppInfo.cs" />
-    <Compile Include="SettingValue\Services\IAppIds.cs" />
-    <Compile Include="SettingValue\Services\IAppInfo.cs" />
-    <Compile Include="SettingValue\SettingValueFailedLoadTests.cs" />
-    <Compile Include="SettingValue\SettingValueSuccessfulLoadTests.cs" />
-    <Compile Include="SettingValue\SettingValueSuccessfulLoadTests_Autofac.cs" />
-    <Compile Include="SettingValue\SettingValueSuccessfulLoadTests_Ninject.cs" />
-    <Compile Include="SuccessfulConfigurationLoadTests\SuccessfulConfigurationLoadTests.cs" />
-    <Compile Include="SuccessfulConfigurationLoadTests\SuccessfulConfigurationLoadTests_Autofac.cs" />
-    <Compile Include="SuccessfulConfigurationLoadTests\SuccessfulConfigurationLoadTests_Ninject.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\SuccessfulDiModuleLoadTests.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\SuccessfulDiModuleLoadTestsCodeBasedConfigurationNinject.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\SuccessfulDiModuleLoadTestsCodedBaseConfigurationAutofac.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\SuccessfulDiModuleLoadTestsFileConfigurationAutofac.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\SuccessfulDiModuleLoadTestsFileConfigurationNinject.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\TestClasses\CircularReferenceTestClasses.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\TestClasses\Class1.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\TestClasses\Class2.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\TestClasses\Class3.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\TestClasses\Class4.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\TestClasses\Class5.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\TestClasses\ClassIdentifier.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\TestClasses\IInterface1.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\TestClasses\IInterface2.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\TestClasses\IInterface3.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\TestClasses\IInterface4.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\TestClasses\IInterface5.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\TestClasses\IInterface6.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\TestClasses\IInterface7.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\TestClasses\IInterface7_Impl1.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\TestClasses\IInterface8.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\TestClasses\Interface8_Impl1.cs" />
-    <Compile Include="SuccessfulDiModuleLoadTests\TestDiModule.cs" />
-    <Compile Include="TestTemplateFiles\IoCConfigurationTestsBase.cs" />
-    <Compile Include="TestTemplateFiles\IoCConfigurationTestsForSuccessfulLoad.cs" />
-    <Compile Include="TestTemplateFiles\SettingsRequestor.cs" />
-    <Compile Include="TestTemplateFiles\StartupAction1.cs" />
-    <Compile Include="TypeInfoTests.cs" />
-    <Compile Include="TypeParserTests.cs" />
-    <Compile Include="ValueImplementation\Module1.cs" />
-    <Compile Include="ValueImplementation\Services\AppInfo.cs" />
-    <Compile Include="ValueImplementation\Services\DbConnectionProvider.cs" />
-    <Compile Include="ValueImplementation\Services\IAppInfo.cs" />
-    <Compile Include="ValueImplementation\Services\IDbConnectionProvider.cs" />
-    <Compile Include="ValueImplementation\Services\StaticMethods.cs" />
-    <Compile Include="ValueImplementation\ValueImplementationFailedLoadTests.cs" />
-    <Compile Include="ValueImplementation\ValueImplementationSuccessfulLoadTests.cs" />
-    <Compile Include="ValueImplementation\ValueImplementationSuccessfulLoadTests_Autofac.cs" />
-    <Compile Include="ValueImplementation\ValueImplementationSuccessfulLoadTests_Ninject.cs" />
-    <Compile Include="WebApiTests.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="DocumentationTests\AutoServiceCustom\DemoIoCConfiguration_autoServiceCustom.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="IoCConfiguration2.xml" />
-    <None Include="IoCConfiguration_attributeValueTransformers.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="IoCConfiguration_assemblyReferencesInDynamicallyGeneratedAssembly.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="IoCConfiguration_autoServiceCustom.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="IoCConfiguration_autoService.xml" />
-    <None Include="IoCConfiguration_classMember.xml" />
-    <None Include="IoCConfiguration_collection.xml" />
-    <None Include="IoCConfiguration_constructedValue.xml" />
-    <None Include="IoCConfiguration_GenericTypesAndTypeReUse.xml" />
-    <None Include="IoCConfiguration_Overview.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="IoCConfiguration_proxyService.xml" />
-    <None Include="IoCConfiguration_settingValue_ReferencingInConfiguration.xml" />
-    <None Include="IoCConfiguration_valueImplementation.xml" />
-    <Content Include="TestTemplateFiles\IoCConfiguration_TestTemplate.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\IoC.Configuration.licenseheader" Link="IoC.Configuration.licenseheader" />
-    <None Include="App.config" />
-    <None Include="PostBuildCommands.bat" />
-    <None Include="PostBuildCommandsRun.bat" />
-    <None Include="README.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
-    <!--<ProjectReference Include="..\..\TestsSharedLibrary\TestsSharedLibrary.csproj" />-->
-    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="TypeParserTests.cs">
-      <SubType>Component</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.3\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.3\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Template.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.4\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.4\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Template.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.5\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.5\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Template.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="App.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="IoCConfiguration_autoService.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="IoCConfiguration_valueImplementation.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="IoCConfiguration_constructedValue.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="IoCConfiguration_settingValue_ReferencingInConfiguration.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="IoCConfiguration_classMember.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="IoCConfiguration_proxyService.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="IoCConfiguration_GenericTypesAndTypeReUse.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="IoCConfiguration_Overview.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="IoCConfiguration2.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="IoCConfiguration_collection.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="TestTemplateFiles\IoCConfiguration_TestTemplate.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DeprecatedCodeTests\" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>disable</Nullable>
+		<IsPackable>false</IsPackable>
+		<EnableDefaultItems>false</EnableDefaultItems>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<RootNamespace>IoC.Configuration.Tests</RootNamespace>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+		<PackageReference Include="NUnit" Version="3.13.2" />
+		<PackageReference Include="NUnit3TestAdapter" Version="4.2.1" />
+		<PackageReference Include="Moq" Version="4.15.2" />
+		<PackageReference Include="coverlet.collector" Version="6.0.4">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.13.0" />
+		<PackageReference Include="TestsSharedLibrary" Version="1.0.3" />
+		<PackageReference Include="IoC.Configuration" Version="2.2.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
+		<!--<ProjectReference Include="..\..\TestsSharedLibrary\TestsSharedLibrary.csproj" />-->
+		<!--<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />-->
+	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="call $(ProjectDir)PostBuildCommands.bat $(ConfigurationName) $(SolutionDir)" />
+	</Target>
+	<ItemGroup>
+		<Compile Include="AssemblyReferencesInDynamicallyGeneratedAssembly\AssemblyReferencesInDynamicallyGeneratedAssemblyTests.cs" />
+		<Compile Include="AssemblyReferencesInDynamicallyGeneratedAssembly\AssemblyReferencesInDynamicallyGeneratedAssemblyTestsNinject.cs" />
+		<Compile Include="AssemblyReferencesInDynamicallyGeneratedAssembly\AssemblyReferencesInDynamicallyGeneratedAssemblyTestsAutofac.cs" />
+		<Compile Include="AssemblyReferencesInDynamicallyGeneratedAssembly\CustomAutoServiceCodeGenerator.cs" />
+		<Compile Include="AssemblyReferencesInDynamicallyGeneratedAssembly\IDogWeightsCalculator.cs" />
+		<Compile Include="AttributeInfo.cs" />
+		<Compile Include="AttributeValueTransformers\AttributeValueTransformersTests_Ninject.cs" />
+		<Compile Include="AttributeValueTransformers\AttributeValueTransformersTests_Autofac.cs" />
+		<Compile Include="AttributeValueTransformers\AttributeValueTransformersTests.cs" />
+		<Compile Include="AutoServiceCustom\AutoServiceCustomFailedLoadTests.cs" />
+		<Compile Include="AutoServiceCustom\AutoServiceCustomSuccessfulLoadTests.cs" />
+		<Compile Include="AutoServiceCustom\AutoServiceSuccessfulCustomLoadTestsAutofac.cs" />
+		<Compile Include="AutoServiceCustom\AutoServiceSuccessfulCustomLoadTestsNinject.cs" />
+		<Compile Include="AutoServiceCustom\ClassesForFailureTests\CustomAutoServiceCodeGeneratorForFailureTests.cs" />
+		<Compile Include="AutoServiceCustom\ClassesForFailureTests\DoesNotImplement_ICustomAutoServiceCodeGenerator.cs" />
+		<Compile Include="AutoServiceCustom\ClassesForFailureTests\DogAbstr.cs" />
+		<Compile Include="AutoServiceCustom\ClassesForFailureTests\AbstractDogWithNonPublicAccessLevel.cs" />
+		<Compile Include="AutoServiceCustom\SimpleDataRepository\RepositoryAttributes\RepositoryMethodMetadataForAddAttribute.cs" />
+		<Compile Include="AutoServiceCustom\SimpleDataRepository\RepositoryInterfaceImplementationGenerator.cs" />
+		<Compile Include="AutoServiceCustom\SimpleDataRepository\DataRepositories\IAuthorBooksRepository.cs" />
+		<Compile Include="AutoServiceCustom\SimpleDataRepository\DataRepositories\IBooksRepository.cs" />
+		<Compile Include="AutoServiceCustom\SimpleDataRepository\DataRepositories\IAuthorsRepository.cs" />
+		<Compile Include="AutoServiceCustom\SimpleDataRepository\Entities\AuthorBook.cs" />
+		<Compile Include="AutoServiceCustom\SimpleDataRepository\Entities\Book.cs" />
+		<Compile Include="AutoServiceCustom\SimpleDataRepository\Entities\Author.cs" />
+		<Compile Include="AutoServiceCustom\SimpleDataRepository\RepositoryAttributes\ColumnAttribute.cs" />
+		<Compile Include="AutoServiceCustom\SimpleDataRepository\RepositoryAttributes\DatabaseEntityAttribute.cs" />
+		<Compile Include="AutoServiceCustom\SimpleDataRepository\RepositoryAttributes\DataRepositoryAttribute.cs" />
+		<Compile Include="AutoServiceCustom\SimpleDataRepository\RepositoryAttributes\RepositoryMethodMetadataForAddOrUpdateAttribute.cs" />
+		<Compile Include="AutoServiceCustom\SimpleDataRepository\RepositoryAttributes\RepositoryMethodMetadataForDeleteAttribute.cs" />
+		<Compile Include="AutoServiceCustom\SimpleDataRepository\RepositoryAttributes\RepositoryMethodMetadataForSelectAttribute.cs" />
+		<Compile Include="AutoService\AutoServiceFailedLoadTests.cs" />
+		<Compile Include="AutoService\AutoServiceSuccessfulLoadTests.cs" />
+		<Compile Include="AutoService\AutoServiceSuccessfulLoadTestsAutofac.cs" />
+		<Compile Include="AutoService\AutoServiceSuccessfulLoadTestsNinject.cs" />
+		<Compile Include="AutoService\AutoServiceTestsModule.cs" />
+		<Compile Include="AutoService\Services\ActionValidator1.cs" />
+		<Compile Include="AutoService\Services\ActionValidator4.cs" />
+		<Compile Include="AutoService\Services\ActionValidatorDefault.cs" />
+		<Compile Include="AutoService\Services\ActionValidatorValuesProvider.cs" />
+		<Compile Include="AutoService\Services\ActionValidatorWithDependencyOnActionValidatorFactory.cs" />
+		<Compile Include="AutoService\Services\AppInfo.cs" />
+		<Compile Include="AutoService\Services\IActionValidatorFactory.cs" />
+		<Compile Include="AutoService\Services\IActionValidatorFactoryBase.cs" />
+		<Compile Include="AutoService\Services\IActionValidatorValuesProvider.cs" />
+		<Compile Include="AutoService\Services\IAppInfo.cs" />
+		<Compile Include="AutoService\Services\IAppInfoFactory.cs" />
+		<Compile Include="AutoService\Services\IInterface1.cs" />
+		<Compile Include="AutoService\Services\IInterface2.cs" />
+		<Compile Include="AutoService\Services\IMemberAmbiguityDemo.cs" />
+		<Compile Include="AutoService\Services\Interface1_Impl1.cs" />
+		<Compile Include="AutoService\Services\Interface2_Impl1.cs" />
+		<Compile Include="AutoService\Services\INullableTypesTestInterface.cs" />
+		<Compile Include="AutoService\Services\IProjectGuids.cs" />
+		<Compile Include="AutoService\Services\StaticAndConstMembers.cs" />
+		<Compile Include="ClassMember\ClassMemberFailedLoadTests.cs" />
+		<Compile Include="ClassMember\ClassMemberSuccessfulLoadTests.cs" />
+		<Compile Include="ClassMember\ClassMemberSuccessfulLoadTests_Autofac.cs" />
+		<Compile Include="ClassMember\ClassMemberSuccessfulLoadTests_Ninject.cs" />
+		<Compile Include="ClassMember\Module1.cs" />
+		<Compile Include="ClassMember\Services\AppIdVars.cs" />
+		<Compile Include="ClassMember\Services\AppInfo.cs" />
+		<Compile Include="ClassMember\Services\AppInfoFactory.cs" />
+		<Compile Include="ClassMember\Services\AppTypes.cs" />
+		<Compile Include="ClassMember\Services\ConstAndStaticAppIds.cs" />
+		<Compile Include="ClassMember\Services\IAppIds.cs" />
+		<Compile Include="ClassMember\Services\IAppIdToPriority.cs" />
+		<Compile Include="ClassMember\Services\IAppInfo.cs" />
+		<Compile Include="ClassMember\Services\IAppInfoFactory.cs" />
+		<Compile Include="ClassMember\Services\IAppInfos.cs" />
+		<Compile Include="ClassMember\Services\StaticAppInfoFactory.cs" />
+		<Compile Include="ClassMember\Services\StaticMethodsWithParameters.cs" />
+		<Compile Include="ClassToTestServicesInjection.cs" />
+		<Compile Include="Collection\CollectionFailedLoadTests.cs" />
+		<Compile Include="Collection\CollectionSuccessfulLoadTests.cs" />
+		<Compile Include="Collection\CollectionSuccessfulLoadTests_Autofac.cs" />
+		<Compile Include="Collection\CollectionSuccessfulLoadTests_Ninject.cs" />
+		<Compile Include="Collection\Module1.cs" />
+		<Compile Include="Collection\Services\CollectionsTestClass1.cs" />
+		<Compile Include="Collection\Services\DemoCollectionInjection.cs" />
+		<Compile Include="Collection\Services\IAutoService1.cs" />
+		<Compile Include="Collection\Services\Interface1_Impl.cs" />
+		<Compile Include="Collection\Services\TestLocalTypesClass.cs" />
+		<Compile Include="ConfigurationFileLoadFailureTests\AssemblyLocatorMock.cs" />
+		<Compile Include="ConfigurationFileLoadFailureTests\ConfigurationFileLoadFailureTests.cs" />
+		<Compile Include="ConfigurationFileLoadFailureTests\IoCServiceFactoryMock.cs" />
+		<Compile Include="ConfigurationFileLoadFailureTests\IoCServiceFactoryStaticContextMockSwitch.cs" />
+		<Compile Include="ConfigurationFileLoadFailureTests\TestClasses\Class1.cs" />
+		<Compile Include="ConfigurationFileLoadFailureTests\TestClasses\FakeDiManager\FakeDiManager.cs" />
+		<Compile Include="ConfigurationFileLoadFailureTests\TestClasses\IntParameterSerializer.cs" />
+		<Compile Include="ConfigurationFileLoadFailureTests\TestClasses\InvalidDiManagar.cs" />
+		<Compile Include="ConfigurationFileLoadFailureTests\TestClasses\InvalidTypeBasedSimpleSerializerAggregator.cs" />
+		<Compile Include="ConfigurationFileLoadFailureTests\TestClasses\SettingsRequestorAbstr.cs" />
+		<Compile Include="ConfigurationFileLoadFailureTests\TestClasses\TypeBasedSimpleSerializerAggregatorForTest.cs" />
+		<Compile Include="ConfigurationMockHelper.cs" />
+		<Compile Include="ConstructedValue\ConstructedValueFailedLoadTests.cs" />
+		<Compile Include="ConstructedValue\ConstructedValueSuccessfulLoadTests.cs" />
+		<Compile Include="ConstructedValue\ConstructedValueSuccessfulLoadTests_Autofac.cs" />
+		<Compile Include="ConstructedValue\ConstructedValueSuccessfulLoadTests_Ninject.cs" />
+		<Compile Include="ConstructedValue\Module1.cs" />
+		<Compile Include="ConstructedValue\Services\AppDescriptionFormatter.cs" />
+		<Compile Include="ConstructedValue\Services\AppInfo.cs" />
+		<Compile Include="ConstructedValue\Services\AppInfoDecorator.cs" />
+		<Compile Include="ConstructedValue\Services\AppInfoSerializer.cs" />
+		<Compile Include="ConstructedValue\Services\IAppDescriptionFormatter.cs" />
+		<Compile Include="ConstructedValue\Services\IAppInfo.cs" />
+		<Compile Include="ConstructedValue\Services\IAppInfoFactory.cs" />
+		<Compile Include="ConstructedValue\Services\StartupAction1.cs" />
+		<Compile Include="ConstructedValue\Services\StartupActionsRetriever.cs" />
+		<Compile Include="DependencyInjectionTestClasses\Plugin3.cs" />
+		<Compile Include="DependencyInjection\DiImplementationInfo.cs" />
+		<Compile Include="DependencyInjection\DiImplementationType.cs" />
+		<Compile Include="DiContainerBuilderTests\DiContainerBuilderTests.cs" />
+		<Compile Include="DiManagerHelpers.cs" />
+		<Compile Include="DocumentationTests\ReferencesInDynamicAssembly\CustomAutoServiceCodeGeneratorDemo.cs" />
+		<Compile Include="DocumentationTests\ReferencesInDynamicAssembly\FileBasedConfigurationParameters_AdditionalReferencedAssemblies.cs" />
+		<Compile Include="DocumentationTests\AutoServiceCustom\ConnectionStrings.cs" />
+		<Compile Include="DocumentationTests\AutoServiceCustom\DemoAutoServiceCustom.cs" />
+		<Compile Include="DocumentationTests\AutoServiceCustom\DemoCustomAutoServiceCodeGenerator.cs" />
+		<Compile Include="DocumentationTests\AutoServiceCustom\ISimpleAutoImplementedInterface1.cs" />
+		<Compile Include="DocumentationTests\AutoServiceCustom\ISimpleAutoImplementedInterface2.cs" />
+		<Compile Include="DocumentationTests\AutoServiceCustom\SimpleMethodMetadataAttribute.cs" />
+		<Compile Include="DocumentationTests\DemoLoadingIoCConfiguration.cs" />
+		<Compile Include="DocumentationTests\DemoServiceBindingsInModules.cs" />
+		<Compile Include="DocumentationTests\DemoSettings.cs" />
+		<Compile Include="DocumentationTests\DemoTypeResolutions.cs" />
+		<Compile Include="DocumentationTests\GitHubWikiDemoCodeTests.cs" />
+		<Compile Include="DocumentationTests\Plugin1.cs" />
+		<Compile Include="DocumentationTests\SetupForAspNetCoreDemo.cs" />
+		<Compile Include="FileFolderPathAttributeValueTransformer.cs" />
+		<Compile Include="GenericTypesAndTypeReUse\GenericTypesAndTypeReUseTests.cs" />
+		<Compile Include="GenericTypesAndTypeReUse\SettingsRequestor.cs" />
+		<Compile Include="GenericTypesAndTypeReUse\StartupAction1.cs" />
+		<Compile Include="GenericTypesAndTypeReUse\TestModule.cs" />
+		<Compile Include="GenericTypesAndTypeReUse\TypeHelperTests.cs" />
+		<Compile Include="Helpers.cs" />
+		<Compile Include="LoadedAssembliesForTests.cs" />
+		<Compile Include="PluginAssemblyTypeUsageValidatorTests.cs" />
+		<Compile Include="PrimitiveTypeDefaultBindingsModule.cs" />
+		<Compile Include="ProxyService\ProxyServiceFailedLoadTests.cs" />
+		<Compile Include="ProxyService\ProxyServiceSuccessfulLoadTests.cs" />
+		<Compile Include="ProxyService\ProxyServiceSuccessfulLoadTests_Autofac.cs" />
+		<Compile Include="ProxyService\ProxyServiceSuccessfulLoadTests_Ninject.cs" />
+		<Compile Include="ProxyService\Services\ActionValidatorsUser.cs" />
+		<Compile Include="ProxyService\Services\AppData.cs" />
+		<Compile Include="ProxyService\Services\AppManager2User.cs" />
+		<Compile Include="ProxyService\Services\AppManagerUser.cs" />
+		<Compile Include="ProxyService\Services\IAppData.cs" />
+		<Compile Include="ProxyService\Services\IAppManager.cs" />
+		<Compile Include="ProxyService\Services\IAppManager2.cs" />
+		<Compile Include="ProxyService\Services\IAppManager_Extension.cs" />
+		<Compile Include="ProxyService\Services\IInterface1.cs" />
+		<Compile Include="ProxyService\Services\IInterface1_Extension.cs" />
+		<Compile Include="ProxyService\Services\IInterface1_Extension_Impl1.cs" />
+		<Compile Include="ProxyService\Services\Interface1User.cs" />
+		<Compile Include="SettingValue\Services\AppInfo.cs" />
+		<Compile Include="SettingValue\Services\IAppIds.cs" />
+		<Compile Include="SettingValue\Services\IAppInfo.cs" />
+		<Compile Include="SettingValue\SettingValueFailedLoadTests.cs" />
+		<Compile Include="SettingValue\SettingValueSuccessfulLoadTests.cs" />
+		<Compile Include="SettingValue\SettingValueSuccessfulLoadTests_Autofac.cs" />
+		<Compile Include="SettingValue\SettingValueSuccessfulLoadTests_Ninject.cs" />
+		<Compile Include="SuccessfulConfigurationLoadTests\SuccessfulConfigurationLoadTests.cs" />
+		<Compile Include="SuccessfulConfigurationLoadTests\SuccessfulConfigurationLoadTests_Autofac.cs" />
+		<Compile Include="SuccessfulConfigurationLoadTests\SuccessfulConfigurationLoadTests_Ninject.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\SuccessfulDiModuleLoadTests.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\SuccessfulDiModuleLoadTestsCodeBasedConfigurationNinject.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\SuccessfulDiModuleLoadTestsCodedBaseConfigurationAutofac.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\SuccessfulDiModuleLoadTestsFileConfigurationAutofac.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\SuccessfulDiModuleLoadTestsFileConfigurationNinject.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\TestClasses\CircularReferenceTestClasses.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\TestClasses\Class1.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\TestClasses\Class2.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\TestClasses\Class3.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\TestClasses\Class4.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\TestClasses\Class5.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\TestClasses\ClassIdentifier.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\TestClasses\IInterface1.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\TestClasses\IInterface2.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\TestClasses\IInterface3.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\TestClasses\IInterface4.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\TestClasses\IInterface5.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\TestClasses\IInterface6.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\TestClasses\IInterface7.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\TestClasses\IInterface7_Impl1.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\TestClasses\IInterface8.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\TestClasses\Interface8_Impl1.cs" />
+		<Compile Include="SuccessfulDiModuleLoadTests\TestDiModule.cs" />
+		<Compile Include="TestTemplateFiles\IoCConfigurationTestsBase.cs" />
+		<Compile Include="TestTemplateFiles\IoCConfigurationTestsForSuccessfulLoad.cs" />
+		<Compile Include="TestTemplateFiles\SettingsRequestor.cs" />
+		<Compile Include="TestTemplateFiles\StartupAction1.cs" />
+		<Compile Include="TypeInfoTests.cs" />
+		<Compile Include="TypeParserTests.cs" />
+		<Compile Include="ValueImplementation\Module1.cs" />
+		<Compile Include="ValueImplementation\Services\AppInfo.cs" />
+		<Compile Include="ValueImplementation\Services\DbConnectionProvider.cs" />
+		<Compile Include="ValueImplementation\Services\IAppInfo.cs" />
+		<Compile Include="ValueImplementation\Services\IDbConnectionProvider.cs" />
+		<Compile Include="ValueImplementation\Services\StaticMethods.cs" />
+		<Compile Include="ValueImplementation\ValueImplementationFailedLoadTests.cs" />
+		<Compile Include="ValueImplementation\ValueImplementationSuccessfulLoadTests.cs" />
+		<Compile Include="ValueImplementation\ValueImplementationSuccessfulLoadTests_Autofac.cs" />
+		<Compile Include="ValueImplementation\ValueImplementationSuccessfulLoadTests_Ninject.cs" />
+		<Compile Include="WebApiTests.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="DocumentationTests\AutoServiceCustom\DemoIoCConfiguration_autoServiceCustom.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="IoCConfiguration2.xml" />
+		<None Include="IoCConfiguration_attributeValueTransformers.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="IoCConfiguration_assemblyReferencesInDynamicallyGeneratedAssembly.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="IoCConfiguration_autoServiceCustom.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="IoCConfiguration_autoService.xml" />
+		<None Include="IoCConfiguration_classMember.xml" />
+		<None Include="IoCConfiguration_collection.xml" />
+		<None Include="IoCConfiguration_constructedValue.xml" />
+		<None Include="IoCConfiguration_GenericTypesAndTypeReUse.xml" />
+		<None Include="IoCConfiguration_Overview.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Include="IoCConfiguration_proxyService.xml" />
+		<None Include="IoCConfiguration_settingValue_ReferencingInConfiguration.xml" />
+		<None Include="IoCConfiguration_valueImplementation.xml" />
+		<Content Include="TestTemplateFiles\IoCConfiguration_TestTemplate.xml" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Include="..\IoC.Configuration.licenseheader" Link="IoC.Configuration.licenseheader" />
+		<None Include="App.config" />
+		<None Include="PostBuildCommands.bat" />
+		<None Include="PostBuildCommandsRun.bat" />
+		<None Include="README.md" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<Compile Update="TypeParserTests.cs">
+			<SubType>Component</SubType>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.3\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.3\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Template.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.4\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.4\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Template.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.5\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.5\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Template.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="App.config">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="IoCConfiguration_autoService.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="IoCConfiguration_valueImplementation.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="IoCConfiguration_constructedValue.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="IoCConfiguration_settingValue_ReferencingInConfiguration.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="IoCConfiguration_classMember.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="IoCConfiguration_proxyService.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="IoCConfiguration_GenericTypesAndTypeReUse.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="IoCConfiguration_Overview.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="IoCConfiguration2.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="IoCConfiguration_collection.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+		<None Update="TestTemplateFiles\IoCConfiguration_TestTemplate.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="DeprecatedCodeTests\" />
+	</ItemGroup>
 </Project>

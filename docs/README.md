@@ -31,7 +31,7 @@ This is a Sphinx project for IoC.Configuration documentation.
             Do you want to use the epub builder: N
 ### Building the docs
 
-      - Run the application IoC.Configuration.DocumentationGenerator to re-generate md files from templates (inlcuding the main README.rd file)
+      - Run the application IoC.Configuration.DocumentationGenerator to re-generate md files from templates (inlcuding the main README.md file)
       - In k:\..\IoC.Configuration\docs\conf.py set the value of html_theme to 'bizstyle'
       -In command window change to "k:\..\IoC.Configuration\docs" directory (see the section above), and
         run the following command:

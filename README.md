@@ -1647,4 +1647,35 @@ Both native modules (e.g., subclasses of Autofac.AutofacModule or Ninject.Module
 
 Here is an example from configuration file above which has both native and container agnostic IoC.Configuration modules.
 
+```XML
+	<!--Some configuration before this point...-->
+	<dependencyInjection>
+		<modules>
+			<!--Type Modules.IoC.DiModule1 is an IoC.Configuration module and is a subclass 
+                of IoC.Configuration.DiContainer.ModuleAbstr-->
+			<module type="Modules.IoC.DiModule1" >
+				<parameters>
+					<int32 name="param1" value="2" />
+				</parameters>
+			</module>
+
+			<!--Type Modules.Autofac.AutofacModule1 is an Autofac module and is a
+                subclass of Autofac.AutofacModule-->
+			<module type="Modules.Autofac.AutofacModule1" >
+				<parameters>
+					<int32 name="param1" value="1" />
+				</parameters>
+			</module>			
+
+			<!--Type Modules.Ninject.NinjectModule1 is a Ninject module and is a
+				subclass of Ninject.Modules.NinjectModule-->
+			<module type="Modules.Ninject.NinjectModule1" >
+				<parameters>
+					<int32 name="param1" value="3" />
+				</parameters>
+			</module>			
+		</modules>
+	<dependencyInjection>
+```
+
 ![](http://oroptimizer.com/IoC.Configuration/GitHubDocs/NativeModulesInConfigurationFile.png)

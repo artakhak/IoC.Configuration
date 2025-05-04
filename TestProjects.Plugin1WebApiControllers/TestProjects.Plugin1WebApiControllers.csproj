@@ -1,20 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <EnableDefaultItems>false</EnableDefaultItems>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <RootNamespace>Plugin1WebApiControllers</RootNamespace>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="Controller1.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <!--<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />-->
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<EnableDefaultItems>false</EnableDefaultItems>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	</PropertyGroup>
+	<PropertyGroup>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<RootNamespace>Plugin1WebApiControllers</RootNamespace>
+	</PropertyGroup>
+	<ItemGroup>
+		<Compile Include="Controller1.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<!--<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
+	</ItemGroup>
 </Project>

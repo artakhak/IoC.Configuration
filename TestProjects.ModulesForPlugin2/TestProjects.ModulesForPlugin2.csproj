@@ -22,16 +22,14 @@
 		<PackageReference Include="Autofac" Version="8.0.0" />
 		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
 		<PackageReference Include="Ninject" Version="3.3.6" />
-		<!--
 		<PackageReference Include="IoC.Configuration" Version="2.2.0" />
-		<PackageReference Include="IoC.Configuration.Autofac" Version="2.2.0" />
-		<PackageReference Include="IoC.Configuration.Ninject" Version="2.1.0" />
-		-->
+		<PackageReference Include="IoC.Configuration.Autofac" Version="2.1.0" />
+		<PackageReference Include="IoC.Configuration.Ninject" Version="2.2.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
-		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+		<!--<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
 		<ProjectReference Include="..\IoC.Configuration.Autofac\IoC.Configuration.Autofac.csproj" />
-		<ProjectReference Include="..\IoC.Configuration.Ninject\IoC.Configuration.Ninject.csproj" />
+		<ProjectReference Include="..\IoC.Configuration.Ninject\IoC.Configuration.Ninject.csproj" />-->
 	</ItemGroup>
 </Project>
