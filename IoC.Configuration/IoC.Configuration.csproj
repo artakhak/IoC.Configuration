@@ -39,6 +39,9 @@
 		<EnableDefaultItems>false</EnableDefaultItems>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Title>IoC.Configuration</Title>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<DefineConstants>TRACE;DEBUG;</DefineConstants>
@@ -56,9 +59,6 @@
 		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.13.0" />
 		<PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
 		<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
-	</ItemGroup>
-	<ItemGroup>
-		<!--<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
 	</ItemGroup>
 	<ItemGroup>
 		<Content Include="IoC.Cnfiguration.Content/*.*" copyToOutput="true">
@@ -400,6 +400,10 @@
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="..\IoC.Configuration.licenseheader" Link="IoC.Configuration.licenseheader" />
+		<None Include="..\README.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
 		<None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
 		<None Include="Properties\PublishProfiles\FolderProfile.pubxml.user" />
 	</ItemGroup>

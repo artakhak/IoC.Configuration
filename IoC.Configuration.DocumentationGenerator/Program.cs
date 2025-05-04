@@ -5,7 +5,7 @@ using OROptimizer.Log4Net;
 using OROptimizer.Utilities;
 
 // See https://aka.ms/new-console-template for more information
-LogHelper.RegisterContext(new Log4NetHelperContext("IoC.Configuration.DocumentationGenerator.log4net.config"));
+LogHelper.RegisterContext(new OROptimizer.Log4Net.Log4NetHelperContext("IoC.Configuration.DocumentationGenerator.log4net.config"));
 
 const string templateExtension = ".template";
 
