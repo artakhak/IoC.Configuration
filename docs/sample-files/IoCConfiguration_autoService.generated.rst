@@ -692,4 +692,5 @@ This configuration file can be downloaded downloaded from `IoCConfiguration_auto
         </pluginSetup>
 
       </pluginsSetup>
-    </iocConfiguration>  
+    </iocConfiguration>
+  
