@@ -26,8 +26,8 @@ author = 'Artak Hakobyan'
 # The short X.Y version
 version = ''
 # The full version, including alpha/beta/rc tags
-release = '1.0.1'
-
+release = '2.2'
+version = '2.2.1'
 
 # -- General configuration ---------------------------------------------------
 
@@ -40,6 +40,12 @@ release = '1.0.1'
 # ones.
 extensions = [
 ]
+
+intersphinx_mapping = {
+    'python': ('https://docs.python.org/3/', None),
+    'sphinx': ('https://www.sphinx-doc.org/en/master/', None),
+}
+intersphinx_disabled_domains = ['std']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
