@@ -81,7 +81,8 @@ pygments_style = 'sphinx'
 # a list of builtin themes.
 #
 #html_theme = 'bizstyle'
-html_theme = 'default'
+#html_theme = 'default'
+html_theme = 'sphinx_rtd_theme'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -163,5 +164,5 @@ texinfo_documents = [
 
 # Added by Artak Hakobyan to allow hide/show sections
 # https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets
-def setup(app):
-    app.add_css_file('custom.css')
+# def setup(app):
+#    app.add_css_file('custom.css')
