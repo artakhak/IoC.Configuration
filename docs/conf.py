@@ -24,7 +24,6 @@ copyright = '2018, Artak Hakobyan'
 author = 'Artak Hakobyan'
 
 # The short X.Y version
-version = ''
 # The full version, including alpha/beta/rc tags
 release = '2.2'
 version = '2.2.1'
