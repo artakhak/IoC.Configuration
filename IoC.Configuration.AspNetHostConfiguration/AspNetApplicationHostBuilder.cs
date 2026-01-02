@@ -8,22 +8,22 @@ namespace IoC.Configuration.AspNetConfigureHostBuilder;
 /// <inheritdoc />
 public class AspNetApplicationHostBuilder: IApplicationHostBuilder
 {
-    private readonly ConfigureHostBuilder _configureHostBuilder;
+    private readonly IHostBuilder _hostBuilder;
 
-    public AspNetApplicationHostBuilder(ConfigureHostBuilder configureHostBuilder)
+    public AspNetApplicationHostBuilder(IHostBuilder hostBuilder)
     {
-        _configureHostBuilder = configureHostBuilder;
+        _hostBuilder = hostBuilder;
     }
 
     public IApplicationHostBuilder UseServiceProviderFactory<TContainerBuilder>(IServiceProviderFactory<TContainerBuilder> factory) where TContainerBuilder : class
     {
-        _configureHostBuilder.UseServiceProviderFactory(factory);
+        _hostBuilder.UseServiceProviderFactory(factory);
         return this;
     }
 
     public IApplicationHostBuilder ConfigureContainer<TContainerBuilder>(Action<HostBuilderContext, TContainerBuilder> configureDelegate)
     {
-        _configureHostBuilder.ConfigureContainer(configureDelegate);
+        _hostBuilder.ConfigureContainer(configureDelegate);
         return this;
     }
 }

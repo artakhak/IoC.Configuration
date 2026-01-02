@@ -10,14 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="8.0.0" />
-    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />    
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
+    <PackageReference Include="OROptimizer.Shared" Version="2.6.0" />
+    <!--<ProjectReference Include="..\..\..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\IoC.Configuration.AspNetHostConfiguration\IoC.Configuration.AspNetHostConfiguration.csproj" />
     <ProjectReference Include="..\..\..\IoC.Configuration\IoC.Configuration.csproj" />
   </ItemGroup>
@@ -25,11 +27,7 @@
   <ItemGroup>
     <None Update="IoCConfiguration.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-
-    <!--<None Include="IoCConfigurationFiles\**\*">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>-->
+    </None>   
   </ItemGroup>
 
   <!--<Target Name="CopyIoCConfigurationFiles" AfterTargets="Build">
