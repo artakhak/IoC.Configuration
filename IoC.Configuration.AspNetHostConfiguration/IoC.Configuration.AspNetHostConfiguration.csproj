@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>IoC.Configuration.AspNetConfigureHostBuilder</RootNamespace>
+		<AssemblyName>IoC.Configuration.AspNetConfigureHostBuilder</AssemblyName>
+		<PackageVersion>1.0.0</PackageVersion>
+		<Version>1.0.0</Version>
+		<EnableDefaultItems>true</EnableDefaultItems>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<Authors>Artak Hakobyan</Authors>
+		<Company>OROptimizer</Company>
+		<Description>
+			TODO:...
+		</Description>
+		<Copyright>Copyright 2025 (c) OROptimizer. All rights reserved.</Copyright>
+		<PackageTags>IoC Configuration dependencyinjection inversion of control autofac ninject xml Ninject</PackageTags>
+		<PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
+		<PackageReleaseNotes>
+			
+		</PackageReleaseNotes>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Title>IoC.Configuration.Ninject</Title>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<None Include="..\IoC.Configuration.licenseheader" Link="IoC.Configuration.licenseheader" />
+		<None Include="README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+</Project>

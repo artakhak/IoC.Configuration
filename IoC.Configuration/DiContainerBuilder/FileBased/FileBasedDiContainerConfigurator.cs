@@ -48,9 +48,9 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         ///     Registers the modules.
         /// </summary>
         /// <returns></returns>
-        public IFileBasedContainerStarter RegisterModules()
+        public IFileBasedContainerStarter RegisterModules(IApplicationHostBuilder applicationHostBuilder)
         {
-            _fileBasedConfiguration.RegisterModulesWithDiManager();
+            _fileBasedConfiguration.RegisterModulesWithDiManager(applicationHostBuilder);
             return new FileBasedContainerStarter(_fileBasedConfiguration);
         }
 

@@ -7,15 +7,14 @@
 	</PropertyGroup>
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<EnableDefaultItems>false</EnableDefaultItems>
+		<!--<TargetFramework>net6.0</TargetFramework>-->
+		<EnableDefaultItems>true</EnableDefaultItems>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-	</PropertyGroup>
-	<PropertyGroup>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<AssemblyName>IoC.Configuration.Ninject</AssemblyName>
 		<RootNamespace>IoC.Configuration.Ninject</RootNamespace>
-		<PackageVersion>2.2.0</PackageVersion>
-		<Version>2.2.0</Version>
+		<PackageVersion>3.3.0</PackageVersion>
+		<Version>3.3.0</Version>
 		<Authors>Artak Hakobyan</Authors>
 		<Company>OROptimizer</Company>
 		<Description>
@@ -33,7 +32,7 @@
 			-Moved to latest Ninject library version 3.3.6
 		</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Title>IoC.Configuration.Ninject</Title>
 	</PropertyGroup>
@@ -41,13 +40,7 @@
 		<DocumentationFile>bin\Release\IoC.Configuration.Ninject.xml</DocumentationFile>
 		<NoWarn>1701;1702;1705;1591;</NoWarn>
 	</PropertyGroup>
-	<ItemGroup>
-		<Compile Include="IoCConfigurationNinjectKernel.cs" />
-		<Compile Include="NinjectDiContainer.cs" />
-		<Compile Include="NinjectDiManager.cs" />
-		<Compile Include="NinjectLifeTimeScope.cs" />
-		<Compile Include="NinjectModuleWrapper.cs" />
-	</ItemGroup>
+	
 	<ItemGroup>
 	  <Content Include="README.md" />
 	</ItemGroup>
@@ -62,16 +55,12 @@
 		<PackageReference Include="JetBrains.Annotations" Version="2021.2.0" PrivateAssets="all" ExcludeAssets="runtime">
 			<IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
 		<PackageReference Include="Ninject" Version="3.3.6" />
+
 		<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
-		<PackageReference Include="IoC.Configuration" Version="2.2.0" />
-
-	</ItemGroup>
-
-	<ItemGroup>
-		<!--
-		<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
+		<!--<PackageReference Include="IoC.Configuration" Version="2.2.0" />-->
 		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
-		-->
 	</ItemGroup>
 </Project>

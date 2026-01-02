@@ -25,6 +25,7 @@
 
 using IoC.Configuration.DiContainer;
 using IoC.Configuration.DiContainer.BindingsForConfigFile;
+using IoC.Configuration.DiContainerBuilder;
 using JetBrains.Annotations;
 using Ninject;
 using Ninject.Modules;
@@ -46,6 +47,12 @@ namespace IoC.Configuration.Ninject
             var ninjectContainer = ConvertToNinjectContainer(diContainer);
             LoadModules(ninjectContainer.Kernel, modules);
         }
+
+        public void BuildServiceProvider(IEnumerable<object> modules, IApplicationHostBuilder applicationHostBuilder, Action<IDiContainer> diContainerCreated = null, Action<IServiceProvider> serviceProviderCreated = null)
+        {
+            throw new NotImplementedException();
+        }
+
 
         public IDiContainer CreateDiContainer()
         {

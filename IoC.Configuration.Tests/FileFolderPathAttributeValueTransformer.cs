@@ -15,7 +15,8 @@ public class FileFolderPathAttributeValueTransformer : IAttributeValueTransforme
 
         if (!xmlAttribute.Value.StartsWith(@"TestFiles\"))
             return false;
-
+        
+        var relativePath = ReplacePathSeparatorCharactersWithOsSeparators(xmlAttribute.Value);
         switch (xmlAttribute.Name)
         {
             case "path":
@@ -25,12 +26,12 @@ public class FileFolderPathAttributeValueTransformer : IAttributeValueTransforme
 
                 var result =
                     TestsHelper.TryGetFilePathRelativeToTestProjectFolder("IoC.Configuration.Tests",
-                        typeof(IoC.Configuration.Tests.TypeInfoTests), Path.Combine("bin", xmlAttribute.Value));
+                        typeof(IoC.Configuration.Tests.TypeInfoTests), Path.Combine("bin", relativePath));
 
                 if (!result.isSuccess)
                 {
                     LogHelper.Context.Log.ErrorFormat("Failed to parse a file path from '{0}'. Error: {1}",
-                        xmlAttribute.Value, result.errorMessage);
+                        relativePath, result.errorMessage);
                     return false;
                 }
 
@@ -39,5 +40,10 @@ public class FileFolderPathAttributeValueTransformer : IAttributeValueTransforme
             default:
                 return false;
         }
+    }
+    
+    private static string ReplacePathSeparatorCharactersWithOsSeparators(string path)
+    {
+        return path.Replace('/', Path.DirectorySeparatorChar);
     }
 }

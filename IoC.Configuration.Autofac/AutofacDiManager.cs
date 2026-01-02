@@ -33,11 +33,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using IoC.Configuration.DiContainerBuilder;
 
 namespace IoC.Configuration.Autofac
 {
     public class AutofacDiManager : IDiManager
     {
+        //private readonly IoCAutofacServiceProviderFactory _iocAutofacServiceProviderFactory = new IoCAutofacServiceProviderFactory(new AutofacServiceProviderFactory());
+
         #region IDiManager Interface Implementation
 
         public void BuildServiceProvider(IDiContainer diContainer, IEnumerable<object> modules)
@@ -47,8 +50,76 @@ namespace IoC.Configuration.Autofac
             if (autofacDiContainer == null)
                 throw new ArgumentException($"Invalid value of parameter '{nameof(diContainer)}' in '{GetType().FullName}.{nameof(BuildServiceProvider)}(...)'. Expected an object of type '{typeof(AutofacDiContainer).FullName}'. Actual object type is {diContainer.GetType().FullName}.");
 
+           
             RegisterModules(autofacDiContainer.ContainerBuilder, modules);
         }
+
+        public void BuildServiceProvider(IEnumerable<object> modules, IApplicationHostBuilder applicationHostBuilder,
+             Action<IDiContainer> diContainerCreated, Action<IServiceProvider> serviceProviderCreated)
+        {
+            var iocAutofacServiceProviderFactory = new IoCAutofacServiceProviderFactory(new AutofacServiceProviderFactory());
+
+            iocAutofacServiceProviderFactory.OnServiceProviderCreated += (sender, e) =>
+            {
+                // TODO: Come up with  away to let the callers of BuildServiceProvider handle this event.
+                //ServiceProviderAmbientIoCContext.InitializeContext(new MicrosoftServiceProvider(e));
+
+                serviceProviderCreated?.Invoke(e);
+            };
+
+            iocAutofacServiceProviderFactory.OnContainerBuilderCreated += (sender, e) =>
+            {
+                diContainerCreated?.Invoke(new AutofacDiContainer(e));
+            };
+
+            applicationHostBuilder.UseServiceProviderFactory(iocAutofacServiceProviderFactory)
+                .ConfigureContainer<ContainerBuilder>((context, containerBuilder) =>
+                {
+                    containerBuilder.RegisterBuildCallback(scope =>
+                    {
+                        //_container = (IContainer)scope;
+                    });
+
+                    RegisterModules(containerBuilder, modules);
+                });
+        }
+
+        public void BuildServiceProvider(IDiContainer diContainer, IEnumerable<object> modules, IApplicationHostBuilder applicationHostBuilder = null)
+        {
+            var autofacDiContainer = ConvertToAutofacContainer(diContainer);
+
+            if (autofacDiContainer == null)
+                throw new ArgumentException($"Invalid value of parameter '{nameof(diContainer)}' in '{GetType().FullName}.{nameof(BuildServiceProvider)}(...)'. Expected an object of type '{typeof(AutofacDiContainer).FullName}'. Actual object type is {diContainer.GetType().FullName}.");
+
+            //autofacDiContainer.ContainerBuilder
+            if (applicationHostBuilder != null)
+            {
+                //_builtByApplicationHostBuilder = true;
+
+                var iocAutofacServiceProviderFactory = new IoCAutofacServiceProviderFactory(new AutofacServiceProviderFactory());
+                iocAutofacServiceProviderFactory.OnServiceProviderCreated += (sender, e) =>
+                {
+                    // TODO: Come up with  away to let the callers of BuildServiceProvider handle this event.
+                    //ServiceProviderAmbientIoCContext.InitializeContext(new MicrosoftServiceProvider(e));
+                };
+
+                applicationHostBuilder.UseServiceProviderFactory(iocAutofacServiceProviderFactory)
+                    .ConfigureContainer<ContainerBuilder>((context, containerBuilder) =>
+                    {
+                        containerBuilder.RegisterBuildCallback(scope =>
+                        {
+                            //_container = (IContainer) scope;
+                        });
+                        RegisterModules(autofacDiContainer.ContainerBuilder, modules);
+                    });
+            }
+            else
+            {
+                RegisterModules(autofacDiContainer.ContainerBuilder, modules);
+            }
+        }
+
+        
 
         public IDiContainer CreateDiContainer()
         {
@@ -112,10 +183,15 @@ namespace IoC.Configuration.Autofac
 
         public void StartServiceProvider(IDiContainer diContainer)
         {
+            //if (_builtByApplicationHostBuilder)
+            //    return;
+
             var autofacDiContainer = ConvertToAutofacContainer(diContainer);
 
             if (autofacDiContainer.Container == null)
             {
+                //if (_container != null)
+                //    autofacDiContainer.
                 autofacDiContainer.ContainerBuilder.Build();
 
                 if (autofacDiContainer.Container == null)

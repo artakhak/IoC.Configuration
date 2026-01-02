@@ -70,7 +70,7 @@
 		<probingPath
 			path="TestFiles\DynamicallyLoadedDlls" />
 		<probingPath
-			path="TestFiles\TestAssemblyResolution" />
+			path="TestFiles\TestAssemblyResolution" />		
 	</additionalAssemblyProbingPaths>
 
 	<assemblies>
@@ -393,7 +393,7 @@
 				</injectedProperties>
 			</selfBoundService>
 
-			<!--Life time scope with self bound services-->
+			<!--Lifetime scope with self bound services-->
 			<selfBoundService type="DynamicallyLoadedAssembly1.Implementations.SelfBoundService3"
 							  scope="scopeLifetime">
 			</selfBoundService>

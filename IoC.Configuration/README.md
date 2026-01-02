@@ -562,7 +562,7 @@ using (var containerInfo = new DiContainerBuilder.DiContainerBuilder()
 				</injectedProperties>
 			</selfBoundService>
 
-			<!--Life time scope with self bound services-->
+			<!--Life time scope with selfbound services-->
 			<selfBoundService type="DynamicallyLoadedAssembly1.Implementations.SelfBoundService3"
 							  scope="scopeLifetime">
 			</selfBoundService>

@@ -6,9 +6,10 @@
 		<SccLocalPath>SAK</SccLocalPath>
 	</PropertyGroup>
 	<PropertyGroup>
+		<!--<TargetFramework>net8.0</TargetFramework>-->
 		<TargetFramework>netstandard2.0</TargetFramework>
-		<PackageVersion>2.2.1</PackageVersion>
-		<Version>2.2.1</Version>
+		<PackageVersion>2.3.0</PackageVersion>
+		<Version>2.3.0</Version>
 		<PackageTags>IoC Configuration IoC+Configuration dependency+injection inversion+of+control Autofac Ninject IoC.Configuration dependency+injection+configuration</PackageTags>
 		<Authors>Artak Hakobyan</Authors>
 		<Company>OROptimizer</Company>
@@ -38,7 +39,7 @@
 		<EnableDefaultItems>false</EnableDefaultItems>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<Title>IoC.Configuration</Title>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 	</PropertyGroup>
@@ -56,9 +57,14 @@
 			<IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.13.0" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.1" />
 		<PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+
 		<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
+		<!--<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
 	</ItemGroup>
+
 	<ItemGroup>
 		<Content Include="IoC.Cnfiguration.Content/*.*" copyToOutput="true">
 			<IncludeInPackage>true</IncludeInPackage>
@@ -68,9 +74,7 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>
-	<ItemGroup>
-	  <Content Remove="C:\Users\artak\.nuget\packages\oroptimizer.shared\2.2.0\contentFiles\any\netstandard2.0\README.md" />
-	</ItemGroup>
+	
 	<ItemGroup>
 		<Compile Include="Assembly.cs" />
 		<Compile Include="AttributeValueTransformer\AppDataDirAttributeValueTransformer.cs" />
@@ -297,6 +301,7 @@
 		<Compile Include="DiContainerBuilder\FileBased\IFileBasedDiContainerConfigurator.cs" />
 		<Compile Include="DiContainerBuilder\FileBased\IFileBasedDiModulesConfigurator.cs" />
 		<Compile Include="DiContainerBuilder\FileBased\IRegisterModulesWithDiManagerForFileBasedConfiguration.cs" />
+		<Compile Include="DiContainerBuilder\IApplicationHostBuilder.cs" />
 		<Compile Include="DiContainerBuilder\IContainerInfo.cs" />
 		<Compile Include="DiContainer\BindingConfiguration.cs" />
 		<Compile Include="DiContainer\BindingImplementationConfiguration.cs" />

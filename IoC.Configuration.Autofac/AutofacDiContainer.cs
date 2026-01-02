@@ -94,7 +94,7 @@ namespace IoC.Configuration.Autofac
 
                     if (_currentLifeTimeScope == null)
                     {
-                        // We should be getting only life time scopes that were created by this class.
+                        // We should be getting only lifetime scopes that were created by this class.
                         var errorMessage = string.Format("The value of parameter '{0}' is invalid in '{1}.{2}()'. Expected an object of type '{3}'. Actual type of the object is '{4}'.",
                             nameof(lifeTimeScope), GetType().FullName, nameof(Resolve),
                             typeof(AutofacLifeTimeScope), lifeTimeScope.GetType());

@@ -214,21 +214,42 @@ namespace IoC.Configuration.DiContainerBuilder
         /// <summary>
         ///     Registers the modules with DI manager.
         /// </summary>
-        public void RegisterModulesWithDiManager()
+        public void RegisterModulesWithDiManager([CanBeNull] IApplicationHostBuilder applicationHostBuilder = null)
         {
             try
             {
                 CheckMethodCalledOnce(nameof(RegisterModulesWithDiManager), false);
                 CheckDiManagerInitialized();
 
-                if (_diContainer == null)
-                    _diContainer = DiManager.CreateDiContainer();
-
                 _generatedNativeModules = GenerateAllNativeModules();
 
-                LogHelper.Context.Log.Info($"Registering modules with to container '{_diContainer.GetType().FullName}'.");
-                DiManager.BuildServiceProvider(_diContainer, _generatedNativeModules);
-                LogHelper.Context.Log.Info($"Registered modules with to container '{_diContainer.GetType().FullName}'.");
+                if (applicationHostBuilder != null)
+                {
+                    if (_diContainer != null)
+                        GlobalsCoreAmbientContext.Context.LogAnErrorAndThrowException($"The value of '{nameof(_diContainer)}' should not be set when {nameof(applicationHostBuilder)} is non-null.");
+
+                    LogHelper.Context.Log.Info($"Registering modules for application builder.");
+                        
+                    DiManager.BuildServiceProvider(_generatedNativeModules, applicationHostBuilder, 
+                        (diContainer) =>
+                        {
+                            if (_diContainer != null)
+                                GlobalsCoreAmbientContext.Context.LogAnErrorAndThrowException($"The value of '{nameof(_diContainer)}' was set by the time callback 'diContainerCreated' executed.");
+
+                            _diContainer = diContainer;
+                        });
+
+                    LogHelper.Context.Log.Info($"Registered modules for application builder.");
+                }
+                else
+                {
+                    if (_diContainer == null)
+                        _diContainer = DiManager.CreateDiContainer();
+
+                    LogHelper.Context.Log.Info($"Registering modules with container '{_diContainer.GetType().FullName}'.");
+                    DiManager.BuildServiceProvider(_diContainer, _generatedNativeModules);
+                    LogHelper.Context.Log.Info($"Registered modules with to container '{_diContainer.GetType().FullName}'.");
+                }
             }
             catch (LoggerWasNotInitializedException)
             {

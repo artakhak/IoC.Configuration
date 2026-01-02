@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using IoC.Configuration.DiContainer.BindingsForConfigFile;
+using IoC.Configuration.DiContainerBuilder;
 using JetBrains.Annotations;
 using OROptimizer.DynamicCode;
 using OROptimizer.ServiceResolver;
@@ -43,6 +44,18 @@ namespace IoC.Configuration.DiContainer
         /// <param name="modules">The modules to register.</param>
         /// <exception cref="Exception"></exception>
         void BuildServiceProvider([NotNull] IDiContainer diContainer, [NotNull] [ItemNotNull] IEnumerable<object> modules);
+
+        /// <summary>
+        ///     This method registers modules with service provider.
+        /// </summary>
+        /// <param name="modules">The modules to register.</param>
+        /// <param name="applicationHostBuilder">Application host.</param>
+        /// <param name="diContainerCreated"></param>
+        /// <param name="serviceProviderCreated"></param>
+        /// <exception cref="Exception"></exception>
+        void BuildServiceProvider([NotNull][ItemNotNull] IEnumerable<object> modules, 
+            [NotNull] IApplicationHostBuilder applicationHostBuilder,
+            [CanBeNull] Action<IDiContainer> diContainerCreated = null, [CanBeNull] Action<IServiceProvider> serviceProviderCreated = null);
 
         /// <summary>
         ///     Creates a native container object of type <see cref="IDiContainer" />. The object can be used to pass as a

@@ -19,13 +19,14 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.13.0" />
 		<PackageReference Include="TestsSharedLibrary" Version="1.0.3" />
-		<PackageReference Include="IoC.Configuration" Version="2.2.0" />
+
+		<!--<PackageReference Include="IoC.Configuration" Version="2.2.0" />-->
+		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
 		<!--<ProjectReference Include="..\..\TestsSharedLibrary\TestsSharedLibrary.csproj" />-->
-		<!--<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />-->
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">

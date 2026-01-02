@@ -34,7 +34,7 @@ namespace IoC.Configuration.DiContainer
         #region ILifeTimeScope Interface Implementation
 
         /// <summary>
-        ///     Occurs when current life time scope is terminated. Example of using this event is as follows:
+        ///     Occurs when current lifetime scope is terminated. Example of using this event is as follows:
         ///     <see cref="T:IoC.Configuration.DiContainer.IDiContainer" /> diContainer;
         ///     diContainer.MainLifeTimeScope.LifeTimeScopeTerminated += (sender, e) =&gt; { // do something. }
         /// </summary>
