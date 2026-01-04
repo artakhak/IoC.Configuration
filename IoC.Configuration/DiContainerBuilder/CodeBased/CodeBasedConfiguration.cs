@@ -154,8 +154,6 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
                 _codeBasedConfiguration = codeBasedConfiguration;
             }
 
-           
-
             /// <summary>
             ///     Use OnlyIfNotRegistered with all binding configurations, to use custom binding that the user might have specified
             ///     in configuration

@@ -26,7 +26,6 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
     [TestFixture]
     public class GenericTypesAndTypeReUseTests : IoCConfigurationTestsBase
     {
-        #region Member Variables
         private const string Plugin1Name = "Plugin1";
         private static string _configurationRelativePath = Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_GenericTypesAndTypeReUse.xml");
 
@@ -36,10 +35,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
         private static ITypeDefinitionsElement _typeDefinitionsElement;
         private static ITypeDefinitionsElement _pluginTypeDefinitionsElement;
         private System.Reflection.Assembly _testPluginAssembly1;
-
-        #endregion
-
-        #region Member Functions
+       
         [OneTimeSetUp]
         public static void ClassInitialize()
         {
@@ -97,7 +93,6 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 Assert.AreEqual(19, implementation.Value2.Value);
             }, false);
         }
-
 
         protected override string GetConfigurationRelativePath()
         {
@@ -370,7 +365,6 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
 
             return typeNameStrBldr.ToString();
         }
-
         
         [TestCase(DiImplementationType.Autofac)]
         [TestCase(DiImplementationType.Ninject)]
@@ -400,7 +394,6 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 Assert.AreEqual(7, testTypeRefTestClass1.Property4.Property1);
             }, true);
         }
-
         
         [TestCase(DiImplementationType.Autofac)]
         [TestCase(DiImplementationType.Ninject)]
@@ -417,7 +410,6 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                     diModule.GetType().GetProperty("Property1").GetValue(diModule).GetType());
             });
         }
-
         
         [TestCase(DiImplementationType.Autofac)]
         [TestCase(DiImplementationType.Ninject)]
@@ -441,7 +433,6 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 Assert.AreEqual(door.GetType(), expectedImplementationType);
             });
         }
-
         
         [TestCase(DiImplementationType.Autofac)]
         [TestCase(DiImplementationType.Ninject)]
@@ -464,7 +455,6 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 Assert.AreSame(door.GetType(), expectedImplementationType);
              });
         }
-
         
         [TestCase(DiImplementationType.Autofac)]
         [TestCase(DiImplementationType.Ninject)]
@@ -502,7 +492,6 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 Assert.AreEqual(1, servicesInjectionTester.Implementations.Where(x => x is Interface1_Impl1).ToList().Count);
             });
         }
-
         
         [TestCase(DiImplementationType.Autofac)]
         [TestCase(DiImplementationType.Ninject)]
@@ -518,7 +507,6 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 Assert.AreEqual(3, servicesInjectionTester.Implementations.Where(x => x is Generic1_1<Interface1_Impl1>).ToList().Count);
             });
         }
-
         
         [TestCase(DiImplementationType.Autofac)]
         [TestCase(DiImplementationType.Ninject)]
@@ -531,10 +519,6 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             });
         }
 
-        #endregion
-
-        #region Nested Types
-
         public enum ConfigurationFileMutationType
         {
             None,
@@ -544,16 +528,12 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
 
         public class TestModule1 : ModuleAbstr
         {
-            #region Member Functions
-
             protected override void AddServiceRegistrations()
             {
                 Bind<ClassToTestServicesInjection<Interface1_Impl1>>().ToSelf();
                 Bind<ClassToTestServicesInjection<IGeneric1_1<Interface1_Impl1>>>().ToSelf();
                 Bind<ClassToTestServicesInjection<TestTypeRefTestClass1>>().ToSelf();
             }
-
-            #endregion
         }
 
         public class TestTypeRefTestClass1
@@ -574,44 +554,25 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
 
         public class TestTypeRefTestClass2
         {
-            #region  Constructors
-
             public TestTypeRefTestClass2(IInterface1 param1)
             {
                 Property1 = param1;
             }
-
-            #endregion
-
-            #region Member Functions
-
             public IInterface1 Property1 { get; }
-
-            #endregion
         }
 
         public class TestTypeRefTestClass3
         {
-            #region  Constructors
-
             public TestTypeRefTestClass3(int param1)
             {
                 Property1 = param1;
             }
 
-            #endregion
-
-            #region Member Functions
-
             public int Property1 { get; }
-
-            #endregion
         }
 
         public class TestTypeRefTestClass3Serializer : ITypeBasedSimpleSerializer
         {
-            #region ITypeBasedSimpleSerializer Interface Implementation
-
             public Type SerializedType { get; } = typeof(TestTypeRefTestClass3);
 
             public bool TryDeserialize(string valueToDeserialize, out object deserializedValue)
@@ -637,10 +598,6 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 serializedValue = string.Empty;
                 return false;
             }
-
-            #endregion
         }
-
-        #endregion
     }
 }

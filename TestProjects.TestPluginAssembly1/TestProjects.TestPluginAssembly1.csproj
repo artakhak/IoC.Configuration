@@ -58,8 +58,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
-		<!--<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
+		<!--<PackageReference Include="OROptimizer.Shared" Version="2.6.0" />-->
+		<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
 
 		<!--<PackageReference Include="IoC.Configuration" Version="2.2.0" />-->
 		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />

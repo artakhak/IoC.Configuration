@@ -61,8 +61,8 @@
 		<PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
 
-		<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
-		<!--<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
+		<!--<PackageReference Include="OROptimizer.Shared" Version="2.6.0" />-->
+		<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

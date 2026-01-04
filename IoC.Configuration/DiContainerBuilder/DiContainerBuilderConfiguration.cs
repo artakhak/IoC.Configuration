@@ -254,18 +254,6 @@ namespace IoC.Configuration.DiContainerBuilder
 
                         _diContainer = diContainer;
                     });
-
-                /*LogHelper.Context.Log.Info("Registered modules for application builder. Building the host...");
-
-                var host = _hostBuilder.Build();
-
-                LogHelper.Context.Log.Info("Host was built.");
-
-                // StartContainer() should be executed only after _hostBuilder.Build() is executed.
-                var containerInfo = StartContainer();
-
-                return new HostIntegratedContainerInfo(host, containerInfo);*/
-
             }
             catch (LoggerWasNotInitializedException)
             {
@@ -336,6 +324,7 @@ namespace IoC.Configuration.DiContainerBuilder
                 // method calls that follow.
 #pragma warning disable CS0612, CS0618
                 DiContainerStatic = _diContainer;
+                SerializerAggregatorStatic = _diContainer.Resolve<ITypeBasedSimpleSerializerAggregator>();
 #pragma warning restore CS0612, CS0618
 
                 NotifyModulesOnContainerReady(_generatedNativeModules, _diContainer);

@@ -58,9 +58,11 @@
 
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
 		<PackageReference Include="Ninject" Version="3.3.6" />
-
-		<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
-		<!--<PackageReference Include="IoC.Configuration" Version="2.2.0" />-->
+		
+		<!--<PackageReference Include="OROptimizer.Shared" Version="2.6.0" />-->
+		<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
+		
+		<!--<PackageReference Include="IoC.Configuration" Version="2.2.0" />-->		
 		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
 	</ItemGroup>
 </Project>
