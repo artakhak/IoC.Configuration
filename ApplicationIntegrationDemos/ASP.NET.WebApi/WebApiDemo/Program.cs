@@ -1,6 +1,7 @@
 using IoC.Configuration;
-using IoC.Configuration.AspNetConfigureHostBuilder;
-using IoC.Configuration.ConfigurationFile;
+using IoC.Configuration.AspNet;
+
+using IoC.Configuration.DiContainerBuilder;
 using IoC.Configuration.DiContainerBuilder.FileBased;
 using OROptimizer;
 using OROptimizer.Diagnostics.Log;
@@ -13,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 LogHelper.RegisterContext(new LogHelperContextLogToConsole());
 
-var containerStarter = CreateContainer(builder, () => builder.Services.AddControllers());
+/*var containerStarter = CreateContainer(builder, () => builder.Services.AddControllers());
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -21,7 +22,17 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-var containerInfo = containerStarter.Start();
+var containerInfo = containerStarter.Start();*/
+
+var appData = CreateContainer(builder, () => builder.Services.AddControllers(),
+    (addWebApiServices) =>
+    {
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        addWebApiServices.AddEndpointsApiExplorer();
+        addWebApiServices.AddSwaggerGen();
+    });
+
+var app = appData.webApplication;
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -36,51 +47,40 @@ app.MapControllers();
 
 app.Run();
 
-static IFileBasedContainerStarter CreateContainer(WebApplicationBuilder webApplicationBuilder, Func<IMvcBuilder> createControllerBuilder)
+static (WebApplication webApplication, IContainerInfo containerInfo) CreateContainer(WebApplicationBuilder webApplicationBuilder, 
+    Func<IMvcBuilder> createControllerBuilder,
+    Action<IServiceCollection> addWebApiServices)
 {
-    var diContainerBuilder = new IoC.Configuration.DiContainerBuilder.DiContainerBuilder();
+    var diContainerBuilder = new DiContainerBuilder();
 
     var fileBasedConfigurationParameters = new FileBasedConfigurationParameters(
         new FileBasedConfigurationFileContentsProvider("IoCConfiguration.xml"),
         AppContext.BaseDirectory, new AllLoadedAssemblies())
     {
-        AttributeValueTransformers = new[] { new FileFolderPathAttributeValueTransformer() },
-        //ConfigurationFileXmlDocumentLoaded = (sender, e) =>
-        //{
-            
-        //    //Helpers.EnsureConfigurationDirectoryExistsOrThrow(e.XmlDocument.SelectElement("/iocConfiguration/appDataDir").GetAttribute("path"));
-
-        //    //Helpers.ReplaceActiveDiManagerInConfigurationFile(e.XmlDocument, _diImplementationType);
-        //    //configurationFileXmlDocumentLoadedEventHandler?.Invoke(e);
-        //},
+        AttributeValueTransformers = [new FileFolderPathAttributeValueTransformer()]
     };
 
-    var containerStarter = diContainerBuilder.StartFileBasedDi(fileBasedConfigurationParameters, out var loadedConfiguration)
-        .WithoutPresetDiContainer()
-        //.AddAdditionalDiModules(new TestModule2())
-        .RegisterModules(new AspNetApplicationHostBuilder(webApplicationBuilder.Host));
-
-    var controllerBuilder = createControllerBuilder(); // webApplicationBuilder.Services.AddControllers();
-
-    void AddControllersFromWebApi(IWebApi? webApi)
-    {
-        if (webApi?.ControllerAssemblies?.Assemblies == null)
-            return;
-
-        foreach (var webApiControllerAssembly in webApi.ControllerAssemblies.Assemblies)
+    var hostIntegratedContainerInfo = diContainerBuilder.StartFileBasedDi(fileBasedConfigurationParameters,
+        loadedConfiguration =>
         {
-            if (webApiControllerAssembly.LoadedAssembly != null)
-                controllerBuilder.AddApplicationPart(webApiControllerAssembly.LoadedAssembly);
-        }
-    }
+            var controllerBuilder = createControllerBuilder();
+            ControllerRegistrationHelpers.RegisterControllers(loadedConfiguration, controllerBuilder);
+        })
+        .WithoutPresetDiContainer()
+        // Add additional modules using AddAdditionalDiModules() one or multiple times as necessary
+        // to register modules in addition to DI specified in "IoCConfiguration.xml"
+        // If method is not called, only the 
+        //.AddAdditionalDiModules(new MyModule())
 
-    AddControllersFromWebApi(loadedConfiguration.WebApi);
+        // Use WithHostBuilder(hostBuilder) to make sure IoC.Configuration will register DI with the host builder
+        // Do not call hostBuilder.Build() since this will be done by IoC.Configuration.
+        .WithHostBuilder(new WebApplicationHostBuilder(webApplicationBuilder))
 
-    if (loadedConfiguration.PluginsSetup != null)
-    {
-        foreach (var pluginSetup in loadedConfiguration.PluginsSetup.AllPluginSetups.Where(x => x.Enabled))
-            AddControllersFromWebApi(pluginSetup.WebApi);
-    }
+        // TODO: Call addWebApiServices() before the application is built.
+        .RegisterServiceProviderAndBuildApp(() =>
+        {
+            addWebApiServices(webApplicationBuilder.Services);
+        });
     
-    return containerStarter;
+    return (hostIntegratedContainerInfo.Host, hostIntegratedContainerInfo.ContainerInfo);
 }

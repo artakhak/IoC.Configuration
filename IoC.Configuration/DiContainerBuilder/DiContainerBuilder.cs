@@ -39,8 +39,6 @@ namespace IoC.Configuration.DiContainerBuilder
     /// </summary>
     public class DiContainerBuilder
     {
-        #region Member Functions
-
         /// <summary>
         ///     Creates an instance of <see cref="ICodeBasedDiContainerConfigurator" /> for code based dependency injection
         ///     configuration.
@@ -116,15 +114,15 @@ namespace IoC.Configuration.DiContainerBuilder
                                                                   [NotNull] string entryAssemblyFolder,
                                                                   [CanBeNull] ConfigurationFileXmlDocumentLoadedEventHandler configurationFileXmlDocumentLoaded = null)
         {
-            return StartFileBasedDi(configurationFileContentsProvider, entryAssemblyFolder, out _, configurationFileXmlDocumentLoaded);
+            return StartFileBasedDi(configurationFileContentsProvider, entryAssemblyFolder, null, configurationFileXmlDocumentLoaded);
         }
-
+        
         /// <summary>
         ///     Creates an instance of <see cref="IFileBasedDiContainerConfigurator" /> for file based dependency injection
         ///     configuration.
         /// </summary>
         /// <param name="configurationFileContentsProvider">
-        ///     The configuration file contents provider.
+        ///     A provider for the configuration file contents.
         ///     An example implementation of <see cref="IConfigurationFileContentsProvider" /> implementation is
         ///     <see cref="FileBasedConfigurationFileContentsProvider" />
         /// </param>
@@ -138,15 +136,53 @@ namespace IoC.Configuration.DiContainerBuilder
         /// <exception cref="LoggerWasNotInitializedException"></exception>
         /// <exception cref="OROptimizer.DynamicCode.DynamicCodeGenerationException">Throws this exception if dynamic code generation fails.</exception>
         /// <exception cref="Exception">Throws this exception.</exception>
+        [Obsolete("Use the overloaded method with 'Action<IConfiguration> onConfigurationLoaded' parameter instead.")]
         public IFileBasedDiContainerConfigurator StartFileBasedDi([NotNull] IConfigurationFileContentsProvider configurationFileContentsProvider,
                                                                   [NotNull] string entryAssemblyFolder,
                                                                   out IConfiguration loadedConfiguration,
                                                                   [CanBeNull] ConfigurationFileXmlDocumentLoadedEventHandler configurationFileXmlDocumentLoaded = null)
         {
-            return StartFileBasedDi(configurationFileContentsProvider, entryAssemblyFolder, new AllLoadedAssemblies(), out loadedConfiguration,
+            IConfiguration loadedConfigurationLocal = null;
+            var fileBasedDiContainerConfigurator = StartFileBasedDi(configurationFileContentsProvider, entryAssemblyFolder, 
+                new AllLoadedAssemblies(), configuration =>
+                {
+                    loadedConfigurationLocal = configuration;
+                },
+                configurationFileXmlDocumentLoaded);;
+            
+            loadedConfiguration = loadedConfigurationLocal;
+            return fileBasedDiContainerConfigurator;
+        }
+        
+        /// <summary>
+        ///     Creates an instance of <see cref="IFileBasedDiContainerConfigurator" /> for file based dependency injection
+        ///     configuration.
+        /// </summary>
+        /// <param name="configurationFileContentsProvider">
+        ///     A provider for the configuration file contents.
+        ///     An example implementation of <see cref="IConfigurationFileContentsProvider" /> implementation is
+        ///     <see cref="FileBasedConfigurationFileContentsProvider" />
+        /// </param>
+        /// <param name="entryAssemblyFolder">The entry assembly folder.</param>
+        /// <param name="onConfigurationLoaded">
+        ///     A callback executed with <see cref="IConfiguration"/> when the IoC.Configuration file is loaded into <see cref="IConfiguration"/>.
+        ///     At this point the container is not yet ready, but the caller of the method can evaluate the configuration.
+        ///     Example of a use case is adding controllers specified in <see cref="IConfiguration.WebApi"/> in REST API Web application.
+        /// </param>
+        /// <param name="configurationFileXmlDocumentLoaded">The configuration file XML document loaded.</param>
+        /// <exception cref="ConfigurationParseException">Throws this exception if configuration parse/load fails.</exception>
+        /// <exception cref="LoggerWasNotInitializedException"></exception>
+        /// <exception cref="OROptimizer.DynamicCode.DynamicCodeGenerationException">Throws this exception if dynamic code generation fails.</exception>
+        /// <exception cref="Exception">Throws this exception.</exception>
+        public IFileBasedDiContainerConfigurator StartFileBasedDi([NotNull] IConfigurationFileContentsProvider configurationFileContentsProvider,
+                                                                  [NotNull] string entryAssemblyFolder,
+                                                                  [CanBeNull] Action<IConfiguration> onConfigurationLoaded = null,
+                                                                  [CanBeNull] ConfigurationFileXmlDocumentLoadedEventHandler configurationFileXmlDocumentLoaded = null)
+        {
+            return StartFileBasedDi(configurationFileContentsProvider, entryAssemblyFolder, new AllLoadedAssemblies(), onConfigurationLoaded,
                 configurationFileXmlDocumentLoaded);
         }
-
+        
         /// <summary>
         ///     Creates an instance of <see cref="IFileBasedDiContainerConfigurator" /> for file based dependency injection
         ///     configuration.
@@ -173,16 +209,63 @@ namespace IoC.Configuration.DiContainerBuilder
         /// <exception cref="LoggerWasNotInitializedException"></exception>
         /// <exception cref="OROptimizer.DynamicCode.DynamicCodeGenerationException">Throws this exception if dynamic code generation fails.</exception>
         /// <exception cref="Exception">Throws this exception.</exception>
+        [Obsolete("Use the overloaded method with 'Action<IConfiguration> onConfigurationLoaded' parameter instead.")]
         public IFileBasedDiContainerConfigurator StartFileBasedDi([NotNull] IConfigurationFileContentsProvider configurationFileContentsProvider,
                                                                   [NotNull] string entryAssemblyFolder,
                                                                   [NotNull] ILoadedAssemblies loadedAssemblies,  
                                                                   out IConfiguration loadedConfiguration,
                                                                   [CanBeNull] ConfigurationFileXmlDocumentLoadedEventHandler configurationFileXmlDocumentLoaded = null)
         {
+            IConfiguration loadedConfigurationLocal = null; 
+            var fileBasedDiContainerConfigurator = StartFileBasedDi(new FileBasedConfigurationParameters(configurationFileContentsProvider, entryAssemblyFolder, loadedAssemblies)
+            {
+                ConfigurationFileXmlDocumentLoaded = configurationFileXmlDocumentLoaded
+            }, configuration =>
+            {
+                loadedConfigurationLocal = configuration;
+            });
+            
+            loadedConfiguration = loadedConfigurationLocal;
+            return fileBasedDiContainerConfigurator;
+        }
+        
+        /// <summary>
+        ///     Creates an instance of <see cref="IFileBasedDiContainerConfigurator" /> for file based dependency injection
+        ///     configuration.
+        /// </summary>
+        /// <param name="configurationFileContentsProvider">
+        ///     A provider of the configuration file contents.
+        ///     An example implementation of <see cref="IConfigurationFileContentsProvider" /> implementation is
+        ///     <see cref="FileBasedConfigurationFileContentsProvider" />
+        /// </param>
+        /// <param name="entryAssemblyFolder">The entry assembly folder.</param>
+        /// <param name="loadedAssemblies"> Instance of <see cref="ILoadedAssemblies"/> used to add add all or some of currently
+        ///                     loaded assemblies as dependencies for  dynamically generated assemblies.
+        ///                     Use an instance of <see cref="AllLoadedAssemblies"/> to add references to all assemblies loaded into current application
+        ///                     domain to the dynamically generated assembly. Use <see cref="NoLoadedAssemblies"/> to not add any additional assemblies
+        ///                     references to any additional assemblies as dependencies for  dynamically generated assemblies.
+        ///                     Provide your own implementation to add only some of loaded assemblies as dependencies.
+        /// </param>
+        /// <param name="onConfigurationLoaded">
+        ///     A callback executed with <see cref="IConfiguration"/> when the IoC.Configuration file is loaded into <see cref="IConfiguration"/>.
+        ///     At this point the container is not yet ready, but the caller of the method can evaluate the configuration.
+        ///     Example of a use case is adding controllers specified in <see cref="IConfiguration.WebApi"/> in REST API Web application.
+        /// </param>
+        /// <param name="configurationFileXmlDocumentLoaded">The configuration file XML document loaded.</param>
+        /// <exception cref="ConfigurationParseException">Throws this exception if configuration parse/load fails.</exception>
+        /// <exception cref="LoggerWasNotInitializedException"></exception>
+        /// <exception cref="OROptimizer.DynamicCode.DynamicCodeGenerationException">Throws this exception if dynamic code generation fails.</exception>
+        /// <exception cref="Exception">Throws this exception.</exception>
+        public IFileBasedDiContainerConfigurator StartFileBasedDi([NotNull] IConfigurationFileContentsProvider configurationFileContentsProvider,
+                                                                  [NotNull] string entryAssemblyFolder,
+                                                                  [NotNull] ILoadedAssemblies loadedAssemblies,  
+                                                                  [CanBeNull] Action<IConfiguration> onConfigurationLoaded = null,
+                                                                  [CanBeNull] ConfigurationFileXmlDocumentLoadedEventHandler configurationFileXmlDocumentLoaded = null)
+        {
             return StartFileBasedDi(new FileBasedConfigurationParameters(configurationFileContentsProvider, entryAssemblyFolder, loadedAssemblies)
             {
                 ConfigurationFileXmlDocumentLoaded = configurationFileXmlDocumentLoaded
-            }, out loadedConfiguration);
+            }, onConfigurationLoaded);
         }
 
         /// <summary>
@@ -198,17 +281,46 @@ namespace IoC.Configuration.DiContainerBuilder
         /// <exception cref="LoggerWasNotInitializedException"></exception>
         /// <exception cref="OROptimizer.DynamicCode.DynamicCodeGenerationException">Throws this exception if dynamic code generation fails.</exception>
         /// <exception cref="Exception">Throws this exception.</exception>
+        [Obsolete("Use the overloaded method with 'Action<IConfiguration> onConfigurationLoaded' parameter instead.")]
         public IFileBasedDiContainerConfigurator StartFileBasedDi([NotNull] FileBasedConfigurationParameters fileBasedConfigurationParameters,
                                                                   out IConfiguration loadedConfiguration)
+        {
+            IConfiguration loadedConfigurationLocal = null;
+            var fileBasedDiContainerConfigurator = StartFileBasedDi(fileBasedConfigurationParameters, configuration =>
+            {
+                loadedConfigurationLocal = configuration;
+            });
+            
+            loadedConfiguration = loadedConfigurationLocal;
+            return fileBasedDiContainerConfigurator;
+        }
+        
+        /// <summary>
+        ///     Creates an instance of <see cref="IFileBasedDiContainerConfigurator" /> for file based dependency injection
+        ///     configuration.
+        /// </summary>
+        /// <param name="fileBasedConfigurationParameters">An instance of <see cref="FileBasedConfigurationParameters"/> used to load and process the configuration file.</param>
+        /// <param name="onConfigurationLoaded">
+        ///     A callback executed with <see cref="IConfiguration"/> when the IoC.Configuration file is loaded into <see cref="IConfiguration"/>.
+        ///     At this point the container is not yet ready, but the caller of the method can evaluate the configuration.
+        ///     Example of a use case is adding controllers specified in <see cref="IConfiguration.WebApi"/> in REST API Web application.
+        /// </param>
+        /// <exception cref="ConfigurationParseException">Throws this exception if configuration parse/load fails.</exception>
+        /// <exception cref="LoggerWasNotInitializedException"></exception>
+        /// <exception cref="OROptimizer.DynamicCode.DynamicCodeGenerationException">Throws this exception if dynamic code generation fails.</exception>
+        /// <exception cref="Exception">Throws this exception.</exception>
+        public IFileBasedDiContainerConfigurator StartFileBasedDi([NotNull] FileBasedConfigurationParameters fileBasedConfigurationParameters,
+            [CanBeNull] Action<IConfiguration> onConfigurationLoaded = null)
         {
             if (!LogHelper.IsContextInitialized)
                 throw new LoggerWasNotInitializedException();
 
             var configuration = new FileBasedConfiguration(fileBasedConfigurationParameters);
             configuration.Init();
-            loadedConfiguration = configuration.Configuration;
+            
+            onConfigurationLoaded?.Invoke(configuration.Configuration);
+            
             return new FileBasedDiContainerConfigurator(configuration);
         }
-        #endregion
     }
 }

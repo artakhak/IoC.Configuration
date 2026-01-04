@@ -47,7 +47,7 @@ namespace IoC.Configuration.Tests
                                    // before the configuration is loaded.
                                    Helpers.EnsureConfigurationDirectoryExistsOrThrow(e.XmlDocument.SelectElement("/iocConfiguration/appDataDir").GetAttribute("path"));
                                }
-                           }, out _)
+                           })
                        .WithoutPresetDiContainer()
                        .AddAdditionalDiModules(new TestDiModule())
                        .RegisterModules()

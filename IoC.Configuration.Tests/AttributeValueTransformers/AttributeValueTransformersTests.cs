@@ -55,7 +55,7 @@ public abstract class AttributeValueTransformersTests
                                //AttributeValueTransformers = new[] { new FileFolderPathAttributeValueTransformer() }
 
                                ConfigurationFileXmlDocumentLoaded = ConfigurationFileXmlDocumentLoadedEventHandler
-                           }, out _)
+                           })
                            .WithoutPresetDiContainer()
                            .RegisterModules()
                            .Start();
@@ -92,7 +92,7 @@ public abstract class AttributeValueTransformersTests
                        AttributeValueTransformers = new [] { new FileFolderPathAttributeValueTransformer() },
 
                        ConfigurationFileXmlDocumentLoaded = ConfigurationFileXmlDocumentLoadedEventHandler
-                   }, out _)
+                   })
                    .WithoutPresetDiContainer()
                    .RegisterModules()
                    .Start())

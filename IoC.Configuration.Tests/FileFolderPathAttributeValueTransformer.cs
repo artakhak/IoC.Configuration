@@ -24,6 +24,7 @@ public class FileFolderPathAttributeValueTransformer : IAttributeValueTransforme
             case "overrideDirectory":
             case "pluginsDirPath":
 
+                
                 var result =
                     TestsHelper.TryGetFilePathRelativeToTestProjectFolder("IoC.Configuration.Tests",
                         typeof(IoC.Configuration.Tests.TypeInfoTests), Path.Combine("bin", relativePath));

@@ -31,8 +31,6 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
 {
     public interface ICodeBasedDiModulesConfigurator : IRegisterModulesWithDiManagerForCodeBasedConfiguration
     {
-        #region Current Type Interface
-
         /// <summary>
         ///     Adds the additional <see cref="IDiModule" /> modules to be loaded into a container.
         /// </summary>
@@ -60,7 +58,5 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         /// <returns>Returns an instance of <see cref="ICodeBasedDiModulesConfigurator" /></returns>
         [NotNull]
         ICodeBasedDiModulesConfigurator AddNativeModules([NotNull] [ItemNotNull] params object[] nativeModules);
-
-        #endregion
     }
 }

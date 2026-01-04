@@ -27,14 +27,10 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
 {
     public interface ICodeBasedContainerStarter
     {
-        #region Current Type Interface
-
         /// <summary>
         ///     Loads the DI container.
         /// </summary>
         /// <returns>Returns an instance of <see cref="IContainerInfo" />.</returns>
         IContainerInfo Start();
-
-        #endregion
     }
 }

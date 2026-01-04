@@ -23,27 +23,15 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-using JetBrains.Annotations;
-
 namespace IoC.Configuration.DiContainerBuilder.FileBased
 {
-
     public interface IRegisterModulesWithDiManagerForFileBasedConfiguration
     {
-        #region Current Type Interface
-
+        
         /// <summary>
         ///     Registers the modules.
         /// </summary>
-        /// <returns>returns an instance of <see cref="IFileBasedContainerStarter" />.</returns>
-        IFileBasedContainerStarter RegisterModules([CanBeNull]IApplicationHostBuilder applicationHostBuilder = null);
-
-        ///// <summary>
-        /////     Registers the modules.
-        ///// </summary>
-        ///// <returns>returns an instance of <see cref="IFileBasedContainerStarter" />.</returns>
-        //IFileBasedContainerStarter RegisterModules(Microsoft.AspNetCore.Builder.ConfigureHostBuilder configureHostBuilder);
-
-        #endregion
+        /// <returns>Returns an instance of <see cref="IFileBasedContainerStarter" />.</returns>
+        IFileBasedContainerStarter RegisterModules();
     }
 }

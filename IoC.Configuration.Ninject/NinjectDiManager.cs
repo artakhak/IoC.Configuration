@@ -35,6 +35,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Extensions.Hosting;
 
 namespace IoC.Configuration.Ninject
 {
@@ -48,11 +49,10 @@ namespace IoC.Configuration.Ninject
             LoadModules(ninjectContainer.Kernel, modules);
         }
 
-        public void BuildServiceProvider(IEnumerable<object> modules, IApplicationHostBuilder applicationHostBuilder, Action<IDiContainer> diContainerCreated = null, Action<IServiceProvider> serviceProviderCreated = null)
+        public void BuildServiceProvider(IEnumerable<object> modules, IApplicationHostBuilder hostBuilder, Action<IDiContainer> diContainerCreated = null, Action<IServiceProvider> serviceProviderCreated = null)
         {
             throw new NotImplementedException();
         }
-
 
         public IDiContainer CreateDiContainer()
         {

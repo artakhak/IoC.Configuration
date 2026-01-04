@@ -26,6 +26,7 @@ REM Copy third party libraries
 xcopy "%NugetPackagesDir%\ninject\3.3.6\lib\netstandard2.0\Ninject.*" "%ThirdPartyLibsDir%" /Y
 xcopy "%NugetPackagesDir%\autofac\8.0.0\lib\netstandard2.0\Autofac.*" "%ThirdPartyLibsDir%" /Y
 xcopy "%NugetPackagesDir%\autofac.extensions.dependencyinjection\8.0.0\lib\netstandard2.0\Autofac.Extensions.DependencyInjection.*" "%ThirdPartyLibsDir%" /Y
+xcopy "%NugetPackagesDir%\system.threading.tasks.extensions\4.5.4\lib\netstandard2.0\System.Threading.Tasks.Extensions.*" "%ThirdPartyLibsDir%" /Y
 
 REM Copy IoC extensions
 

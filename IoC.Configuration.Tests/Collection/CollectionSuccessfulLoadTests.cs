@@ -13,7 +13,7 @@ namespace IoC.Configuration.Tests.Collection
         protected readonly static string CollectionConfigurationRelativePath = "IoCConfiguration_collection.xml";
 
         [Test]
-        public void CollectionInjectedionInConstructedValueElement_Tests()
+        public void CollectionInjectionInConstructedValueElement_Tests()
         {
             var collectionsSetting = Settings.GetSettingValueOrThrow<DemoCollectionInjection>("Collections");
 
@@ -28,7 +28,7 @@ namespace IoC.Configuration.Tests.Collection
         }
 
         [Test]
-        public void CollectionInjectedionIntoModuleConstructor_Tests()
+        public void CollectionInjectionIntoModuleConstructor_Tests()
         {
             var module1 = (Module1)Configuration.DependencyInjection.Modules.Modules.FirstOrDefault(x => x.DiModule is Module1).DiModule;
             var module1InjectedValuesList = new List<int>(module1.Values);

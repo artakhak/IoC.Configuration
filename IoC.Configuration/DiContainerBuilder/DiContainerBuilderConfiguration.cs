@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using IoC.Configuration.DiContainer;
 using IoC.Configuration.DiContainer.BindingsForCode;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Hosting;
 using OROptimizer;
 using OROptimizer.Diagnostics.Log;
 using OROptimizer.Serializer;
@@ -40,8 +41,6 @@ namespace IoC.Configuration.DiContainerBuilder
     /// <seealso cref="System.IDisposable" />
     public abstract class DiContainerBuilderConfiguration : IDisposable
     {
-        #region Member Variables
-
         [CanBeNull]
         private IDiContainer _diContainer;
 
@@ -62,13 +61,12 @@ namespace IoC.Configuration.DiContainerBuilder
         [ItemNotNull]
         private readonly List<object> _nativeAndDiModules = new List<object>();
 
+        [CanBeNull]
+        private IApplicationHostBuilder _hostBuilder;
+
         [NotNull]
         protected readonly ServiceRegistrationBuilder _serviceRegistrationBuilder = new ServiceRegistrationBuilder();
-
-        #endregion
-
-        #region  Constructors
-
+       
         /// <summary>
         ///     A constructor.
         /// </summary>
@@ -82,10 +80,6 @@ namespace IoC.Configuration.DiContainerBuilder
         {
             _entryAssemblyFolder = entryAssemblyFolder;
         }
-
-        #endregion
-
-        #region Current Type Interface
 
         public virtual void Dispose()
         {
@@ -104,9 +98,6 @@ namespace IoC.Configuration.DiContainerBuilder
         protected virtual void OnContainerStarted()
         {
         }
-        #endregion
-
-        #region Member Functions
 
         /// <summary>
         ///     Adds DI modules of type <see cref="IDiContainer" /> to container builder.
@@ -114,9 +105,6 @@ namespace IoC.Configuration.DiContainerBuilder
         /// <param name="diModules">The DI modules.</param>
         public void AddDiModules([NotNull] [ItemNotNull] params IDiModule[] diModules)
         {
-            if (diModules == null)
-                return;
-
             foreach (var module in diModules)
                 _nativeAndDiModules.Add(module);
         }
@@ -127,15 +115,14 @@ namespace IoC.Configuration.DiContainerBuilder
         /// <param name="nativeModules">The native modules.</param>
         public void AddNativeModules([NotNull] [ItemNotNull] params object[] nativeModules)
         {
-            if (nativeModules == null)
-                return;
-
             CheckDiManagerInitialized();
+
+            var diManager = GetDiManagerOrThrow();
 
             foreach (var nativeModule in nativeModules)
             {
-                if (!_diManager.ModuleType.IsAssignableFrom(nativeModule.GetType()))
-                    GlobalsCoreAmbientContext.Context.LogAnErrorAndThrowException($"Invalid native module. Native module should be of a type '{_diManager.ModuleType.FullName}' or a sub-type of this type.", "Invalid native module.");
+                if (!diManager.ModuleType.IsAssignableFrom(nativeModule.GetType()))
+                    GlobalsCoreAmbientContext.Context.LogAnErrorAndThrowException($"Invalid native module. Native module should be of a type '{diManager.ModuleType.FullName}' or a sub-type of this type.", "Invalid native module.");
 
                 _nativeAndDiModules.Add(nativeModule);
             }
@@ -193,6 +180,9 @@ namespace IoC.Configuration.DiContainerBuilder
             }
         }
 
+        [NotNull]
+        private IDiManager GetDiManagerOrThrow() => DiManager ?? throw new InvalidOperationException($"The value of '{nameof(DiManager)}' was not set!");
+
         /// <summary>
         ///     List of native module objects (such as Autofac or Ninject modules), as well as <see cref="IDiModule" /> objects
         /// </summary>
@@ -211,45 +201,108 @@ namespace IoC.Configuration.DiContainerBuilder
             }
         }
 
+        [CanBeNull]
+        public IApplicationHostBuilder HostBuilder => _hostBuilder;
+
+        public void SetHostBuilder([NotNull]IApplicationHostBuilder hostBuilder)
+        {
+            CheckMethodCalledOnce(nameof(SetHostBuilder), true);
+
+            if (_diContainer != null)
+                GlobalsCoreAmbientContext.Context.LogAnErrorAndThrowException($"The value of '{nameof(_diContainer)}' should not be set when {nameof(SetHostBuilder)} is non-null.");
+
+            _hostBuilder = hostBuilder;
+        }
+
+        /// <summary>
+        /// Registers the modules using <see cref="IHostBuilder"/>, builds the host by calling <see cref="IHostBuilder.Build()"/> and starts the container.
+        /// </summary>
+        internal void RegisterServiceProviderAndBuildApp()
+        {
+            try
+            {
+                if (_diContainer != null)
+                {
+                    GlobalsCoreAmbientContext.Context.LogAnErrorAndThrowException($"The value of '{nameof(_diContainer)}' should not be set when {nameof(_diContainer)} is non-null.");
+                    // We will not get here, but helps the compiler.
+                    throw new InvalidOperationException();
+                }
+
+                if (_hostBuilder == null)
+                {
+                    GlobalsCoreAmbientContext.Context.LogAnErrorAndThrowException($"The value of '{nameof(_hostBuilder)}' was not be set when {nameof(RegisterServiceProviderAndBuildApp)}() is executed.");
+                    // We will not get here, but helps the compiler.
+                    throw new InvalidOperationException();
+                }
+
+                CheckMethodCalledOnce(nameof(RegisterModulesWithDiManager), false);
+                CheckDiManagerInitialized();
+
+                var diManager = GetDiManagerOrThrow();
+
+                _generatedNativeModules = GenerateAllNativeModules();
+
+                LogHelper.Context.Log.Info("Registering modules for application builder.");
+
+                // ReSharper disable once PossibleMultipleEnumeration
+                // _generatedNativeModules will not be null here.
+                diManager.BuildServiceProvider(_generatedNativeModules, _hostBuilder,
+                    (diContainer) =>
+                    {
+                        if (_diContainer != null)
+                            GlobalsCoreAmbientContext.Context.LogAnErrorAndThrowException($"The value of '{nameof(_diContainer)}' was set by the time callback 'diContainerCreated' executed.");
+
+                        _diContainer = diContainer;
+                    });
+
+                /*LogHelper.Context.Log.Info("Registered modules for application builder. Building the host...");
+
+                var host = _hostBuilder.Build();
+
+                LogHelper.Context.Log.Info("Host was built.");
+
+                // StartContainer() should be executed only after _hostBuilder.Build() is executed.
+                var containerInfo = StartContainer();
+
+                return new HostIntegratedContainerInfo(host, containerInfo);*/
+
+            }
+            catch (LoggerWasNotInitializedException)
+            {
+                throw;
+            }
+            catch (Exception e)
+            {
+                LogHelper.Context.Log.Fatal(e);
+                throw;
+            }
+        }
+
         /// <summary>
         ///     Registers the modules with DI manager.
         /// </summary>
-        public void RegisterModulesWithDiManager([CanBeNull] IApplicationHostBuilder applicationHostBuilder = null)
+        public void RegisterModulesWithDiManager()
         {
             try
             {
                 CheckMethodCalledOnce(nameof(RegisterModulesWithDiManager), false);
                 CheckDiManagerInitialized();
 
+                if (_hostBuilder != null)
+                {
+                    GlobalsCoreAmbientContext.Context.LogAnErrorAndThrowException($"The value of '{nameof(_hostBuilder)}' should not be set when {nameof(RegisterModulesWithDiManager)}() is executed.");
+                }
+
+                var diManager = GetDiManagerOrThrow();
+
+                if (_diContainer == null)
+                    _diContainer = diManager.CreateDiContainer();
+
                 _generatedNativeModules = GenerateAllNativeModules();
 
-                if (applicationHostBuilder != null)
-                {
-                    if (_diContainer != null)
-                        GlobalsCoreAmbientContext.Context.LogAnErrorAndThrowException($"The value of '{nameof(_diContainer)}' should not be set when {nameof(applicationHostBuilder)} is non-null.");
-
-                    LogHelper.Context.Log.Info($"Registering modules for application builder.");
-                        
-                    DiManager.BuildServiceProvider(_generatedNativeModules, applicationHostBuilder, 
-                        (diContainer) =>
-                        {
-                            if (_diContainer != null)
-                                GlobalsCoreAmbientContext.Context.LogAnErrorAndThrowException($"The value of '{nameof(_diContainer)}' was set by the time callback 'diContainerCreated' executed.");
-
-                            _diContainer = diContainer;
-                        });
-
-                    LogHelper.Context.Log.Info($"Registered modules for application builder.");
-                }
-                else
-                {
-                    if (_diContainer == null)
-                        _diContainer = DiManager.CreateDiContainer();
-
-                    LogHelper.Context.Log.Info($"Registering modules with container '{_diContainer.GetType().FullName}'.");
-                    DiManager.BuildServiceProvider(_diContainer, _generatedNativeModules);
-                    LogHelper.Context.Log.Info($"Registered modules with to container '{_diContainer.GetType().FullName}'.");
-                }
+                LogHelper.Context.Log.Info($"Registering modules with container '{_diContainer.GetType().FullName}'.");
+                diManager.BuildServiceProvider(_diContainer, _generatedNativeModules);
+                LogHelper.Context.Log.Info($"Registered modules with to container '{_diContainer.GetType().FullName}'.");
             }
             catch (LoggerWasNotInitializedException)
             {
@@ -275,7 +328,7 @@ namespace IoC.Configuration.DiContainerBuilder
             {
                 CheckMethodCalledOnce(nameof(StartContainer), false);
 
-                DiManager.StartServiceProvider(_diContainer);
+                GetDiManagerOrThrow().StartServiceProvider(_diContainer);
                 _diContainer.StartMainLifeTimeScope();
 
                 // NOTE, It is important that DiContainerStatic and SerializerAggregatorStatic are initialized first thing after 
@@ -283,7 +336,6 @@ namespace IoC.Configuration.DiContainerBuilder
                 // method calls that follow.
 #pragma warning disable CS0612, CS0618
                 DiContainerStatic = _diContainer;
-                SerializerAggregatorStatic = _diContainer.Resolve<ITypeBasedSimpleSerializerAggregator>();
 #pragma warning restore CS0612, CS0618
 
                 NotifyModulesOnContainerReady(_generatedNativeModules, _diContainer);
@@ -301,7 +353,5 @@ namespace IoC.Configuration.DiContainerBuilder
                 throw;
             }
         }
-
-        #endregion
     }
 }

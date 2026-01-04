@@ -29,24 +29,16 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 {
     public abstract class FileBasedConfiguratorAbstr
     {
-        #region Member Variables
-
-        [NotNull]
-        protected readonly FileBasedConfiguration _fileBasedConfiguration;
-
-        #endregion
-
-        #region  Constructors
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="FileBasedConfiguratorAbstr" /> class.
         /// </summary>
         /// <param name="fileBasedConfiguration">The file based configuration.</param>
         public FileBasedConfiguratorAbstr([NotNull] FileBasedConfiguration fileBasedConfiguration)
         {
-            _fileBasedConfiguration = fileBasedConfiguration;
+            FileBasedConfiguration = fileBasedConfiguration;
         }
 
-        #endregion
+        [NotNull]
+        protected FileBasedConfiguration FileBasedConfiguration { get; }
     }
 }

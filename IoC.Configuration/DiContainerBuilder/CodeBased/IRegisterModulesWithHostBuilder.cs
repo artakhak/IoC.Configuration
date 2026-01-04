@@ -23,28 +23,16 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-using IoC.Configuration.DiContainer;
-using JetBrains.Annotations;
+using Microsoft.Extensions.Hosting;
 
-namespace IoC.Configuration.DiContainerBuilder.FileBased
+namespace IoC.Configuration.DiContainerBuilder.CodeBased
 {
-    public interface IFileBasedDiContainerConfigurator : 
-        IRegisterModulesWithDiManagerForFileBasedConfiguration, IIntegratesWithHostBuilder
+    public interface IRegisterModulesWithHostBuilder<out THost> where THost: class, IHost
     {
         /// <summary>
-        ///     Will use <see cref="IDiContainer" /> instance passed as a parameter when configuring the container.
-        ///     Use the method <see cref="WithDiContainer(IDiContainer)" /> if possible.
+        /// Registers the modules using <see cref="IHostBuilder"/>, builds the host by calling <see cref="IHostBuilder.Build()"/> and starts the container.
         /// </summary>
-        /// <param name="diContainer">An instance of <see cref="IDiContainer" />.</param>
-        /// <returns>Returns an instance of <see cref="IFileBasedDiModulesConfigurator" /></returns>
-        IFileBasedDiModulesConfigurator WithDiContainer([NotNull] IDiContainer diContainer);
-       
-        /// 
-        /// <summary>
-        ///     The container will be automatically created. This is the preferred way to build a container.
-        ///     Use <see cref="WithDiContainer" /> only if the application already has a container, and we need to use it.
-        /// </summary>
-        /// <returns>Returns an instance of <see cref="IFileBasedDiModulesConfigurator" /></returns>
-        IFileBasedDiModulesConfigurator WithoutPresetDiContainer();
+        /// <returns>Returns an instance of <see cref="IHostIntegratedContainerInfo{THost}" /> with built host and container.</returns>
+        IHostIntegratedContainerInfo<THost> RegisterServiceProviderAndBuildApp();
     }
 }

@@ -30,8 +30,7 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
 {
     public class CodeBasedDiContainerConfigurator : CodeBasedConfiguratorAbstr, ICodeBasedDiContainerConfigurator
     {
-        #region  Constructors
-
+        
         /// <summary>
         ///     Initializes a new instance of the <see cref="CodeBasedDiContainerConfigurator" /> class.
         /// </summary>
@@ -39,10 +38,6 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         public CodeBasedDiContainerConfigurator([NotNull] CodeBasedConfiguration codeBasedConfiguration) : base(codeBasedConfiguration)
         {
         }
-
-        #endregion
-
-        #region ICodeBasedDiContainerConfigurator Interface Implementation
 
         /// <summary>
         ///     Creates an instance of <see cref="ICodeBasedDiModulesConfigurator" /> using a preset instance of
@@ -53,8 +48,8 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         /// <returns>Returns an instance of <see cref="ICodeBasedDiModulesConfigurator" /></returns>
         public ICodeBasedDiModulesConfigurator WithDiContainer(IDiContainer diContainer)
         {
-            _codeBasedConfiguration.DiContainer = diContainer;
-            return new CodeBasedDiModulesConfigurator(_codeBasedConfiguration);
+            CodeBasedConfiguration.DiContainer = diContainer;
+            return new CodeBasedDiModulesConfigurator(CodeBasedConfiguration);
         }
 
         /// <summary>
@@ -64,12 +59,8 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         /// <returns>Returns an instance of <see cref="ICodeBasedDiModulesConfigurator" /></returns>
         public ICodeBasedDiModulesConfigurator WithoutPresetDiContainer()
         {
-            return new CodeBasedDiModulesConfigurator(_codeBasedConfiguration);
+            return new CodeBasedDiModulesConfigurator(CodeBasedConfiguration);
         }
-
-        #endregion
-
-        #region Member Functions
 
         /// <summary>
         ///     Registers the modules.
@@ -77,10 +68,8 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         /// <returns></returns>
         public ICodeBasedContainerStarter RegisterModules()
         {
-            _codeBasedConfiguration.RegisterModulesWithDiManager();
-            return new CodeBasedContainerStarter(_codeBasedConfiguration);
+            CodeBasedConfiguration.RegisterModulesWithDiManager();
+            return new CodeBasedContainerStarter(CodeBasedConfiguration);
         }
-
-        #endregion
     }
 }

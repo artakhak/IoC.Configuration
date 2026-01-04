@@ -34,7 +34,7 @@ namespace IoC.Configuration.Tests.DocumentationTests
                                  // Replace some elements in e.XmlDocument if needed,
                                  // before the configuration is loaded.
                              }
-                         }, out _)
+                         })
                      .WithoutPresetDiContainer()
                      .RegisterModules()
                      .Start())

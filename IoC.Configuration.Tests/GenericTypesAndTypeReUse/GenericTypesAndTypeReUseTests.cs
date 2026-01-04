@@ -56,7 +56,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                                {
                                    Helpers.EnsureConfigurationDirectoryExistsOrThrow(e.XmlDocument.SelectElement("/iocConfiguration/appDataDir").GetAttribute("path"));
                                }
-                           }, out _)
+                           })
                        .WithoutPresetDiContainer().RegisterModules().Start())
             {
                 var configuration = containerInfo.DiContainer.Resolve<IConfiguration>();
@@ -329,8 +329,6 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
 
         private string GetElementPath(XmlElement xmlElement)
         {
-            var pathStrBldr = new StringBuilder();
-
             XmlElement currXmlElement = xmlElement;
             LinkedList<XmlElement> xmlElementPaths = new LinkedList<XmlElement>();
 
@@ -385,6 +383,8 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 var restTypeRefTestClass3Serializer = configuration.ParameterSerializers.TypeBasedSimpleSerializerAggregator.GetSerializerForType(typeof(TestTypeRefTestClass3));
 
                 Assert.IsInstanceOf<TestTypeRefTestClass3Serializer>(restTypeRefTestClass3Serializer);
+
+                var tempTest = diContainer.Resolve<IEnumerable<TestTypeRefTestClass1>>();
 
                 var servicesInjectionTester = diContainer.Resolve<ClassToTestServicesInjection<TestTypeRefTestClass1>>();
 
@@ -558,24 +558,18 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
 
         public class TestTypeRefTestClass1
         {
-            #region  Constructors
-
             public TestTypeRefTestClass1(TestTypeRefTestClass2 param1, TestTypeRefTestClass3 param2)
             {
                 Property1 = param1;
                 Property2 = param2;
             }
 
-            #endregion
-
-            #region Member Functions
-
             public TestTypeRefTestClass2 Property1 { get; }
             public TestTypeRefTestClass3 Property2 { get; }
             public TestTypeRefTestClass2 Property3 { get; set; }
             public TestTypeRefTestClass3 Property4 { get; set; }
 
-            #endregion
+            
         }
 
         public class TestTypeRefTestClass2

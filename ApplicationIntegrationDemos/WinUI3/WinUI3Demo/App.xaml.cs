@@ -24,11 +24,15 @@ using System;
 //using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
+using IoC.Configuration;
 using WinUI3Demo.Interfaces;
 using WinUI3Demo.RandomNumber;
 
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using IoC.Configuration.DiContainerBuilder.FileBased;
+using IoC.Configuration.DiContainerBuilder;
+using OROptimizer;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -45,7 +49,7 @@ public partial class App : Application
 
     public static IHost AppHost { get; private set; }
 
-    public static new App Current => (App)Application.Current;
+    //public static new App Current => (App)Application.Current;
 
     /// <summary>
     /// Initializes the singleton application object.
@@ -60,12 +64,12 @@ public partial class App : Application
 
     private static void ConfigureDi()
     {
-        var hostBuilder = Host.CreateDefaultBuilder();
-        
+        //var hostBuilder = Host.CreateDefaultBuilder();
+
         // hostBuilder.UseServiceProviderFactory(new AutofacServiceProviderFactory())
         //     .ConfigureServices();
-        
-        AppHost = Host.CreateDefaultBuilder()
+
+        /*AppHost = Host.CreateDefaultBuilder()
             .ConfigureServices((context, services) =>
             {
                 // Register services
@@ -78,29 +82,38 @@ public partial class App : Application
                 // Register views (optional)
                 services.AddTransient<MainWindow>();
             })
-            .Build();
+            .Build();*/
 
+        var hostBuilder = Host.CreateDefaultBuilder();
+
+        var diContainerBuilder = new IoC.Configuration.DiContainerBuilder.DiContainerBuilder();
+
+        var fileBasedConfigurationParameters = new FileBasedConfigurationParameters(
+            new FileBasedConfigurationFileContentsProvider("IoCConfiguration.xml"),
+            AppContext.BaseDirectory, new AllLoadedAssemblies())
+        {
+            AttributeValueTransformers = [new FileFolderPathAttributeValueTransformer()]
+        };
+
+        var hostIntegratedContainerInfo = diContainerBuilder.StartFileBasedDi(fileBasedConfigurationParameters)
+            .WithoutPresetDiContainer()
+            // Add additional modules using AddAdditionalDiModules() one or multiple times as necessary
+            // to register modules in addition to DI specified in "IoCConfiguration.xml"
+            // If method is not called, only the 
+            //.AddAdditionalDiModules(new MyModule())
+
+            // Use WithHostBuilder(hostBuilder) to make sure IoC.Configuration will register DI with the host builder
+            // Do not call hostBuilder.Build() since this will be done by IoC.Configuration.
+            .WithHostBuilder(new ApplicationHostBuilder(hostBuilder))
+            .RegisterServiceProviderAndBuildApp();
+
+        AppHost = hostIntegratedContainerInfo.Host;
+
+        var diContainer = hostIntegratedContainerInfo.ContainerInfo.DiContainer;
+        // From this point on either AppHost.Services or hostIntegratedContainerInfo.ContainerInfo.DiContainer
+        // can be used to resolve services. Both will use the same DI container.
     }
-
-    // private static IServiceProvider ConfigureServices_OLD()
-    // {
-    //     var services = new ServiceCollection();
-    //
-    //     // Services
-    //     services.AddSingleton<IRandomNumberGenerator, RandomNumberGenerator>();
-    //
-    //     // ViewModels
-    //     //services.AddTransient<RandomNumberViewModel>();
-    //         
-    //     // Register Windows
-    //     //services.AddTransient<MainWindow>();
-    //
-    //     // Register your custom services here, for example:
-    //     // services.AddSingleton<IDataService, DataService>();
-    //
-    //     return services.BuildServiceProvider();
-    // }
-
+    
     /// <summary>
     /// Invoked when the application is launched.
     /// </summary>
@@ -115,11 +128,4 @@ public partial class App : Application
     }
 
     private Window m_window;
-
-    /*static IFileBasedContainerStarter CreateContainer(WebApplicationBuilder webApplicationBuilder, Func<IMvcBuilder> createControllerBuilder)
-    {
-        
-    }*/
-    
-    
 }

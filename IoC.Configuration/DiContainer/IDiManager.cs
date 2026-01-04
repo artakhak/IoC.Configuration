@@ -23,13 +23,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
-using System.Collections.Generic;
 using IoC.Configuration.DiContainer.BindingsForConfigFile;
-using IoC.Configuration.DiContainerBuilder;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Hosting;
 using OROptimizer.DynamicCode;
 using OROptimizer.ServiceResolver;
+using System;
+using System.Collections.Generic;
+using IoC.Configuration.DiContainerBuilder;
 
 namespace IoC.Configuration.DiContainer
 {
@@ -49,12 +50,12 @@ namespace IoC.Configuration.DiContainer
         ///     This method registers modules with service provider.
         /// </summary>
         /// <param name="modules">The modules to register.</param>
-        /// <param name="applicationHostBuilder">Application host.</param>
-        /// <param name="diContainerCreated"></param>
-        /// <param name="serviceProviderCreated"></param>
+        /// <param name="hostBuilder">Host builder.</param>
+        /// <param name="diContainerCreated">A callback executed when service container is created.</param>
+        /// <param name="serviceProviderCreated">A callback executed when service provider is created.</param>
         /// <exception cref="Exception"></exception>
         void BuildServiceProvider([NotNull][ItemNotNull] IEnumerable<object> modules, 
-            [NotNull] IApplicationHostBuilder applicationHostBuilder,
+            [NotNull] IApplicationHostBuilder hostBuilder,
             [CanBeNull] Action<IDiContainer> diContainerCreated = null, [CanBeNull] Action<IServiceProvider> serviceProviderCreated = null);
 
         /// <summary>
@@ -68,7 +69,7 @@ namespace IoC.Configuration.DiContainer
         IDiContainer CreateDiContainer();
 
         /// <summary>
-        ///     DI container name, such as Autofac or Nnject.
+        ///     DI container name, such as Autofac or Ninject.
         /// </summary>
         string DiContainerName { get; }
 
@@ -109,7 +110,7 @@ namespace IoC.Configuration.DiContainer
 
 
         /// <summary>
-        ///     Returns a module object, such as Autofac or Ninjectmodule, which sets all the requierd binding.
+        ///     Returns a module object, such as Autofac or Ninject module, which sets all the required binding.
         ///     For example this module can add binding for <see cref="IDiContainer" /> among other things.
         /// </summary>
         /// <returns></returns>

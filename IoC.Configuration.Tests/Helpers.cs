@@ -207,7 +207,7 @@ public static class Helpers
                     },
                     AttributeValueTransformers = new[] { new FileFolderPathAttributeValueTransformer() },
 
-                }, out _)
+                })
             .WithoutPresetDiContainer();
 
         if (additionalModulesToLoad?.Length > 0)

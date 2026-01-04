@@ -106,7 +106,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             };
 
             _containerInfo = diContainerBuilder.StartFileBasedDi(
-                    fileBasedConfigurationParameters, out _)
+                    fileBasedConfigurationParameters)
                 .WithoutPresetDiContainer()
                 .AddAdditionalDiModules(new TestModule2())
                 .RegisterModules()

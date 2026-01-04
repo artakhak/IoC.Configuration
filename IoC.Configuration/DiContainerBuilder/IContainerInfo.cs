@@ -35,8 +35,6 @@ namespace IoC.Configuration.DiContainerBuilder
     /// <seealso cref="IoC.Configuration.DiContainerBuilder.IContainerInfo" />
     public interface IContainerInfo : IDisposable
     {
-        #region Current Type Interface
-
         /// <summary>
         ///     An instance of <see cref="IDiContainer" /> for the loaded container.
         /// </summary>
@@ -45,7 +43,5 @@ namespace IoC.Configuration.DiContainerBuilder
         /// </value>
         [NotNull]
         IDiContainer DiContainer { get; }
-
-        #endregion
     }
 }

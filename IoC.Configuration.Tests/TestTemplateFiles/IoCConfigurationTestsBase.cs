@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Xml;
 using NUnit.Framework;
+//using System.Threading.Tasks.Extensions;
 using TestsSharedLibrary;
 using TestsSharedLibrary.DependencyInjection;
 using TestsSharedLibrary.Diagnostics.Log;

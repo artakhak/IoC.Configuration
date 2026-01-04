@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\IoC.Configuration.AspNetHostConfiguration\IoC.Configuration.AspNetHostConfiguration.csproj" />
+    <ProjectReference Include="..\..\..\IoC.Configuration.AspNet\IoC.Configuration.AspNet.csproj" />
     <ProjectReference Include="..\..\..\IoC.Configuration\IoC.Configuration.csproj" />
   </ItemGroup>
 

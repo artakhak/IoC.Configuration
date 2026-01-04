@@ -83,7 +83,7 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
                 }
             };
 
-            return diContainerBuilder.StartFileBasedDi(fileBasedConfigurationParameters, out _)
+            return diContainerBuilder.StartFileBasedDi(fileBasedConfigurationParameters)
                 .WithoutPresetDiContainer()
                 .AddAdditionalDiModules(new SuccessfulConfigurationLoadTests.SuccessfulConfigurationLoadTests.TestModule2())
                 .RegisterModules()
@@ -555,8 +555,6 @@ namespace IoC.Configuration.Tests.ConfigurationFileLoadFailureTests
                            .SetAttributeValue(ConfigurationFileAttributeNames.Value, "invalid door value");
             }, typeof(ParameterElement));
         }
-
-        
 
         [Test]
         public void TestFailedLoad_parameterSerializers_DefaultTypeIfMissingBothAttributes()

@@ -25,13 +25,13 @@
 
 using IoC.Configuration.DiContainer;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Hosting;
 
 namespace IoC.Configuration.DiContainerBuilder.FileBased
 {
     public class FileBasedDiContainerConfigurator : FileBasedConfiguratorAbstr, IFileBasedDiContainerConfigurator
     {
-        #region  Constructors
-
+        
         /// <summary>
         ///     Initializes a new instance of the <see cref="FileBasedDiContainerConfigurator" /> class.
         /// </summary>
@@ -40,48 +40,32 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         {
         }
 
-        #endregion
-
-        #region IFileBasedDiContainerConfigurator Interface Implementation
-
-        /// <summary>
-        ///     Registers the modules.
-        /// </summary>
-        /// <returns></returns>
-        public IFileBasedContainerStarter RegisterModules(IApplicationHostBuilder applicationHostBuilder)
+        /// <inheritdoc />
+        public IFileBasedContainerStarter RegisterModules()
         {
-            _fileBasedConfiguration.RegisterModulesWithDiManager(applicationHostBuilder);
-            return new FileBasedContainerStarter(_fileBasedConfiguration);
+            FileBasedConfiguration.RegisterModulesWithDiManager();
+            return new FileBasedContainerStarter(FileBasedConfiguration);
         }
 
-        /// <summary>
-        ///     Will use <see cref="IDiContainer" /> instance passed as a parameter when configuring the container.
-        ///     Use the method <see cref="WithDiContainer(IDiContainer)" /> if possible.
-        /// </summary>
-        /// <param name="diContainer">An instance of <see cref="IDiContainer" />.</param>
-        /// <returns>Returns an instance of <see cref="IFileBasedDiModulesConfigurator" /></returns>
+        /// <inheritdoc />
         public IFileBasedDiModulesConfigurator WithDiContainer(IDiContainer diContainer)
         {
-            _fileBasedConfiguration.DiContainer = diContainer;
-            return new FileBasedDiModulesConfigurator(_fileBasedConfiguration);
+            FileBasedConfiguration.DiContainer = diContainer;
+            return new FileBasedDiModulesConfigurator(FileBasedConfiguration);
         }
 
-        /// <summary>
-        ///     The container will be automatically created. This is the preferred way to build a container.
-        ///     Use
-        ///     <see
-        ///         cref="M:IoC.Configuration.DiContainerBuilder.FileBased.IFileBasedDiContainerConfigurator.WithDiContainer(IoC.Configuration.DiContainer.IDiContainer)" />
-        ///     only if the application already has a container, and we need to use it.
-        /// </summary>
-        /// <returns>
-        ///     Returns an instance of
-        ///     <see cref="T:IoC.Configuration.DiContainerBuilder.FileBased.IFileBasedDiModulesConfigurator" />
-        /// </returns>
+
+        /// <inheritdoc />
         public IFileBasedDiModulesConfigurator WithoutPresetDiContainer()
         {
-            return new FileBasedDiModulesConfigurator(_fileBasedConfiguration);
+            return new FileBasedDiModulesConfigurator(FileBasedConfiguration);
         }
 
-        #endregion
+        /// <inheritdoc />
+        public IRegisterModulesWithHostBuilder<THost> WithHostBuilder<THost>(IApplicationHostBuilder<THost> hostBuilder) where THost : class, IHost
+        {
+            FileBasedConfiguration.SetHostBuilder(hostBuilder);
+            return new RegisterModulesWithHostBuilder<THost>(FileBasedConfiguration);
+        }
     }
 }

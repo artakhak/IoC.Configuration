@@ -30,8 +30,6 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
 {
     public interface ICodeBasedDiContainerConfigurator
     {
-        #region Current Type Interface
-
         /// <summary>
         ///     Creates an instance of <see cref="ICodeBasedDiModulesConfigurator" /> using a preset instance of
         ///     <see cref="IDiContainer" />.
@@ -47,7 +45,5 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         /// </summary>
         /// <returns>Returns an instance of <see cref="ICodeBasedDiModulesConfigurator" /></returns>
         ICodeBasedDiModulesConfigurator WithoutPresetDiContainer();
-
-        #endregion
     }
 }

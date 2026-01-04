@@ -25,14 +25,13 @@
 
 using IoC.Configuration.DiContainer;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Hosting;
 using OROptimizer;
 
 namespace IoC.Configuration.DiContainerBuilder.CodeBased
 {
-    public class CodeBasedDiModulesConfigurator : CodeBasedConfiguratorAbstr, ICodeBasedDiModulesConfigurator
+    public class CodeBasedDiModulesConfigurator : CodeBasedConfiguratorAbstr, ICodeBasedDiModulesConfigurator //, IIntegratesWithHostBuilder
     {
-        #region  Constructors
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="CodeBasedDiModulesConfigurator" /> class.
         /// </summary>
@@ -41,10 +40,6 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         {
         }
 
-        #endregion
-
-        #region ICodeBasedDiModulesConfigurator Interface Implementation
-
         /// <summary>
         ///     Adds the additional <see cref="IDiModule" /> modules to be loaded into a container.
         /// </summary>
@@ -52,7 +47,7 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         /// <returns>Returns an instance of <see cref="ICodeBasedDiModulesConfigurator" /></returns>
         public ICodeBasedDiModulesConfigurator AddDiModules(params IDiModule[] diModules)
         {
-            _codeBasedConfiguration.AddDiModules(diModules);
+            CodeBasedConfiguration.AddDiModules(diModules);
             return this;
         }
 
@@ -65,7 +60,7 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         /// <returns>Returns an instance of <see cref="ICodeBasedDiModulesConfigurator" /></returns>
         public ICodeBasedDiModulesConfigurator AddNativeModule(string nativeModuleClassFullName, string nativeModuleClassAssemblyFilePath, ParameterInfo[] nativeModuleConstructorParameters)
         {
-            _codeBasedConfiguration.AddNativeModule(nativeModuleClassFullName, nativeModuleClassAssemblyFilePath, nativeModuleConstructorParameters);
+            CodeBasedConfiguration.AddNativeModule(nativeModuleClassFullName, nativeModuleClassAssemblyFilePath, nativeModuleConstructorParameters);
             return this;
         }
 
@@ -76,7 +71,7 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         /// <returns>Returns an instance of <see cref="ICodeBasedDiModulesConfigurator" /></returns>
         public ICodeBasedDiModulesConfigurator AddNativeModules(params object[] nativeModules)
         {
-            _codeBasedConfiguration.AddNativeModules(nativeModules);
+            CodeBasedConfiguration.AddNativeModules(nativeModules);
             return this;
         }
 
@@ -86,10 +81,15 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         /// <returns></returns>
         public ICodeBasedContainerStarter RegisterModules()
         {
-            _codeBasedConfiguration.RegisterModulesWithDiManager();
-            return new CodeBasedContainerStarter(_codeBasedConfiguration);
+            CodeBasedConfiguration.RegisterModulesWithDiManager();
+            return new CodeBasedContainerStarter(CodeBasedConfiguration);
         }
 
-        #endregion
+        ///// <inheritdoc />
+        //public IRegisterModulesWithHostBuilder WithHostBuilder(IHostBuilder hostBuilder)
+        //{
+        //    CodeBasedConfiguration.SetHostBuilder(hostBuilder);
+        //    return new RegisterModulesWithHostBuilder(CodeBasedConfiguration);
+        //}
     }
 }

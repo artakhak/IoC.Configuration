@@ -39,8 +39,6 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
     /// <seealso cref="IoC.Configuration.DiContainerBuilder.DiContainerBuilderConfiguration" />
     public class CodeBasedConfiguration : DiContainerBuilderConfiguration
     {
-        #region Member Variables
-
         [NotNull]
         [ItemNotNull]
         private readonly LinkedList<string> _assemblyProbingPaths = new LinkedList<string>();
@@ -48,19 +46,15 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         [NotNull]
         private AssemblyResolver _assemblyResolver;
 
-        #endregion
-
-        #region  Constructors
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="CodeBasedConfiguration" /> class.
         /// </summary>
         /// <param name="diManager">The DI manager.</param>
         /// <param name="entryAssemblyFolder">
         ///     The location where the executable is.
-        ///     For non test projects <see cref="IGlobalsCore.EntryAssemblyFolder" /> can be used as a value for this parameter.
+        ///     For non-test projects <see cref="IGlobalsCore.EntryAssemblyFolder" /> can be used as a value for this parameter.
         ///     However, for tests projects <see cref="IGlobalsCore.EntryAssemblyFolder" /> might be
-        ///     be the folder where the test execution library is, so a different value might need to be passed.
+        ///     the folder where the test execution library is, so a different value might need to be passed.
         /// </param>
         /// <param name="assemblyProbingPaths">The assembly probing paths.</param>
         public CodeBasedConfiguration([NotNull] IDiManager diManager,
@@ -78,9 +72,9 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         /// <param name="diManagerConstructorParameters"></param>
         /// <param name="entryAssemblyFolder">
         ///     The location where the executable is.
-        ///     For non test projects <see cref="IGlobalsCore.EntryAssemblyFolder" /> can be used as a value for this parameter.
+        ///     For non-test projects <see cref="IGlobalsCore.EntryAssemblyFolder" /> can be used as a value for this parameter.
         ///     However, for tests projects <see cref="IGlobalsCore.EntryAssemblyFolder" /> might be
-        ///     be the folder where the test execution library is, so a different value might need to be passed.
+        ///     the folder where the test execution library is, so a different value might need to be passed.
         /// </param>
         /// <param name="assemblyProbingPaths"></param>
         public CodeBasedConfiguration([NotNull] string diManagerClassFullName,
@@ -92,10 +86,6 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
             InitProbingPaths(assemblyProbingPaths);
             DiManager = GlobalsCoreAmbientContext.Context.CreateInstance<IDiManager>(diManagerClassFullName, diManagerClassAssemblyFilePath, diManagerConstructorParameters);
         }
-
-        #endregion
-
-        #region Member Functions
 
         public void AddNativeModule([NotNull] string nativeModuleClassFullName,
                                     [NotNull] string nativeModuleClassAssemblyFilePath,
@@ -112,8 +102,6 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
             base.Dispose();
             _assemblyResolver.Dispose();
         }
-
-
         protected override IEnumerable<object> GenerateAllNativeModules()
         {
             var allNativeModules = new List<object>(NativeAndDiModules.Count + 5);
@@ -156,29 +144,17 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
             _assemblyResolver = new AssemblyResolver(_assemblyProbingPaths);
         }
 
-        #endregion
-
-        #region Nested Types
-
         private class DefaultModule : ModuleAbstr
         {
-            #region Member Variables
-
             [NotNull]
             private readonly CodeBasedConfiguration _codeBasedConfiguration;
-
-            #endregion
-
-            #region  Constructors
 
             public DefaultModule([NotNull] CodeBasedConfiguration codeBasedConfiguration)
             {
                 _codeBasedConfiguration = codeBasedConfiguration;
             }
 
-            #endregion
-
-            #region Member Functions
+           
 
             /// <summary>
             ///     Use OnlyIfNotRegistered with all binding configurations, to use custom binding that the user might have specified
@@ -191,10 +167,6 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
                                                             .SetResolutionScope(DiResolutionScope.Singleton);
                 Bind<IDiContainer>().OnlyIfNotRegistered().To(typeResolver => _codeBasedConfiguration.DiContainer).SetResolutionScope(DiResolutionScope.Singleton);
             }
-
-            #endregion
         }
-
-        #endregion
     }
 }

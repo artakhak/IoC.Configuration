@@ -24,14 +24,14 @@
 // OTHER DEALINGS IN THE SOFTWARE.
 
 using IoC.Configuration.DiContainer;
+using IoC.Configuration.DiContainerBuilder.CodeBased;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Hosting;
 
 namespace IoC.Configuration.DiContainerBuilder.FileBased
 {
     public class FileBasedDiModulesConfigurator : FileBasedConfiguratorAbstr, IFileBasedDiModulesConfigurator
     {
-        #region  Constructors
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="FileBasedDiModulesConfigurator" /> class.
         /// </summary>
@@ -40,10 +40,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         {
         }
 
-        #endregion
-
-        #region IFileBasedDiModulesConfigurator Interface Implementation
-
         /// <summary>
         ///     Adds the additional <see cref="IDiModule" /> modules to be loaded into a container.
         /// </summary>
@@ -51,7 +47,7 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         /// <returns>Returns an instance of <see cref="IFileBasedDiModulesConfigurator" /></returns>
         public IFileBasedDiModulesConfigurator AddAdditionalDiModules(params IDiModule[] diModules)
         {
-            _fileBasedConfiguration.AddDiModules(diModules);
+            FileBasedConfiguration.AddDiModules(diModules);
             return this;
         }
 
@@ -62,7 +58,7 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         /// <returns>Returns an instance of <see cref="IFileBasedDiModulesConfigurator" /></returns>
         public IFileBasedDiModulesConfigurator AddNativeModules(params object[] nativeModules)
         {
-            _fileBasedConfiguration.AddNativeModules(nativeModules);
+            FileBasedConfiguration.AddNativeModules(nativeModules);
             return this;
         }
 
@@ -70,12 +66,17 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         ///     Registers the modules.
         /// </summary>
         /// <returns>returns an instance of <see cref="IFileBasedContainerStarter" />.</returns>
-        public IFileBasedContainerStarter RegisterModules(IApplicationHostBuilder applicationHostBuilder)
+        public IFileBasedContainerStarter RegisterModules()
         {
-            _fileBasedConfiguration.RegisterModulesWithDiManager(applicationHostBuilder);
-            return new FileBasedContainerStarter(_fileBasedConfiguration);
+            FileBasedConfiguration.RegisterModulesWithDiManager();
+            return new FileBasedContainerStarter(FileBasedConfiguration);
         }
 
-        #endregion
+        /// <inheritdoc />
+        public IRegisterModulesWithHostBuilder<THost> WithHostBuilder<THost>(IApplicationHostBuilder<THost> hostBuilder) where THost : class, IHost
+        {
+            FileBasedConfiguration.SetHostBuilder(hostBuilder);
+            return new RegisterModulesWithHostBuilder<THost>(FileBasedConfiguration);
+        }
     }
 }

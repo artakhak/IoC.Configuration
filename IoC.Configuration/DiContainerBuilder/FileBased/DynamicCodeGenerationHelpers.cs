@@ -29,16 +29,10 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 {
     public static class DynamicCodeGenerationHelpers
     {
-        #region Member Variables
-
         public const string ClassMembersClassName = "ClassMembers";
         public const string DynamicImplementationsClassName = "DynamicImplementations";
         public const string SettingValuesClassName = "Settings";
-
-        #endregion
-
-        #region Member Functions
-
+       
         public static string GetPluginSettingValuesClassName([NotNull] string pluginName)
         {
             return $"Settings_{pluginName}";
@@ -48,7 +42,5 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         {
             return $"SettingValue_{settingName}";
         }
-
-        #endregion
     }
 }

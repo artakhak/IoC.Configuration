@@ -49,6 +49,7 @@
       path="TestFiles\ContainerImplementations\Ninject" />
     <probingPath
       path="TestFiles\DynamicallyLoadedDlls" />
+	<!--<probingPath path="C:\Program Files\dotnet\shared\Microsoft.NETCore.App\6.0.36" />-->
   </additionalAssemblyProbingPaths>
 
   <assemblies>
@@ -61,6 +62,9 @@
     Use "overrideDirectory" attribute, to make the assembly path explicit, rather then searching for
     an assembly in predefined folders, which also include probing paths specified in additionalAssemblyProbingPaths element.
     -->
+
+	  <!--<assembly name="System.Threading.Tasks.Extensions" />-->
+	  
     <assembly name="IoC.Configuration.Autofac" alias="autofac_ext" />
     <assembly name="IoC.Configuration.Ninject" alias="ninject_ext" />
 
@@ -87,6 +91,8 @@
     <assembly name="TestProjects.SharedServices" alias="shared_services" />
 
     <assembly name="IoC.Configuration.Tests" alias="tests" />
+
+    <assembly name="System.Threading.Tasks.Extensions" alias="threading_tasks_extensions" />
   </assemblies>
 
   <typeDefinitions>

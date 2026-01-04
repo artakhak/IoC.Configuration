@@ -5,6 +5,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
 -->
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <History>True|2022-04-11T00:16:54.4716910Z;False|2022-04-10T20:13:31.9702145-04:00;False|2022-04-10T20:12:52.6309255-04:00;</History>
+    <History>True|2025-05-04T05:15:49.8837881Z||;True|2025-05-04T01:10:25.8443257-04:00||;True|2022-04-10T20:16:54.4716910-04:00||;False|2022-04-10T20:13:31.9702145-04:00||;False|2022-04-10T20:12:52.6309255-04:00||;</History>
+    <LastFailureDetails />
   </PropertyGroup>
 </Project>

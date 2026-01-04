@@ -27,6 +27,7 @@ using Autofac.Extensions.DependencyInjection;
 using IoC.Configuration.DiContainer;
 using IoC.Configuration.DiContainer.BindingsForConfigFile;
 using JetBrains.Annotations;
+using Microsoft.Extensions.Hosting;
 using OROptimizer;
 using OROptimizer.DynamicCode;
 using System;
@@ -39,10 +40,7 @@ namespace IoC.Configuration.Autofac
 {
     public class AutofacDiManager : IDiManager
     {
-        //private readonly IoCAutofacServiceProviderFactory _iocAutofacServiceProviderFactory = new IoCAutofacServiceProviderFactory(new AutofacServiceProviderFactory());
-
-        #region IDiManager Interface Implementation
-
+        /// <inheritdoc />
         public void BuildServiceProvider(IDiContainer diContainer, IEnumerable<object> modules)
         {
             var autofacDiContainer = ConvertToAutofacContainer(diContainer);
@@ -54,16 +52,14 @@ namespace IoC.Configuration.Autofac
             RegisterModules(autofacDiContainer.ContainerBuilder, modules);
         }
 
-        public void BuildServiceProvider(IEnumerable<object> modules, IApplicationHostBuilder applicationHostBuilder,
+        /// <inheritdoc />
+        public void BuildServiceProvider(IEnumerable<object> modules, IApplicationHostBuilder hostBuilder,
              Action<IDiContainer> diContainerCreated, Action<IServiceProvider> serviceProviderCreated)
         {
             var iocAutofacServiceProviderFactory = new IoCAutofacServiceProviderFactory(new AutofacServiceProviderFactory());
 
             iocAutofacServiceProviderFactory.OnServiceProviderCreated += (sender, e) =>
             {
-                // TODO: Come up with  away to let the callers of BuildServiceProvider handle this event.
-                //ServiceProviderAmbientIoCContext.InitializeContext(new MicrosoftServiceProvider(e));
-
                 serviceProviderCreated?.Invoke(e);
             };
 
@@ -72,62 +68,28 @@ namespace IoC.Configuration.Autofac
                 diContainerCreated?.Invoke(new AutofacDiContainer(e));
             };
 
-            applicationHostBuilder.UseServiceProviderFactory(iocAutofacServiceProviderFactory)
-                .ConfigureContainer<ContainerBuilder>((context, containerBuilder) =>
+            hostBuilder.UseServiceProviderFactory(iocAutofacServiceProviderFactory);
+            hostBuilder.ConfigureContainer<ContainerBuilder>((context, containerBuilder) =>
                 {
-                    containerBuilder.RegisterBuildCallback(scope =>
-                    {
-                        //_container = (IContainer)scope;
-                    });
+                    //containerBuilder.RegisterBuildCallback(scope =>
+                    //{
+                    //    //_container = (IContainer)scope;
+                    //});
 
                     RegisterModules(containerBuilder, modules);
                 });
         }
 
-        public void BuildServiceProvider(IDiContainer diContainer, IEnumerable<object> modules, IApplicationHostBuilder applicationHostBuilder = null)
-        {
-            var autofacDiContainer = ConvertToAutofacContainer(diContainer);
-
-            if (autofacDiContainer == null)
-                throw new ArgumentException($"Invalid value of parameter '{nameof(diContainer)}' in '{GetType().FullName}.{nameof(BuildServiceProvider)}(...)'. Expected an object of type '{typeof(AutofacDiContainer).FullName}'. Actual object type is {diContainer.GetType().FullName}.");
-
-            //autofacDiContainer.ContainerBuilder
-            if (applicationHostBuilder != null)
-            {
-                //_builtByApplicationHostBuilder = true;
-
-                var iocAutofacServiceProviderFactory = new IoCAutofacServiceProviderFactory(new AutofacServiceProviderFactory());
-                iocAutofacServiceProviderFactory.OnServiceProviderCreated += (sender, e) =>
-                {
-                    // TODO: Come up with  away to let the callers of BuildServiceProvider handle this event.
-                    //ServiceProviderAmbientIoCContext.InitializeContext(new MicrosoftServiceProvider(e));
-                };
-
-                applicationHostBuilder.UseServiceProviderFactory(iocAutofacServiceProviderFactory)
-                    .ConfigureContainer<ContainerBuilder>((context, containerBuilder) =>
-                    {
-                        containerBuilder.RegisterBuildCallback(scope =>
-                        {
-                            //_container = (IContainer) scope;
-                        });
-                        RegisterModules(autofacDiContainer.ContainerBuilder, modules);
-                    });
-            }
-            else
-            {
-                RegisterModules(autofacDiContainer.ContainerBuilder, modules);
-            }
-        }
-
-        
-
+        /// <inheritdoc />
         public IDiContainer CreateDiContainer()
         {
             return new AutofacDiContainer();
         }
 
+        /// <inheritdoc />
         public string DiContainerName => "Autofac";
 
+        /// <inheritdoc />
         public string GenerateModuleClassCode(IDynamicAssemblyBuilder dynamicAssemblyBuilder,
                                               IAssemblyLocator assemblyLocator,
                                               string moduleClassNamespace, string moduleClassName,
@@ -168,19 +130,23 @@ namespace IoC.Configuration.Autofac
             return moduleClassContents.ToString();
         }
 
+        /// <inheritdoc />
         public object GenerateNativeModule(IDiModule module)
         {
             return new AutofacModuleWrapper(module);
         }
 
+        /// <inheritdoc />
         public object GetRequiredBindingsModule()
         {
             // Return Autofac module to set some required bindings.
             return null;
         }
 
+        /// <inheritdoc />
         public Type ModuleType => typeof(Module);
 
+        /// <inheritdoc />
         public void StartServiceProvider(IDiContainer diContainer)
         {
             //if (_builtByApplicationHostBuilder)
@@ -199,9 +165,6 @@ namespace IoC.Configuration.Autofac
             }
         }
 
-        #endregion
-
-        #region Member Functions
         private void AddServiceBindings([NotNull] StringBuilder moduleClassContents, [NotNull] BindingConfigurationForFile serviceElement, [NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder)
         {
             foreach (var serviceImplementation in serviceElement.Implementations)
@@ -321,7 +284,5 @@ namespace IoC.Configuration.Autofac
                 containerBuilder.RegisterModule(autofacModule);
             }
         }
-
-        #endregion
     }
 }

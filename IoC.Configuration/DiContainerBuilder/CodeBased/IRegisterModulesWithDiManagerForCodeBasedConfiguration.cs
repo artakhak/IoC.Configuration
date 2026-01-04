@@ -27,14 +27,10 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
 {
     public interface IRegisterModulesWithDiManagerForCodeBasedConfiguration
     {
-        #region Current Type Interface
-
         /// <summary>
         ///     Registers the modules.
         /// </summary>
         /// <returns></returns>
         ICodeBasedContainerStarter RegisterModules();
-
-        #endregion
     }
 }
