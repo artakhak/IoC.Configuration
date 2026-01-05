@@ -10,16 +10,18 @@
 	  <Content Remove="C:\Users\artak\.nuget\packages\oroptimizer.shared\2.2.0\contentFiles\any\netstandard2.0\README.md" />
 	</ItemGroup>
 	<ItemGroup>
-		<!--<PackageReference Include="FileInclude" Version="1.0.3" />-->
-		<PackageReference Include="FileInclude" Version="1.0.5" />
-		<PackageReference Include="log4net" Version="3.0.4" />
+		<PackageReference Include="log4net" Version="3.2.0" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Update="IoC.Configuration.DocumentationGenerator.log4net.config">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
+
 	<ItemGroup>
+		<!--<PackageReference Include="FileInclude" Version="1.0.5" />-->
+		<ProjectReference Include="..\..\FileInclude\FileInclude\FileInclude.csproj" />
+
 		<!--<PackageReference Include="OROptimizer.Shared" Version="2.6.0" />-->
 		<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
 		
@@ -27,6 +29,6 @@
 		<ProjectReference Include="..\..\OROptimizer.Shared.Log4Net\OROptimizer.Shared.Log4Net\OROptimizer.Shared.Log4Net.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<!--<ProjectReference Include="..\..\FileInclude\FileInclude\FileInclude.csproj" />-->
+		
 	</ItemGroup>
 </Project>

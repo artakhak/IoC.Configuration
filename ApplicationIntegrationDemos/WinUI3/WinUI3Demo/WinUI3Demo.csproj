@@ -26,6 +26,7 @@
   <ItemGroup>    
     <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240428000" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.22621.756" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="8.0.0" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
 
@@ -39,12 +40,22 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\IoC.Configuration\IoC.Configuration.csproj" />
-    <ProjectReference Include="..\WinUI3Demo.Extension\WinUI3Demo.Extension.csproj" />
     <ProjectReference Include="..\WinUI3Demo.Interfaces\WinUI3Demo.Interfaces.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Update="IoCConfiguration.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
 

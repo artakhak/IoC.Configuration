@@ -12,7 +12,6 @@ public sealed partial class RandomNumberPage : Page
     {
         this.InitializeComponent();
         // Resolve ViewModel from DI container
-        //this.ViewModel = App.Current.Services.GetRequiredService<RandomNumberViewModel>();
         this.ViewModel = App.AppHost.Services.GetRequiredService<RandomNumberViewModel>();
     }
 

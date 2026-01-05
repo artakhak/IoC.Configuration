@@ -1,6 +1,5 @@
-﻿using System;
+﻿using IoC.Configuration.AttributeValueTransformer;
 using System.IO;
-using IoC.Configuration.AttributeValueTransformer;
 using System.Xml;
 
 namespace WinUI3Demo;
@@ -24,8 +23,8 @@ public class FileFolderPathAttributeValueTransformer: IAttributeValueTransformer
 
                 // Do any necessary path conversions here, such as commented out conversions below:
                 // Get application execution path 
-                var applicationPath = AppContext.BaseDirectory;
-                newAttributeValue = Path.Combine(applicationPath, xmlAttribute.Value.Replace('/', Path.DirectorySeparatorChar));
+                //var applicationPath = AppContext.BaseDirectory;
+                newAttributeValue = Path.Combine(WinUI3Demo.Properties.Settings.Default.IoCConfigurationDllsPath, xmlAttribute.Value.Replace('/', Path.DirectorySeparatorChar));
 
                 //newAttributeValue = xmlAttribute.Value;
                 return true;

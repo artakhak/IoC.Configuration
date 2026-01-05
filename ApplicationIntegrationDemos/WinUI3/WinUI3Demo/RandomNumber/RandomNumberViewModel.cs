@@ -20,7 +20,7 @@ public class RandomNumberViewModel : INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
-
+    
     public RandomNumberViewModel(IRandomNumberGenerator generator)
     {
         _generator = generator;

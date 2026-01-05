@@ -254,6 +254,9 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiDemo.DynamicallyLoadedControllers", "ApplicationIntegrationDemos\ASP.NET.WebApi\WebApiDemo.DynamicallyLoadedControllers\WebApiDemo.DynamicallyLoadedControllers.csproj", "{D4B37D30-C7B9-4F11-A5FE-EF71321B8764}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WinUI3", "WinUI3", "{FBD6DB55-FBC2-4C9E-AD35-535D6F1F73FC}"
+	ProjectSection(SolutionItems) = preProject
+		ApplicationIntegrationDemos\WinUI3\README.txt = ApplicationIntegrationDemos\WinUI3\README.txt
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WinUI3Demo", "ApplicationIntegrationDemos\WinUI3\WinUI3Demo\WinUI3Demo.csproj", "{E0A23B75-F8F5-4822-823B-54B162646A5A}"
 EndProject

@@ -6,8 +6,8 @@ set "CONFIG=%~1"
 if "%CONFIG%"=="" goto :usage
 if "%CONFIG%"==" " goto :usage
 
-set "LINK_PATH=K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\ApplicationIntegrationDemos\ASP.NET.WebApi\WebApiDemo\bin\%CONFIG%\net8.0\IoCConfigurationFiles"
-set "TARGET_PATH=K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\ApplicationIntegrationDemos\ASP.NET.WebApi\WebApiDemo\IoCConfigurationFiles"
+set "LINK_PATH=K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\ApplicationIntegrationDemos\WinUI3\WinUI3Demo\bin\x64\%CONFIG%\net8.0-windows10.0.19041.0\win-x64\IoCConfigurationFiles"
+set "TARGET_PATH=K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\ApplicationIntegrationDemos\WinUI3\WinUI3Demo\bin\IoCConfigurationFiles"
 
 echo Creating symbolic link for configuration: [%CONFIG%]
 

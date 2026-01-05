@@ -8,21 +8,9 @@ using OROptimizer.Diagnostics.Log;
 using WebApiDemo.Startup;
 using LogHelperContextLogToConsole = WebApiDemo.Startup.LogHelperContextLogToConsole;
 
-//using LogHelperContextLogToConsole = OROptimizer.Diagnostics.Log.LogHelperContextLogToConsole;
-
-var builder = WebApplication.CreateBuilder(args);
-
 LogHelper.RegisterContext(new LogHelperContextLogToConsole());
 
-/*var containerStarter = CreateContainer(builder, () => builder.Services.AddControllers());
-
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-var containerInfo = containerStarter.Start();*/
+var builder = WebApplication.CreateBuilder(args);
 
 var appData = CreateContainer(builder, () => builder.Services.AddControllers(),
     (addWebApiServices) =>

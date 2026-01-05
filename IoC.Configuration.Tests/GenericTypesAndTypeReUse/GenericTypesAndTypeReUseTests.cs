@@ -35,7 +35,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
         private static ITypeDefinitionsElement _typeDefinitionsElement;
         private static ITypeDefinitionsElement _pluginTypeDefinitionsElement;
         private System.Reflection.Assembly _testPluginAssembly1;
-       
+
         [OneTimeSetUp]
         public static void ClassInitialize()
         {
@@ -47,11 +47,8 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                            new FileBasedConfigurationParameters(new FileBasedConfigurationFileContentsProvider(_configurationRelativePath),
                                Helpers.TestsEntryAssemblyFolder, new LoadedAssembliesForTests())
                            {
-                               AttributeValueTransformers = new[] { new FileFolderPathAttributeValueTransformer() },
-                               ConfigurationFileXmlDocumentLoaded = (sender, e) =>
-                               {
-                                   Helpers.EnsureConfigurationDirectoryExistsOrThrow(e.XmlDocument.SelectElement("/iocConfiguration/appDataDir").GetAttribute("path"));
-                               }
+                               AttributeValueTransformers = new[] {new FileFolderPathAttributeValueTransformer()},
+                               ConfigurationFileXmlDocumentLoaded = (sender, e) => { Helpers.EnsureConfigurationDirectoryExistsOrThrow(e.XmlDocument.SelectElement("/iocConfiguration/appDataDir").GetAttribute("path")); }
                            })
                        .WithoutPresetDiContainer().RegisterModules().Start())
             {
@@ -100,9 +97,9 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
         }
 
         private void LoadConfigurationFileAndRunTest(DiImplementationType diImplementationType,
-                                                     Action<IDiContainer, IConfiguration> doTest,
-                                                     bool testTypeAndAssemblyAttributeValuesToo = true,
-                                                     Action<XmlDocument> modifyConfigurationFileOnLoad = null)
+            Action<IDiContainer, IConfiguration> doTest,
+            bool testTypeAndAssemblyAttributeValuesToo = true,
+            Action<XmlDocument> modifyConfigurationFileOnLoad = null)
         {
             List<ConfigurationFileMutationType> configurationFileMutationTypes = new List<ConfigurationFileMutationType>();
 
@@ -120,32 +117,26 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 LogHelper.Context.Log.Info($"Loading configuration file with {nameof(configurationFileMutationType)}={configurationFileMutationType}.");
 
                 LoadConfigurationFile(diImplementationType,
-                (container, configuration) =>
-                {
-                    _testPluginAssembly1 = AppDomain.CurrentDomain.GetAssemblies().First(
-                        x => x.GetName().Name.Equals("TestProjects.TestPluginAssembly1", StringComparison.OrdinalIgnoreCase));
-
-                    _modulesAssembly = AppDomain.CurrentDomain.GetAssemblies().First(
-                        x => x.GetName().Name.Equals("TestProjects.Modules", StringComparison.OrdinalIgnoreCase));
-
-                    _plugin1ModulesAssembly = AppDomain.CurrentDomain.GetAssemblies().First(
-                        x => x.GetName().Name.Equals("TestProjects.ModulesForPlugin1", StringComparison.OrdinalIgnoreCase));
-
-                    doTest(container, configuration);
-                }, new IDiModule[] { new TestModule1() },
-                (xmlDocument) =>
-                {
-                    if (configurationFileMutationType != ConfigurationFileMutationType.None)
+                    (container, configuration) =>
                     {
-                        ProcessXmlElements((XmlElement)xmlDocument.GetElementsByTagName(ConfigurationFileElementNames.RootElement).Item(0),
-                            (xmlElement) =>
-                            {
-                                this.ReplaceTypRefAttributeWithTypeAndAssembly(xmlElement, configurationFileMutationType);
-                            });
-                    }
+                        _testPluginAssembly1 = AppDomain.CurrentDomain.GetAssemblies().First(x => x.GetName().Name.Equals("TestProjects.TestPluginAssembly1", StringComparison.OrdinalIgnoreCase));
 
-                    modifyConfigurationFileOnLoad?.Invoke(xmlDocument);
-                });
+                        _modulesAssembly = AppDomain.CurrentDomain.GetAssemblies().First(x => x.GetName().Name.Equals("TestProjects.Modules", StringComparison.OrdinalIgnoreCase));
+
+                        _plugin1ModulesAssembly = AppDomain.CurrentDomain.GetAssemblies().First(x => x.GetName().Name.Equals("TestProjects.ModulesForPlugin1", StringComparison.OrdinalIgnoreCase));
+
+                        doTest(container, configuration);
+                    }, new IDiModule[] {new TestModule1()},
+                    (xmlDocument) =>
+                    {
+                        if (configurationFileMutationType != ConfigurationFileMutationType.None)
+                        {
+                            ProcessXmlElements((XmlElement) xmlDocument.GetElementsByTagName(ConfigurationFileElementNames.RootElement).Item(0),
+                                (xmlElement) => { this.ReplaceTypRefAttributeWithTypeAndAssembly(xmlElement, configurationFileMutationType); });
+                        }
+
+                        modifyConfigurationFileOnLoad?.Invoke(xmlDocument);
+                    });
             }
         }
 
@@ -226,29 +217,27 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 Helpers.ValidateTypeInfo(configuration.PluginsSetup.GetPluginSetup(Plugin1Name).TypeDefinitions.GetTypeDefinition("ReadOnlyListOfGenericType").ValueTypeInfo,
                     typeof(IReadOnlyList<Generic3_1<Interface1_Impl1>>),
                     "System.Collections.Generic.IReadOnlyList<SharedServices.Implementations.Generic.Generic3_1<SharedServices.Implementations.Interface1_Impl1>>");
-
-
             }, false);
         }
-        
+
         [TestCase(DiImplementationType.Autofac)]
         [TestCase(DiImplementationType.Ninject)]
         public void TypeRefInModuleTest(DiImplementationType diImplementationType)
         {
             LoadConfigurationFileAndRunTest(diImplementationType, (diContainer, configuration) =>
-                {
-                    var expectedModuleType = _modulesAssembly.GetType("Modules.IoC.DiModule2");
-                    var diModule = configuration.DependencyInjection.Modules.Modules.FirstOrDefault(x => x.DiModule.GetType() == expectedModuleType).DiModule;
+            {
+                var expectedModuleType = _modulesAssembly.GetType("Modules.IoC.DiModule2");
+                var diModule = configuration.DependencyInjection.Modules.Modules.FirstOrDefault(x => x.DiModule.GetType() == expectedModuleType).DiModule;
 
-                    Assert.IsNotNull(diModule);
+                Assert.IsNotNull(diModule);
 
-                    Assert.AreSame(typeof(Interface1_Impl1),
-                        diModule.GetType().GetProperty("Property1").GetValue(diModule).GetType());
-                });
+                Assert.AreSame(typeof(Interface1_Impl1),
+                    diModule.GetType().GetProperty("Property1").GetValue(diModule).GetType());
+            });
         }
 
         private void ReplaceTypRefAttributeWithTypeAndAssembly([NotNull] XmlElement xmlElement,
-                                                               ConfigurationFileMutationType configurationFileMutationType)
+            ConfigurationFileMutationType configurationFileMutationType)
         {
             if (configurationFileMutationType == ConfigurationFileMutationType.None)
                 return;
@@ -298,6 +287,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
 
                         Assert.Fail("Test only Plugin1");
                     }
+
                     currentXmlElement = currentXmlElement.ParentNode as XmlElement;
                 }
             }
@@ -365,7 +355,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
 
             return typeNameStrBldr.ToString();
         }
-        
+
         [TestCase(DiImplementationType.Autofac)]
         [TestCase(DiImplementationType.Ninject)]
         public void TypeRefInParametersSerializersEtcTest(DiImplementationType diImplementationType)
@@ -377,8 +367,6 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 var restTypeRefTestClass3Serializer = configuration.ParameterSerializers.TypeBasedSimpleSerializerAggregator.GetSerializerForType(typeof(TestTypeRefTestClass3));
 
                 Assert.IsInstanceOf<TestTypeRefTestClass3Serializer>(restTypeRefTestClass3Serializer);
-
-                var tempTest = diContainer.Resolve<IEnumerable<TestTypeRefTestClass1>>();
 
                 var servicesInjectionTester = diContainer.Resolve<ClassToTestServicesInjection<TestTypeRefTestClass1>>();
 
@@ -394,7 +382,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 Assert.AreEqual(7, testTypeRefTestClass1.Property4.Property1);
             }, true);
         }
-        
+
         [TestCase(DiImplementationType.Autofac)]
         [TestCase(DiImplementationType.Ninject)]
         public void TypeRefInPluginModuleTest(DiImplementationType diImplementationType)
@@ -410,7 +398,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                     diModule.GetType().GetProperty("Property1").GetValue(diModule).GetType());
             });
         }
-        
+
         [TestCase(DiImplementationType.Autofac)]
         [TestCase(DiImplementationType.Ninject)]
         public void TypeRefInPluginSelfBoundServiceTest(DiImplementationType diImplementationType)
@@ -420,8 +408,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 var expectedServiceType = _testPluginAssembly1.GetType("TestPluginAssembly1.Interfaces.IDoor");
                 var expectedImplementationType = _testPluginAssembly1.GetType("TestPluginAssembly1.Implementations.Door");
 
-                var serviceElement = configuration.PluginsSetup.GetPluginSetup(Plugin1Name).DependencyInjection.Services.AllServices.First(
-                    x => x.ServiceTypeInfo.Type == expectedServiceType);
+                var serviceElement = configuration.PluginsSetup.GetPluginSetup(Plugin1Name).DependencyInjection.Services.AllServices.First(x => x.ServiceTypeInfo.Type == expectedServiceType);
 
 
                 Assert.IsNotNull(serviceElement);
@@ -433,7 +420,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 Assert.AreEqual(door.GetType(), expectedImplementationType);
             });
         }
-        
+
         [TestCase(DiImplementationType.Autofac)]
         [TestCase(DiImplementationType.Ninject)]
         public void TypeRefInPluginServiceAndImplementationsTest(DiImplementationType diImplementationType)
@@ -443,8 +430,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 var expectedServiceType = _testPluginAssembly1.GetType("TestPluginAssembly1.Interfaces.IDoor");
                 var expectedImplementationType = _testPluginAssembly1.GetType("TestPluginAssembly1.Implementations.Door");
 
-                var serviceElement = configuration.PluginsSetup.GetPluginSetup(Plugin1Name).DependencyInjection.Services.AllServices.FirstOrDefault(
-                    x => x.ServiceTypeInfo.Type == expectedServiceType);
+                var serviceElement = configuration.PluginsSetup.GetPluginSetup(Plugin1Name).DependencyInjection.Services.AllServices.FirstOrDefault(x => x.ServiceTypeInfo.Type == expectedServiceType);
 
                 Assert.IsNotNull(serviceElement);
 
@@ -453,9 +439,9 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
 
                 var door = diContainer.Resolve(expectedServiceType);
                 Assert.AreSame(door.GetType(), expectedImplementationType);
-             });
+            });
         }
-        
+
         [TestCase(DiImplementationType.Autofac)]
         [TestCase(DiImplementationType.Ninject)]
         public void TypeRefInPluginSettingsAndOverriddigTypeDefinitionTest(DiImplementationType diImplementationType)
@@ -473,15 +459,14 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             });
         }
 
-        
+
         [TestCase(DiImplementationType.Autofac)]
         [TestCase(DiImplementationType.Ninject)]
         public void TypeRefInSelfBoundServiceTest(DiImplementationType diImplementationType)
         {
             LoadConfigurationFileAndRunTest(diImplementationType, (diContainer, configuration) =>
             {
-                var serviceElement = configuration.DependencyInjection.Services.AllServices.First(
-                    x => x.ServiceTypeInfo.Type == typeof(Interface1_Impl1));
+                var serviceElement = configuration.DependencyInjection.Services.AllServices.First(x => x.ServiceTypeInfo.Type == typeof(Interface1_Impl1));
 
                 Assert.IsNotNull(serviceElement);
                 Assert.AreSame(typeof(Interface1_Impl1), serviceElement.ServiceTypeInfo.Type);
@@ -492,7 +477,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 Assert.AreEqual(1, servicesInjectionTester.Implementations.Where(x => x is Interface1_Impl1).ToList().Count);
             });
         }
-        
+
         [TestCase(DiImplementationType.Autofac)]
         [TestCase(DiImplementationType.Ninject)]
         public void TypeRefInServiceAndImplementationsTest(DiImplementationType diImplementationType)
@@ -507,7 +492,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
                 Assert.AreEqual(3, servicesInjectionTester.Implementations.Where(x => x is Generic1_1<Interface1_Impl1>).ToList().Count);
             });
         }
-        
+
         [TestCase(DiImplementationType.Autofac)]
         [TestCase(DiImplementationType.Ninject)]
         public void TypeRefInSettingsTest(DiImplementationType diImplementationType)
@@ -548,8 +533,6 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             public TestTypeRefTestClass3 Property2 { get; }
             public TestTypeRefTestClass2 Property3 { get; set; }
             public TestTypeRefTestClass3 Property4 { get; set; }
-
-            
         }
 
         public class TestTypeRefTestClass2
@@ -558,6 +541,7 @@ namespace IoC.Configuration.Tests.GenericTypesAndTypeReUse
             {
                 Property1 = param1;
             }
+
             public IInterface1 Property1 { get; }
         }
 

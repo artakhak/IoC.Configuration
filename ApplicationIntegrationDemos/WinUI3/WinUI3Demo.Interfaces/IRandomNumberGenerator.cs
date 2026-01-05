@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WinUI3Demo.Interfaces;
+﻿namespace WinUI3Demo.Interfaces;
 
 public interface IRandomNumberGenerator
 {

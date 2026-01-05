@@ -1,38 +1,14 @@
-﻿using Microsoft.UI.Xaml;
-// using Microsoft.UI.Xaml.Controls;
-// using Microsoft.UI.Xaml.Controls.Primitives;
-// using Microsoft.UI.Xaml.Data;
-// using Microsoft.UI.Xaml.Input;
-// using Microsoft.UI.Xaml.Media;
-// using Microsoft.UI.Xaml.Navigation;
-// using Microsoft.UI.Xaml.Shapes;
-// using System;
-// using System.Collections.Generic;
-// using System.IO;
-// using System.Linq;
-// using System.Runtime.InteropServices.WindowsRuntime;
-// using Windows.ApplicationModel;
-// using Windows.ApplicationModel.Activation;
-// using Windows.Foundation;
-// using Windows.Foundation.Collections;
-
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Microsoft.UI.Xaml.Shapes;
-using System;
-//using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
+﻿//using Microsoft.Extensions.DependencyInjection;
 using IoC.Configuration;
-using WinUI3Demo.Interfaces;
-using WinUI3Demo.RandomNumber;
-
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using IoC.Configuration.DiContainerBuilder.FileBased;
 using IoC.Configuration.DiContainerBuilder;
+using IoC.Configuration.DiContainerBuilder.FileBased;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.UI.Xaml;
 using OROptimizer;
+
+using System;
+using OROptimizer.Diagnostics.Log;
 
 
 // To learn more about WinUI, the WinUI project structure,
@@ -45,11 +21,7 @@ namespace WinUI3Demo;
 /// </summary>
 public partial class App : Application
 {
-    //public IServiceProvider Services { get; }
-
     public static IHost AppHost { get; private set; }
-
-    //public static new App Current => (App)Application.Current;
 
     /// <summary>
     /// Initializes the singleton application object.
@@ -59,37 +31,18 @@ public partial class App : Application
         //Services = ConfigureServices();
         this.InitializeComponent();
 
+        LogHelper.RegisterContext(new LogHelperContextLogToConsole());
         ConfigureDi();
     }
 
     private static void ConfigureDi()
     {
-        //var hostBuilder = Host.CreateDefaultBuilder();
-
-        // hostBuilder.UseServiceProviderFactory(new AutofacServiceProviderFactory())
-        //     .ConfigureServices();
-
-        /*AppHost = Host.CreateDefaultBuilder()
-            .ConfigureServices((context, services) =>
-            {
-                // Register services
-                //services.AddSingleton<IMyService, MyService>();
-                services.AddSingleton<IRandomNumberGenerator, WinUI3Demo.Extension.RandomNumberGenerator>();
-
-                // Register view models
-                services.AddTransient<RandomNumberViewModel>();
-
-                // Register views (optional)
-                services.AddTransient<MainWindow>();
-            })
-            .Build();*/
-
         var hostBuilder = Host.CreateDefaultBuilder();
 
         var diContainerBuilder = new IoC.Configuration.DiContainerBuilder.DiContainerBuilder();
 
         var fileBasedConfigurationParameters = new FileBasedConfigurationParameters(
-            new FileBasedConfigurationFileContentsProvider("IoCConfiguration.xml"),
+            new FileBasedConfigurationFileContentsProvider(WinUI3Demo.Properties.Settings.Default.IoCConfigurationFilePath),
             AppContext.BaseDirectory, new AllLoadedAssemblies())
         {
             AttributeValueTransformers = [new FileFolderPathAttributeValueTransformer()]
@@ -123,7 +76,6 @@ public partial class App : Application
         await AppHost.StartAsync();
 
         m_window = AppHost.Services.GetRequiredService<MainWindow>();
-        //m_window = Services.GetRequiredService<MainWindow>();
         m_window.Activate();
     }
 
