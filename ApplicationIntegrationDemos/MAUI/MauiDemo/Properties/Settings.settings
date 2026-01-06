@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="MauiDemo.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="IoCConfigurationFilePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\ApplicationIntegrationDemos\Maui\MauiDemo\IoCConfiguration.xml</Value>
+    </Setting>
+    <Setting Name="IoCConfigurationDllsPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\ApplicationIntegrationDemos\Maui\MauiDemo\bin</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

@@ -1,8 +1,7 @@
-﻿using IoC.Configuration.AttributeValueTransformer;
-using System.IO;
-using System.Xml;
+﻿using System.Xml;
+using IoC.Configuration.AttributeValueTransformer;
 
-namespace WinUI3Demo;
+namespace MauiDemo;
 
 public class FileFolderPathAttributeValueTransformer: IAttributeValueTransformer
 {
@@ -21,10 +20,10 @@ public class FileFolderPathAttributeValueTransformer: IAttributeValueTransformer
             case "overrideDirectory":
             case "pluginsDirPath":
 
-                // Do any necessary path conversions here, such as the commented out conversions below:
+                // Do any necessary path conversions here, such as the commented-out conversions below:
                 // Get application execution path 
                 //var applicationPath = AppContext.BaseDirectory;
-                newAttributeValue = Path.Combine(WinUI3Demo.Properties.Settings.Default.IoCConfigurationDllsPath, xmlAttribute.Value.Replace('/', Path.DirectorySeparatorChar));
+                newAttributeValue = Path.Combine(MauiDemo.Properties.Settings.Default.IoCConfigurationDllsPath, xmlAttribute.Value.Replace('/', Path.DirectorySeparatorChar));
                 return true;
             default:
                 return false;

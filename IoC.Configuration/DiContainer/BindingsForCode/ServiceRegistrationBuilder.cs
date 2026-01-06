@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright ï¿½ 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -32,15 +32,9 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
 {
     public class ServiceRegistrationBuilder : IServiceRegistrationBuilder
     {
-        #region Member Variables
-
         [NotNull]
         private readonly Dictionary<Type, List<BindingConfigurationForCode>> _serviceTypeToBindingConfigurationsMap = new Dictionary<Type, List<BindingConfigurationForCode>>();
-
-        #endregion
-
-        #region IServiceRegistrationBuilder Interface Implementation
-
+        
         /// <summary>
         ///     Creates a generic binding.
         /// </summary>
@@ -86,29 +80,25 @@ namespace IoC.Configuration.DiContainer.BindingsForCode
 
             var implementations = bindingConfigurations[0].Implementations;
 
-            if (implementations == null || implementations.Count == 0)
+            if (implementations.Count == 0)
                 return false;
 
             return true;
         }
 
-        #endregion
-
-        #region Member Functions
-
         private void AddBinding(BindingConfigurationForCode bindingConfiguration)
         {
-            List<BindingConfigurationForCode> bindingConfigurations;
-            if (!_serviceTypeToBindingConfigurationsMap.TryGetValue(bindingConfiguration.ServiceType, out bindingConfigurations))
+            if (!_serviceTypeToBindingConfigurationsMap.TryGetValue(bindingConfiguration.ServiceType, out var bindingConfigurations))
+            {
                 bindingConfigurations = new List<BindingConfigurationForCode>();
+                _serviceTypeToBindingConfigurationsMap[bindingConfiguration.ServiceType] = bindingConfigurations;
+            }
             else
-                LogHelper.Context.Log.WarnFormat("A binding for service type '{0}' is aadded multiple times. This might result in unexpected behaviour. If the service should be bound to multiple implementations, use '{1}' in '{2}' or the similar member in generic type.",
+                LogHelper.Context.Log.WarnFormat("A binding for service type '{0}' is added multiple times. This might result in unexpected behaviour. If the service should be bound to multiple implementations, use '{1}' in '{2}' or the similar member in generic type.",
                     bindingConfiguration.ServiceType.FullName, nameof(IBindingImplementationNonGeneric.Service), typeof(IBindingImplementationNonGeneric));
 
             bindingConfigurations.Add(bindingConfiguration);
             BindingConfigurationAdded?.Invoke(this, new BindingConfigurationAddedEventArgs(bindingConfiguration));
         }
-
-        #endregion
     }
 }

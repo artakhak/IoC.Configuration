@@ -21,7 +21,7 @@ namespace WinUI3Demo;
 /// </summary>
 public partial class App : Application
 {
-    public static IHost AppHost { get; private set; }
+    public static IHost? AppHost { get; private set; }
 
     /// <summary>
     /// Initializes the singleton application object.
@@ -52,7 +52,7 @@ public partial class App : Application
             .WithoutPresetDiContainer()
             // Add additional modules using AddAdditionalDiModules() one or multiple times as necessary
             // to register modules in addition to DI specified in "IoCConfiguration.xml"
-            // If method is not called, only the 
+            // If the method is not called, only the 
             //.AddAdditionalDiModules(new MyModule())
 
             // Use WithHostBuilder(hostBuilder) to make sure IoC.Configuration will register DI with the host builder
@@ -73,11 +73,9 @@ public partial class App : Application
     protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
     {
         // Resolve MainWindow from the DI container
-        await AppHost.StartAsync();
+        await (AppHost ?? throw new InvalidOperationException("Hos not set")).StartAsync();
 
-        m_window = AppHost.Services.GetRequiredService<MainWindow>();
-        m_window.Activate();
+        var window = AppHost.Services.GetRequiredService<MainWindow>();
+        window.Activate();
     }
-
-    private Window m_window;
 }

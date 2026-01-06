@@ -778,10 +778,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
             [ItemNotNull]
             private readonly HashSet<Type> _registeredSelfBoundServices = new HashSet<Type>();
 
-           
-
-         
-
             public ConcreteClassesRegistrationsModule([NotNull] IConfiguration configuration, [CanBeNull] [ItemNotNull] IEnumerable<IDiModule> additionalDiModules)
             {
                 _configuration = configuration;

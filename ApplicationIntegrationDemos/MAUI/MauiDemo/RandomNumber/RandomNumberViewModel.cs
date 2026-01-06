@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using WinUI3Demo.Interfaces;
+using MauiDemo.Interfaces;
 
-namespace WinUI3Demo.RandomNumber;
+namespace MauiDemo.RandomNumber;
 
 public class RandomNumberViewModel : INotifyPropertyChanged
 {

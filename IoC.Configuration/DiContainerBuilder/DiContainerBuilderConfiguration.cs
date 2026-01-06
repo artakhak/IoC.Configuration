@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using IoC.Configuration.DiContainer;
 using IoC.Configuration.DiContainer.BindingsForCode;
+using IoC.Configuration.DiContainerBuilder.FileBased;
 using JetBrains.Annotations;
 using Microsoft.Extensions.Hosting;
 using OROptimizer;
@@ -324,6 +325,9 @@ namespace IoC.Configuration.DiContainerBuilder
                 // method calls that follow.
 #pragma warning disable CS0612, CS0618
                 DiContainerStatic = _diContainer;
+
+                //var test = FileBasedConfiguration.;
+
                 SerializerAggregatorStatic = _diContainer.Resolve<ITypeBasedSimpleSerializerAggregator>();
 #pragma warning restore CS0612, CS0618
 

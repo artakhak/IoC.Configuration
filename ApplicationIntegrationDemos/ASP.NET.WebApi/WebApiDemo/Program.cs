@@ -6,7 +6,6 @@ using IoC.Configuration.DiContainerBuilder.FileBased;
 using OROptimizer;
 using OROptimizer.Diagnostics.Log;
 using WebApiDemo.Startup;
-using LogHelperContextLogToConsole = WebApiDemo.Startup.LogHelperContextLogToConsole;
 
 LogHelper.RegisterContext(new LogHelperContextLogToConsole());
 

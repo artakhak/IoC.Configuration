@@ -149,15 +149,10 @@ namespace IoC.Configuration.Autofac
         /// <inheritdoc />
         public void StartServiceProvider(IDiContainer diContainer)
         {
-            //if (_builtByApplicationHostBuilder)
-            //    return;
-
             var autofacDiContainer = ConvertToAutofacContainer(diContainer);
 
             if (autofacDiContainer.Container == null)
             {
-                //if (_container != null)
-                //    autofacDiContainer.
                 autofacDiContainer.ContainerBuilder.Build();
 
                 if (autofacDiContainer.Container == null)
