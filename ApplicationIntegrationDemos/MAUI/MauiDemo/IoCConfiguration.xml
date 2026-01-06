@@ -119,8 +119,9 @@
 		
 		<services>
 			
-			<!--<selfBoundService type="MauiDemo.MainWindow" scope="transient">				
-			</selfBoundService>-->
+			<selfBoundService type="MauiDemo.RandomNumber.RandomNumberPage" scope="transient">				
+			</selfBoundService>
+			
 			<selfBoundService type="MauiDemo.RandomNumber.RandomNumberViewModel" scope="transient">
 			</selfBoundService>
 

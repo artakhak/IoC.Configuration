@@ -123,7 +123,7 @@ public class MauiAppHost : IHost
 public class MauiHostBuilder : IApplicationHostBuilder<MauiAppHost>
 {
     private readonly MauiAppBuilder _mauiAppBuilder;
-    private Autofac.ContainerBuilder? _containerBuilder;
+    //private Autofac.ContainerBuilder? _containerBuilder;
 
     private object? _factory = null;
 
