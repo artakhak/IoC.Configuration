@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
@@ -88,14 +89,22 @@ namespace IoC.Configuration.Ninject
 
             public object GetService(Type serviceType)
             {
-                // To avoid IExternalScopeProvider implicit self-binding errors, 
-                // we only resolve if an explicit binding exists.
-                if (_kernel.GetBindings(serviceType).Any())
+                // .NET expectation: IEnumerable<T> should always return an instance (even if empty),
+                // while single services should return null if not registered.
+                bool isCollection = serviceType.IsGenericType && 
+                                    (serviceType.GetGenericTypeDefinition() == typeof(IEnumerable<>) ||
+                                     serviceType.GetGenericTypeDefinition() == typeof(IList<>) ||
+                                     serviceType.GetGenericTypeDefinition() == typeof(ICollection<>));
+
+                if (isCollection || serviceType.IsArray || _kernel.GetBindings(serviceType).Any())
                 {
+                    // Ninject's Get() will return the instance for explicit bindings,
+                    // or an empty collection for the collection types above.
                     return _kernel.Get(serviceType);
                 }
 
-                // Standard IServiceProvider behavior: return null for unregistered types.
+                // Return null for unregistered single types to allow Host fallbacks
+                // and prevent the IExternalScopeProvider activation crash.
                 return null;
             }
 
