@@ -44,6 +44,8 @@
 			path="IoCConfigurationFiles/ThirdPartyLibs" />
 		<probingPath
 			path="IoCConfigurationFiles/ContainerImplementations/Autofac" />
+		<probingPath
+			path="IoCConfigurationFiles/ContainerImplementations/Ninject" />
 	</additionalAssemblyProbingPaths>
 
 	<assemblies>		
@@ -54,6 +56,7 @@
 		<assembly name="OROptimizer.Shared" alias="oroptimizer_shared" />
 		<assembly name="IoC.Configuration" alias="ioc_config" />
 		<assembly name="IoC.Configuration.Autofac" alias="autofac_ext" />
+		<assembly name="IoC.Configuration.Ninject" alias="ninject_ext" />
 		<assembly name="MauiDemo" alias="win_ui3_demo" />
 		<assembly name="MauiDemo.Interfaces" alias="win_ui3_demo_interfaces" />
 		<assembly name="MauiDemo.Extension" alias="win_ui3_demo_ext" plugin="MauiDemoExtension" />		
@@ -91,8 +94,8 @@
 	<!--The value of the type attribute should be a type that implements 
     IoC.Configuration.DiContainer.IDiManager-->
 	<diManagers activeDiManagerName="Autofac">
-		<!--<diManager name="Ninject" type="IoC.Configuration.Ninject.NinjectDiManager">			
-		</diManager>-->
+		<diManager name="Ninject" type="IoC.Configuration.Ninject.NinjectDiManager">			
+		</diManager>
 
 		<diManager name="Autofac" type="IoC.Configuration.Autofac.AutofacDiManager">
 		</diManager>
