@@ -47,7 +47,6 @@ namespace IoC.Configuration.Autofac
 
             if (autofacDiContainer == null)
                 throw new ArgumentException($"Invalid value of parameter '{nameof(diContainer)}' in '{GetType().FullName}.{nameof(BuildServiceProvider)}(...)'. Expected an object of type '{typeof(AutofacDiContainer).FullName}'. Actual object type is {diContainer.GetType().FullName}.");
-
            
             RegisterModules(autofacDiContainer.ContainerBuilder, modules);
         }

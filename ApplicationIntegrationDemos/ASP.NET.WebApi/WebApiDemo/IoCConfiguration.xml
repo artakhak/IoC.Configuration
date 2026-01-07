@@ -44,6 +44,8 @@
 			path="IoCConfigurationFiles/ThirdPartyLibs" />
 		<probingPath
 			path="IoCConfigurationFiles/ContainerImplementations/Autofac" />
+		<probingPath
+			path="IoCConfigurationFiles/ContainerImplementations/Ninject" />
 	</additionalAssemblyProbingPaths>
 
 	<assemblies>
@@ -54,6 +56,7 @@
 		<assembly name="OROptimizer.Shared" alias="oroptimizer_shared" />
 		<assembly name="IoC.Configuration" alias="ioc_config" />
 		<assembly name="IoC.Configuration.Autofac" alias="autofac_ext" />
+		<assembly name="IoC.Configuration.Ninject" alias="ninject_ext" />
 		<assembly name="WebApiDemo" alias="web_api_demo" />
 		<assembly name="WebApiDemo.DynamicallyLoadedControllers" alias="web_api_demo_dynamic_1" />
 		<assembly name="WebApiDemo.Extension" alias="web_api_demo_ext" plugin="WebApiDemoExtension" />		
@@ -90,9 +93,9 @@
 
 	<!--The value of the type attribute should be a type that implements 
     IoC.Configuration.DiContainer.IDiManager-->
-	<diManagers activeDiManagerName="Autofac">
-		<!--<diManager name="Ninject" type="IoC.Configuration.Ninject.NinjectDiManager">			
-		</diManager>-->
+	<diManagers activeDiManagerName="Ninject">
+		<diManager name="Ninject" type="IoC.Configuration.Ninject.NinjectDiManager">			
+		</diManager>
 
 		<diManager name="Autofac" type="IoC.Configuration.Autofac.AutofacDiManager">
 		</diManager>

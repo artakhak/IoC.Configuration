@@ -51,7 +51,23 @@ namespace IoC.Configuration.Ninject
 
         public void BuildServiceProvider(IEnumerable<object> modules, IApplicationHostBuilder hostBuilder, Action<IDiContainer> diContainerCreated = null, Action<IServiceProvider> serviceProviderCreated = null)
         {
-            throw new NotImplementedException();
+            var iocNinjectServiceProviderFactory = new IoCNinjectServiceProviderFactory();
+
+            iocNinjectServiceProviderFactory.OnServiceProviderCreated += (sender, e) =>
+            {
+                serviceProviderCreated?.Invoke(e);
+            };
+
+            iocNinjectServiceProviderFactory.OnContainerBuilderCreated += (sender, e) =>
+            {
+                diContainerCreated?.Invoke(new NinjectDiContainer(e));
+            };
+
+            hostBuilder.UseServiceProviderFactory(iocNinjectServiceProviderFactory);
+            hostBuilder.ConfigureContainer<IKernel>((context, kernel) =>
+            {
+                LoadModules(kernel, modules);
+            });
         }
 
         public IDiContainer CreateDiContainer()

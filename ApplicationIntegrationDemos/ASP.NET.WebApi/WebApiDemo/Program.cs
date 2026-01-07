@@ -56,7 +56,7 @@ static (WebApplication webApplication, IContainerInfo containerInfo) CreateConta
         .WithoutPresetDiContainer()
         // Add additional modules using AddAdditionalDiModules() one or multiple times as necessary
         // to register modules in addition to DI specified in "IoCConfiguration.xml"
-        // If method is not called, only the 
+        // If the method is not called, only the 
         //.AddAdditionalDiModules(new MyModule())
 
         // Use WithHostBuilder(hostBuilder) to make sure IoC.Configuration will register DI with the host builder
