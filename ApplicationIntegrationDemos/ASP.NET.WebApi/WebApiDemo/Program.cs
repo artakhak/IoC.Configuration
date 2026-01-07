@@ -1,6 +1,6 @@
 using IoC.Configuration;
 using IoC.Configuration.AspNet;
-
+using IoC.Configuration.AspNet.HostBuilder;
 using IoC.Configuration.DiContainerBuilder;
 using IoC.Configuration.DiContainerBuilder.FileBased;
 using OROptimizer;
@@ -62,8 +62,6 @@ static (WebApplication webApplication, IContainerInfo containerInfo) CreateConta
         // Use WithHostBuilder(hostBuilder) to make sure IoC.Configuration will register DI with the host builder
         // Do not call hostBuilder.Build() since this will be done by IoC.Configuration.
         .WithHostBuilder(new WebApplicationHostBuilder(webApplicationBuilder))
-
-        // TODO: Call addWebApiServices() before the application is built.
         .RegisterServiceProviderAndBuildApp(() =>
         {
             addWebApiServices(webApplicationBuilder.Services);

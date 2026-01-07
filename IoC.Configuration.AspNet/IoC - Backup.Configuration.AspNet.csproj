@@ -18,13 +18,12 @@
 			Look at http://iocconfiguration.readthedocs.io/
 		</Description>
 		<Copyright>Copyright 2025 (c) OROptimizer. All rights reserved.</Copyright>
-		<PackageTags>IoC Configuration dependencyinjection ASP.NET inversion of control autofac ninject xml</PackageTags>
+		<PackageTags>IoC Configuration dependencyinjection inversion of control autofac ninject xml Ninject</PackageTags>
 		<PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
 		
 		<PackageReleaseNotes>
-			- Added helper methods to register REST API controllers specified in IoC.Configuration file.
-			- Added an implementation of IoC.Configuration.DiContainerBuilder.IApplicationHostBuilder&lt;IHost&gt; for ASP.NET application.
+			Added helper methods to register REST API controllers specified in IoC.Configuration file.
 		</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
@@ -46,6 +45,10 @@
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="NewFolder\" />
 	</ItemGroup>
 
 </Project>

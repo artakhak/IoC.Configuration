@@ -72,6 +72,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\..\..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
+        <ProjectReference Include="..\..\..\IoC.Configuration.Maui\IoC.Configuration.Maui.csproj" />
         <ProjectReference Include="..\..\..\IoC.Configuration\IoC.Configuration.csproj" />
 
         <ProjectReference Include="..\MauiDemo.Interfaces\MauiDemo.Interfaces.csproj" />

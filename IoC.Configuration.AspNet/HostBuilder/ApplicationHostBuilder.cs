@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace IoC.Configuration.AspNet;
+namespace IoC.Configuration.AspNet.HostBuilder;
 
 public class WebApplicationHostBuilder : IApplicationHostBuilder<WebApplication>
 {
