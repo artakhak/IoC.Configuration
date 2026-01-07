@@ -96,15 +96,27 @@ namespace IoC.Configuration.Ninject
                                      serviceType.GetGenericTypeDefinition() == typeof(IList<>) ||
                                      serviceType.GetGenericTypeDefinition() == typeof(ICollection<>));
 
-                if (isCollection || serviceType.IsArray || _kernel.GetBindings(serviceType).Any())
+                if (isCollection || serviceType.IsArray)
                 {
-                    // Ninject's Get() will return the instance for explicit bindings,
-                    // or an empty collection for the collection types above.
                     return _kernel.Get(serviceType);
                 }
 
-                // Return null for unregistered single types to allow Host fallbacks
-                // and prevent the IExternalScopeProvider activation crash.
+                var bindings = _kernel.GetBindings(serviceType).ToList();
+                if (bindings.Any())
+                {
+                    // FIX: If there are multiple bindings, .NET expects the LAST one registered
+                    // to be returned for a single resolution request. Ninject's Get() throws
+                    // an ActivationException if more than one binding exists.
+                    if (bindings.Count > 1)
+                    {
+                        // Resolve all and take the last one to match .NET Provider behavior.
+                        return _kernel.GetAll(serviceType).LastOrDefault();
+                    }
+
+                    return _kernel.Get(serviceType);
+                }
+
+                // Return null for unregistered single types to allow Host fallbacks.
                 return null;
             }
 
