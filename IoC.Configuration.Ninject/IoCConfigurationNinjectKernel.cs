@@ -30,6 +30,8 @@ using Ninject.Activation;
 using Ninject.Infrastructure.Introspection;
 using Ninject.Modules;
 using Ninject.Planning.Bindings;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace IoC.Configuration.Ninject
 {

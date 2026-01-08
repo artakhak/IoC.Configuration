@@ -31,7 +31,7 @@ namespace IoC.Configuration.Ninject
             // Explicitly register IServiceScopeFactory. Ninject needs this to support 
             // the .NET scope infrastructure used by Swagger and Web API.
             kernel.Bind<IServiceScopeFactory>().ToMethod(ctx => new NinjectServiceScopeFactory(kernel)).InSingletonScope();
-
+            
             foreach (var descriptor in services)
             {
                 if (descriptor.ImplementationType != null)
@@ -89,8 +89,7 @@ namespace IoC.Configuration.Ninject
 
             public object GetService(Type serviceType)
             {
-                // .NET expectation: IEnumerable<T> should always return an instance (even if empty),
-                // while single services should return null if not registered.
+                // .NET expectation: IEnumerable<T> should always return an instance (even if empty).
                 bool isCollection = serviceType.IsGenericType && 
                                     (serviceType.GetGenericTypeDefinition() == typeof(IEnumerable<>) ||
                                      serviceType.GetGenericTypeDefinition() == typeof(IList<>) ||
@@ -98,25 +97,29 @@ namespace IoC.Configuration.Ninject
 
                 if (isCollection || serviceType.IsArray)
                 {
+                    // Ninject handles collection types by returning an empty list if no bindings exist.
                     return _kernel.Get(serviceType);
                 }
 
+                // IMPORTANT: For interfaces, we MUST check if a binding exists.
+                // If no binding exists for an interface, returning null allows Microsoft's 
+                // internal factories (like LoggerFactory) to use their own fallbacks.
+                // This prevents the 'IServiceProviderIsService' and 'IExternalScopeProvider' activation crashes.
                 var bindings = _kernel.GetBindings(serviceType).ToList();
+                
                 if (bindings.Any())
                 {
-                    // FIX: If there are multiple bindings, .NET expects the LAST one registered
-                    // to be returned for a single resolution request. Ninject's Get() throws
-                    // an ActivationException if more than one binding exists.
+                    // If multiple bindings exist, .NET expects the LAST one.
                     if (bindings.Count > 1)
                     {
-                        // Resolve all and take the last one to match .NET Provider behavior.
                         return _kernel.GetAll(serviceType).LastOrDefault();
                     }
 
                     return _kernel.Get(serviceType);
                 }
 
-                // Return null for unregistered single types to allow Host fallbacks.
+                // If it's a concrete class and not an interface, Ninject might be able 
+                // to self-bind it. But for safety with Hosting, we return null for interfaces.
                 return null;
             }
 
@@ -125,6 +128,8 @@ namespace IoC.Configuration.Ninject
                 var service = GetService(serviceType);
                 if (service != null) return service;
 
+                // If GetService returned null for a collection, it's a bug in the logic above.
+                // If it returned null for a single type, it's truly missing.
                 throw new InvalidOperationException($"No service for type '{serviceType}' has been registered.");
             }
         }
