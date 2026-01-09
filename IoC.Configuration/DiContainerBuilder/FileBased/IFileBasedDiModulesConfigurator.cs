@@ -28,10 +28,9 @@ using JetBrains.Annotations;
 
 namespace IoC.Configuration.DiContainerBuilder.FileBased
 {
-    public interface IFileBasedDiModulesConfigurator : IRegisterModulesWithDiManagerForFileBasedConfiguration
+    public interface IFileBasedDiModulesConfigurator : 
+        IRegisterModulesWithDiManagerForFileBasedConfiguration, IIntegratesWithHostBuilder
     {
-        #region Current Type Interface
-
         /// <summary>
         ///     Adds the additional <see cref="IDiModule" /> modules to be loaded into a container.
         /// </summary>
@@ -47,7 +46,5 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         /// <returns>Returns an instance of <see cref="IFileBasedDiModulesConfigurator" /></returns>
         [NotNull]
         IFileBasedDiModulesConfigurator AddNativeModules([NotNull] [ItemNotNull] params object[] nativeModules);
-
-        #endregion
     }
 }

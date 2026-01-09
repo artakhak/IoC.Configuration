@@ -27,14 +27,10 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 {
     public interface IFileBasedContainerStarter
     {
-        #region Current Type Interface
-
         /// <summary>
         ///     Loads the DI container from the configuration file.
         /// </summary>
         /// <returns>Returns an instance of <see cref="IContainerInfo" />.</returns>
         IContainerInfo Start();
-
-        #endregion
     }
 }

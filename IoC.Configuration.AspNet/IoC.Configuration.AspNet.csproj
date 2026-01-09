@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>IoC.Configuration.AspNet</RootNamespace>
+		<AssemblyName>IoC.Configuration.AspNet</AssemblyName>
+		<PackageVersion>1.0.0</PackageVersion>
+		<Version>1.0.0</Version>
+		<EnableDefaultItems>true</EnableDefaultItems>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+		<Authors>Artak Hakobyan</Authors>
+		<Company>OROptimizer</Company>
+		<Description>
+			An IoC.Configuration extension library with ASP.NET integration helper methods.
+			Detailed documentation on IoC.Configuration is available at http://iocconfiguration.readthedocs.io/
+			Look at http://iocconfiguration.readthedocs.io/
+		</Description>
+		<Copyright>Copyright 2025 (c) OROptimizer. All rights reserved.</Copyright>
+		<PackageTags>IoC Configuration dependencyinjection ASP.NET inversion of control autofac ninject xml</PackageTags>
+		<PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
+		
+		<PackageReleaseNotes>
+			- Added helper methods to register REST API controllers specified in IoC.Configuration file.
+			- Added an implementation of IoC.Configuration.DiContainerBuilder.IApplicationHostBuilder&lt;IHost&gt; for ASP.NET application.
+		</PackageReleaseNotes>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Title>IoC.Configuration.AspNet</Title>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<None Include="..\IoC.Configuration.licenseheader" Link="IoC.Configuration.licenseheader" />
+		<None Include="README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+</Project>

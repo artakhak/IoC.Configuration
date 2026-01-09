@@ -233,7 +233,7 @@ namespace IoC.Configuration.Tests.DiContainerBuilderTests
                                        ConfigurationFileXmlDocumentLoadedEventHandler(diImplementationType, e);
                                    },
                                    AttributeValueTransformers = new[] { new FileFolderPathAttributeValueTransformer() }
-                               }, out _)
+                               })
                            .WithDiContainer(diContainer)
                            .AddAdditionalDiModules(new DiModule1())
                            .AddNativeModules(CreateNativeModule(diImplementationType))
@@ -270,7 +270,7 @@ namespace IoC.Configuration.Tests.DiContainerBuilderTests
                                        Helpers.EnsureConfigurationDirectoryExistsOrThrow(e.XmlDocument.SelectElement("/iocConfiguration/appDataDir").GetAttribute("path"));
                                        ConfigurationFileXmlDocumentLoadedEventHandler(diImplementationType, e);
                                    }
-                               }, out _)
+                               })
                                .WithoutPresetDiContainer()
                                .AddAdditionalDiModules(new DiModule1())
                                .AddNativeModules(CreateNativeModule(diImplementationType))

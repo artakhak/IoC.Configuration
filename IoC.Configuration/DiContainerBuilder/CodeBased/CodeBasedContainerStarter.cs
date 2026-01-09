@@ -29,8 +29,6 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
 {
     public class CodeBasedContainerStarter : CodeBasedConfiguratorAbstr, ICodeBasedContainerStarter
     {
-        #region  Constructors
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="CodeBasedContainerStarter" /> class.
         /// </summary>
@@ -39,19 +37,13 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         {
         }
 
-        #endregion
-
-        #region ICodeBasedContainerStarter Interface Implementation
-
         /// <summary>
         ///     Loads the DI container.
         /// </summary>
         /// <returns>Returns an instance of <see cref="IContainerInfo" />.</returns>
         public IContainerInfo Start()
         {
-            return _codeBasedConfiguration.StartContainer();
+            return CodeBasedConfiguration.StartContainer();
         }
-
-        #endregion
     }
 }

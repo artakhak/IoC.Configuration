@@ -29,24 +29,16 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
 {
     public abstract class CodeBasedConfiguratorAbstr
     {
-        #region Member Variables
-
-        [NotNull]
-        protected readonly CodeBasedConfiguration _codeBasedConfiguration;
-
-        #endregion
-
-        #region  Constructors
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="CodeBasedConfiguratorAbstr" /> class.
         /// </summary>
         /// <param name="codeBasedConfiguration">The code based configuration.</param>
-        public CodeBasedConfiguratorAbstr([NotNull] CodeBasedConfiguration codeBasedConfiguration)
+        protected CodeBasedConfiguratorAbstr([NotNull] CodeBasedConfiguration codeBasedConfiguration)
         {
-            _codeBasedConfiguration = codeBasedConfiguration;
+            CodeBasedConfiguration = codeBasedConfiguration;
         }
 
-        #endregion
+        [NotNull]
+        protected readonly CodeBasedConfiguration CodeBasedConfiguration;
     }
 }

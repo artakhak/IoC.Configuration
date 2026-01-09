@@ -35,7 +35,7 @@ public class FileBasedConfigurationParameters_AdditionalReferencedAssemblies
         };
         
         var containerInfo = new DiContainerBuilder.DiContainerBuilder()
-            .StartFileBasedDi(fileBasedConfigurationParameters, out _)
+            .StartFileBasedDi(fileBasedConfigurationParameters)
             .WithoutPresetDiContainer()
             .RegisterModules().Start();
 

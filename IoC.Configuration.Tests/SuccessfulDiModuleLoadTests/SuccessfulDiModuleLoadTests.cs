@@ -114,7 +114,7 @@ namespace IoC.Configuration.Tests.SuccessfulDiModuleLoadTests
                             Helpers.EnsureConfigurationDirectoryExistsOrThrow(e.XmlDocument.SelectElement("/iocConfiguration/appDataDir").GetAttribute("path"));
                             Helpers.ReplaceActiveDiManagerInConfigurationFile(e.XmlDocument, diImplementationType);
                         }
-                    }, out _)
+                    })
                     .WithoutPresetDiContainer()
                     .AddAdditionalDiModules(new TestModule2())
                     .RegisterModules()

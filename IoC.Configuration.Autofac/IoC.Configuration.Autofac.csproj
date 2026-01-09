@@ -9,13 +9,11 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<RootNamespace>IoC.Configuration.Autofac</RootNamespace>
 		<AssemblyName>IoC.Configuration.Autofac</AssemblyName>
-		<EnableDefaultItems>false</EnableDefaultItems>
+		<EnableDefaultItems>true</EnableDefaultItems>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-	</PropertyGroup>
-	<PropertyGroup>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<PackageVersion>2.1.0</PackageVersion>
-		<Version>2.1.0</Version>
+		<PackageVersion>2.2.0</PackageVersion>
+		<Version>2.2.0</Version>
 		<Company>OROptimizer</Company>
 		<Authors>Artak Hakobyan</Authors>
 		<Description>
@@ -28,11 +26,12 @@
 		<PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
 		<PackageReleaseNotes>
-			-Changed the dependency versions for OROptimizer.Shared and IoC.Configuration to latest versions of these packages.
-			-Moved to more recent Autofac library version 8.0.0
+			- Added implementation for IoC.Configuration.DiContainer.IDiManager.BuildServiceProvider(...,IApplicationHostBuilder hostBuilder,...)
+				to support application integration. More specifically, integration with applications like ASP.NET. WinUI 3, MAUI, etc.,
+				by replacing the application native container with IoC.Configuration container.
 		</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<Title>IoC.Configuration.Autofac</Title>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<RepositoryType>git</RepositoryType>
@@ -44,12 +43,6 @@
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<WarningLevel>3</WarningLevel>
 	</PropertyGroup>
-	<ItemGroup>
-		<Compile Include="AutofacDiContainer.cs" />
-		<Compile Include="AutofacDiManager.cs" />
-		<Compile Include="AutofacLifeTimeScope.cs" />
-		<Compile Include="AutofacModuleWrapper.cs" />
-	</ItemGroup>
 	<ItemGroup>
 	  <Content Include="README.md" />
 	</ItemGroup>
@@ -65,14 +58,12 @@
 		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
 		<PackageReference Include="JetBrains.Annotations" Version="2020.3.0" PrivateAssets="All" ExcludeAssets="runtime" />
 		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.13.0" />
-		<PackageReference Include="OROptimizer.Shared" Version="2.2.0" />
-		<PackageReference Include="IoC.Configuration" Version="2.2.0" />
-	</ItemGroup>
-	<ItemGroup>
-		
-		<!--
-		<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+
+		<PackageReference Include="OROptimizer.Shared" Version="2.7.0" />
+		<!--<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
+
+		<!--<PackageReference Include="IoC.Configuration" Version="2.2.0" />-->
 		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
-		-->
 	</ItemGroup>
 </Project>

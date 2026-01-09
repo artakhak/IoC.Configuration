@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:MauiDemo.RandomNumber"
+             x:Class="MauiDemo.RandomNumber.RandomNumberPage"
+             Title="Random Number Generator">
+
+    <VerticalStackLayout Spacing="20" Padding="30" VerticalOptions="Center" HorizontalOptions="Center">
+        <Label Text="Random Number Generator" 
+               FontSize="24"
+               HorizontalOptions="Center" />
+        
+        <Label Text="{Binding RandomNumber}" 
+               FontSize="48" 
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
+        
+        <Button Text="Generate New Number" 
+                Clicked="OnGenerateClicked"
+                HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</ContentPage>

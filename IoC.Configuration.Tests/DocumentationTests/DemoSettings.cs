@@ -25,7 +25,7 @@ namespace IoC.Configuration.Tests.DocumentationTests
                            Helpers.TestsEntryAssemblyFolder, new LoadedAssembliesForTests())
                        {
                            AttributeValueTransformers = new[] { new FileFolderPathAttributeValueTransformer() }
-                       }, out _)
+                       })
                        .WithoutPresetDiContainer()
                        .AddAdditionalDiModules(new TestDiModule())
                        .RegisterModules()

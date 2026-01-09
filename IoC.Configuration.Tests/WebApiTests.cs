@@ -112,14 +112,16 @@ namespace IoC.Configuration.Tests
                 ConfigurationFileXmlDocumentLoaded = configurationFileXmlDocumentLoaded
             };
 
+            IConfiguration actualLoadedConfiguration = null;
             using (var containerInfo = diContainerBuilder.StartFileBasedDi(
-                                                fileBasedConfigurationParameters, out var loadedConfiguration)
+                                                fileBasedConfigurationParameters, 
+                                                loadedConfiguration => actualLoadedConfiguration = loadedConfiguration)
                                                .WithoutPresetDiContainer()
                                                //.AddAdditionalDiModules(new SuccessfulConfigurationLoadTests.SuccessfulConfigurationLoadTests.TestModule2())
                                                .RegisterModules()
                                                .Start())
             {
-                testConfiguration(containerInfo, loadedConfiguration);
+                testConfiguration(containerInfo, actualLoadedConfiguration);
             }
         }
     }

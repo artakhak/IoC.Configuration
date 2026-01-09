@@ -91,7 +91,6 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             _mainLifeTimeScopeTerminatedExecuted = false;
             var diContainerBuilder = new DiContainerBuilder.DiContainerBuilder();
 
-
             var fileBasedConfigurationParameters = new FileBasedConfigurationParameters(new FileBasedConfigurationFileContentsProvider(
                     Path.Combine(Helpers.TestsEntryAssemblyFolder, "IoCConfiguration_Overview.xml")),
                 Helpers.TestsEntryAssemblyFolder, new LoadedAssembliesForTests())
@@ -107,7 +106,7 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
             };
 
             _containerInfo = diContainerBuilder.StartFileBasedDi(
-                    fileBasedConfigurationParameters, out _)
+                    fileBasedConfigurationParameters)
                 .WithoutPresetDiContainer()
                 .AddAdditionalDiModules(new TestModule2())
                 .RegisterModules()
@@ -798,4 +797,3 @@ namespace IoC.Configuration.Tests.SuccessfulConfigurationLoadTests
         }
     }
 }
- 

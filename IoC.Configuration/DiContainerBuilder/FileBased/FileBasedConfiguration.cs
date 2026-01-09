@@ -196,7 +196,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         private void ProcessXmlElements([NotNull] XmlElement xmlElement, [NotNull] string elementPath, [NotNull] ProcessElementDelegate processElementDelegate)
         {
             processElementDelegate(xmlElement, elementPath);
-
            
             foreach (var childXmlNode in xmlElement.ChildNodes)
             {
@@ -447,12 +446,11 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
             allGeneratedModuleInfos.Add(new ModuleInfo(this, _serviceRegistrationBuilder, new DynamicallyGeneratedImplementationsModule(interfaceImplementationsInfo, GetDynamicallyGeneratedAssemblyFilePath())));
             allGeneratedModuleInfos.Add(new ModuleInfo(this, _serviceRegistrationBuilder, new DefaultModule(this)));
 
-            var diModules = additionalModules.Where(x => x is IDiModule).Select(x => (IDiModule) x);
+            var diModules = additionalModules.OfType<IDiModule>();
             allGeneratedModuleInfos.Add(new ModuleInfo(this, _serviceRegistrationBuilder, new ConcreteClassesRegistrationsModule(Configuration, diModules)));
 
-            if (additionalModules != null)
-                foreach (var module in additionalModules)
-                    allGeneratedModuleInfos.Add(new ModuleInfo(this, _serviceRegistrationBuilder, module));
+            foreach (var module in additionalModules) 
+                allGeneratedModuleInfos.Add(new ModuleInfo(this, _serviceRegistrationBuilder, module));
 
             LogHelper.Context.Log.InfoFormat("Finished generating dependency injection modules from configuration file.");
             return allGeneratedModuleInfos.Select(moduleInfo => moduleInfo.GetNativeModule());
@@ -779,10 +777,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
             [NotNull]
             [ItemNotNull]
             private readonly HashSet<Type> _registeredSelfBoundServices = new HashSet<Type>();
-
-           
-
-         
 
             public ConcreteClassesRegistrationsModule([NotNull] IConfiguration configuration, [CanBeNull] [ItemNotNull] IEnumerable<IDiModule> additionalDiModules)
             {

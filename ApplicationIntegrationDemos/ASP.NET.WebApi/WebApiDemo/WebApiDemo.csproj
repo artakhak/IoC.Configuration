@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>a80f898f-73c8-4e74-b8f7-4febdca15ad6</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="C:\Users\artak\.nuget\packages\oroptimizer.shared\2.7.0\contentFiles\any\netstandard2.0\README.md" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />    
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OROptimizer.Shared" Version="2.7.0" />
+    <!--<ProjectReference Include="..\..\..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\IoC.Configuration.AspNet\IoC.Configuration.AspNet.csproj" />
+    <ProjectReference Include="..\..\..\IoC.Configuration\IoC.Configuration.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="IoCConfiguration.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>   
+  </ItemGroup>
+
+  <!--<Target Name="CopyIoCConfigurationFiles" AfterTargets="Build">
+    <Message Text="Copying IoCConfigurationFiles to output directory..." Importance="high" />
+    --><!-- 
+      /E : Copies directories and subdirectories, including empty ones.
+      /I : If destination does not exist and copying more than one file, assumes destination must be a directory.
+      /Y : Suppresses prompting to confirm you want to overwrite an existing destination file.
+      /D : Copies files changed on or after the specified date. If no date is given, copies only those files whose source time is newer than the destination time (similar to PreserveNewest).
+    --><!--
+    <Exec Command="xcopy &quot;$(ProjectDir)IoCConfigurationFiles&quot; &quot;$(TargetDir)IoCConfigurationFiles&quot; /E /I /Y /D" />
+  </Target>-->
+
+</Project>

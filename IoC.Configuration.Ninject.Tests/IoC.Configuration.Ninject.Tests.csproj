@@ -17,10 +17,12 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="IoC.Configuration.Ninject" Version="2.2.0" />
+
+		<!--<PackageReference Include="IoC.Configuration.Ninject" Version="2.2.0" />-->
+		<ProjectReference Include="..\IoC.Configuration.Ninject\IoC.Configuration.Ninject.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<!--<ProjectReference Include="..\IoC.Configuration.Ninject\IoC.Configuration.Ninject.csproj" />-->
+		
 		<ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
 	</ItemGroup>
 </Project>

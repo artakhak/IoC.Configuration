@@ -11,3 +11,4 @@
 /IoC.Configuration/docs/_build/**
 /IoC.Configuration/docs/_static/**
 /IoC.Configuration/docs/_templates/**
+/ApplicationIntegrationDemos/ASP.NET.WebApi/WebApiDemo/IoCConfigurationFiles/**

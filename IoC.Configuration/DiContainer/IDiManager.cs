@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using IoC.Configuration.DiContainer.BindingsForConfigFile;
+using IoC.Configuration.DiContainerBuilder;
 using JetBrains.Annotations;
 using OROptimizer.DynamicCode;
 using OROptimizer.ServiceResolver;
@@ -34,16 +35,30 @@ namespace IoC.Configuration.DiContainer
 {
     public interface IDiManager
     {
-        #region Current Type Interface
-
         /// <summary>
-        ///     This method registers modules with service provider.
+        ///     This method registers modules with the service provider.
         /// </summary>
         /// <param name="diContainer">The DI container.</param>
         /// <param name="modules">The modules to register.</param>
-        /// <exception cref="Exception"></exception>
+        /// <exception cref="Exception">Throws this exception.</exception>
         void BuildServiceProvider([NotNull] IDiContainer diContainer, [NotNull] [ItemNotNull] IEnumerable<object> modules);
 
+        /// <summary>
+        /// This method builds the service provider by utilizing the specified modules and host builder.
+        /// </summary>
+        /// <param name="modules">The collection of modules to register.</param>
+        /// <param name="hostBuilder">The application host builder used to configure the container.</param>
+        /// <param name="diContainerCreated">
+        /// Optional action that is executed when the DI container is created.
+        /// </param>
+        /// <param name="serviceProviderCreated">
+        /// Optional action that is executed after the service provider is created.
+        /// </param>
+        /// <exception cref="Exception">Throws this exception.</exception>
+        void BuildServiceProvider([NotNull][ItemNotNull] IEnumerable<object> modules, 
+            [NotNull] IApplicationHostBuilder hostBuilder,
+            [CanBeNull] Action<IDiContainer> diContainerCreated = null, [CanBeNull] Action<IServiceProvider> serviceProviderCreated = null);
+       
         /// <summary>
         ///     Creates a native container object of type <see cref="IDiContainer" />. The object can be used to pass as a
         ///     parameter in class constructors, however it might not be in a state to be used to resolve services.
@@ -55,12 +70,12 @@ namespace IoC.Configuration.DiContainer
         IDiContainer CreateDiContainer();
 
         /// <summary>
-        ///     DI container name, such as Autofac or Nnject.
+        ///     DI container name, such as Autofac or Ninject.
         /// </summary>
         string DiContainerName { get; }
 
         /// <summary>
-        ///     Generates a C# file contents for a native module, such as Autofac or Ninject module.
+        ///     Generates a C# file content for a native module, such as Autofac or Ninject module.
         ///     The generated class should have a parameterless constructor. If the generated module class has a public
         ///     method <see cref="HelpersIoC.OnDiContainerReadyMethodName" />(IoC.Configuration.DiContainer.IDiContainer
         ///     diContainer),
@@ -78,8 +93,8 @@ namespace IoC.Configuration.DiContainer
         ///     Collection of all binding configurations for services to use when
         ///     building the module.
         /// </param>
-        /// <returns>Returns a C# file contents for a native module, such as Autofac or Ninject module.</returns>
-        /// <exception cref="Exception">Throw this exception if module fails to get generated.</exception>
+        /// <returns>Returns a C# file content for a native module, such as Autofac or Ninject module.</returns>
+        /// <exception cref="Exception">Throw this exception if the module fails to get generated.</exception>
         [NotNull]
         string GenerateModuleClassCode([NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder,
                                        [NotNull] IAssemblyLocator assemblyLocator,
@@ -91,20 +106,20 @@ namespace IoC.Configuration.DiContainer
         ///     a native module of some DI container, such as Autofac or Ninject module.
         /// </summary>
         /// <param name="module"></param>
-        /// <returns>Returns a native DI module such an Autofac Module class object.</returns>
+        /// <returns>Returns a native DI module such as an Autofac Module class object.</returns>
         object GenerateNativeModule([NotNull] IDiModule module);
 
 
         /// <summary>
-        ///     Returns a module object, such as Autofac or Ninjectmodule, which sets all the requierd binding.
-        ///     For example this module can add binding for <see cref="IDiContainer" /> among other things.
+        ///     Returns a module object, such as Autofac or Ninject module, which sets all the required binding.
+        ///     For example, this module can add binding for <see cref="IDiContainer" /> among other things.
         /// </summary>
         /// <returns></returns>
         [CanBeNull]
         object GetRequiredBindingsModule();
 
         /// <summary>
-        ///     For example for Autofac based implementation of <see cref="ModuleType" /> will return type of Autofac.Module.
+        ///     For example, for Autofac based implementation of <see cref="ModuleType" /> will return a type of Autofac.Module.
         /// </summary>
         Type ModuleType { get; }
 
@@ -114,7 +129,5 @@ namespace IoC.Configuration.DiContainer
         /// </summary>
         /// <param name="diContainer">Dependency injection container to start.</param>
         void StartServiceProvider([NotNull] IDiContainer diContainer);
-
-        #endregion
     }
 }

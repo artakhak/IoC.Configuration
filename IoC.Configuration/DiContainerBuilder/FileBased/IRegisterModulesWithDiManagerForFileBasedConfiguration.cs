@@ -27,14 +27,11 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 {
     public interface IRegisterModulesWithDiManagerForFileBasedConfiguration
     {
-        #region Current Type Interface
-
+        
         /// <summary>
         ///     Registers the modules.
         /// </summary>
-        /// <returns>returns an instance of <see cref="IFileBasedContainerStarter" />.</returns>
+        /// <returns>Returns an instance of <see cref="IFileBasedContainerStarter" />.</returns>
         IFileBasedContainerStarter RegisterModules();
-
-        #endregion
     }
 }

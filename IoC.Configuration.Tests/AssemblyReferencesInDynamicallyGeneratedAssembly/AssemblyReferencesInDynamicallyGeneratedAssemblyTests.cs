@@ -142,7 +142,7 @@ public abstract class AssemblyReferencesInDynamicallyGeneratedAssemblyTests
         };
 
         var ioCConfigurator = new DiContainerBuilder.DiContainerBuilder()
-            .StartFileBasedDi(fileBasedConfigurationParameters, out _)
+            .StartFileBasedDi(fileBasedConfigurationParameters)
             .WithoutPresetDiContainer()
             .RegisterModules().Start();
 

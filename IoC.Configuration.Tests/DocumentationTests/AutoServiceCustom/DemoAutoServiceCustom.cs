@@ -41,7 +41,7 @@ public class DemoAutoServiceCustom
         };
         
         _containerInfo = new DiContainerBuilder.DiContainerBuilder()
-            .StartFileBasedDi(fileBasedConfigurationParameters, out _)
+            .StartFileBasedDi(fileBasedConfigurationParameters)
             .WithoutPresetDiContainer()
             .RegisterModules().Start();
     }

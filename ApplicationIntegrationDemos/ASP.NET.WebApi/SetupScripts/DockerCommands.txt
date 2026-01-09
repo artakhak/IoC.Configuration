@@ -1,0 +1,29 @@
+Docker image/container is built and executed by Visual Studio, so these commands are not necessary. 
+However they can be used to test docker in non-debug mode
+
+
+- Building the docker image for a service:
+
+    1. **Build Context**: When building this image, you should run the `docker build` command from the **root directory** of your solution 
+    (where the, `Libraries`, and `Extensions` folders are located).
+    
+    k:
+    cd K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration
+    docker build --build-arg BUILD_CONFIGURATION=Debug -t web-api-demo -f ApplicationIntegrationDemos/ASP.NET.WebApi/WebApiDemo/Dockerfile .
+    
+- Running the docker image:
+    docker run -it -p 8080:8080 -p 8081:8081 --name web-api-demo-container web-api-demo
+ 
+    Breakdown of the command:
+        -it: Runs the container in interactive mode with a terminal (useful for seeing logs immediately).
+        --rm: Automatically removes the container when you stop it (keeps your environment clean).
+        -p 8080:8080 -p 8081:8081: Maps the ports exposed in your Dockerfile to your local machine. You can then access the API at http://localhost:8080.
+        --name web-api-demo-container: Gives a friendly name to your running container.
+        web-api-demo: The name (tag) of the image you built.
+        
+- Accessing Swagger
+    Once the container is running, if you want to access the Swagger UI, it is typically available at: http://localhost:8080/swagger/index.html
+    (Note: Ensure your appsettings.json or Program.cs doesn't restrict Swagger to only the Development environment if you didn't pass ASPNETCORE_ENVIRONMENT=Development to the run command).
+    If you do want to run it in the Development environment to ensure Swagger is active:
+    
+    docker run -it --rm -p 8080:8080 -e ASPNETCORE_ENVIRONMENT=Development --name web-api-demo-container web-api-demo

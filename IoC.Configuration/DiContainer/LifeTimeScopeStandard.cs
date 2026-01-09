@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright ï¿½ 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -34,7 +34,7 @@ namespace IoC.Configuration.DiContainer
         #region ILifeTimeScope Interface Implementation
 
         /// <summary>
-        ///     Occurs when current life time scope is terminated. Example of using this event is as follows:
+        ///     Occurs when current lifetime scope is terminated. Example of using this event is as follows:
         ///     <see cref="T:IoC.Configuration.DiContainer.IDiContainer" /> diContainer;
         ///     diContainer.MainLifeTimeScope.LifeTimeScopeTerminated += (sender, e) =&gt; { // do something. }
         /// </summary>

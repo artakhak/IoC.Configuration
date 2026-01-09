@@ -73,7 +73,7 @@ namespace IoC.Configuration.Tests.DocumentationTests
                                        .First()
                                        .SetAttributeValue("activeDiManagerName", "Autofac");
                                }
-                           }, out _)
+                           })
 
                        // Note, most of the time we will need to call method WithoutPresetDiContainer().
                        // However, in some cases, we might need to create an instance of IoC.Configuration.DiContainer.IDiContainer,

@@ -39,10 +39,10 @@ namespace IoC.Configuration.DiContainer
         #region Current Type Interface
 
         /// <summary>
-        ///     Gets the current life time scope.
+        ///     Gets the current lifetime scope.
         /// </summary>
         /// <value>
-        ///     The current life time scope.
+        ///     The current lifetime scope.
         ///     Note, the methods <see cref="IServiceResolver.Resolve(Type)"/> and <see cref="IServiceResolver.Resolve{T}"/> use this
         ///     scope to resolve services.
         /// </value>
@@ -50,10 +50,10 @@ namespace IoC.Configuration.DiContainer
         ILifeTimeScope CurrentLifeTimeScope { get; }
 
         /// <summary>
-        ///     Gets the main life time scope.
+        ///     Gets the main lifetime scope.
         /// </summary>
         /// <value>
-        ///     The main life time scope.
+        ///     The main lifetime scope.
         /// </value>
         [CanBeNull]
         ILifeTimeScope MainLifeTimeScope { get; }
@@ -87,14 +87,14 @@ namespace IoC.Configuration.DiContainer
         object Resolve(Type type, ILifeTimeScope lifeTimeScope);
 
         /// <summary>
-        ///     Starts a new life time scope.
+        ///     Starts a new lifetime scope.
         /// </summary>
         /// <returns></returns>
         [NotNull]
         ILifeTimeScope StartLifeTimeScope();
 
         /// <summary>
-        ///     Starts a new life time scope and assigns it to <see cref="MainLifeTimeScope" />.
+        ///     Starts a new lifetime scope and assigns it to <see cref="MainLifeTimeScope" />.
         /// </summary>
         void StartMainLifeTimeScope();
 

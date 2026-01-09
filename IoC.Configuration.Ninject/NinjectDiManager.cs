@@ -25,6 +25,7 @@
 
 using IoC.Configuration.DiContainer;
 using IoC.Configuration.DiContainer.BindingsForConfigFile;
+using IoC.Configuration.DiContainerBuilder;
 using JetBrains.Annotations;
 using Ninject;
 using Ninject.Modules;
@@ -39,12 +40,38 @@ namespace IoC.Configuration.Ninject
 {
     public class NinjectDiManager : IDiManager
     {
-        #region IDiManager Interface Implementation
 
         public void BuildServiceProvider(IDiContainer diContainer, IEnumerable<object> modules)
         {
             var ninjectContainer = ConvertToNinjectContainer(diContainer);
             LoadModules(ninjectContainer.Kernel, modules);
+        }
+
+        // Attempted to implement IServiceProviderFactory<IKernel> in IoC.Configuration.Ninject.
+        // Decided not support application integration (e.g., DI replacement of ASP.NET, MAUI, WinUI3 DI containers by IoC.Configuration DI container) for now.
+        // Might be supported later (probably when Ninject libraries implement Microsoft.Extensions.DependencyInjection.IServiceProviderFactory<TContainerBuilder>
+        // Keeping this code, which was not properly tested in case I decide to support application integration 
+        /// <inheritdoc />
+        public void BuildServiceProvider(IEnumerable<object> modules, IApplicationHostBuilder hostBuilder, Action<IDiContainer> diContainerCreated = null, Action<IServiceProvider> serviceProviderCreated = null)
+        {
+            throw new NotImplementedException("Application integration (e.g., DI replacement of ASP.NET, MAUI, WinUI3 DI containers by IoC.Configuration DI container) is not yet supported for Ninject.");
+            //var iocNinjectServiceProviderFactory = new IoCNinjectServiceProviderFactory();
+
+            //iocNinjectServiceProviderFactory.OnServiceProviderCreated += (sender, e) =>
+            //{
+            //    serviceProviderCreated?.Invoke(e);
+            //};
+
+            //iocNinjectServiceProviderFactory.OnContainerBuilderCreated += (sender, e) =>
+            //{
+            //    diContainerCreated?.Invoke(new NinjectDiContainer(e));
+            //};
+
+            //hostBuilder.UseServiceProviderFactory(iocNinjectServiceProviderFactory);
+            //hostBuilder.ConfigureContainer<IKernel>((context, kernel) =>
+            //{
+            //    LoadModules(kernel, modules);
+            //});
         }
 
         public IDiContainer CreateDiContainer()
@@ -104,11 +131,7 @@ namespace IoC.Configuration.Ninject
         {
             // Do nothing. Already started.
         }
-
-        #endregion
-
-        #region Member Functions
-
+        
         private void AddServiceBindings([NotNull] StringBuilder moduleClassContents, [NotNull] BindingConfigurationForFile serviceElement, [NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder)
         {
             if (serviceElement.RegisterIfNotRegistered)
@@ -257,7 +280,5 @@ namespace IoC.Configuration.Ninject
             if (ninjectModulesList.Count > 0)
                 kernel.Load(ninjectModulesList);
         }
-
-        #endregion
     }
 }

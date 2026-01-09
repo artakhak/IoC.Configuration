@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright ï¿½ 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -35,30 +35,20 @@ namespace IoC.Configuration.ConfigurationFile
 {
     public class DeserializedFromStringValueInitializerHelper : IDeserializedFromStringValueInitializerHelper
     {
-        #region Member Variables
-
         [NotNull]
         private readonly ITypeBasedSimpleSerializerAggregator _typeBasedSimpleSerializerAggregator;
-
-        #endregion
-
-        #region  Constructors
 
         public DeserializedFromStringValueInitializerHelper([NotNull] ITypeBasedSimpleSerializerAggregator typeBasedSimpleSerializerAggregator)
         {
             _typeBasedSimpleSerializerAggregator = typeBasedSimpleSerializerAggregator;
         }
 
-        #endregion
-
-        #region IDeserializedFromStringValueInitializerHelper Interface Implementation
-
         public string GenerateValueCSharp(IConfigurationFileElement requestingConfigurationFileElement, ITypeInfo valueTypeInfo, string valueAsString, IDynamicAssemblyBuilder dynamicAssemblyBuilder)
         {
             var deserializer = _typeBasedSimpleSerializerAggregator.GetSerializerForType(valueTypeInfo.Type);
 
-            if (deserializer is IValueToCSharpCodeConverter valueToCSharpCodeConverter && deserializer.TryDeserialize(valueAsString, out var deserializedvalue))
-                return valueToCSharpCodeConverter.GenerateCSharpCode(deserializedvalue);
+            if (deserializer is IValueToCSharpCodeConverter valueToCSharpCodeConverter && deserializer.TryDeserialize(valueAsString, out var deserializedValue))
+                return valueToCSharpCodeConverter.GenerateCSharpCode(deserializedValue);
 
 #pragma warning disable CS0612, CS0618
             return $"{typeof(DiContainerBuilderConfiguration).FullName}.{nameof(DiContainerBuilderConfiguration.SerializerAggregatorStatic)}.{nameof(DiContainerBuilderConfiguration.SerializerAggregatorStatic.Deserialize)}<{valueTypeInfo.TypeCSharpFullName}>(@\"{valueAsString}\")";
@@ -106,29 +96,15 @@ namespace IoC.Configuration.ConfigurationFile
             return deserializedValue;
         }
 
-        #endregion
-
-        #region Nested Types
-
         private class ConvertCSharpStringToValueTypeInfo
         {
-            #region  Constructors
-
             public ConvertCSharpStringToValueTypeInfo([CanBeNull] Type convertCSharpStringToValueType)
             {
                 ConvertCSharpStringToValueType = convertCSharpStringToValueType;
             }
 
-            #endregion
-
-            #region Member Functions
-
             [CanBeNull]
             public Type ConvertCSharpStringToValueType { get; }
-
-            #endregion
         }
-
-        #endregion
     }
 }

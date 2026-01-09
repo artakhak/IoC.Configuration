@@ -34,25 +34,15 @@ namespace IoC.Configuration.DiContainerBuilder
     /// <seealso cref="IoC.Configuration.DiContainerBuilder.IContainerInfo" />
     public class ContainerInfo : IContainerInfo
     {
-        #region Member Variables
-
         [NotNull]
         private readonly DiContainerBuilderConfiguration _diContainerBuilderConfiguration;
-
-        #endregion
-
-        #region  Constructors
 
         public ContainerInfo([NotNull] DiContainerBuilderConfiguration diContainerBuilderConfiguration)
         {
             _diContainerBuilderConfiguration = diContainerBuilderConfiguration;
             DiContainer = _diContainerBuilderConfiguration.DiContainer;
         }
-
-        #endregion
-
-        #region IContainerInfo Interface Implementation
-
+        
         /// <summary>
         ///     An instance of <see cref="T:IoC.Configuration.DiContainer.IDiContainer" /> for the loaded container.
         /// </summary>
@@ -68,7 +58,5 @@ namespace IoC.Configuration.DiContainerBuilder
         {
             _diContainerBuilderConfiguration.Dispose();
         }
-
-        #endregion
     }
 }

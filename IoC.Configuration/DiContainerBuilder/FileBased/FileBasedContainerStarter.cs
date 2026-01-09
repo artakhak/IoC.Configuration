@@ -29,8 +29,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 {
     public class FileBasedContainerStarter : FileBasedConfiguratorAbstr, IFileBasedContainerStarter
     {
-        #region  Constructors
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="FileBasedContainerStarter" /> class.
         /// </summary>
@@ -39,19 +37,13 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         {
         }
 
-        #endregion
-
-        #region IFileBasedContainerStarter Interface Implementation
-
         /// <summary>
         ///     Loads the DI container from the configuration file.
         /// </summary>
         /// <returns>Returns an instance of <see cref="IContainerInfo" />.</returns>
         public IContainerInfo Start()
         {
-            return _fileBasedConfiguration.StartContainer();
+            return FileBasedConfiguration.StartContainer();
         }
-
-        #endregion
     }
 }
