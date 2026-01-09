@@ -39,9 +39,8 @@ namespace IoC.Configuration.DiContainerBuilder
         /// Represents the integration of an application host with a dependency injection container.
         /// Provides access to both the host instance and information about the container.
         /// </summary>
-        /// <typeparam name="THost">
-        /// The type of the host, which must be a class implementing <see cref="IHost"/>.
-        /// </typeparam>
+        /// <param name="host">Host of type <typeparamref name="THost"/> which must be a class implementing <see cref="IHost"/></param>
+        /// <param name="containerInfo">Container info.</param>
         public HostIntegratedContainerInfo(THost host, IContainerInfo containerInfo)
         {
             Host = host;
