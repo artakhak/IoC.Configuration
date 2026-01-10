@@ -92,16 +92,262 @@
              
   <section id="net-maui-application-integration">
 <h1>.NET Maui Application Integration<a class="headerlink" href="#net-maui-application-integration" title="Link to this heading"></a></h1>
-<p>IoC.Configuration provides specialized support for .NET MAUI applications via the <code class="docutils literal notranslate"><span class="pre">IoC.Configuration.Maui</span></code> library.</p>
+<p>IoC.Configuration provides specialized support for .NET MAUI applications via the <code class="docutils literal notranslate"><span class="pre">IoC.Configuration.Maui</span></code> Nuget library (source code available at <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.Maui">IoC.Configuration.Maui</a>).</p>
 <section id="integration-process">
 <h2>Integration Process<a class="headerlink" href="#integration-process" title="Link to this heading"></a></h2>
 <p>MAUI applications use a <code class="docutils literal notranslate"><span class="pre">MauiAppBuilder</span></code> to configure services. IoC.Configuration hooks into this builder using the <code class="docutils literal notranslate"><span class="pre">IIntegratesWithHostBuilder</span></code> interface. This ensures that when MAUI attempts to resolve Pages or ViewModels, it uses the IoC.Configuration container.</p>
+<p>Key steps include:</p>
+<ul class="simple">
+<li><p>Creating a <code class="docutils literal notranslate"><span class="pre">MauiHostBuilder</span></code> wrapper for your <code class="docutils literal notranslate"><span class="pre">MauiAppBuilder</span></code> (provided in the <a class="reference external" href="https://www.nuget.org/packages/IoC.Configuration.Maui">IoC.Configuration.Maui</a> package).</p></li>
+<li><p>Calling <code class="docutils literal notranslate"><span class="pre">WithHostBuilder</span></code> during the IoC.Configuration startup sequence.</p></li>
+</ul>
 </section>
 <section id="example">
 <h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
-<p>For a complete implementation, refer to the example project:
-<code class="docutils literal notranslate"><span class="pre">K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\ApplicationIntegrationDemos\Maui\MauiDemo\MauiDemo.csproj</span></code></p>
-<p>Check the <code class="docutils literal notranslate"><span class="pre">MauiProgram.cs</span></code> file in the demo project to see how <code class="docutils literal notranslate"><span class="pre">DiContainerBuilder</span></code> is used to wrap the <code class="docutils literal notranslate"><span class="pre">MauiAppBuilder</span></code>.</p>
+<p>For a complete implementation, refer to the example project <code class="docutils literal notranslate"><span class="pre">MauiDemo.csproj</span></code> and related projects in <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/Maui">ApplicationIntegrationDemos/Maui</a>:</p>
+<p>The code snippet below shows how the methods <code class="docutils literal notranslate"><span class="pre">WithHostBuilder</span></code> and <code class="docutils literal notranslate"><span class="pre">RegisterServiceProviderAndBuildApp</span></code> are used in <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/Maui/MauiDemo/MauiProgram.cs">MauiDemo.MauiProgram</a> to register the DI container configured in the IoC.Configuration file <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/Maui/MauiDemo/IoCConfiguration.xml">IoCConfiguration.xml</a> with the MAUI application builder.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>By using this integration, all MAUI components (Pages, ViewModels, etc.) registered in the <code class="docutils literal notranslate"><span class="pre">MauiAppBuilder</span></code> or in the IoC.Configuration XML file will be resolved through the IoC.Configuration container.</p>
+</div>
+<p><strong>MauiProgram.cs</strong>:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="nn">IoC.Configuration</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">IoC.Configuration.DiContainerBuilder</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">IoC.Configuration.DiContainerBuilder.FileBased</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">IoC.Configuration.Maui.HostBuilder</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">OROptimizer</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">OROptimizer.Diagnostics.Log</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">Settings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MauiDemo</span><span class="p">.</span><span class="n">Properties</span><span class="p">.</span><span class="n">Settings</span><span class="p">;</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">MauiDemo</span><span class="p">;</span>
+
+<span class="k">public</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">MauiProgram</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">MauiApp</span><span class="w"> </span><span class="nf">CreateMauiApp</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">LogHelper</span><span class="p">.</span><span class="n">RegisterContext</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">LogHelperContextLogToConsole</span><span class="p">());</span>
+
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MauiApp</span><span class="p">.</span><span class="n">CreateBuilder</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">builder</span><span class="p">.</span><span class="n">UseMauiApp</span><span class="o">&lt;</span><span class="n">App</span><span class="o">&gt;</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="n">ConfigureFonts</span><span class="p">(</span><span class="n">fonts</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">                </span><span class="n">fonts</span><span class="p">.</span><span class="n">AddFont</span><span class="p">(</span><span class="s">&quot;OpenSans-Regular.ttf&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;OpenSansRegular&quot;</span><span class="p">);</span>
+<span class="w">                </span><span class="n">fonts</span><span class="p">.</span><span class="n">AddFont</span><span class="p">(</span><span class="s">&quot;OpenSans-Semibold.ttf&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;OpenSansSemibold&quot;</span><span class="p">);</span>
+<span class="w">            </span><span class="p">});</span>
+
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="p">(</span><span class="n">mauiApp</span><span class="p">,</span><span class="w"> </span><span class="n">containerInfo</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ConfigureDiAndBuildMauiApp</span><span class="p">(</span><span class="n">builder</span><span class="p">);</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">mauiApp</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="nf">static</span><span class="w"> </span><span class="p">(</span><span class="n">MauiApp</span><span class="w"> </span><span class="n">mauiApp</span><span class="p">,</span><span class="w"> </span><span class="n">IContainerInfo</span><span class="p">)</span><span class="w"> </span><span class="n">ConfigureDiAndBuildMauiApp</span><span class="p">(</span><span class="n">MauiAppBuilder</span><span class="w"> </span><span class="n">mauiAppBuilder</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">diContainerBuilder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DiContainerBuilder</span><span class="p">();</span>
+
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">fileBasedConfigurationParameters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileBasedConfigurationParameters</span><span class="p">(</span>
+<span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="nf">FileBasedConfigurationFileContentsProvider</span><span class="p">(</span><span class="n">Settings</span><span class="p">.</span><span class="n">Default</span><span class="p">.</span><span class="n">IoCConfigurationFilePath</span><span class="p">),</span>
+<span class="w">            </span><span class="n">AppContext</span><span class="p">.</span><span class="n">BaseDirectory</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AllLoadedAssemblies</span><span class="p">())</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">AttributeValueTransformers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="k">new</span><span class="w"> </span><span class="n">FileFolderPathAttributeValueTransformer</span><span class="p">()]</span>
+<span class="w">        </span><span class="p">};</span>
+
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">hostIntegratedContainerInfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">diContainerBuilder</span><span class="p">.</span><span class="n">StartFileBasedDi</span><span class="p">(</span><span class="n">fileBasedConfigurationParameters</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="n">WithoutPresetDiContainer</span><span class="p">()</span>
+<span class="w">            </span><span class="c1">// Add additional modules using AddAdditionalDiModules() one or multiple times as necessary</span>
+<span class="w">            </span><span class="c1">// to register modules in addition to DI specified in &quot;IoCConfiguration.xml&quot;</span>
+<span class="w">            </span><span class="c1">// If the method is not called, only the</span>
+<span class="w">            </span><span class="c1">//.AddAdditionalDiModules(new MyModule())</span>
+
+<span class="w">            </span><span class="c1">// Use WithHostBuilder(hostBuilder) to make sure IoC.Configuration will register DI with the host builder</span>
+<span class="w">            </span><span class="c1">// Do not call hostBuilder.Build() since this will be done by IoC.Configuration.</span>
+<span class="w">            </span><span class="p">.</span><span class="n">WithHostBuilder</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">MauiHostBuilder</span><span class="p">(</span><span class="n">mauiAppBuilder</span><span class="p">))</span>
+<span class="w">            </span><span class="p">.</span><span class="n">RegisterServiceProviderAndBuildApp</span><span class="p">();</span>
+
+<span class="w">        </span><span class="c1">// var diContainer = hostIntegratedContainerInfo.ContainerInfo.DiContainer;</span>
+<span class="w">        </span><span class="c1">// From this point on either AppHost.Services or hostIntegratedContainerInfo.ContainerInfo.DiContainer</span>
+<span class="w">        </span><span class="c1">// can be used to resolve services. Both will use the same DI container.</span>
+
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">hostIntegratedContainerInfo</span><span class="p">.</span><span class="n">Host</span><span class="p">.</span><span class="n">MauiApp</span><span class="p">,</span><span class="w"> </span><span class="n">hostIntegratedContainerInfo</span><span class="p">.</span><span class="n">ContainerInfo</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>File ``IoCConfiguration.xml``</strong> located in the same directory as <code class="docutils literal notranslate"><span class="pre">MauiDemo.csproj</span></code>.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+
+<span class="cm">&lt;!--</span>
+<span class="cm">   The XML configuration file is validated against schema file IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd,</span>
+<span class="cm">   which can be found in folder IoC.Configuration.Content in output directory.</span>
+<span class="cm">   The schema file can also be downloaded from</span>
+<span class="cm">   http://oroptimizer.com/ioc.configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd or in source code</span>
+<span class="cm">   project in Github.com.</span>
+
+<span class="cm">   To use Visual Studio code completion based on schema contents, right click Properties on this file in Visual Studio, and in Schemas</span>
+<span class="cm">   field pick the schema IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd.</span>
+
+<span class="cm">   TODO: Modify this section. Before running the application make sure to execute IoC.Configuration\Tests\IoC.Configuration.Tests\PostBuildCommands.bat to copy the dlls into</span>
+<span class="cm">   folders specified in this configuration file.</span>
+<span class="cm">   Also, modify the batch file to copy the Autofac and Ninject assemblies from Nuget packages folder on machine, where the test is run.</span>
+<span class="cm">--&gt;</span>
+
+<span class="nt">&lt;iocConfiguration</span>
+<span class="w">    </span><span class="na">xmlns:xsi=</span><span class="s">&#39;http://www.w3.org/2001/XMLSchema-instance&#39;</span>
+<span class="w">    </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">&quot;http://oroptimizer.com/IoC.Configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--The application should have write permissions to a path specified in appDataDir.</span>
+<span class="cm">    This is where dynamically generated DLLs are saved.--&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!--NOTE: a path should be an absolute path, or should be converted to an absolute path by some implementation of</span>
+<span class="cm">    IoC.Configuration.AttributeValueTransformer.IAttributeValueTransformer. In this example the paths are converted by</span>
+<span class="cm">    MauiDemo.FileFolderPathAttributeValueTransformer.--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;appDataDir</span>
+<span class="w">            </span><span class="na">path=</span><span class="s">&quot;IoCConfigurationFiles/AutogeneratedDlls/IoCConfiguration&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;plugins</span><span class="w"> </span><span class="na">pluginsDirPath=</span><span class="s">&quot;IoCConfigurationFiles/PluginDlls&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!--</span>
+<span class="cm">        Plugin assemblies will be in a folder with similar name under pluginsDirPath folder.</span>
+<span class="cm">        The plugin folders will be included in an assembly resolution mechanism.</span>
+<span class="cm">        --&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!--A folder &#39;K:\...\IoC.Configuration\ApplicationIntegrationDemos\Maui\MauiDemo\bin\IoCConfigurationFiles\PluginDlls\MauiDemoExtension&#39; should exist.  --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;plugin</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;MauiDemoExtension&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/plugins&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;additionalAssemblyProbingPaths&gt;</span>
+<span class="w">            </span><span class="nt">&lt;probingPath</span>
+<span class="w">                    </span><span class="na">path=</span><span class="s">&quot;IoCConfigurationFiles/DynamicallyLoadedDlls&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;probingPath</span>
+<span class="w">                    </span><span class="na">path=</span><span class="s">&quot;IoCConfigurationFiles/ThirdPartyLibs&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;probingPath</span>
+<span class="w">                    </span><span class="na">path=</span><span class="s">&quot;IoCConfigurationFiles/ContainerImplementations/Autofac&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;probingPath</span>
+<span class="w">                    </span><span class="na">path=</span><span class="s">&quot;IoCConfigurationFiles/ContainerImplementations/Ninject&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/additionalAssemblyProbingPaths&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;assemblies&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!--Assemblies should be in one of the following locations:</span>
+<span class="cm">        1) Executable&#39;s folder</span>
+<span class="cm">        2) In folder specified in additionalAssemblyProbingPaths element.</span>
+<span class="cm">        3) In one of the plugin folders specified in the plugins element (only for assemblies with plugin attribute) --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;OROptimizer.Shared&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;oroptimizer_shared&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;IoC.Configuration&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;ioc_config&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;IoC.Configuration.Autofac&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;autofac_ext&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;IoC.Configuration.Ninject&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;ninject_ext&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;MauiDemo&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;win_ui3_demo&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;MauiDemo.Interfaces&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;win_ui3_demo_interfaces&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;MauiDemo.Extension&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;win_ui3_demo_ext&quot;</span><span class="w"> </span><span class="na">plugin=</span><span class="s">&quot;MauiDemoExtension&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/assemblies&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;typeDefinitions&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;/typeDefinitions&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--assembly attribute is not required, and only is needed to make sure the type is looked at a specific assembly</span>
+<span class="cm">    If the assembly attribute is omitted, the type will be looked in all assemblies specified in assemblies, plus some additional</span>
+<span class="cm">    assemblies such as OROptimizer.Shared, IoC.Configuration, etc.</span>
+<span class="cm">    --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;parameterSerializers</span><span class="w"> </span><span class="na">serializerAggregatorType=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator&quot;</span>
+<span class="w">                                              </span><span class="na">assembly=</span><span class="s">&quot;oroptimizer_shared&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!--</span>
+<span class="cm">        Use parameters element to specify constructor parameters, if the type specified in &#39;serializerAggregatorType&#39; attribute</span>
+<span class="cm">        has non-default constructor.</span>
+<span class="cm">        --&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!--&lt;parameters&gt;</span>
+<span class="cm">        &lt;/parameters&gt;--&gt;</span>
+<span class="w">            </span><span class="nt">&lt;serializers&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerDouble&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerLong&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerInt&quot;</span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerShort&quot;</span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerByte&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerBoolean&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerDateTime&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerString&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/serializers&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;/parameterSerializers&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--The value of the type attribute should be a type that implements</span>
+<span class="cm">    IoC.Configuration.DiContainer.IDiManager--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;diManagers</span><span class="w"> </span><span class="na">activeDiManagerName=</span><span class="s">&quot;Autofac&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;diManager</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;Autofac&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;IoC.Configuration.Autofac.AutofacDiManager&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/diManager&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!--</span>
+<span class="cm">            MAUI DI integration is not yet supported IoC.Configuration.Ninject library.</span>
+<span class="cm">            Might be supported later if Ninject library implements the Microsoft.Extensions.DependencyInjection.IServiceProviderFactory.</span>
+<span class="cm">            --&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!--&lt;diManager name=&quot;Ninject&quot; type=&quot;IoC.Configuration.Ninject.NinjectDiManager&quot;&gt;</span>
+<span class="cm">            &lt;/diManager&gt;--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/diManagers&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--</span>
+<span class="cm">    If settingsRequestor element is used, the type in the type attribute should</span>
+<span class="cm">    specify a type that implements IoC.Configuration.ISettingsRequestor.</span>
+<span class="cm">    The implementation specifies a collection of required settings that should be present</span>
+<span class="cm">    in a settings element.</span>
+<span class="cm">    Note, the type specified in the type attribute is fully integrated into a dependency</span>
+<span class="cm">    injection framework. In other words, constructor parameters will be injected using</span>
+<span class="cm">    bindings specified in the dependencyInjection element.</span>
+<span class="cm">    --&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!--&lt;settingsRequestor type=&quot;SharedServices.FakeSettingsRequestor&quot;&gt;</span>
+<span class="cm">    &lt;/settingsRequestor&gt;--&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;settings&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/settings&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;dependencyInjection&gt;</span>
+<span class="w">            </span><span class="nt">&lt;modules&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/modules&gt;</span>
+
+<span class="w">            </span><span class="nt">&lt;services&gt;</span>
+
+<span class="w">                    </span><span class="nt">&lt;selfBoundService</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;MauiDemo.RandomNumber.RandomNumberPage&quot;</span><span class="w"> </span><span class="na">scope=</span><span class="s">&quot;transient&quot;</span><span class="nt">&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/selfBoundService&gt;</span>
+
+<span class="w">                    </span><span class="nt">&lt;selfBoundService</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;MauiDemo.RandomNumber.RandomNumberViewModel&quot;</span><span class="w"> </span><span class="na">scope=</span><span class="s">&quot;transient&quot;</span><span class="nt">&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/selfBoundService&gt;</span>
+
+<span class="w">                    </span><span class="cm">&lt;!--Bindings for non-plugin interfaces to implementations in plugins.--&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;service</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;MauiDemo.Interfaces.IRandomNumberGenerator&quot;</span><span class="w"> </span><span class="nt">&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;implementation</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;MauiDemo.Extension.RandomNumberGenerator&quot;</span><span class="w"> </span><span class="na">scope=</span><span class="s">&quot;singleton&quot;</span><span class="nt">&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;/implementation&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/service&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/services&gt;</span>
+
+<span class="w">            </span><span class="nt">&lt;autoGeneratedServices&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/autoGeneratedServices&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependencyInjection&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;startupActions&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!--&lt;startupAction type=&quot;DynamicallyLoadedAssembly1.Implementations.StartupAction2&quot;&gt;</span>
+<span class="cm">            &lt;/startupAction&gt;--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/startupActions&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;pluginsSetup&gt;</span>
+<span class="w">            </span><span class="nt">&lt;pluginSetup</span><span class="w"> </span><span class="na">plugin=</span><span class="s">&quot;MauiDemoExtension&quot;</span><span class="nt">&gt;</span>
+<span class="w">                    </span><span class="cm">&lt;!--The type in pluginImplementation should be a non-abstract class</span>
+<span class="cm">                that implements IoC.Configuration.IPlugin and which has a public constructor--&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;pluginImplementation</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;MauiDemo.Extension.IoCConfigurationSetup.MauiDemoPlugin&quot;</span><span class="nt">&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/pluginImplementation&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;settings&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/settings&gt;</span>
+
+<span class="w">                    </span><span class="nt">&lt;dependencyInjection&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;modules&gt;</span>
+
+<span class="w">                            </span><span class="nt">&lt;/modules&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;services&gt;</span>
+
+<span class="w">                            </span><span class="nt">&lt;/services&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;autoGeneratedServices&gt;</span>
+
+<span class="w">                            </span><span class="nt">&lt;/autoGeneratedServices&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/dependencyInjection&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/pluginSetup&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/pluginsSetup&gt;</span>
+<span class="nt">&lt;/iocConfiguration&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 

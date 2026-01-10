@@ -2,17 +2,37 @@
 .NET Maui Application Integration
 =================================
 
-IoC.Configuration provides specialized support for .NET MAUI applications via the ``IoC.Configuration.Maui`` library.
+IoC.Configuration provides specialized support for .NET MAUI applications via the ``IoC.Configuration.Maui`` Nuget library (source code available at `IoC.Configuration.Maui <https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.Maui>`_).
 
 Integration Process
 -------------------
 
 MAUI applications use a ``MauiAppBuilder`` to configure services. IoC.Configuration hooks into this builder using the ``IIntegratesWithHostBuilder`` interface. This ensures that when MAUI attempts to resolve Pages or ViewModels, it uses the IoC.Configuration container.
 
+Key steps include:
+
+- Creating a ``MauiHostBuilder`` wrapper for your ``MauiAppBuilder`` (provided in the `IoC.Configuration.Maui <https://www.nuget.org/packages/IoC.Configuration.Maui>`_ package).
+- Calling ``WithHostBuilder`` during the IoC.Configuration startup sequence.
+
 Example
 -------
 
-For a complete implementation, refer to the example project:
-``K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\ApplicationIntegrationDemos\Maui\MauiDemo\MauiDemo.csproj``
+For a complete implementation, refer to the example project ``MauiDemo.csproj`` and related projects in `ApplicationIntegrationDemos/Maui <https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/Maui>`_:
 
-Check the ``MauiProgram.cs`` file in the demo project to see how ``DiContainerBuilder`` is used to wrap the ``MauiAppBuilder``.
+The code snippet below shows how the methods ``WithHostBuilder`` and ``RegisterServiceProviderAndBuildApp`` are used in `MauiDemo.MauiProgram <https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/Maui/MauiDemo/MauiProgram.cs>`_ to register the DI container configured in the IoC.Configuration file `IoCConfiguration.xml <https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/Maui/MauiDemo/IoCConfiguration.xml>`_ with the MAUI application builder.
+
+.. note::
+    By using this integration, all MAUI components (Pages, ViewModels, etc.) registered in the ``MauiAppBuilder`` or in the IoC.Configuration XML file will be resolved through the IoC.Configuration container.
+
+**MauiProgram.cs**:
+
+.. sourcecode:: csharp
+
+    <IncludedFilePlaceHolder>..\..\..\ApplicationIntegrationDemos\Maui\MauiDemo\MauiProgram.cs</IncludedFilePlaceHolder>
+
+
+**File ``IoCConfiguration.xml``** located in the same directory as ``MauiDemo.csproj``.
+
+.. code-block:: xml
+
+    <IncludedFilePlaceHolder>..\..\..\ApplicationIntegrationDemos\Maui\MauiDemo\IoCConfiguration.xml</IncludedFilePlaceHolder>

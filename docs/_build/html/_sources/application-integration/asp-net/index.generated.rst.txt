@@ -2,7 +2,7 @@
 ASP.NET Service Integration
 ===========================
 
-Integration with ASP.NET Core allows you to use IoC.Configuration to manage the lifecycle and resolution of your web services, including API controllers.
+Integration with ASP.NET Core allows you to use IoC.Configuration to manage the lifecycle and resolution of your web services, including API controllers. This is achieved via the ``IoC.Configuration.AspNet`` Nuget library (source code available at `IoC.Configuration.AspNet <https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.AspNet>`_).
 
 Implementation Details
 ----------------------
@@ -10,7 +10,8 @@ Implementation Details
 To integrate with ASP.NET Core, you use the ``IoC.Configuration.AspNet`` Nuget library (source code available at `IoC.Configuration.AspNet <https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.AspNet>`_). This allows the ``IHostBuilder`` (or ``WebApplicationBuilder``) to delegate service resolution to the underlying container configured in your IoC.Configuration XML file (e.g., Autofac).
 
 Key steps include:
-- Creating an ``IApplicationHostBuilder`` wrapper for your ``IHostBuilder``.
+
+- Creating a ``WebApplicationHostBuilder`` wrapper for your ``IHostBuilder`` (provided in the `IoC.Configuration.AspNet <https://www.nuget.org/packages/IoC.Configuration.AspNet>`_ package).
 - Calling ``WithHostBuilder`` during the IoC.Configuration startup sequence.
 
 Example
@@ -19,14 +20,13 @@ Example
 For a complete implementation, refer to the example project ``WebApiDemo.csproj`` and related projects in `ApplicationIntegrationDemos/ASP.NET.WebApi <https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/ASP.NET.WebApi>`_:
 
 In this project, you can see how the ``Program.cs`` or ``Startup.cs`` is modified to initialize ``DiContainerBuilder`` and connect it to the web host.
-   
-The code snippet below shows how the methods ``WithHostBuilder`` and ``RegisterServiceProviderAndBuildApp`` are used in `WebApiDemo.Program <https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/ASP.NET.WebApi/WebApiDemo/Program.cs>`_ to register DI container configured in IoC.Configuration file `IoCConfiguration.xml <https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/ASP.NET.WebApi/WebApiDemo/IoCConfiguration.xml>`_ with ASP.NET dependency injection setup.
+The code snippet below shows how the methods ``WithHostBuilder`` and ``RegisterServiceProviderAndBuildApp`` are used in `WebApiDemo.Program <https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/ASP.NET.WebApi/WebApiDemo/Program.cs>`_ to register the DI container configured in IoC.Configuration file `IoCConfiguration.xml <https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/ASP.NET.WebApi/WebApiDemo/IoCConfiguration.xml>`_ with the ASP.NET dependency injection setup.
 
 .. note::
-    Helper method ``ControllerRegistrationHelpers.RegisterControllers(loadedConfiguration, controllerBuilder);`` available in nuget package `IoC.Configuration.AspNet <https://www.nuget.org/packages/IoC.Configuration.AspNet>`_ in code snippet results controllers specified in assemblies in ``xml``` elements ``iocConfiguration/webApi``` and ``iocConfiguration/pluginsSetup/pluginSetup/webApi`` being loaded when the ASP.NET application starts.
+    The helper method ``ControllerRegistrationHelpers.RegisterControllers(loadedConfiguration, controllerBuilder)`` available in the `IoC.Configuration.AspNet <https://www.nuget.org/packages/IoC.Configuration.AspNet>`_  nuget package ensures that controllers specified in the assemblies within ``iocConfiguration/webApi``` and ``iocConfiguration/pluginsSetup/pluginSetup/webApi`` elements are correctly loaded.
     
 .. note::
-    Classes and interfaces injected into controllers will be resolved by IoC.Configuration container loaded from the IoC.Configuration.xml file.
+    All classes and interfaces injected into controllers will be resolved by IoC.Configuration container loaded from the ``IoC.Configuration.xml`` configuration file.
     
 **Program.cs**:
   

@@ -106,10 +106,19 @@ The source code of these packages can be found at these links: <a class="referen
 </li>
 <li><p>Registering modules and starting the container.</p></li>
 </ol>
-<p>Currently, this feature is primarily supported for file-based configurations.</p>
+<p>Currently, this feature is primarily supported for file-based configurations when DI manager specified in <code class="docutils literal notranslate"><span class="pre">iocConfiguration/diManagers</span></code> targets <cite>Autofac</cite> DI manager.
+In other words, the new interfaces for supporting application integration are implemented in <a class="reference external" href="https://www.nuget.org/packages/IoC.Configuration.Autofac">IoC.Configuration.Autofac</a> only at this point. The implementations of these interfaces in <a class="reference external" href="https://www.nuget.org/packages/IoC.Configuration.Ninject">IoC.Configuration.Ninject</a> currently throw <code class="docutils literal notranslate"><span class="pre">NotImplementedException</span></code> exception. Support for <code class="docutils literal notranslate"><span class="pre">Ninject</span></code> will be added later when there is demand, or when Ninject library or any of its extensions implements the Microsoft.Extensions.DependencyInjection.IServiceProviderFactory&lt;TContainerBuilder&gt;.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Code based configuration support requires very little effort, however was not yet implemented. Will be implemented in the future if there is demand.</p>
+</div>
 </section>
 <section id="supported-frameworks">
 <h2>Supported Frameworks<a class="headerlink" href="#supported-frameworks" title="Link to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Other frameworks might be supported too (for example UWP) by using the default implementation <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/DiContainerBuilder/ApplicationHostBuilder.cs">IoC.Configuration.DiContainerBuilder.ApplicationHostBuilder</a> of interface <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/DiContainerBuilder/IApplicationHostBuilder.cs">IoC.Configuration.DiContainerBuilder.IApplicationHostBuilder</a>, however no testing was done yet.</p>
+</div>
 <ul class="simple">
 <li><p><strong>ASP.NET Core</strong>: Integration with the web host to resolve controllers and other services via IoC.Configuration. Refer to the example in project <code class="docutils literal notranslate"><span class="pre">WebApiDemo.csproj</span></code> and related projects in <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/ASP.NET.WebApi">ApplicationIntegrationDemos/ASP.NET.WebApi</a>.</p></li>
 <li><p><strong>.NET MAUI</strong>: Integration with the Maui app builder. Refer to the example in project <code class="docutils literal notranslate"><span class="pre">MauiDemo.csproj</span></code> and  related projects in <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/Maui">ApplicationIntegrationDemos/Maui</a>.</p></li>

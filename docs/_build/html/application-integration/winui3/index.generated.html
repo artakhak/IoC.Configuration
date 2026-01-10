@@ -92,16 +92,280 @@
              
   <section id="winui-3-application-integration">
 <h1>WinUI 3 Application Integration<a class="headerlink" href="#winui-3-application-integration" title="Link to this heading"></a></h1>
-<p>WinUI 3 applications can leverage IoC.Configuration to manage complex dependency graphs and plugin architectures.</p>
+<p>WinUI 3 applications can leverage IoC.Configuration to manage complex dependency graphs and plugin architectures. Unlike ASP.NET or MAUI, WinUI 3 integration typically uses the default host builder implementations provided in the core library.</p>
 <section id="how-it-works">
 <h2>How it works<a class="headerlink" href="#how-it-works" title="Link to this heading"></a></h2>
-<p>By using the host integration features, WinUI 3 applications can resolve their main windows, services, and navigation components through the IoC.Configuration container. This is particularly useful for applications that require dynamic plugin loading.</p>
+<p>By using the host integration features, WinUI 3 applications can resolve their main windows, services, and navigation components through the IoC.Configuration container. This is achieved by wrapping the standard <code class="docutils literal notranslate"><span class="pre">Microsoft.Extensions.Hosting.IHostBuilder</span></code> with the <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/DiContainerBuilder/ApplicationHostBuilder.cs">IoC.Configuration.DiContainerBuilder.ApplicationHostBuilder</a>.</p>
+<p>Key steps include:</p>
+<ul class="simple">
+<li><p>Initializing the standard .NET <code class="docutils literal notranslate"><span class="pre">HostBuilder</span></code>.</p></li>
+<li><p>Wrapping it in an <code class="docutils literal notranslate"><span class="pre">ApplicationHostBuilder</span></code>.</p></li>
+<li><p>Calling <code class="docutils literal notranslate"><span class="pre">WithHostBuilder</span></code> during the IoC.Configuration startup sequence to delegate service resolution.</p></li>
+</ul>
 </section>
 <section id="example">
 <h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
-<p>For a complete implementation, refer to the example project:
-<code class="docutils literal notranslate"><span class="pre">K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\ApplicationIntegrationDemos\WinUI3\WinUI3Demo\WinUI3Demo.csproj</span></code></p>
-<p>The demo project demonstrates how to set up the application host and register services defined in your XML configuration.</p>
+<p>For a complete implementation, refer to the example project <code class="docutils literal notranslate"><span class="pre">WinUI3Demo.csproj</span></code> and related projects in <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/WinUI3">ApplicationIntegrationDemos/WinUI3</a>:</p>
+<p>The code snippet below shows how the methods <code class="docutils literal notranslate"><span class="pre">WithHostBuilder</span></code> and <code class="docutils literal notranslate"><span class="pre">RegisterServiceProviderAndBuildApp</span></code> are used in <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/WinUI3/WinUI3Demo/App.xaml.cs">WinUI3Demo.App</a> to register the DI container configured in the IoC.Configuration file <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/WinUI3/WinUI3Demo/IoCConfiguration.xml">IoCConfiguration.xml</a> with the WinUI 3 application host.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This setup allows WinUI 3 components like the <code class="docutils literal notranslate"><span class="pre">MainWindow</span></code> to have their dependencies automatically injected by the IoC.Configuration container.</p>
+</div>
+<p><strong>App.xaml.cs</strong>:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="c1">//using Microsoft.Extensions.DependencyInjection;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">IoC.Configuration</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">IoC.Configuration.DiContainerBuilder</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">IoC.Configuration.DiContainerBuilder.FileBased</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.Extensions.DependencyInjection</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.Extensions.Hosting</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">Microsoft.UI.Xaml</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">OROptimizer</span><span class="p">;</span>
+
+<span class="k">using</span><span class="w"> </span><span class="nn">System</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">OROptimizer.Diagnostics.Log</span><span class="p">;</span>
+
+<span class="c1">// To learn more about WinUI, the WinUI project structure,</span>
+<span class="c1">// and more about our project templates, see: http://aka.ms/winui-project-info.</span>
+
+<span class="k">namespace</span><span class="w"> </span><span class="nn">WinUI3Demo</span><span class="p">;</span>
+
+<span class="c1">/// &lt;summary&gt;</span>
+<span class="c1">/// Provides application-specific behavior to supplement the default Application class.</span>
+<span class="c1">/// &lt;/summary&gt;</span>
+<span class="k">public</span><span class="w"> </span><span class="k">partial</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">App</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">Application</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="n">IHost</span><span class="o">?</span><span class="w"> </span><span class="n">AppHost</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">get</span><span class="p">;</span><span class="w"> </span><span class="k">private</span><span class="w"> </span><span class="k">set</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">/// &lt;summary&gt;</span>
+<span class="w">    </span><span class="c1">/// Initializes the singleton application object.</span>
+<span class="w">    </span><span class="c1">/// &lt;/summary&gt;</span>
+<span class="w">    </span><span class="k">public</span><span class="w"> </span><span class="nf">App</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">//Services = ConfigureServices();</span>
+<span class="w">        </span><span class="k">this</span><span class="p">.</span><span class="n">InitializeComponent</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">LogHelper</span><span class="p">.</span><span class="n">RegisterContext</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">LogHelperContextLogToConsole</span><span class="p">());</span>
+<span class="w">        </span><span class="n">ConfigureDi</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">private</span><span class="w"> </span><span class="k">static</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">ConfigureDi</span><span class="p">()</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">hostBuilder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Host</span><span class="p">.</span><span class="n">CreateDefaultBuilder</span><span class="p">();</span>
+
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">diContainerBuilder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">IoC</span><span class="p">.</span><span class="n">Configuration</span><span class="p">.</span><span class="n">DiContainerBuilder</span><span class="p">.</span><span class="n">DiContainerBuilder</span><span class="p">();</span>
+
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">fileBasedConfigurationParameters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileBasedConfigurationParameters</span><span class="p">(</span>
+<span class="w">            </span><span class="k">new</span><span class="w"> </span><span class="nf">FileBasedConfigurationFileContentsProvider</span><span class="p">(</span><span class="n">WinUI3Demo</span><span class="p">.</span><span class="n">Properties</span><span class="p">.</span><span class="n">Settings</span><span class="p">.</span><span class="n">Default</span><span class="p">.</span><span class="n">IoCConfigurationFilePath</span><span class="p">),</span>
+<span class="w">            </span><span class="n">AppContext</span><span class="p">.</span><span class="n">BaseDirectory</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AllLoadedAssemblies</span><span class="p">())</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">AttributeValueTransformers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="k">new</span><span class="w"> </span><span class="n">FileFolderPathAttributeValueTransformer</span><span class="p">()]</span>
+<span class="w">        </span><span class="p">};</span>
+
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">hostIntegratedContainerInfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">diContainerBuilder</span><span class="p">.</span><span class="n">StartFileBasedDi</span><span class="p">(</span><span class="n">fileBasedConfigurationParameters</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="n">WithoutPresetDiContainer</span><span class="p">()</span>
+<span class="w">            </span><span class="c1">// Add additional modules using AddAdditionalDiModules() one or multiple times as necessary</span>
+<span class="w">            </span><span class="c1">// to register modules in addition to DI specified in &quot;IoCConfiguration.xml&quot;</span>
+<span class="w">            </span><span class="c1">// If the method is not called, only the</span>
+<span class="w">            </span><span class="c1">//.AddAdditionalDiModules(new MyModule())</span>
+
+<span class="w">            </span><span class="c1">// Use WithHostBuilder(hostBuilder) to make sure IoC.Configuration will register DI with the host builder</span>
+<span class="w">            </span><span class="c1">// Do not call hostBuilder.Build() since this will be done by IoC.Configuration.</span>
+<span class="w">            </span><span class="p">.</span><span class="n">WithHostBuilder</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">ApplicationHostBuilder</span><span class="p">(</span><span class="n">hostBuilder</span><span class="p">))</span>
+<span class="w">            </span><span class="p">.</span><span class="n">RegisterServiceProviderAndBuildApp</span><span class="p">();</span>
+
+<span class="w">        </span><span class="n">AppHost</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hostIntegratedContainerInfo</span><span class="p">.</span><span class="n">Host</span><span class="p">;</span>
+
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">diContainer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">hostIntegratedContainerInfo</span><span class="p">.</span><span class="n">ContainerInfo</span><span class="p">.</span><span class="n">DiContainer</span><span class="p">;</span>
+<span class="w">        </span><span class="c1">// From this point on either AppHost.Services or hostIntegratedContainerInfo.ContainerInfo.DiContainer</span>
+<span class="w">        </span><span class="c1">// can be used to resolve services. Both will use the same DI container.</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">/// &lt;summary&gt;</span>
+<span class="w">    </span><span class="c1">/// Invoked when the application is launched.</span>
+<span class="w">    </span><span class="c1">/// &lt;/summary&gt;</span>
+<span class="w">    </span><span class="k">protected</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="k">void</span><span class="w"> </span><span class="nf">OnLaunched</span><span class="p">(</span><span class="n">Microsoft</span><span class="p">.</span><span class="n">UI</span><span class="p">.</span><span class="n">Xaml</span><span class="p">.</span><span class="n">LaunchActivatedEventArgs</span><span class="w"> </span><span class="n">args</span><span class="p">)</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Resolve MainWindow from the DI container</span>
+<span class="w">        </span><span class="k">await</span><span class="w"> </span><span class="p">(</span><span class="n">AppHost</span><span class="w"> </span><span class="o">??</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">InvalidOperationException</span><span class="p">(</span><span class="s">&quot;Hos not set&quot;</span><span class="p">)).</span><span class="n">StartAsync</span><span class="p">();</span>
+
+<span class="w">        </span><span class="kt">var</span><span class="w"> </span><span class="n">window</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AppHost</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">GetRequiredService</span><span class="o">&lt;</span><span class="n">MainWindow</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="w">        </span><span class="n">window</span><span class="p">.</span><span class="n">Activate</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>File ``IoCConfiguration.xml``</strong> located in the same directory as <code class="docutils literal notranslate"><span class="pre">WinUI3Demo.csproj</span></code>.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+
+<span class="cm">&lt;!--</span>
+<span class="cm">   The XML configuration file is validated against schema file IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd,</span>
+<span class="cm">   which can be found in folder IoC.Configuration.Content in output directory.</span>
+<span class="cm">   The schema file can also be downloaded from</span>
+<span class="cm">   http://oroptimizer.com/ioc.configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd or in source code</span>
+<span class="cm">   project in Github.com.</span>
+
+<span class="cm">   To use Visual Studio code completion based on schema contents, right click Properties on this file in Visual Studio, and in Schemas</span>
+<span class="cm">   field pick the schema IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd.</span>
+
+<span class="cm">   TODO: Modify this section. Before running the application make sure to execute IoC.Configuration\Tests\IoC.Configuration.Tests\PostBuildCommands.bat to copy the dlls into</span>
+<span class="cm">   folders specified in this configuration file.</span>
+<span class="cm">   Also, modify the batch file to copy the Autofac and Ninject assemblies from Nuget packages folder on machine, where the test is run.</span>
+<span class="cm">--&gt;</span>
+
+<span class="nt">&lt;iocConfiguration</span>
+<span class="w">    </span><span class="na">xmlns:xsi=</span><span class="s">&#39;http://www.w3.org/2001/XMLSchema-instance&#39;</span>
+<span class="w">    </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">&quot;http://oroptimizer.com/IoC.Configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--The application should have write permissions to a path specified in appDataDir.</span>
+<span class="cm">    This is where dynamically generated DLLs are saved.--&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!--NOTE: a path should be an absolute path, or should be converted to an absolute path by some implementation of</span>
+<span class="cm">    IoC.Configuration.AttributeValueTransformer.IAttributeValueTransformer. In this example the paths are converted by</span>
+<span class="cm">    WinUI3Demo.FileFolderPathAttributeValueTransformer.--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;appDataDir</span>
+<span class="w">            </span><span class="na">path=</span><span class="s">&quot;IoCConfigurationFiles/AutogeneratedDlls/IoCConfiguration&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;plugins</span><span class="w"> </span><span class="na">pluginsDirPath=</span><span class="s">&quot;IoCConfigurationFiles/PluginDlls&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!--</span>
+<span class="cm">        Plugin assemblies will be in a folder with similar name under pluginsDirPath folder.</span>
+<span class="cm">        The plugin folders will be included in an assembly resolution mechanism.</span>
+<span class="cm">        --&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!--A folder &#39;K:\...\IoC.Configuration\ApplicationIntegrationDemos\WinUI3\WinUI3Demo\bin\IoCConfigurationFiles\PluginDlls\WinUI3DemoExtension&#39; should exist.  --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;plugin</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;WinUI3DemoExtension&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/plugins&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;additionalAssemblyProbingPaths&gt;</span>
+<span class="w">            </span><span class="nt">&lt;probingPath</span>
+<span class="w">                    </span><span class="na">path=</span><span class="s">&quot;IoCConfigurationFiles/DynamicallyLoadedDlls&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;probingPath</span>
+<span class="w">                    </span><span class="na">path=</span><span class="s">&quot;IoCConfigurationFiles/ThirdPartyLibs&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;probingPath</span>
+<span class="w">                    </span><span class="na">path=</span><span class="s">&quot;IoCConfigurationFiles/ContainerImplementations/Autofac&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/additionalAssemblyProbingPaths&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;assemblies&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!--Assemblies should be in one of the following locations:</span>
+<span class="cm">        1) Executable&#39;s folder</span>
+<span class="cm">        2) In folder specified in additionalAssemblyProbingPaths element.</span>
+<span class="cm">        3) In one of the plugin folders specified in the plugins element (only for assemblies with plugin attribute) --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;OROptimizer.Shared&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;oroptimizer_shared&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;IoC.Configuration&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;ioc_config&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;IoC.Configuration.Autofac&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;autofac_ext&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;WinUI3Demo&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;win_ui3_demo&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;WinUI3Demo.Interfaces&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;win_ui3_demo_interfaces&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;WinUI3Demo.Extension&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;win_ui3_demo_ext&quot;</span><span class="w"> </span><span class="na">plugin=</span><span class="s">&quot;WinUI3DemoExtension&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/assemblies&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;typeDefinitions&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;/typeDefinitions&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--assembly attribute is not required, and only is needed to make sure the type is looked at a specific assembly</span>
+<span class="cm">    If the assembly attribute is omitted, the type will be looked in all assemblies specified in assemblies, plus some additional</span>
+<span class="cm">    assemblies such as OROptimizer.Shared, IoC.Configuration, etc.</span>
+<span class="cm">    --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;parameterSerializers</span><span class="w"> </span><span class="na">serializerAggregatorType=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator&quot;</span>
+<span class="w">                                              </span><span class="na">assembly=</span><span class="s">&quot;oroptimizer_shared&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!--</span>
+<span class="cm">        Use parameters element to specify constructor parameters, if the type specified in &#39;serializerAggregatorType&#39; attribute</span>
+<span class="cm">        has non-default constructor.</span>
+<span class="cm">        --&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!--&lt;parameters&gt;</span>
+<span class="cm">        &lt;/parameters&gt;--&gt;</span>
+<span class="w">            </span><span class="nt">&lt;serializers&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerDouble&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerLong&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerInt&quot;</span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerShort&quot;</span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerByte&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerBoolean&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerDateTime&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerString&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/serializers&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;/parameterSerializers&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--The value of the type attribute should be a type that implements</span>
+<span class="cm">    IoC.Configuration.DiContainer.IDiManager--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;diManagers</span><span class="w"> </span><span class="na">activeDiManagerName=</span><span class="s">&quot;Autofac&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;diManager</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;Autofac&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;IoC.Configuration.Autofac.AutofacDiManager&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/diManager&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!--</span>
+<span class="cm">            WinUI3 DI integration is not yet supported IoC.Configuration.Ninject library.</span>
+<span class="cm">            Might be supported later if Ninject library implements the Microsoft.Extensions.DependencyInjection.IServiceProviderFactory.</span>
+<span class="cm">            --&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!--&lt;diManager name=&quot;Ninject&quot; type=&quot;IoC.Configuration.Ninject.NinjectDiManager&quot;&gt;</span>
+<span class="cm">            &lt;/diManager&gt;--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/diManagers&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--</span>
+<span class="cm">    If settingsRequestor element is used, the type in the type attribute should</span>
+<span class="cm">    specify a type that implements IoC.Configuration.ISettingsRequestor.</span>
+<span class="cm">    The implementation specifies a collection of required settings that should be present</span>
+<span class="cm">    in a settings element.</span>
+<span class="cm">    Note, the type specified in the type attribute is fully integrated into a dependency</span>
+<span class="cm">    injection framework. In other words, constructor parameters will be injected using</span>
+<span class="cm">    bindings specified in the dependencyInjection element.</span>
+<span class="cm">    --&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!--&lt;settingsRequestor type=&quot;SharedServices.FakeSettingsRequestor&quot;&gt;</span>
+<span class="cm">    &lt;/settingsRequestor&gt;--&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;settings&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/settings&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;dependencyInjection&gt;</span>
+<span class="w">            </span><span class="nt">&lt;modules&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/modules&gt;</span>
+
+<span class="w">            </span><span class="nt">&lt;services&gt;</span>
+
+<span class="w">                    </span><span class="nt">&lt;selfBoundService</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;WinUI3Demo.MainWindow&quot;</span><span class="w"> </span><span class="na">scope=</span><span class="s">&quot;transient&quot;</span><span class="nt">&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/selfBoundService&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;selfBoundService</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;WinUI3Demo.RandomNumber.RandomNumberViewModel&quot;</span><span class="w"> </span><span class="na">scope=</span><span class="s">&quot;transient&quot;</span><span class="nt">&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/selfBoundService&gt;</span>
+
+<span class="w">                    </span><span class="cm">&lt;!--Bindings for non-plugin interfaces to implementions in plugins.--&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;service</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;WinUI3Demo.Interfaces.IRandomNumberGenerator&quot;</span><span class="w"> </span><span class="nt">&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;implementation</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;WinUI3Demo.Extension.RandomNumberGenerator&quot;</span><span class="w"> </span><span class="na">scope=</span><span class="s">&quot;singleton&quot;</span><span class="nt">&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;/implementation&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/service&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/services&gt;</span>
+
+<span class="w">            </span><span class="nt">&lt;autoGeneratedServices&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/autoGeneratedServices&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependencyInjection&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;startupActions&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!--&lt;startupAction type=&quot;DynamicallyLoadedAssembly1.Implementations.StartupAction2&quot;&gt;</span>
+<span class="cm">            &lt;/startupAction&gt;--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/startupActions&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;pluginsSetup&gt;</span>
+<span class="w">            </span><span class="nt">&lt;pluginSetup</span><span class="w"> </span><span class="na">plugin=</span><span class="s">&quot;WinUI3DemoExtension&quot;</span><span class="nt">&gt;</span>
+<span class="w">                    </span><span class="cm">&lt;!--The type in pluginImplementation should be a non-abstract class</span>
+<span class="cm">                that implements IoC.Configuration.IPlugin and which has a public constructor--&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;pluginImplementation</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;WinUI3Demo.Extension.IoCConfigurationSetup.WinUI3DemoPlugin&quot;</span><span class="nt">&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/pluginImplementation&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;settings&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/settings&gt;</span>
+
+<span class="w">                    </span><span class="nt">&lt;dependencyInjection&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;modules&gt;</span>
+
+<span class="w">                            </span><span class="nt">&lt;/modules&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;services&gt;</span>
+
+<span class="w">                            </span><span class="nt">&lt;/services&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;autoGeneratedServices&gt;</span>
+
+<span class="w">                            </span><span class="nt">&lt;/autoGeneratedServices&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/dependencyInjection&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/pluginSetup&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/pluginsSetup&gt;</span>
+<span class="nt">&lt;/iocConfiguration&gt;</span>
+</pre></div>
+</div>
 </section>
 </section>
 

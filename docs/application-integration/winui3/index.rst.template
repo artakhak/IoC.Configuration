@@ -2,17 +2,38 @@
 WinUI 3 Application Integration
 ===============================
 
-WinUI 3 applications can leverage IoC.Configuration to manage complex dependency graphs and plugin architectures.
+WinUI 3 applications can leverage IoC.Configuration to manage complex dependency graphs and plugin architectures. Unlike ASP.NET or MAUI, WinUI 3 integration typically uses the default host builder implementations provided in the core library.
 
 How it works
 ------------
 
-By using the host integration features, WinUI 3 applications can resolve their main windows, services, and navigation components through the IoC.Configuration container. This is particularly useful for applications that require dynamic plugin loading.
+By using the host integration features, WinUI 3 applications can resolve their main windows, services, and navigation components through the IoC.Configuration container. This is achieved by wrapping the standard ``Microsoft.Extensions.Hosting.IHostBuilder`` with the `IoC.Configuration.DiContainerBuilder.ApplicationHostBuilder <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/DiContainerBuilder/ApplicationHostBuilder.cs>`_.
+
+Key steps include:
+
+- Initializing the standard .NET ``HostBuilder``.
+- Wrapping it in an ``ApplicationHostBuilder``.
+- Calling ``WithHostBuilder`` during the IoC.Configuration startup sequence to delegate service resolution.
 
 Example
 -------
 
-For a complete implementation, refer to the example project:
-``K:\Projects\OROptimizer\MyGitHubProjects\IoC.Configuration\ApplicationIntegrationDemos\WinUI3\WinUI3Demo\WinUI3Demo.csproj``
+For a complete implementation, refer to the example project ``WinUI3Demo.csproj`` and related projects in `ApplicationIntegrationDemos/WinUI3 <https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/WinUI3>`_:
 
-The demo project demonstrates how to set up the application host and register services defined in your XML configuration.
+The code snippet below shows how the methods ``WithHostBuilder`` and ``RegisterServiceProviderAndBuildApp`` are used in `WinUI3Demo.App <https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/WinUI3/WinUI3Demo/App.xaml.cs>`_ to register the DI container configured in the IoC.Configuration file `IoCConfiguration.xml <https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/WinUI3/WinUI3Demo/IoCConfiguration.xml>`_ with the WinUI 3 application host.
+
+.. note::
+    This setup allows WinUI 3 components like the ``MainWindow`` to have their dependencies automatically injected by the IoC.Configuration container.
+
+**App.xaml.cs**:
+
+.. sourcecode:: csharp
+
+    <IncludedFilePlaceHolder>..\..\..\ApplicationIntegrationDemos\WinUI3\WinUI3Demo\App.xaml.cs</IncludedFilePlaceHolder>
+
+
+**File ``IoCConfiguration.xml``** located in the same directory as ``WinUI3Demo.csproj``.
+
+.. code-block:: xml
+
+    <IncludedFilePlaceHolder>..\..\..\ApplicationIntegrationDemos\WinUI3\WinUI3Demo\IoCConfiguration.xml</IncludedFilePlaceHolder>
