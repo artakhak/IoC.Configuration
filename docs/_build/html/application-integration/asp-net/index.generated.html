@@ -1,0 +1,423 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ASP.NET Service Integration &mdash; IoC.Configuration 2.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=f35be339"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title=".NET Maui Application Integration" href="../maui/index.generated.html" />
+    <link rel="prev" title="Application Integration" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            IoC.Configuration
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../sample-files/index.html">Sample Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bindings-in-modules/index.html">Type Binding In Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../xml-configuration-file/index.html">XML Configuration File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../loading-ioc-configuration/index.html">Loading IoC Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resolving-types/index.generated.html">Resolving Types</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Application Integration</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../index.html#overview">Overview</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html#supported-frameworks">Supported Frameworks</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">ASP.NET Service Integration</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#implementation-details">Implementation Details</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../maui/index.generated.html">.NET Maui Application Integration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../winui3/index.generated.html">WinUI 3 Application Integration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Trouble-shooting</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">IoC.Configuration</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Application Integration</a></li>
+      <li class="breadcrumb-item active">ASP.NET Service Integration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/application-integration/asp-net/index.generated.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="asp-net-service-integration">
+<h1>ASP.NET Service Integration<a class="headerlink" href="#asp-net-service-integration" title="Link to this heading"></a></h1>
+<p>Integration with ASP.NET Core allows you to use IoC.Configuration to manage the lifecycle and resolution of your web services, including API controllers.</p>
+<section id="implementation-details">
+<h2>Implementation Details<a class="headerlink" href="#implementation-details" title="Link to this heading"></a></h2>
+<p>To integrate with ASP.NET Core, you use the <code class="docutils literal notranslate"><span class="pre">IoC.Configuration.AspNet</span></code> Nuget library (source code available at <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.AspNet">IoC.Configuration.AspNet</a>). This allows the <code class="docutils literal notranslate"><span class="pre">IHostBuilder</span></code> (or <code class="docutils literal notranslate"><span class="pre">WebApplicationBuilder</span></code>) to delegate service resolution to the underlying container configured in your IoC.Configuration XML file (e.g., Autofac).</p>
+<p>Key steps include:
+- Creating an <code class="docutils literal notranslate"><span class="pre">IApplicationHostBuilder</span></code> wrapper for your <code class="docutils literal notranslate"><span class="pre">IHostBuilder</span></code>.
+- Calling <code class="docutils literal notranslate"><span class="pre">WithHostBuilder</span></code> during the IoC.Configuration startup sequence.</p>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<p>For a complete implementation, refer to the example project <code class="docutils literal notranslate"><span class="pre">WebApiDemo.csproj</span></code> and related projects in <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/ASP.NET.WebApi">ApplicationIntegrationDemos/ASP.NET.WebApi</a>:</p>
+<p>In this project, you can see how the <code class="docutils literal notranslate"><span class="pre">Program.cs</span></code> or <code class="docutils literal notranslate"><span class="pre">Startup.cs</span></code> is modified to initialize <code class="docutils literal notranslate"><span class="pre">DiContainerBuilder</span></code> and connect it to the web host.</p>
+<p>The code snippet below shows how the methods <code class="docutils literal notranslate"><span class="pre">WithHostBuilder</span></code> and <code class="docutils literal notranslate"><span class="pre">RegisterServiceProviderAndBuildApp</span></code> are used in <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/ASP.NET.WebApi/WebApiDemo/Program.cs">WebApiDemo.Program</a> to register DI container configured in IoC.Configuration file <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/ASP.NET.WebApi/WebApiDemo/IoCConfiguration.xml">IoCConfiguration.xml</a> with ASP.NET dependency injection setup.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Helper method <code class="docutils literal notranslate"><span class="pre">ControllerRegistrationHelpers.RegisterControllers(loadedConfiguration,</span> <span class="pre">controllerBuilder);</span></code> available in nuget package <a class="reference external" href="https://www.nuget.org/packages/IoC.Configuration.AspNet">IoC.Configuration.AspNet</a> in code snippet results controllers specified in assemblies in <code class="docutils literal notranslate"><span class="pre">xml`</span></code> elements <code class="docutils literal notranslate"><span class="pre">iocConfiguration/webApi`</span></code> and <code class="docutils literal notranslate"><span class="pre">iocConfiguration/pluginsSetup/pluginSetup/webApi</span></code> being loaded when the ASP.NET application starts.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Classes and interfaces injected into controllers will be resolved by IoC.Configuration container loaded from the IoC.Configuration.xml file.</p>
+</div>
+<p><strong>Program.cs</strong>:</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="nn">IoC.Configuration</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">IoC.Configuration.AspNet</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">IoC.Configuration.AspNet.HostBuilder</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">IoC.Configuration.DiContainerBuilder</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">IoC.Configuration.DiContainerBuilder.FileBased</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">OROptimizer</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">OROptimizer.Diagnostics.Log</span><span class="p">;</span>
+<span class="k">using</span><span class="w"> </span><span class="nn">WebApiDemo.Startup</span><span class="p">;</span>
+
+<span class="n">LogHelper</span><span class="p">.</span><span class="n">RegisterContext</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">LogHelperContextLogToConsole</span><span class="p">());</span>
+
+<span class="kt">var</span><span class="w"> </span><span class="n">builder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WebApplication</span><span class="p">.</span><span class="n">CreateBuilder</span><span class="p">(</span><span class="n">args</span><span class="p">);</span>
+
+<span class="kt">var</span><span class="w"> </span><span class="n">appData</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CreateContainer</span><span class="p">(</span><span class="n">builder</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">builder</span><span class="p">.</span><span class="n">Services</span><span class="p">.</span><span class="n">AddControllers</span><span class="p">(),</span>
+<span class="w">    </span><span class="p">(</span><span class="n">addWebApiServices</span><span class="p">)</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle</span>
+<span class="w">        </span><span class="n">addWebApiServices</span><span class="p">.</span><span class="n">AddEndpointsApiExplorer</span><span class="p">();</span>
+<span class="w">        </span><span class="n">addWebApiServices</span><span class="p">.</span><span class="n">AddSwaggerGen</span><span class="p">();</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="kt">var</span><span class="w"> </span><span class="n">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">appData</span><span class="p">.</span><span class="n">webApplication</span><span class="p">;</span>
+
+<span class="c1">// Configure the HTTP request pipeline.</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">app</span><span class="p">.</span><span class="n">Environment</span><span class="p">.</span><span class="n">IsDevelopment</span><span class="p">())</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">app</span><span class="p">.</span><span class="n">UseSwagger</span><span class="p">();</span>
+<span class="w">    </span><span class="n">app</span><span class="p">.</span><span class="n">UseSwaggerUI</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="n">app</span><span class="p">.</span><span class="n">UseAuthorization</span><span class="p">();</span>
+
+<span class="n">app</span><span class="p">.</span><span class="n">MapControllers</span><span class="p">();</span>
+
+<span class="n">app</span><span class="p">.</span><span class="n">Run</span><span class="p">();</span>
+
+<span class="k">static</span><span class="w"> </span><span class="p">(</span><span class="n">WebApplication</span><span class="w"> </span><span class="n">webApplication</span><span class="p">,</span><span class="w"> </span><span class="n">IContainerInfo</span><span class="w"> </span><span class="n">containerInfo</span><span class="p">)</span><span class="w"> </span><span class="n">CreateContainer</span><span class="p">(</span><span class="n">WebApplicationBuilder</span><span class="w"> </span><span class="n">webApplicationBuilder</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Func</span><span class="o">&lt;</span><span class="n">IMvcBuilder</span><span class="o">&gt;</span><span class="w"> </span><span class="n">createControllerBuilder</span><span class="p">,</span>
+<span class="w">    </span><span class="n">Action</span><span class="o">&lt;</span><span class="n">IServiceCollection</span><span class="o">&gt;</span><span class="w"> </span><span class="n">addWebApiServices</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">diContainerBuilder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">DiContainerBuilder</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">fileBasedConfigurationParameters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileBasedConfigurationParameters</span><span class="p">(</span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="nf">FileBasedConfigurationFileContentsProvider</span><span class="p">(</span><span class="s">&quot;IoCConfiguration.xml&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="n">AppContext</span><span class="p">.</span><span class="n">BaseDirectory</span><span class="p">,</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AllLoadedAssemblies</span><span class="p">())</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="n">AttributeValueTransformers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="k">new</span><span class="w"> </span><span class="n">FileFolderPathAttributeValueTransformer</span><span class="p">()]</span>
+<span class="w">    </span><span class="p">};</span>
+
+<span class="w">    </span><span class="kt">var</span><span class="w"> </span><span class="n">hostIntegratedContainerInfo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">diContainerBuilder</span><span class="p">.</span><span class="n">StartFileBasedDi</span><span class="p">(</span><span class="n">fileBasedConfigurationParameters</span><span class="p">,</span>
+<span class="w">        </span><span class="n">loadedConfiguration</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="kt">var</span><span class="w"> </span><span class="n">controllerBuilder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">createControllerBuilder</span><span class="p">();</span>
+<span class="w">            </span><span class="n">ControllerRegistrationHelpers</span><span class="p">.</span><span class="n">RegisterControllers</span><span class="p">(</span><span class="n">loadedConfiguration</span><span class="p">,</span><span class="w"> </span><span class="n">controllerBuilder</span><span class="p">);</span>
+<span class="w">        </span><span class="p">})</span>
+<span class="w">        </span><span class="p">.</span><span class="n">WithoutPresetDiContainer</span><span class="p">()</span>
+<span class="w">        </span><span class="c1">// Add additional modules using AddAdditionalDiModules() one or multiple times as necessary</span>
+<span class="w">        </span><span class="c1">// to register modules in addition to DI specified in &quot;IoCConfiguration.xml&quot;</span>
+<span class="w">        </span><span class="c1">// If the method is not called, only the</span>
+<span class="w">        </span><span class="c1">//.AddAdditionalDiModules(new MyModule())</span>
+
+<span class="w">        </span><span class="c1">// Use WithHostBuilder(hostBuilder) to make sure IoC.Configuration will register DI with the host builder</span>
+<span class="w">        </span><span class="c1">// Do not call hostBuilder.Build() since this will be done by IoC.Configuration.</span>
+<span class="w">        </span><span class="p">.</span><span class="n">WithHostBuilder</span><span class="p">(</span><span class="k">new</span><span class="w"> </span><span class="n">WebApplicationHostBuilder</span><span class="p">(</span><span class="n">webApplicationBuilder</span><span class="p">))</span>
+<span class="w">        </span><span class="p">.</span><span class="n">RegisterServiceProviderAndBuildApp</span><span class="p">(()</span><span class="w"> </span><span class="o">=&gt;</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="n">addWebApiServices</span><span class="p">(</span><span class="n">webApplicationBuilder</span><span class="p">.</span><span class="n">Services</span><span class="p">);</span>
+<span class="w">        </span><span class="p">});</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">(</span><span class="n">hostIntegratedContainerInfo</span><span class="p">.</span><span class="n">Host</span><span class="p">,</span><span class="w"> </span><span class="n">hostIntegratedContainerInfo</span><span class="p">.</span><span class="n">ContainerInfo</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><strong>File ``IoCConfiguration.xml``</strong> located in the same directory as <code class="docutils literal notranslate"><span class="pre">WebApiDemo.csproj</span></code>.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+
+<span class="cm">&lt;!--</span>
+<span class="cm">   The XML configuration file is validated against schema file IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd,</span>
+<span class="cm">   which can be found in folder IoC.Configuration.Content in output directory.</span>
+<span class="cm">   The schema file can also be downloaded from</span>
+<span class="cm">   http://oroptimizer.com/ioc.configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd or in source code</span>
+<span class="cm">   project in Github.com.</span>
+
+<span class="cm">   To use Visual Studio code completion based on schema contents, right click Properties on this file in Visual Studio, and in Schemas</span>
+<span class="cm">   field pick the schema IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd.</span>
+
+<span class="cm">   TODO: Modify this section. Before running the application make sure to execute IoC.Configuration\Tests\IoC.Configuration.Tests\PostBuildCommands.bat to copy the dlls into</span>
+<span class="cm">   folders specified in this configuration file.</span>
+<span class="cm">   Also, modify the batch file to copy the Autofac and Ninject assemblies from Nuget packages folder on machine, where the test is run.</span>
+<span class="cm">--&gt;</span>
+
+<span class="nt">&lt;iocConfiguration</span>
+<span class="w">    </span><span class="na">xmlns:xsi=</span><span class="s">&#39;http://www.w3.org/2001/XMLSchema-instance&#39;</span>
+<span class="w">    </span><span class="na">xsi:noNamespaceSchemaLocation=</span><span class="s">&quot;http://oroptimizer.com/IoC.Configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--The application should have write permissions to a path specified in appDataDir.</span>
+<span class="cm">    This is where dynamically generated DLLs are saved.--&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!--NOTE: a path should be an absolute path, or should be converted to an absolute path by some implementation of</span>
+<span class="cm">    IoC.Configuration.AttributeValueTransformer.IAttributeValueTransformer. In this example the paths are converted by</span>
+<span class="cm">    WebApiDemo.Startup.FileFolderPathAttributeValueTransformer.--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;appDataDir</span>
+<span class="w">            </span><span class="na">path=</span><span class="s">&quot;IoCConfigurationFiles/AutogeneratedDlls/IoCConfiguration&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;plugins</span><span class="w"> </span><span class="na">pluginsDirPath=</span><span class="s">&quot;IoCConfigurationFiles/PluginDlls&quot;</span><span class="nt">&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!--</span>
+<span class="cm">        Plugin assemblies will be in a folder with similar name under pluginsDirPath folder.</span>
+<span class="cm">        The plugin folders will be included in an assembly resolution mechanism.</span>
+<span class="cm">        --&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!--A folder &#39;K:\...\IoC.Configuration\ApplicationIntegrationDemos\ASP.NET.WebApi\WebApiDemo\bin\Debug\net8.0\IoCConfigurationFiles\PluginDlls\WebApiDemoExtension&#39; should exist.  --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;plugin</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;WebApiDemoExtension&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/plugins&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;additionalAssemblyProbingPaths&gt;</span>
+<span class="w">            </span><span class="nt">&lt;probingPath</span>
+<span class="w">                    </span><span class="na">path=</span><span class="s">&quot;IoCConfigurationFiles/DynamicallyLoadedDlls&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;probingPath</span>
+<span class="w">                    </span><span class="na">path=</span><span class="s">&quot;IoCConfigurationFiles/ThirdPartyLibs&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;probingPath</span>
+<span class="w">                    </span><span class="na">path=</span><span class="s">&quot;IoCConfigurationFiles/ContainerImplementations/Autofac&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;probingPath</span>
+<span class="w">                    </span><span class="na">path=</span><span class="s">&quot;IoCConfigurationFiles/ContainerImplementations/Ninject&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/additionalAssemblyProbingPaths&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;assemblies&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!--Assemblies should be in one of the following locations:</span>
+<span class="cm">        1) Executable&#39;s folder</span>
+<span class="cm">        2) In folder specified in additionalAssemblyProbingPaths element.</span>
+<span class="cm">        3) In one of the plugin folders specified in the plugins element (only for assemblies with plugin attribute) --&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;OROptimizer.Shared&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;oroptimizer_shared&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;IoC.Configuration&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;ioc_config&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;IoC.Configuration.Autofac&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;autofac_ext&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;IoC.Configuration.Ninject&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;ninject_ext&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;WebApiDemo&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;web_api_demo&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;WebApiDemo.DynamicallyLoadedControllers&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;web_api_demo_dynamic_1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;assembly</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;WebApiDemo.Extension&quot;</span><span class="w"> </span><span class="na">alias=</span><span class="s">&quot;web_api_demo_ext&quot;</span><span class="w"> </span><span class="na">plugin=</span><span class="s">&quot;WebApiDemoExtension&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/assemblies&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;typeDefinitions&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;/typeDefinitions&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--an assembly attribute is not required, and only is needed to make sure the type is looked at a specific assembly</span>
+<span class="cm">    If the assembly attribute is omitted, the type will be looked in all assemblies specified in assemblies, plus some additional</span>
+<span class="cm">    assemblies such as OROptimizer.Shared, IoC.Configuration, etc.</span>
+<span class="cm">    --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;parameterSerializers</span><span class="w"> </span><span class="na">serializerAggregatorType=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator&quot;</span>
+<span class="w">                                              </span><span class="na">assembly=</span><span class="s">&quot;oroptimizer_shared&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!--</span>
+<span class="cm">        Use parameters element to specify constructor parameters, if the type specified in &#39;serializerAggregatorType&#39; attribute</span>
+<span class="cm">        has non-default constructor.</span>
+<span class="cm">        --&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!--&lt;parameters&gt;</span>
+<span class="cm">        &lt;/parameters&gt;--&gt;</span>
+<span class="w">            </span><span class="nt">&lt;serializers&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerDouble&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerLong&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerInt&quot;</span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerShort&quot;</span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerByte&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerBoolean&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerDateTime&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;parameterSerializer</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Serializer.TypeBasedSimpleSerializerString&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/serializers&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;/parameterSerializers&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--The value of the type attribute should be a type that implements IoC.Configuration.DiContainer.IDiManager--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;diManagers</span><span class="w"> </span><span class="na">activeDiManagerName=</span><span class="s">&quot;Autofac&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;diManager</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;Autofac&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;IoC.Configuration.Autofac.AutofacDiManager&quot;</span><span class="nt">&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/diManager&gt;</span>
+
+<span class="w">            </span><span class="cm">&lt;!--</span>
+<span class="cm">        ASP.NET DI integration is not yet supported IoC.Configuration.Ninject library.</span>
+<span class="cm">        Might be supported later if Ninject library implements the Microsoft.Extensions.DependencyInjection.IServiceProviderFactory</span>
+<span class="cm">        --&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!--&lt;diManager name=&quot;Ninject&quot; type=&quot;IoC.Configuration.Ninject.NinjectDiManager&quot;&gt;</span>
+<span class="cm">            &lt;/diManager&gt;--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/diManagers&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--</span>
+<span class="cm">    If settingsRequestor element is used, the type in the type attribute should</span>
+<span class="cm">    specify a type that implements IoC.Configuration.ISettingsRequestor.</span>
+<span class="cm">    The implementation specifies a collection of required settings that should be present</span>
+<span class="cm">    in a settings element.</span>
+<span class="cm">    Note, the type specified in the type attribute is fully integrated into a dependency</span>
+<span class="cm">    injection framework. In other words, constructor parameters will be injected using</span>
+<span class="cm">    bindings specified in the dependencyInjection element.</span>
+<span class="cm">    --&gt;</span>
+<span class="w">    </span><span class="cm">&lt;!--&lt;settingsRequestor type=&quot;SharedServices.FakeSettingsRequestor&quot;&gt;</span>
+<span class="cm">    &lt;/settingsRequestor&gt;--&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;settings&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/settings&gt;</span>
+
+<span class="w">    </span><span class="cm">&lt;!--</span>
+<span class="cm">      webApi is an optional element that contains ASP.NET Core related</span>
+<span class="cm">      sections such as assemblies with API controllers, etc.</span>
+<span class="cm">    --&gt;</span>
+<span class="w">    </span><span class="nt">&lt;webApi&gt;</span>
+<span class="w">            </span><span class="nt">&lt;controllerAssemblies&gt;</span>
+<span class="w">                    </span><span class="cm">&lt;!--</span>
+<span class="cm">                    Specify assemblies with API controllers.</span>
+<span class="cm">                    No need to include &#39;controllerAssembly&#39; for an assembly where the Program class is</span>
+<span class="cm">                    since controllers in that assembly will be automatically included</span>
+<span class="cm">            --&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;controllerAssembly</span><span class="w"> </span><span class="na">assembly=</span><span class="s">&quot;web_api_demo_dynamic_1&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/controllerAssemblies&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/webApi&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;dependencyInjection&gt;</span>
+<span class="w">            </span><span class="nt">&lt;modules&gt;</span>
+
+<span class="w">            </span><span class="nt">&lt;/modules&gt;</span>
+<span class="w">            </span><span class="nt">&lt;services&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;service</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;WebApiDemo.Domain.Employee.IEmployeeRepository&quot;</span><span class="w"> </span><span class="nt">&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;implementation</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;WebApiDemo.Domain.Employee.EmployeeRepository&quot;</span><span class="w"> </span><span class="na">scope=</span><span class="s">&quot;singleton&quot;</span><span class="nt">&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;/implementation&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/service&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;service</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;WebApiDemo.DynamicallyLoadedControllers.Controllers.IRandomNumberGenerator&quot;</span><span class="nt">&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;implementation</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;WebApiDemo.DynamicallyLoadedControllers.Controllers.RandomNumberGenerator&quot;</span><span class="w"> </span><span class="na">scope=</span><span class="s">&quot;singleton&quot;</span><span class="nt">&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;/implementation&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/service&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/services&gt;</span>
+
+<span class="w">            </span><span class="nt">&lt;autoGeneratedServices&gt;</span>
+
+<span class="w">            </span><span class="nt">&lt;/autoGeneratedServices&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependencyInjection&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;startupActions&gt;</span>
+<span class="w">            </span><span class="cm">&lt;!--&lt;startupAction type=&quot;DynamicallyLoadedAssembly1.Implementations.StartupAction2&quot;&gt;</span>
+<span class="cm">            &lt;/startupAction&gt;--&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/startupActions&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;pluginsSetup&gt;</span>
+<span class="w">            </span><span class="nt">&lt;pluginSetup</span><span class="w"> </span><span class="na">plugin=</span><span class="s">&quot;WebApiDemoExtension&quot;</span><span class="nt">&gt;</span>
+<span class="w">                    </span><span class="cm">&lt;!--The type in pluginImplementation should be a non-abstract class</span>
+<span class="cm">                that implements IoC.Configuration.IPlugin and which has a public constructor--&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;pluginImplementation</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;WebApiDemo.Extension.IoCConfigurationSetup.WebApiDemoPlugin&quot;</span><span class="nt">&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/pluginImplementation&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;settings&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/settings&gt;</span>
+
+<span class="w">                    </span><span class="nt">&lt;webApi&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;controllerAssemblies&gt;</span>
+<span class="w">                                    </span><span class="cm">&lt;!--</span>
+<span class="cm">                      Specify assemblies with API controllers.</span>
+<span class="cm">                    --&gt;</span>
+<span class="w">                                    </span><span class="nt">&lt;controllerAssembly</span><span class="w"> </span><span class="na">assembly=</span><span class="s">&quot;web_api_demo_ext&quot;</span><span class="nt">/&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;/controllerAssemblies&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/webApi&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;dependencyInjection&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;modules&gt;</span>
+
+<span class="w">                            </span><span class="nt">&lt;/modules&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;services&gt;</span>
+<span class="w">                                    </span><span class="nt">&lt;service</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;WebApiDemo.Extension.Domain.Company.ICompanyRepository&quot;</span><span class="w"> </span><span class="nt">&gt;</span>
+<span class="w">                                            </span><span class="nt">&lt;implementation</span><span class="w"> </span><span class="na">scope=</span><span class="s">&quot;singleton&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;WebApiDemo.Extension.Domain.Company.CompanyRepository&quot;</span><span class="nt">&gt;</span>
+<span class="w">                                            </span><span class="nt">&lt;/implementation&gt;</span>
+<span class="w">                                    </span><span class="nt">&lt;/service&gt;</span>
+
+<span class="w">                            </span><span class="nt">&lt;/services&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;autoGeneratedServices&gt;</span>
+
+<span class="w">                            </span><span class="nt">&lt;/autoGeneratedServices&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/dependencyInjection&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/pluginSetup&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/pluginsSetup&gt;</span>
+<span class="nt">&lt;/iocConfiguration&gt;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Application Integration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../maui/index.generated.html" class="btn btn-neutral float-right" title=".NET Maui Application Integration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Artak Hakobyan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
