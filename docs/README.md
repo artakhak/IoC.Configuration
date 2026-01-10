@@ -20,6 +20,10 @@ This is a Sphinx project for IoC.Configuration documentation.
      python -m pip install -U sphinx
      python -m pip install sphinx sphinx-autobuild
 
+### Install sphinx-rtd-theme Theme
+    cd "k:\..\IoC.Configuration\docs" 
+    pip install sphinx-rtd-theme
+
 ### Create the documentation project with sphinx
     -One time only: in command window run the following commands:
     
@@ -32,13 +36,20 @@ This is a Sphinx project for IoC.Configuration documentation.
 ### Building the docs
 
       - Run the application IoC.Configuration.DocumentationGenerator to re-generate md files from templates (inlcuding the main README.md file)
-      - In k:\..\IoC.Configuration\docs\conf.py set the value of html_theme to 'bizstyle'
+      - In k:\..\IoC.Configuration\docs\conf.py set the value of html_theme to 'sphinx_rtd_theme'
       -In command window change to "k:\..\IoC.Configuration\docs" directory (see the section above), and
         run the following command:
         make html
        
        -To reload the docs, run 
         sphinx-autobuild . _build/html
+
+### Running local python server to view/test rst files
+      - Run the following commands
+        cd _build/html
+        python -m http.server
+
+      - Open this page: http://localhost:8000/
         
 ### Publishing to Git
       -Before committing to git run "make clean" to clean the generated files. ReadTheDcos will build the docs.

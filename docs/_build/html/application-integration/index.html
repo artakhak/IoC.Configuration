@@ -1,114 +1,171 @@
 
+
 <!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Application Integration &mdash; IoC.Configuration 2.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
-    <title>Application Integration &#8212; IoC.Configuration 1.0.1 documentation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/classic.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
-    
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/jquery.js"></script>
-    <script src="../_static/underscore.js"></script>
-    <script src="../_static/doctools.js"></script>
-    
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f35be339"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="ASP.NET Core" href="asp-net-core.generated.html" />
+    <link rel="next" title="ASP.NET Service Integration" href="asp-net/index.generated.html" />
     <link rel="prev" title="Multiple Bindings" href="../resolving-types/resolving-to-multiple-types.html" /> 
-  </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="asp-net-core.generated.html" title="ASP.NET Core"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="../resolving-types/resolving-to-multiple-types.html" title="Multiple Bindings"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Application Integration</a></li> 
-      </ul>
-    </div>  
+</head>
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            IoC.Configuration
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../sample-files/index.html">Sample Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../bindings-in-modules/index.html">Type Binding In Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../xml-configuration-file/index.html">XML Configuration File</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../loading-ioc-configuration/index.html">Loading IoC Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../resolving-types/index.generated.html">Resolving Types</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Application Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#supported-frameworks">Supported Frameworks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="asp-net/index.generated.html">ASP.NET Service Integration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="maui/index.generated.html">.NET Maui Application Integration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="winui3/index.generated.html">WinUI 3 Application Integration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting/index.html">Trouble-shooting</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">IoC.Configuration</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Application Integration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/application-integration/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
   <section id="application-integration">
-<h1>Application Integration<a class="headerlink" href="#application-integration" title="Permalink to this headline">¶</a></h1>
+<h1>Application Integration<a class="headerlink" href="#application-integration" title="Link to this heading"></a></h1>
+<p>IoC.Configuration now supports seamless integration with various .NET application types by allowing the application’s native dependency injection container to use IoC.Configuration for resolving services.</p>
+<p>This integration is achieved through the use of the <code class="docutils literal notranslate"><span class="pre">IIntegratesWithHostBuilder</span></code> interface and specialized extension libraries for different frameworks. By hooking into the application’s host building process, IoC.Configuration can manage service registrations and resolution transparently.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>The integration typically involves:</p>
+<ol class="arabic">
+<li><p>Initializing the <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/DiContainerBuilder/DiContainerBuilder.cs">IoC.Configuration.DiContainerBuilder.DiContainerBuilder</a>.</p></li>
+<li><p>Configuring the file-based dependency injection.</p></li>
+<li><p>Using the <code class="docutils literal notranslate"><span class="pre">WithHostBuilder</span></code> method to provide an implementation of <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/DiContainerBuilder/IApplicationHostBuilder.cs">IoC.Configuration.DiContainerBuilder.IApplicationHostBuilder</a>.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The default implementation <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/DiContainerBuilder/ApplicationHostBuilder.cs">IoC.Configuration.DiContainerBuilder.ApplicationHostBuilder</a> works in some frameworks, such as in WinUI3 applications, while some other frameworks such as ASP.NET and Maui require custom implementations provided in nuget packages <a class="reference external" href="https://www.nuget.org/packages/IoC.Configuration.AspNet">IoC.Configuration.AspNet</a> and <a class="reference external" href="https://www.nuget.org/packages/IoC.Configuration.Maui">IoC.Configuration.Maui</a>.
+The source code of these packages can be found at these links: <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.AspNet">IoC.Configuration.AspNet</a>, <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.Maui">IoC.Configuration.Maui</a>.</p>
+</div>
+</div></blockquote>
+</li>
+<li><p>Registering modules and starting the container.</p></li>
+</ol>
+<p>Currently, this feature is primarily supported for file-based configurations.</p>
+</section>
+<section id="supported-frameworks">
+<h2>Supported Frameworks<a class="headerlink" href="#supported-frameworks" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>ASP.NET Core</strong>: Integration with the web host to resolve controllers and other services via IoC.Configuration. Refer to the example in project <code class="docutils literal notranslate"><span class="pre">WebApiDemo.csproj</span></code> and related projects in <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/ASP.NET.WebApi">ApplicationIntegrationDemos/ASP.NET.WebApi</a>.</p></li>
+<li><p><strong>.NET MAUI</strong>: Integration with the Maui app builder. Refer to the example in project <code class="docutils literal notranslate"><span class="pre">MauiDemo.csproj</span></code> and  related projects in <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/Maui">ApplicationIntegrationDemos/Maui</a>.</p></li>
+<li><p><strong>WinUI 3</strong>: Integration with WinUI 3 application hosting. Refer to the example in project <code class="docutils literal notranslate"><span class="pre">WinUI3Demo.csproj</span></code> and  related projects in <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/blob/master/ApplicationIntegrationDemos/WinUI3">ApplicationIntegrationDemos/WinUI3</a>.</p></li>
+</ul>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="asp-net-core.generated.html">ASP.NET Core</a></li>
+<li class="toctree-l1"><a class="reference internal" href="asp-net/index.generated.html">ASP.NET Service Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="asp-net/index.generated.html#implementation-details">Implementation Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="asp-net/index.generated.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="maui/index.generated.html">.NET Maui Application Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="maui/index.generated.html#integration-process">Integration Process</a></li>
+<li class="toctree-l2"><a class="reference internal" href="maui/index.generated.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="winui3/index.generated.html">WinUI 3 Application Integration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="winui3/index.generated.html#how-it-works">How it works</a></li>
+<li class="toctree-l2"><a class="reference internal" href="winui3/index.generated.html#example">Example</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </section>
+</section>
 
 
-            <div class="clearer"></div>
+           </div>
           </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../resolving-types/resolving-to-multiple-types.html" class="btn btn-neutral float-left" title="Multiple Bindings" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="asp-net/index.generated.html" class="btn btn-neutral float-right" title="ASP.NET Service Integration" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Artak Hakobyan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-  <div>
-    <h4>Previous topic</h4>
-    <p class="topless"><a href="../resolving-types/resolving-to-multiple-types.html"
-                          title="previous chapter">Multiple Bindings</a></p>
+    </section>
   </div>
-  <div>
-    <h4>Next topic</h4>
-    <p class="topless"><a href="asp-net-core.generated.html"
-                          title="next chapter">ASP.NET Core</a></p>
-  </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/application-integration/index.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
-<div id="searchbox" style="display: none" role="search">
-  <h3 id="searchlabel">Quick search</h3>
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</div>
-<script>$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="asp-net-core.generated.html" title="ASP.NET Core"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="../resolving-types/resolving-to-multiple-types.html" title="Multiple Bindings"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">IoC.Configuration 1.0.1 documentation</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">Application Integration</a></li> 
-      </ul>
-    </div>
-    <div class="footer" role="contentinfo">
-        &#169; Copyright 2018, Artak Hakobyan.
-      Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.5.0.
-    </div>
-  </body>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
 </html>

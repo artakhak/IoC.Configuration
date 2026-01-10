@@ -56,6 +56,7 @@ All these functionality will be explained in corresponding sections, however her
     </diManagers>
 
 .. toctree::
+
    sample-files/index.rst
    bindings-in-modules/index.rst
    xml-configuration-file/index.rst

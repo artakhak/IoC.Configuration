@@ -37,17 +37,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProjects.TestPluginAsse
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProjects.TestPluginAssembly3", "TestProjects.TestPluginAssembly3\TestProjects.TestPluginAssembly3.csproj", "{1FA30D83-4F50-41E9-A6E3-A2AA9852AA33}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{E5B1DF5A-07C3-4E11-A881-851D6C6E4927}"
-	ProjectSection(SolutionItems) = preProject
-		docs\conf.py = docs\conf.py
-		docs\index.rst = docs\index.rst
-		docs\InstallFromNuget.png = docs\InstallFromNuget.png
-		docs\make.bat = docs\make.bat
-		docs\Makefile = docs\Makefile
-		docs\README.md = docs\README.md
-		docs\__init__.py = docs\__init__.py
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{96926937-EF46-4E1C-8887-76DA0B8D4BF7}"
 	ProjectSection(SolutionItems) = preProject
 		.dockerignore = .dockerignore
@@ -55,22 +44,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 		README.md.template = README.md.template
 	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub", "GitHub", "{A34794D1-A604-4DBB-9AB9-1EA4B7F85C9D}"
-	ProjectSection(SolutionItems) = preProject
-		docs\GitHub\IoC.Configuration.Description.md = docs\GitHub\IoC.Configuration.Description.md
-		ReleaseNotes_IoC.Configuraion_2.0.0.txt = ReleaseNotes_IoC.Configuraion_2.0.0.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NuGet", "NuGet", "{3ACBE6AD-995F-4935-B55A-7A4900BB2151}"
-	ProjectSection(SolutionItems) = preProject
-		docs\NuGet\IoC.Configuration.Autofac.Documentation.md = docs\NuGet\IoC.Configuration.Autofac.Documentation.md
-		docs\NuGet\IoC.Configuration.Description.md = docs\NuGet\IoC.Configuration.Description.md
-		docs\NuGet\IoC.Configuration.Documentation.md = docs\NuGet\IoC.Configuration.Documentation.md
-		docs\NuGet\IoC.Configuration.Ninject.Documentation.md = docs\NuGet\IoC.Configuration.Ninject.Documentation.md
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{C925815B-2EB4-4EF7-8979-0F20E15F9AFD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestProjects.Plugin1WebApiControllers", "TestProjects.Plugin1WebApiControllers\TestProjects.Plugin1WebApiControllers.csproj", "{BE99EE2A-FB55-4FCA-906C-016127B6048B}"
 EndProject
@@ -89,150 +62,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestsSharedLibrary", "..\Te
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IoC.Configuration.Ninject.Tests", "IoC.Configuration.Ninject.Tests\IoC.Configuration.Ninject.Tests.csproj", "{82A16838-7608-4FCC-BD01-69407C57EC1F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "application-integration", "application-integration", "{F13863DF-D675-4BC7-B00B-7EA4DCBFFB78}"
-	ProjectSection(SolutionItems) = preProject
-		docs\application-integration\asp-net-core.generated.rst = docs\application-integration\asp-net-core.generated.rst
-		docs\application-integration\asp-net-core.generated.rst.generationdata = docs\application-integration\asp-net-core.generated.rst.generationdata
-		docs\application-integration\asp-net-core.rst.template = docs\application-integration\asp-net-core.rst.template
-		docs\application-integration\index.rst = docs\application-integration\index.rst
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bindings-in-modules", "bindings-in-modules", "{EFB2385F-5D85-4924-AF64-886BCCD97499}"
-	ProjectSection(SolutionItems) = preProject
-		docs\bindings-in-modules\index.rst = docs\bindings-in-modules\index.rst
-		docs\bindings-in-modules\ioc-configuration-modules.rst = docs\bindings-in-modules\ioc-configuration-modules.rst
-		docs\bindings-in-modules\native-modules.rst = docs\bindings-in-modules\native-modules.rst
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "loading-ioc-configuration", "loading-ioc-configuration", "{DDD6D3EE-1D12-44A0-9676-50A2AE1E4ADD}"
-	ProjectSection(SolutionItems) = preProject
-		docs\loading-ioc-configuration\index.rst = docs\loading-ioc-configuration\index.rst
-		docs\loading-ioc-configuration\loading-from-modules.rst = docs\loading-ioc-configuration\loading-from-modules.rst
-		docs\loading-ioc-configuration\loading-from-xml.generated.rst = docs\loading-ioc-configuration\loading-from-xml.generated.rst
-		docs\loading-ioc-configuration\loading-from-xml.generated.rst.generationdata = docs\loading-ioc-configuration\loading-from-xml.generated.rst.generationdata
-		docs\loading-ioc-configuration\loading-from-xml.rst.template = docs\loading-ioc-configuration\loading-from-xml.rst.template
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "resolving-types", "resolving-types", "{2D3DDDBB-8FF2-405E-9258-C71471C9045C}"
-	ProjectSection(SolutionItems) = preProject
-		docs\resolving-types\index.generated.rst = docs\resolving-types\index.generated.rst
-		docs\resolving-types\index.generated.rst.generationdata = docs\resolving-types\index.generated.rst.generationdata
-		docs\resolving-types\index.rst.template = docs\resolving-types\index.rst.template
-		docs\resolving-types\resolution-scopes.rst = docs\resolving-types\resolution-scopes.rst
-		docs\resolving-types\resolving-to-multiple-types.rst = docs\resolving-types\resolving-to-multiple-types.rst
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample-files", "sample-files", "{481A378B-2ED1-43C3-B2C1-407B5E325E55}"
-	ProjectSection(SolutionItems) = preProject
-		docs\sample-files\index.rst = docs\sample-files\index.rst
-		docs\sample-files\ioc.configuration-files.jpg = docs\sample-files\ioc.configuration-files.jpg
-		docs\sample-files\IoCConfiguration_autoService.generated.rst = docs\sample-files\IoCConfiguration_autoService.generated.rst
-		docs\sample-files\IoCConfiguration_autoService.generated.rst.generationdata = docs\sample-files\IoCConfiguration_autoService.generated.rst.generationdata
-		docs\sample-files\IoCConfiguration_autoService.rst.template = docs\sample-files\IoCConfiguration_autoService.rst.template
-		docs\sample-files\IoCConfiguration_autoServiceCustom.generated.rst = docs\sample-files\IoCConfiguration_autoServiceCustom.generated.rst
-		docs\sample-files\IoCConfiguration_autoServiceCustom.generated.rst.generationdata = docs\sample-files\IoCConfiguration_autoServiceCustom.generated.rst.generationdata
-		docs\sample-files\IoCConfiguration_autoServiceCustom.rst.template = docs\sample-files\IoCConfiguration_autoServiceCustom.rst.template
-		docs\sample-files\IoCConfiguration_classMember.generated.rst = docs\sample-files\IoCConfiguration_classMember.generated.rst
-		docs\sample-files\IoCConfiguration_classMember.generated.rst.generationdata = docs\sample-files\IoCConfiguration_classMember.generated.rst.generationdata
-		docs\sample-files\IoCConfiguration_classMember.rst.template = docs\sample-files\IoCConfiguration_classMember.rst.template
-		docs\sample-files\IoCConfiguration_collection.generated.rst = docs\sample-files\IoCConfiguration_collection.generated.rst
-		docs\sample-files\IoCConfiguration_collection.generated.rst.generationdata = docs\sample-files\IoCConfiguration_collection.generated.rst.generationdata
-		docs\sample-files\IoCConfiguration_collection.rst.template = docs\sample-files\IoCConfiguration_collection.rst.template
-		docs\sample-files\IoCConfiguration_constructedValue.generated.rst = docs\sample-files\IoCConfiguration_constructedValue.generated.rst
-		docs\sample-files\IoCConfiguration_constructedValue.generated.rst.generationdata = docs\sample-files\IoCConfiguration_constructedValue.generated.rst.generationdata
-		docs\sample-files\IoCConfiguration_constructedValue.rst.template = docs\sample-files\IoCConfiguration_constructedValue.rst.template
-		docs\sample-files\IoCConfiguration_GenericTypesAndTypeReUse.generated.rst = docs\sample-files\IoCConfiguration_GenericTypesAndTypeReUse.generated.rst
-		docs\sample-files\IoCConfiguration_GenericTypesAndTypeReUse.generated.rst.generationdata = docs\sample-files\IoCConfiguration_GenericTypesAndTypeReUse.generated.rst.generationdata
-		docs\sample-files\IoCConfiguration_GenericTypesAndTypeReUse.rst.template = docs\sample-files\IoCConfiguration_GenericTypesAndTypeReUse.rst.template
-		docs\sample-files\IoCConfiguration_Overview.generated.rst = docs\sample-files\IoCConfiguration_Overview.generated.rst
-		docs\sample-files\IoCConfiguration_Overview.generated.rst.generationdata = docs\sample-files\IoCConfiguration_Overview.generated.rst.generationdata
-		docs\sample-files\IoCConfiguration_Overview.rst.template = docs\sample-files\IoCConfiguration_Overview.rst.template
-		docs\sample-files\IoCConfiguration_proxyService.generated.rst = docs\sample-files\IoCConfiguration_proxyService.generated.rst
-		docs\sample-files\IoCConfiguration_proxyService.generated.rst.generationdata = docs\sample-files\IoCConfiguration_proxyService.generated.rst.generationdata
-		docs\sample-files\IoCConfiguration_proxyService.rst.template = docs\sample-files\IoCConfiguration_proxyService.rst.template
-		docs\sample-files\IoCConfiguration_settingValue_ReferencingInConfiguration.generated.rst = docs\sample-files\IoCConfiguration_settingValue_ReferencingInConfiguration.generated.rst
-		docs\sample-files\IoCConfiguration_settingValue_ReferencingInConfiguration.generated.rst.generationdata = docs\sample-files\IoCConfiguration_settingValue_ReferencingInConfiguration.generated.rst.generationdata
-		docs\sample-files\IoCConfiguration_settingValue_ReferencingInConfiguration.rst.template = docs\sample-files\IoCConfiguration_settingValue_ReferencingInConfiguration.rst.template
-		docs\sample-files\IoCConfiguration_valueImplementation.generated.rst = docs\sample-files\IoCConfiguration_valueImplementation.generated.rst
-		docs\sample-files\IoCConfiguration_valueImplementation.generated.rst.generationdata = docs\sample-files\IoCConfiguration_valueImplementation.generated.rst.generationdata
-		docs\sample-files\IoCConfiguration_valueImplementation.rst.template = docs\sample-files\IoCConfiguration_valueImplementation.rst.template
-		docs\sample-files\selecting-schema-in-vs.jpg = docs\sample-files\selecting-schema-in-vs.jpg
-		docs\sample-files\xml-configuration-file-schema.generated.rst = docs\sample-files\xml-configuration-file-schema.generated.rst
-		docs\sample-files\xml-configuration-file-schema.generated.rst.generationdata = docs\sample-files\xml-configuration-file-schema.generated.rst.generationdata
-		docs\sample-files\xml-configuration-file-schema.rst.template = docs\sample-files\xml-configuration-file-schema.rst.template
-		docs\sample-files\xml-configuration-template.generated.rst = docs\sample-files\xml-configuration-template.generated.rst
-		docs\sample-files\xml-configuration-template.generated.rst.generationdata = docs\sample-files\xml-configuration-template.generated.rst.generationdata
-		docs\sample-files\xml-configuration-template.rst.template = docs\sample-files\xml-configuration-template.rst.template
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "troubleshooting", "troubleshooting", "{BABD8418-0194-4D2F-A347-0A3A2E61C645}"
-	ProjectSection(SolutionItems) = preProject
-		docs\troubleshooting\index.rst = docs\troubleshooting\index.rst
-		docs\troubleshooting\index.rst.include-enable-in-future = docs\troubleshooting\index.rst.include-enable-in-future
-		docs\troubleshooting\resolution-resulting-in-deadlock.rst.include-enable-in-future = docs\troubleshooting\resolution-resulting-in-deadlock.rst.include-enable-in-future
-		docs\troubleshooting\troubleshooting-dynamically-generated-assembly.rst.template = docs\troubleshooting\troubleshooting-dynamically-generated-assembly.rst.template
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xml-configuration-file", "xml-configuration-file", "{AE54C6FB-0B15-49F4-98CA-D0090BF10971}"
-	ProjectSection(SolutionItems) = preProject
-		docs\xml-configuration-file\additional-services.rst = docs\xml-configuration-file\additional-services.rst
-		docs\xml-configuration-file\assemblies-and-probing-paths.rst = docs\xml-configuration-file\assemblies-and-probing-paths.rst
-		docs\xml-configuration-file\constructor-parameters.rst = docs\xml-configuration-file\constructor-parameters.rst
-		docs\xml-configuration-file\dependency-injection.rst = docs\xml-configuration-file\dependency-injection.rst
-		docs\xml-configuration-file\element-proxy-service.rst = docs\xml-configuration-file\element-proxy-service.rst
-		docs\xml-configuration-file\element-self-bound-service.rst = docs\xml-configuration-file\element-self-bound-service.rst
-		docs\xml-configuration-file\element-service.rst = docs\xml-configuration-file\element-service.rst
-		docs\xml-configuration-file\element-value-implementation.rst = docs\xml-configuration-file\element-value-implementation.rst
-		docs\xml-configuration-file\implementation-constructor-parameters.rst = docs\xml-configuration-file\implementation-constructor-parameters.rst
-		docs\xml-configuration-file\index.rst = docs\xml-configuration-file\index.rst
-		docs\xml-configuration-file\modules.rst = docs\xml-configuration-file\modules.rst
-		docs\xml-configuration-file\parameter-serializers.rst = docs\xml-configuration-file\parameter-serializers.rst
-		docs\xml-configuration-file\plugin-folders.jpg = docs\xml-configuration-file\plugin-folders.jpg
-		docs\xml-configuration-file\plugins.rst = docs\xml-configuration-file\plugins.rst
-		docs\xml-configuration-file\property-injection.rst = docs\xml-configuration-file\property-injection.rst
-		docs\xml-configuration-file\service-bindings.rst = docs\xml-configuration-file\service-bindings.rst
-		docs\xml-configuration-file\settings.rst = docs\xml-configuration-file\settings.rst
-		docs\xml-configuration-file\specifying-di-manager.rst = docs\xml-configuration-file\specifying-di-manager.rst
-		docs\xml-configuration-file\startup-actions.rst = docs\xml-configuration-file\startup-actions.rst
-		docs\xml-configuration-file\troubleshooting-configuration-file-errors.rst = docs\xml-configuration-file\troubleshooting-configuration-file-errors.rst
-		docs\xml-configuration-file\using-types-in-configuration.rst = docs\xml-configuration-file\using-types-in-configuration.rst
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "autogenerated-services", "autogenerated-services", "{2B4ABC50-6522-4D47-BFAD-63F01DFF34A9}"
-	ProjectSection(SolutionItems) = preProject
-		docs\xml-configuration-file\autogenerated-services\auto-method.rst = docs\xml-configuration-file\autogenerated-services\auto-method.rst
-		docs\xml-configuration-file\autogenerated-services\auto-property.rst = docs\xml-configuration-file\autogenerated-services\auto-property.rst
-		docs\xml-configuration-file\autogenerated-services\element-auto-service-custom.generated.rst = docs\xml-configuration-file\autogenerated-services\element-auto-service-custom.generated.rst
-		docs\xml-configuration-file\autogenerated-services\element-auto-service-custom.generated.rst.generationdata = docs\xml-configuration-file\autogenerated-services\element-auto-service-custom.generated.rst.generationdata
-		docs\xml-configuration-file\autogenerated-services\element-auto-service-custom.rst.generated.rst.generationdata = docs\xml-configuration-file\autogenerated-services\element-auto-service-custom.rst.generated.rst.generationdata
-		docs\xml-configuration-file\autogenerated-services\element-auto-service-custom.rst.template = docs\xml-configuration-file\autogenerated-services\element-auto-service-custom.rst.template
-		docs\xml-configuration-file\autogenerated-services\element-auto-service.rst = docs\xml-configuration-file\autogenerated-services\element-auto-service.rst
-		docs\xml-configuration-file\autogenerated-services\index.rst = docs\xml-configuration-file\autogenerated-services\index.rst
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "value-initialization-elements", "value-initialization-elements", "{13CE8DF1-8748-4683-8873-52E2AABE27F8}"
-	ProjectSection(SolutionItems) = preProject
-		docs\xml-configuration-file\value-initialization-elements\class-member.rst = docs\xml-configuration-file\value-initialization-elements\class-member.rst
-		docs\xml-configuration-file\value-initialization-elements\collection.rst = docs\xml-configuration-file\value-initialization-elements\collection.rst
-		docs\xml-configuration-file\value-initialization-elements\constructed-value.rst = docs\xml-configuration-file\value-initialization-elements\constructed-value.rst
-		docs\xml-configuration-file\value-initialization-elements\index.rst = docs\xml-configuration-file\value-initialization-elements\index.rst
-		docs\xml-configuration-file\value-initialization-elements\injected-object.rst = docs\xml-configuration-file\value-initialization-elements\injected-object.rst
-		docs\xml-configuration-file\value-initialization-elements\object.rst = docs\xml-configuration-file\value-initialization-elements\object.rst
-		docs\xml-configuration-file\value-initialization-elements\parameterValue.rst = docs\xml-configuration-file\value-initialization-elements\parameterValue.rst
-		docs\xml-configuration-file\value-initialization-elements\predefined-type-value-elements.rst = docs\xml-configuration-file\value-initialization-elements\predefined-type-value-elements.rst
-		docs\xml-configuration-file\value-initialization-elements\setting-value.rst = docs\xml-configuration-file\value-initialization-elements\setting-value.rst
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IoC.Configuration.DocumentationGenerator", "IoC.Configuration.DocumentationGenerator\IoC.Configuration.DocumentationGenerator.csproj", "{5E2D98AA-950D-4B19-9D8D-A9C31B84CB75}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileInclude", "..\FileInclude\FileInclude\FileInclude.csproj", "{1E4BA87D-7937-4436-97AE-647F901648B5}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_static", "_static", "{486FB99F-6540-47EE-AD93-FE8533BD2D7E}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "code-samples", "code-samples", "{AA610AEE-2519-4E9B-A50E-459BACB33BB1}"
-	ProjectSection(SolutionItems) = preProject
-		docs\code-samples\LoadConfigurationFromFile.cs = docs\code-samples\LoadConfigurationFromFile.cs
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassVisualizer", "..\ClassVisualizer\ClassVisualizer\ClassVisualizer.csproj", "{F664A3FD-BF1C-4CDF-BC4D-019E1B4A3D20}"
 EndProject
@@ -281,7 +113,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiDemo.Extension", "Appli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MauiDemo", "ApplicationIntegrationDemos\Maui\MauiDemo\MauiDemo.csproj", "{A2363BE2-B793-4A40-B4BD-239CAC98BCDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoC.Configuration.Maui", "IoC.Configuration.Maui\IoC.Configuration.Maui.csproj", "{C5E10916-0C49-47EF-AE6A-BF85123F8964}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IoC.Configuration.Maui", "IoC.Configuration.Maui\IoC.Configuration.Maui.csproj", "{C5E10916-0C49-47EF-AE6A-BF85123F8964}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "docs", "docs\docs.csproj", "{1634028E-F71B-409F-9A89-8A309FC10AA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -915,6 +749,22 @@ Global
 		{C5E10916-0C49-47EF-AE6A-BF85123F8964}.Release|x64.Build.0 = Release|Any CPU
 		{C5E10916-0C49-47EF-AE6A-BF85123F8964}.Release|x86.ActiveCfg = Release|Any CPU
 		{C5E10916-0C49-47EF-AE6A-BF85123F8964}.Release|x86.Build.0 = Release|Any CPU
+		{1634028E-F71B-409F-9A89-8A309FC10AA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1634028E-F71B-409F-9A89-8A309FC10AA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1634028E-F71B-409F-9A89-8A309FC10AA0}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{1634028E-F71B-409F-9A89-8A309FC10AA0}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{1634028E-F71B-409F-9A89-8A309FC10AA0}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1634028E-F71B-409F-9A89-8A309FC10AA0}.Debug|x64.Build.0 = Debug|Any CPU
+		{1634028E-F71B-409F-9A89-8A309FC10AA0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1634028E-F71B-409F-9A89-8A309FC10AA0}.Debug|x86.Build.0 = Debug|Any CPU
+		{1634028E-F71B-409F-9A89-8A309FC10AA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1634028E-F71B-409F-9A89-8A309FC10AA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1634028E-F71B-409F-9A89-8A309FC10AA0}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{1634028E-F71B-409F-9A89-8A309FC10AA0}.Release|ARM64.Build.0 = Release|Any CPU
+		{1634028E-F71B-409F-9A89-8A309FC10AA0}.Release|x64.ActiveCfg = Release|Any CPU
+		{1634028E-F71B-409F-9A89-8A309FC10AA0}.Release|x64.Build.0 = Release|Any CPU
+		{1634028E-F71B-409F-9A89-8A309FC10AA0}.Release|x86.ActiveCfg = Release|Any CPU
+		{1634028E-F71B-409F-9A89-8A309FC10AA0}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -934,26 +784,12 @@ Global
 		{D20425E9-9E7D-4C29-8B43-97F6F2347FFE} = {7F5DA0D6-7EBC-43A7-812D-3363089F05F5}
 		{06C87889-171C-4792-97BC-F76F190BAF9D} = {7F5DA0D6-7EBC-43A7-812D-3363089F05F5}
 		{1FA30D83-4F50-41E9-A6E3-A2AA9852AA33} = {7F5DA0D6-7EBC-43A7-812D-3363089F05F5}
-		{A34794D1-A604-4DBB-9AB9-1EA4B7F85C9D} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
-		{3ACBE6AD-995F-4935-B55A-7A4900BB2151} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
-		{C925815B-2EB4-4EF7-8979-0F20E15F9AFD} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
 		{BE99EE2A-FB55-4FCA-906C-016127B6048B} = {7F5DA0D6-7EBC-43A7-812D-3363089F05F5}
 		{7EC41ECD-B261-4770-826C-E7AC5893A695} = {765045D6-D2F2-445E-BAEC-12E5381A1BA2}
 		{3EBA55C8-8DE6-4019-9900-44A86AF9DA92} = {7F5DA0D6-7EBC-43A7-812D-3363089F05F5}
 		{0FBB3D62-C9A8-419F-98C2-C23D6C1FCC17} = {765045D6-D2F2-445E-BAEC-12E5381A1BA2}
 		{82A16838-7608-4FCC-BD01-69407C57EC1F} = {568B12B9-C907-46C1-9F30-089DB248AEBD}
-		{F13863DF-D675-4BC7-B00B-7EA4DCBFFB78} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
-		{EFB2385F-5D85-4924-AF64-886BCCD97499} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
-		{DDD6D3EE-1D12-44A0-9676-50A2AE1E4ADD} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
-		{2D3DDDBB-8FF2-405E-9258-C71471C9045C} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
-		{481A378B-2ED1-43C3-B2C1-407B5E325E55} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
-		{BABD8418-0194-4D2F-A347-0A3A2E61C645} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
-		{AE54C6FB-0B15-49F4-98CA-D0090BF10971} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
-		{2B4ABC50-6522-4D47-BFAD-63F01DFF34A9} = {AE54C6FB-0B15-49F4-98CA-D0090BF10971}
-		{13CE8DF1-8748-4683-8873-52E2AABE27F8} = {AE54C6FB-0B15-49F4-98CA-D0090BF10971}
 		{1E4BA87D-7937-4436-97AE-647F901648B5} = {765045D6-D2F2-445E-BAEC-12E5381A1BA2}
-		{486FB99F-6540-47EE-AD93-FE8533BD2D7E} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
-		{AA610AEE-2519-4E9B-A50E-459BACB33BB1} = {E5B1DF5A-07C3-4E11-A881-851D6C6E4927}
 		{F664A3FD-BF1C-4CDF-BC4D-019E1B4A3D20} = {765045D6-D2F2-445E-BAEC-12E5381A1BA2}
 		{F3E0FD90-CBB5-4035-AD66-08CA8DAD12A9} = {765045D6-D2F2-445E-BAEC-12E5381A1BA2}
 		{64DBA57D-CE28-4EFF-A6B7-943F559ACFBA} = {4D39118A-E231-429A-BDBF-6AA0C7265D64}

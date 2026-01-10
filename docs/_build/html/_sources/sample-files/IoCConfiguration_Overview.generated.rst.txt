@@ -129,6 +129,8 @@ This configuration file can be downloaded downloaded from `IoCConfiguration_Over
    		<assembly name="TestProjects.SharedServices" alias="shared_services" />
 
    		<assembly name="IoC.Configuration.Tests" alias="tests" />
+
+   		<assembly name="System.Threading.Tasks.Extensions" alias="threading_tasks_extensions" />
    	</assemblies>
 
    	<typeDefinitions>
@@ -404,7 +406,7 @@ This configuration file can be downloaded downloaded from `IoCConfiguration_Over
    				</injectedProperties>
    			</selfBoundService>
 
-   			<!--Life time scope with self bound services-->
+   			<!--Lifetime scope with self bound services-->
    			<selfBoundService type="DynamicallyLoadedAssembly1.Implementations.SelfBoundService3"
    							  scope="scopeLifetime">
    			</selfBoundService>

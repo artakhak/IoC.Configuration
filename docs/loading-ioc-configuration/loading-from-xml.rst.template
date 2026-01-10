@@ -12,7 +12,7 @@ To load the IoC configuration from XML configuration file use method **IoC.Confi
 .. sourcecode:: csharp
      :linenos:
      
-     <IncludedFilePlaceHolder>..\code-samples\LoadConfigurationFromFile.cs</IncludedFilePlaceHolder>		
+     <IncludedFilePlaceHolder>..\code-samples\load-configuration-from-file.cs.snippet</IncludedFilePlaceHolder>		
 
 - Once the configuration is loaded into **containerInfo** variable of type **IoC.Configuration.DiContainerBuilder.IContainerInfo**, resolve types using property **DiContainer** in **IoC.Configuration.DiContainerBuilder.IContainerInfo** (the property is of type **IoC.Configuration.DiContainer.IDiContainer**).
 - Interface **IoC.Configuration.DiContainerBuilder.IContainerInfo** extends **System.IDisposable**.

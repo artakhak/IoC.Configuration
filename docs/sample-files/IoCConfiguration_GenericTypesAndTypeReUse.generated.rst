@@ -100,6 +100,8 @@ This configuration file can be downloaded downloaded from `IoCConfiguration_Gene
        <assembly name="IoC.Configuration.Tests" alias="tests" />
 
        <assembly name="System.Private.CoreLib" alias="corlib"/>
+
+       <assembly name="System.Threading.Tasks.Extensions" alias="threading_tasks_extensions" />
      </assemblies>
 
      <typeDefinitions>

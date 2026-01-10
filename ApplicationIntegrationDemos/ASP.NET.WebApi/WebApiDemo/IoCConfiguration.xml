@@ -126,10 +126,10 @@
 	<webApi>
 		<controllerAssemblies>
 			<!--
-			Specify assemblies with API controllers.
-			The user of IoC.Configuration should add the assemblies to MVC using 
-			IMvcBuilder.AddApplicationPart(System.Reflection.Assembly)
-			-->
+            	Specify assemblies with API controllers.
+            	No need to include 'controllerAssembly' for an assembly where the Program class is 
+            	since controllers in that assembly will be automatically included 
+            -->
 			<controllerAssembly assembly="web_api_demo_dynamic_1" />
 		</controllerAssemblies>
 	</webApi>
@@ -172,8 +172,6 @@
 				<controllerAssemblies>
 					<!--
                       Specify assemblies with API controllers.
-                      The user of IoC.Configuration should add the assemblies to MVC using 
-                      IMvcBuilder.AddApplicationPart(System.Reflection.Assembly)
                     -->					
 					<controllerAssembly assembly="web_api_demo_ext"/>
 				</controllerAssemblies>

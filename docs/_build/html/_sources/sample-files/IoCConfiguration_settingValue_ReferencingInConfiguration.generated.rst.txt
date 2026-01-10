@@ -96,6 +96,8 @@ This configuration file can be downloaded downloaded from `IoCConfiguration_sett
        <assembly name="TestProjects.SharedServices" alias="shared_services" />
 
        <assembly name="IoC.Configuration.Tests" alias="tests" />
+   	  
+       <assembly name="System.Threading.Tasks.Extensions" alias="threading_tasks_extensions" />
      </assemblies>
 
      <typeDefinitions>

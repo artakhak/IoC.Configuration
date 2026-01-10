@@ -280,7 +280,7 @@ Look at test class below for an example of setting up and initializing the DI co
            };
            
            _containerInfo = new DiContainerBuilder.DiContainerBuilder()
-               .StartFileBasedDi(fileBasedConfigurationParameters, out _)
+               .StartFileBasedDi(fileBasedConfigurationParameters)
                .WithoutPresetDiContainer()
                .RegisterModules().Start();
        }

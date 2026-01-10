@@ -83,7 +83,7 @@ There are number of ways, listed below, that **IoC.Configuration** can be instru
            };
            
            var containerInfo = new DiContainerBuilder.DiContainerBuilder()
-               .StartFileBasedDi(fileBasedConfigurationParameters, out _)
+               .StartFileBasedDi(fileBasedConfigurationParameters)
                .WithoutPresetDiContainer()
                .RegisterModules().Start();
 
@@ -91,6 +91,7 @@ There are number of ways, listed below, that **IoC.Configuration** can be instru
            Assert.AreEqual(10, autoImplementedInterfaceInstance.GetValue());
        }
    }
+
 
 - Include the assembly in one of **iocConfiguration/assemblies/assembly** elements in configuration file. All assemblies specified in **iocConfiguration/assemblies/assembly** elements are added as references to dynamically generated assembly. However when the assembly is loaded, referenced assemblies are loaded to domain only if types in these assemblies are used in dynamic assembly.
    .. note::
