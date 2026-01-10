@@ -21,11 +21,12 @@
   <ItemGroup>
     <PackageReference Include="OROptimizer.Shared" Version="2.7.0" />
     <!--<ProjectReference Include="..\..\..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
-  </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\IoC.Configuration.AspNet\IoC.Configuration.AspNet.csproj" />
-    <ProjectReference Include="..\..\..\IoC.Configuration\IoC.Configuration.csproj" />
+    <PackageReference Include="IoC.Configuration" Version="3.0.0" />
+    <!--<ProjectReference Include="..\..\..\IoC.Configuration\IoC.Configuration.csproj" />-->
+
+    <PackageReference Include="IoC.Configuration.AspNet" Version="1.0.0" />
+    <!--<ProjectReference Include="..\..\..\IoC.Configuration.AspNet\IoC.Configuration.AspNet.csproj" />-->
   </ItemGroup>
 
   <ItemGroup>

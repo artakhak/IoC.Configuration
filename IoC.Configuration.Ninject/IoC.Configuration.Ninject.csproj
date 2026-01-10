@@ -33,7 +33,7 @@
 			 Implementation will be completed when Ninject library implements Microsoft.Extensions.DependencyInjection.IServiceProviderFactory&lt;TContainerBuilder&gt; 
 		</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Title>IoC.Configuration.Ninject</Title>
 	</PropertyGroup>
@@ -63,8 +63,8 @@
 		
 		<PackageReference Include="OROptimizer.Shared" Version="2.7.0" />
 		<!--<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
-		
-		<!--<PackageReference Include="IoC.Configuration" Version="2.2.0" />-->		
-		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+
+		<PackageReference Include="IoC.Configuration" Version="3.0.0" />
+		<!--<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />-->
 	</ItemGroup>
 </Project>

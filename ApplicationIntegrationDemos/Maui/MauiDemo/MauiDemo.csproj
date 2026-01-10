@@ -75,12 +75,15 @@
     <ItemGroup>
         <PackageReference Include="OROptimizer.Shared" Version="2.7.0" />
         <!--<ProjectReference Include="..\..\..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
+
+        <PackageReference Include="IoC.Configuration" Version="3.0.0" />
+        <!--<ProjectReference Include="..\..\..\IoC.Configuration\IoC.Configuration.csproj" />-->
+
+        <PackageReference Include="IoC.Configuration.Maui" Version="1.0.0" />
+        <!--<ProjectReference Include="..\..\..\IoC.Configuration.Maui\IoC.Configuration.Maui.csproj" />-->
     </ItemGroup>
     
     <ItemGroup>
-        <ProjectReference Include="..\..\..\IoC.Configuration.Maui\IoC.Configuration.Maui.csproj" />
-        <ProjectReference Include="..\..\..\IoC.Configuration\IoC.Configuration.csproj" />
-
         <ProjectReference Include="..\MauiDemo.Interfaces\MauiDemo.Interfaces.csproj" />
     </ItemGroup>
 

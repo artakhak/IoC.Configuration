@@ -13,7 +13,7 @@
 		<Authors>Artak Hakobyan</Authors>
 		<Company>OROptimizer</Company>
 		<Description>
-			An IoC.Configuration extension library with ASP.NET integration helper methods.
+			An IoC.Configuration extension library with ASP.NET integration interface implementations and helper methods.
 			Detailed documentation on IoC.Configuration is available at http://iocconfiguration.readthedocs.io/
 			Look at http://iocconfiguration.readthedocs.io/
 		</Description>
@@ -27,7 +27,7 @@
 			- Added an implementation of IoC.Configuration.DiContainerBuilder.IApplicationHostBuilder&lt;IHost&gt; for ASP.NET application.
 		</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Title>IoC.Configuration.AspNet</Title>
 	</PropertyGroup>
@@ -41,7 +41,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+		<PackageReference Include="IoC.Configuration" Version="3.0.0" />		
+		<!--<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />-->
 	</ItemGroup>
 
 	<ItemGroup>

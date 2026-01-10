@@ -11,10 +11,10 @@
 
 		<Title>IoC.Configuration.Maui</Title>
 
-		<Description>			
-			An IoC.Configuration extension library with Maui integration helper methods.
+		<Description>
+			An IoC.Configuration extension library with Maui integration interface implementations and helper methods.
 			Detailed documentation on IoC.Configuration is available at http://iocconfiguration.readthedocs.io/
-			Look at http://iocconfiguration.readthedocs.io/			
+			Look at http://iocconfiguration.readthedocs.io/
 		</Description>
 
 		<Copyright>Copyright 2025 (c) OROptimizer. All rights reserved.</Copyright>
@@ -27,6 +27,7 @@
 			- Added an implementation of IoC.Configuration.DiContainerBuilder.IApplicationHostBuilder&lt;MauiAppHost&gt; for setting up IoC.Configuration in Maui applications.
 		</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
 
     <ItemGroup>
@@ -39,7 +40,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+		<PackageReference Include="IoC.Configuration" Version="3.0.0" />
+		<!--<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />-->
 	</ItemGroup>
 
 </Project>
