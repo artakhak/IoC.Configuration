@@ -33,7 +33,7 @@
     <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="IoC.Configuration" Version="3.0.0" />
-    <!--<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />-->
+    <!--<PackageReference Include="IoC.Configuration" Version="3.0.0" />-->
+    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
   </ItemGroup>
 </Project>

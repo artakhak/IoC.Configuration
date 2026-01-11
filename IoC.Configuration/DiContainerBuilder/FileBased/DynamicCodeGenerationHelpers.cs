@@ -42,5 +42,10 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         {
             return $"SettingValue_{settingName}";
         }
+        
+        public static string IoCConfigurationContextDataClassName => "IoCConfigurationContextData";
+        public static string GetDiContainerPropertyName() => "DiContainer";
+        public static string GetSerializerAggregatorPropertyName() => "SerializerAggregator";
+        public static string GetValueProviderWithCachedValuesForValueInitializerElementsPropertyName() => "ValueProviderWithCachedValuesForValueInitializerElements";
     }
 }

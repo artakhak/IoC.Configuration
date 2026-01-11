@@ -21,8 +21,8 @@
 		<!--<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />-->
 		<PackageReference Include="TestsSharedLibrary" Version="1.0.3" />
 
-		<PackageReference Include="IoC.Configuration" Version="3.0.0" />
-		<!--<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />-->
+		<!--<PackageReference Include="IoC.Configuration" Version="3.0.0" />-->
+		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -189,6 +189,10 @@
 		<Compile Include="ProxyService\Services\IInterface1_Extension.cs" />
 		<Compile Include="ProxyService\Services\IInterface1_Extension_Impl1.cs" />
 		<Compile Include="ProxyService\Services\Interface1User.cs" />
+		<Compile Include="ProvidedValue\FailedLoadTests.cs" />
+		<Compile Include="ProvidedValue\SuccessfulLoadTests.cs" />
+		<Compile Include="ProvidedValue\SuccessfulLoadTests_Autofac.cs" />
+		<Compile Include="ProvidedValue\SuccessfulLoadTests_Ninject.cs" />
 		<Compile Include="SettingValue\Services\AppInfo.cs" />
 		<Compile Include="SettingValue\Services\IAppIds.cs" />
 		<Compile Include="SettingValue\Services\IAppInfo.cs" />
@@ -263,6 +267,9 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Include="IoCConfiguration_proxyService.xml" />
+		<None Include="IoCConfiguration_providedValue.xml">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Include="IoCConfiguration_settingValue_ReferencingInConfiguration.xml" />
 		<None Include="IoCConfiguration_valueImplementation.xml" />
 		<Content Include="TestTemplateFiles\IoCConfiguration_TestTemplate.xml" />

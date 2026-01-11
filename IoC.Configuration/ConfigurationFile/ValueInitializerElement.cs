@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright ï¿½ 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -31,14 +31,7 @@ namespace IoC.Configuration.ConfigurationFile
 {
     public abstract class ValueInitializerElement : ConfigurationFileElementAbstr, IValueInitializerElement
     {
-        #region Member Variables
-
-        [NotNull]
         private bool _addCodeGenerateValueCSharpWasCalled;
-
-        #endregion
-
-        #region  Constructors
 
         public ValueInitializerElement([NotNull] XmlElement xmlElement, IConfigurationFileElement parent,
                                        [NotNull] ITypeHelper typeHelper) :
@@ -46,10 +39,6 @@ namespace IoC.Configuration.ConfigurationFile
         {
             TypeHelper = typeHelper;
         }
-
-        #endregion
-
-        #region IValueInitializerElement Interface Implementation
 
         public string GenerateValueCSharp(IDynamicAssemblyBuilder dynamicAssemblyBuilder)
         {
@@ -75,10 +64,6 @@ namespace IoC.Configuration.ConfigurationFile
         /// </summary>
         public ITypeInfo ValueTypeInfo { get; private set; }
 
-        #endregion
-
-        #region Current Type Interface
-
         protected virtual void AddCodeOnGenerateValueCSharp(IDynamicAssemblyBuilder dynamicAssemblyBuilder)
         {
         }
@@ -93,13 +78,7 @@ namespace IoC.Configuration.ConfigurationFile
 
         public abstract bool IsResolvedFromDiContainer { get; }
 
-        #endregion
-
-        #region Member Functions
-
         [NotNull]
         protected ITypeHelper TypeHelper { get; }
-
-        #endregion
     }
 }

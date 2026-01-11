@@ -31,7 +31,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 {
     public class FileBasedDiContainerConfigurator : FileBasedConfiguratorAbstr, IFileBasedDiContainerConfigurator
     {
-        
         /// <summary>
         ///     Initializes a new instance of the <see cref="FileBasedDiContainerConfigurator" /> class.
         /// </summary>

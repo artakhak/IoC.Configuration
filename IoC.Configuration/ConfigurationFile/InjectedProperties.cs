@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright ï¿½ 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -32,22 +32,13 @@ namespace IoC.Configuration.ConfigurationFile
 {
     public class InjectedProperties : ConfigurationFileElementAbstr, IInjectedProperties
     {
-        #region Member Variables
-
         [NotNull]
         private readonly Dictionary<string, IInjectedPropertyElement> _propertyNameToPropertyMap = new Dictionary<string, IInjectedPropertyElement>(StringComparer.Ordinal);
-
-        #endregion
-
-        #region  Constructors
+    
 
         public InjectedProperties([NotNull] XmlElement xmlElement, IConfigurationFileElement parent) : base(xmlElement, parent)
         {
         }
-
-        #endregion
-
-        #region IInjectedProperties Interface Implementation
 
         public override void AddChild(IConfigurationFileElement child)
         {
@@ -65,7 +56,5 @@ namespace IoC.Configuration.ConfigurationFile
         }
 
         public IEnumerable<IInjectedPropertyElement> AllProperties => _propertyNameToPropertyMap.Values;
-
-        #endregion
     }
 }

@@ -96,7 +96,7 @@
   </typeDefinitions>
 
   <parameterSerializers>
-    <serializers></serializers>
+    <serializers />
   </parameterSerializers>
 
   <!--The value of type attribute should be a type that implements 

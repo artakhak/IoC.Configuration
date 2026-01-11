@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright ï¿½ 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -30,7 +30,7 @@ using JetBrains.Annotations;
 namespace IoC.Configuration
 {
     /// <summary>
-    ///     Settings in element iocCOnfiguration/settings in configuration file.
+    ///     Settings in element iocConfiguration/settings in configuration file.
     /// </summary>
     public interface ISettings
     {

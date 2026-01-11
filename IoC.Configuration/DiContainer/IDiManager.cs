@@ -109,7 +109,6 @@ namespace IoC.Configuration.DiContainer
         /// <returns>Returns a native DI module such as an Autofac Module class object.</returns>
         object GenerateNativeModule([NotNull] IDiModule module);
 
-
         /// <summary>
         ///     Returns a module object, such as Autofac or Ninject module, which sets all the required binding.
         ///     For example, this module can add binding for <see cref="IDiContainer" /> among other things.

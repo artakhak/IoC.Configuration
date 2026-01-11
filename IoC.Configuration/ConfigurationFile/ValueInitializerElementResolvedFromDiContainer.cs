@@ -26,6 +26,7 @@
 using System.Xml;
 using IoC.Configuration.DiContainer;
 using IoC.Configuration.DiContainerBuilder;
+using IoC.Configuration.DiContainerBuilder.FileBased;
 using JetBrains.Annotations;
 using OROptimizer.DynamicCode;
 
@@ -33,8 +34,6 @@ namespace IoC.Configuration.ConfigurationFile
 {
     public class ValueInitializerElementResolvedFromDiContainer : ValueInitializerElement
     {
-        #region  Constructors
-
         public ValueInitializerElementResolvedFromDiContainer([NotNull] XmlElement xmlElement,
                                                               IConfigurationFileElement parent,
                                                               [NotNull] ITypeHelper typeHelper) :
@@ -42,14 +41,20 @@ namespace IoC.Configuration.ConfigurationFile
         {
         }
 
-        #endregion
-
-        #region Member Functions
-
         protected override string DoGenerateValueCSharp(IDynamicAssemblyBuilder dynamicAssemblyBuilder)
         {
 #pragma warning disable CS0612, CS0618
-            return $"{typeof(DiContainerBuilderConfiguration).FullName}.{nameof(DiContainerBuilderConfiguration.DiContainerStatic)}.{nameof(IDiContainer.Resolve)}<{ValueTypeInfo.TypeCSharpFullName}>()";
+            return string.Concat(
+                FileBasedConfiguration.DynamicImplementationsNamespaceStatic,
+                ".",
+                DynamicCodeGenerationHelpers.IoCConfigurationContextDataClassName,
+                ".",
+                DynamicCodeGenerationHelpers.GetDiContainerPropertyName(),
+                ".",
+                nameof(IDiContainer.Resolve),
+                $"<{ValueTypeInfo.TypeCSharpFullName}>()"
+            );
+
 #pragma warning restore CS0612, CS0618
         }
 
@@ -65,7 +70,5 @@ namespace IoC.Configuration.ConfigurationFile
         }
 
         public override bool IsResolvedFromDiContainer => true;
-
-        #endregion
     }
 }

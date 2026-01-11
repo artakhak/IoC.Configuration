@@ -1,41 +1,41 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <EnableDefaultItems>false</EnableDefaultItems>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>bin\Debug\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <OutputPath>bin\Release\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <RootNamespace>TestPluginAssembly3</RootNamespace>
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="Implementations\Interface5_Plugin3Impl.cs" />
-    <Compile Include="Implementations\OracleDbConnection.cs" />
-    <Compile Include="Implementations\Plugin3.cs" />
-    <Compile Include="Implementations\Plugin3ActionValidator.cs" />
-  </ItemGroup>
+    <PropertyGroup Label="Globals">
+        <SccProjectName>SAK</SccProjectName>
+        <SccProvider>SAK</SccProvider>
+        <SccAuxPath>SAK</SccAuxPath>
+        <SccLocalPath>SAK</SccLocalPath>
+    </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <EnableDefaultItems>false</EnableDefaultItems>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+        <OutputPath>bin\Debug\</OutputPath>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+        <OutputPath>bin\Release\</OutputPath>
+    </PropertyGroup>
+    <PropertyGroup>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <RootNamespace>TestPluginAssembly3</RootNamespace>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="Implementations\Interface5_Plugin3Impl.cs"/>
+        <Compile Include="Implementations\OracleDbConnection.cs"/>
+        <Compile Include="Implementations\Plugin3.cs"/>
+        <Compile Include="Implementations\Plugin3ActionValidator.cs"/>
+    </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj"/>
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="OROptimizer.Shared" Version="2.7.0" />
-		<!--<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
+    <ItemGroup>
+        <!--<PackageReference Include="OROptimizer.Shared" Version="2.7.0" />-->
+        <ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj"/>
 
-      <PackageReference Include="IoC.Configuration" Version="3.0.0" />
-      <!--<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />-->
-	</ItemGroup>
+        <!--<PackageReference Include="IoC.Configuration" Version="3.0.0" />-->
+        <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj"/>
+    </ItemGroup>
 </Project>

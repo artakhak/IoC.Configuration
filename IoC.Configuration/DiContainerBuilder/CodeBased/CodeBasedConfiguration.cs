@@ -107,7 +107,6 @@ namespace IoC.Configuration.DiContainerBuilder.CodeBased
         {
             var allNativeModules = new List<object>(NativeAndDiModules.Count + 5);
 
-
             foreach (var nativeOrDiModule in NativeAndDiModules)
                 if (nativeOrDiModule is IDiModule)
                     allNativeModules.Add(GenerateNativeModule((IDiModule) nativeOrDiModule));

@@ -1,4 +1,4 @@
-// This software is part of the IoC.Configuration library
+ï»¿// This software is part of the IoC.Configuration library
 // Copyright © 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //

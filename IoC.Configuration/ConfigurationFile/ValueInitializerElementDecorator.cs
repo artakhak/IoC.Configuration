@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright ï¿½ 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -34,22 +34,12 @@ namespace IoC.Configuration.ConfigurationFile
 {
     public abstract class ValueInitializerElementDecorator : IValueInitializerElementDecorator
     {
-        #region Member Variables
-
         private bool _addCodeGenerateValueCSharpWasCalled;
-
-        #endregion
-
-        #region  Constructors
 
         protected ValueInitializerElementDecorator([NotNull] IValueInitializerElement decoratedValueInitializerElement)
         {
             DecoratedValueInitializerElement = decoratedValueInitializerElement;
         }
-
-        #endregion
-
-        #region IValueInitializerElementDecorator Interface Implementation
 
         public void AddChild(IConfigurationFileElement child)
         {
@@ -106,17 +96,13 @@ namespace IoC.Configuration.ConfigurationFile
 
         public ITypeInfo ValueTypeInfo => DecoratedValueInitializerElement.ValueTypeInfo;
 
-        #endregion
-
-        #region Current Type Interface
-
         protected virtual void AddCodeOnGenerateValueCSharp(IDynamicAssemblyBuilder dynamicAssemblyBuilder)
         {
         }
 
         protected virtual string DoGenerateValueCSharp(IDynamicAssemblyBuilder dynamicAssemblyBuilder)
         {
-            return InterceptValueInitialzerExceptionWithReturnedValue(
+            return InterceptValueInitializerExceptionWithReturnedValue(
                 () => DecoratedValueInitializerElement.GenerateValueCSharp(dynamicAssemblyBuilder));
         }
 
@@ -124,7 +110,7 @@ namespace IoC.Configuration.ConfigurationFile
 
         public virtual object GenerateValue()
         {
-            return InterceptValueInitialzerExceptionWithReturnedValue(DecoratedValueInitializerElement.GenerateValue);
+            return InterceptValueInitializerExceptionWithReturnedValue(DecoratedValueInitializerElement.GenerateValue);
         }
 
         public virtual void Initialize()
@@ -148,10 +134,6 @@ namespace IoC.Configuration.ConfigurationFile
         {
             return DecoratedValueInitializerElement.XmlElementToString();
         }
-
-        #endregion
-
-        #region Member Functions
 
         private void InterceptValueInitializerException([NotNull] Action action)
         {
@@ -178,7 +160,7 @@ namespace IoC.Configuration.ConfigurationFile
             }
         }
 
-        private T InterceptValueInitialzerExceptionWithReturnedValue<T>([NotNull] Func<T> funcToIntercept)
+        private T InterceptValueInitializerExceptionWithReturnedValue<T>([NotNull] Func<T> funcToIntercept)
         {
             var value = default(T);
 
@@ -186,7 +168,5 @@ namespace IoC.Configuration.ConfigurationFile
 
             return value;
         }
-
-        #endregion
     }
 }
