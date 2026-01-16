@@ -61,10 +61,10 @@
 		<PackageReference Include="Ninject" Version="3.3.6" />
 		<!--<PackageReference Include="Ninject.Extensions.DependencyInjection" Version="1.0.2" />-->
 		
-		<PackageReference Include="OROptimizer.Shared" Version="2.7.0" />
-		<!--<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
+		<!--<PackageReference Include="OROptimizer.Shared" Version="2.7.0" />-->
+		<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
 
-		<PackageReference Include="IoC.Configuration" Version="3.0.0" />
-		<!--<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />-->
+		<!--<PackageReference Include="IoC.Configuration" Version="3.0.0" />-->
+		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
 	</ItemGroup>
 </Project>

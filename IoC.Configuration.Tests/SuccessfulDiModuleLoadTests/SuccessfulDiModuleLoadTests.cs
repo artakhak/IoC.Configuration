@@ -44,17 +44,10 @@ namespace IoC.Configuration.Tests.SuccessfulDiModuleLoadTests
 {
     public abstract class SuccessfulDiModuleLoadTests
     {
-        #region Member Variables
-
         private static IContainerInfo _containerInfo;
         private static IDiContainer _diContainer;
 
-        private static DiImplementationType _diImplementationType;
         private static bool _mainLifeTimeScopeTerminatedExecuted;
-
-        #endregion
-
-        #region Member Functions
 
         protected static void ClassCleanupCommon()
         {
@@ -63,13 +56,10 @@ namespace IoC.Configuration.Tests.SuccessfulDiModuleLoadTests
             Assert.IsTrue(_mainLifeTimeScopeTerminatedExecuted);
         }
 
-        protected static void ClassInitializeCommon(DiImplementationType diImplementationType,
-                                                    Func<IContainerInfo> createContainerInfo)
+        protected static void ClassInitializeCommon(Func<IContainerInfo> createContainerInfo)
         {
             TestsHelper.SetupLogger();
             Log4Tests.LogLevel = LogLevel.Debug;
-
-            _diImplementationType = diImplementationType;
 
             _mainLifeTimeScopeTerminatedExecuted = false;
 
@@ -304,14 +294,9 @@ namespace IoC.Configuration.Tests.SuccessfulDiModuleLoadTests
             Assert.AreSame(interface14.InterfaceInjectedValue, interface14.NonInterfaceInjectedValue);
 
         }
-        #endregion
-
-        #region Nested Types
 
         protected class TestModule2 : ModuleAbstr
         {
-            #region Member Functions
-
             protected override void AddServiceRegistrations()
             {
                 Bind<ClassToTestServicesInjection<Class4>>().ToSelf();
@@ -323,9 +308,6 @@ namespace IoC.Configuration.Tests.SuccessfulDiModuleLoadTests
                 Bind<IInterface13>().To(x => x.Resolve<Interface13_Impl1>()).SetResolutionScope(DiResolutionScope.Singleton);
                 Bind<IInterface14>().To<Interface14_Impl1>().SetResolutionScope(DiResolutionScope.Singleton);
             }
-
-            #endregion
         }
-        #endregion
     }
 }

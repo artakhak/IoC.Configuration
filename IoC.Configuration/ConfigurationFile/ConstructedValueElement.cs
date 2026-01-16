@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright ï¿½ 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -36,7 +36,7 @@ using OROptimizer.DynamicCode;
 namespace IoC.Configuration.ConfigurationFile
 {
     /// <summary>
-    ///     Used for values created by constructor. For example the value might be defined by specifying type and constructor
+    ///     Used for values created by constructor. For example, the value might be defined by specifying type and constructor
     ///     parameters
     ///     using <see cref="ConfigurationFileElementNames.Parameters" />).
     ///     If no <see cref="ConfigurationFileElementNames.Parameters" /> child element exists, the type should have a default
@@ -44,8 +44,6 @@ namespace IoC.Configuration.ConfigurationFile
     /// </summary>
     public class ConstructedValueElement : ConstructedValueElementBase
     {
-        #region Member Variables
-
         private Type[] _constructorParameterTypes;
 
         [NotNull]
@@ -55,10 +53,6 @@ namespace IoC.Configuration.ConfigurationFile
 
         [NotNull]
         private readonly IInjectedPropertiesValidator _injectedPropertiesValidator;
-
-        #endregion
-
-        #region  Constructors
 
         public ConstructedValueElement([NotNull] XmlElement xmlElement, IConfigurationFileElement parent,
                                        [NotNull] ITypeHelper typeHelper,
@@ -70,10 +64,6 @@ namespace IoC.Configuration.ConfigurationFile
             _injectedPropertiesValidator = injectedPropertiesValidator;
             _createInstanceFromTypeAndConstructorParameters = createInstanceFromTypeAndConstructorParameters;
         }
-
-        #endregion
-
-        #region Member Functions
 
         public override void AddChild(IConfigurationFileElement child)
         {
@@ -162,7 +152,6 @@ namespace IoC.Configuration.ConfigurationFile
         }
 
         [CanBeNull]
-        [ItemNotNull]
         protected IInjectedProperties InjectedProperties { get; private set; }
 
         public override void ValidateAfterChildrenAdded()
@@ -185,7 +174,5 @@ namespace IoC.Configuration.ConfigurationFile
                     InjectedProperties.AllProperties, out var injectedPropertiesInfo);
             }
         }
-
-        #endregion
     }
 }

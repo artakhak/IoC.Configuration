@@ -7,13 +7,7 @@ namespace TestPluginAssembly1.Implementations
 {
     public class Plugin1 : PluginBaseForTests
     {
-        #region Member Variables
-
         private readonly List<SettingInfo> _requiredSettings;
-
-        #endregion
-
-        #region  Constructors
 
         public Plugin1(long param1)
         {
@@ -22,10 +16,6 @@ namespace TestPluginAssembly1.Implementations
             _requiredSettings.Add(new SettingInfo("Int32Setting1", typeof(int)));
             _requiredSettings.Add(new SettingInfo("StringSetting1", typeof(string)));
         }
-
-        #endregion
-
-        #region Member Functions
 
         protected override void InitializeVirtual()
         {
@@ -38,7 +28,5 @@ namespace TestPluginAssembly1.Implementations
         public long Property2 { get; set; }
 
         public override IEnumerable<SettingInfo> RequiredSettings => _requiredSettings;
-
-        #endregion
     }
 }

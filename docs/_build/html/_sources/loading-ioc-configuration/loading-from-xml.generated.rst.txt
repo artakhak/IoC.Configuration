@@ -4,7 +4,7 @@ Loading from XML Configuration File
 
 An example of XML configuration file can be found at :doc:`../sample-files/IoCConfiguration_Overview.generated`. This file is used in test project `IoC.Configuration.Tests <https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.Tests>`_.
 
--The XML Configuration file is validated against XML schema file **IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd** (see :doc:`../sample-files/xml-configuration-file-schema.generated`).
+-The XML Configuration file is validated against XML schema file **IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd** (see :doc:`../sample-files/xml-configuration-file-schema.generated`).
 -A template XML Configuration file **IoC.Configuration.Template.xml** can be found in folder **IoC.Configuration.Content**, where the Nuget package **IoC.Configuration** is installed (see :doc:`../sample-files/xml-configuration-template.generated`).
 
 To load the IoC configuration from XML configuration file use method **IoC.Configuration.DiContainerBuilder.DiContainerBuilder.StartFileBasedDi()** as shown below.
@@ -101,7 +101,7 @@ The XML Configuration file can be modified at runtime by passing a delegate for 
 
 This method loads the configuration file into an instance of **System.Xml.XmlDocument** object, and executes the delegate passed in parameter **configurationFileXmlDocumentLoaded**.
 
-By the time the delegate is executed, **System.Xml.XmlDocument** object is not yet validated against the XML schema file **IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd** (this is done after the delegate is executed). Therefore, the changes to **System.Xml.XmlDocument** object should be done in such a way that the XML document is still valid against this schema file.
+By the time the delegate is executed, **System.Xml.XmlDocument** object is not yet validated against the XML schema file **IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd** (this is done after the delegate is executed). Therefore, the changes to **System.Xml.XmlDocument** object should be done in such a way that the XML document is still valid against this schema file.
 
 Example of modifying the XML document at runtime to replace the value of attribute **activeDiManagerName** in element **/iocConfiguration/diManagers** with **Autofac** is shown below (this is copied from the C# code above).
 

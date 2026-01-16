@@ -6,7 +6,7 @@ There is a test project **IoC.Configuration.Tests** at this location, demonstrat
 The test project has a sample XML configuration file for type bindings (and for providing some other functionality), which demonstrates most features of **IoC.Configuration**. 
 The sample configuration file can be downloaded at [https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests/IoCConfiguration_Overview.xml](https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests/IoCConfiguration_Overview.xml).
 
-The XML configuration file is validated against schema file **IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd**.
+The XML configuration file is validated against schema file **IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd**.
 The schema file along with a template XML configuration file can be found in folder
 **IoC.Cnfiguration.Content** in package directory or at [https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration/IoC.Configuration.Content](https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration/IoC.Configuration.Content).
 

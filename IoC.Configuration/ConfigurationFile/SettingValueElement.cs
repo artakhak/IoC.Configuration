@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright ï¿½ 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -29,43 +29,12 @@ using OROptimizer.DynamicCode;
 
 namespace IoC.Configuration.ConfigurationFile
 {
-    public class SettingValueInitializerHelper : ISettingValueInitializerHelper
-    {
-        #region ISettingValueInitializerHelper Interface Implementation
-
-        public ISettingElement GetSettingElement(IConfigurationFileElement requestingConfigurationFileElement, string settingName)
-        {
-            if (string.IsNullOrEmpty(settingName))
-                throw new ConfigurationParseException(requestingConfigurationFileElement, "The setting name cannot be empty.");
-
-            ISettingElement _settingElement = null;
-            if (requestingConfigurationFileElement.OwningPluginElement != null)
-                _settingElement = requestingConfigurationFileElement.GetPluginSetupElement().SettingsElement?.GetSettingElement(settingName);
-
-            if (_settingElement == null)
-                _settingElement = requestingConfigurationFileElement.Configuration.SettingsElement?.GetSettingElement(settingName);
-
-            if (_settingElement == null)
-                throw new ConfigurationParseException(requestingConfigurationFileElement, $"Setting with name '{settingName}' was not found.");
-
-            return _settingElement;
-        }
-
-        #endregion
-    }
-
     public class SettingValueElement : ValueInitializerElement
     {
-        #region Member Variables
-
         private ISettingElement _settingElement;
 
         [NotNull]
         private readonly ISettingValueInitializerHelper _settingValueInitializerHelper;
-
-        #endregion
-
-        #region  Constructors
 
         public SettingValueElement([NotNull] XmlElement xmlElement, IConfigurationFileElement parent,
                                    [NotNull] ITypeHelper typeHelper,
@@ -73,10 +42,6 @@ namespace IoC.Configuration.ConfigurationFile
         {
             _settingValueInitializerHelper = settingValueInitializerHelper;
         }
-
-        #endregion
-
-        #region Member Functions
 
         /// <summary>
         ///     Generates a code that returns an instance of a value of type specified by property
@@ -119,7 +84,5 @@ namespace IoC.Configuration.ConfigurationFile
 
         /// <summary>Gets a value indicating whether this instance is resolved from di container.</summary>
         public override bool IsResolvedFromDiContainer => false;
-
-        #endregion
     }
 }

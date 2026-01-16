@@ -23,6 +23,15 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml;
+using System.Xml.Schema;
 using IoC.Configuration.ConfigurationFile;
 using IoC.Configuration.DependencyInjection;
 using IoC.Configuration.DiContainer;
@@ -35,14 +44,6 @@ using OROptimizer;
 using OROptimizer.Diagnostics.Log;
 using OROptimizer.DynamicCode;
 using OROptimizer.Serializer;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Xml;
-using System.Xml.Schema;
 
 namespace IoC.Configuration.DiContainerBuilder.FileBased
 {
@@ -105,7 +106,7 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         /// </param>
         /// <param name="entryAssemblyFolder">
         ///     The location where the executable is.
-        ///     For non test projects <see cref="IGlobalsCore.EntryAssemblyFolder" /> can be used as a value for this parameter.
+        ///     For non-test projects <see cref="IGlobalsCore.EntryAssemblyFolder" /> can be used as a value for this parameter.
         ///     However, for tests projects <see cref="IGlobalsCore.EntryAssemblyFolder" /> might be
         ///     be the folder where the test execution library is, so a different value might need to be passed.
         /// </param>
@@ -136,20 +137,37 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         /// <param name="fileBasedConfigurationParameters">An instance of <see cref="FileBasedConfigurationParameters"/> used to load and process the configuration file.</param>
         // ReSharper disable once NotNullMemberIsNotInitialized
         public FileBasedConfiguration([NotNull] FileBasedConfigurationParameters fileBasedConfigurationParameters) : 
-            base(fileBasedConfigurationParameters.EntryAssemblyFolder)
+            base(fileBasedConfigurationParameters.EntryAssemblyFolder, fileBasedConfigurationParameters.ValueProviders)
         {
             _fileBasedConfigurationParameters = fileBasedConfigurationParameters;
 
             var assemblyLocator = IoCServiceFactoryAmbientContext.Context.CreateAssemblyLocator(() => Configuration, fileBasedConfigurationParameters.EntryAssemblyFolder);
 
             _assemblyLocator = assemblyLocator;
-            _configurationFileElementFactory = new ConfigurationFileElementFactory(assemblyLocator);
+            _configurationFileElementFactory = new ConfigurationFileElementFactory(assemblyLocator,
+                this.ValueProviderWithCachedValuesForValueInitializerElements);
 
             var uniqueId = GlobalsCoreAmbientContext.Context.GenerateUniqueId();
             _dynamicImplementationsNamespace = $"DynamicImplementations_{uniqueId}";
+
+#pragma warning disable CS0618 // Type or member is obsolete
+            _dynamicImplementationsNamespaceStatic = _dynamicImplementationsNamespace;
+#pragma warning restore CS0618 // Type or member is obsolete
+            
             _dynamicallyGeneratedAssemblyFileName = $"DynamicallyGeneratedAssembly_{uniqueId}.dll";
         }
 
+        [Obsolete("This property should be used only in dynamically generated code.")]
+        [ThreadStatic]
+        private static string _dynamicImplementationsNamespaceStatic;
+
+        [Obsolete("This property should be used only in dynamically generated code.")]
+        internal static string DynamicImplementationsNamespaceStatic
+        {
+            get => _dynamicImplementationsNamespaceStatic;
+            private set => _dynamicImplementationsNamespaceStatic = value;
+        }
+        
         private void AddAssemblyReferencesFromAssembliesElementToDynamicAssembly([NotNull] IDynamicAssemblyBuilder dynamicAssemblyBuilder)
         {
             // Instead of hunting for all assemblies across the configuration file, for now lets just add 
@@ -246,7 +264,7 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 
                 if (pluginSetup.DependencyInjection != null)
                     ProcessDependencyInjectionSection(dynamicAssemblyBuilder, pluginSetup.DependencyInjection,
-                        $"{_dynamicImplementationsNamespace}.{pluginSetup.Plugin.Name}_{OROptimizer.GlobalsCoreAmbientContext.Context.GenerateUniqueId()}", "PluginServicesModule",
+                        $"{_dynamicImplementationsNamespace}.{pluginSetup.Plugin.Name}_{GlobalsCoreAmbientContext.Context.GenerateUniqueId()}", "PluginServicesModule",
                         interfaceImplementationsInfo, allGeneratedModuleInfos);
             }
 
@@ -308,8 +326,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                 foreach (var filePath in files)
                 {
                     var fileName = Path.GetFileName(filePath);
-
-                    //if (file)
 
                     var regex = new Regex("^DynamicallyGeneratedAssembly_[0-9]*.(dll|pdb)$", RegexOptions.IgnoreCase);
 
@@ -402,6 +418,8 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                     _fileBasedConfigurationParameters.LoadedAssemblies,
                     _fileBasedConfigurationParameters.AdditionalReferencedAssemblies?.ToArray()))
             {
+                AddIoCConfigurationContextDataClass(dynamicAssemblyBuilder);
+                    
                 dynamicAssemblyBuilder.StartDynamicallyGeneratedClass(DynamicCodeGenerationHelpers.DynamicImplementationsClassName);
                 dynamicAssemblyBuilder.StartDynamicallyGeneratedClass(DynamicCodeGenerationHelpers.ClassMembersClassName);
 
@@ -454,6 +472,32 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
 
             LogHelper.Context.Log.InfoFormat("Finished generating dependency injection modules from configuration file.");
             return allGeneratedModuleInfos.Select(moduleInfo => moduleInfo.GetNativeModule());
+        }
+
+        private void AddIoCConfigurationContextDataClass(IDynamicAssemblyBuilder dynamicAssemblyBuilder)
+        {
+#pragma warning disable CS0618 // Type or member is obsolete
+            
+            var dynamicallyGeneratedIoCConfigurationContextDataClass = dynamicAssemblyBuilder.StartDynamicallyGeneratedClass(DynamicCodeGenerationHelpers.IoCConfigurationContextDataClassName, _dynamicImplementationsNamespace);
+            
+            void AddContextDataMethod(string propertyName, Type returnedValueType)
+            {
+                dynamicallyGeneratedIoCConfigurationContextDataClass.AddCodeLine(
+                    string.Concat("public static ", returnedValueType.FullName, " ", propertyName, " { get; set; }"));
+            }
+            
+            AddContextDataMethod( 
+                DynamicCodeGenerationHelpers.GetDiContainerPropertyName(),
+                typeof(IDiContainer));
+            
+            AddContextDataMethod( 
+                DynamicCodeGenerationHelpers.GetSerializerAggregatorPropertyName(), 
+                typeof(ITypeBasedSimpleSerializerAggregator));
+            
+            AddContextDataMethod(
+                DynamicCodeGenerationHelpers.GetValueProviderWithCachedValuesForValueInitializerElementsPropertyName(), 
+                typeof(IValueProviderWithCachedValuesForValueInitializerElements));
+#pragma warning restore CS0618 // Type or member is obsolete
         }
 
         private string GetDynamicallyGeneratedAssemblyFilePath()
@@ -656,6 +700,43 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
             {
                 LogAnErrorAndRethrowException(e, message => new ConfigurationParseException(message));
             }
+        }
+
+        protected internal override void ProcessOnContainerStarted(IDiContainer diContainer, 
+            IValueProviderWithCachedValuesForValueInitializerElements valueProviderWithCachedValuesForValueInitializerElements, 
+            ITypeBasedSimpleSerializerAggregator typeBasedSimpleSerializerAggregator)
+        {
+            base.ProcessOnContainerStarted(diContainer, valueProviderWithCachedValuesForValueInitializerElements, typeBasedSimpleSerializerAggregator);
+
+            if (_loadedDynamicAssembly == null)
+                throw new ApplicationException($"The value of '_loadedDynamicAssembly' is null when calling [{nameof(ProcessOnContainerStarted)}].");
+
+            var className = string.Concat(_dynamicImplementationsNamespace,
+                ".", DynamicCodeGenerationHelpers.IoCConfigurationContextDataClassName);
+            
+            var contextDataClassInfo = _loadedDynamicAssembly.GetType(className);
+            
+            if (contextDataClassInfo == null)
+                throw new ApplicationException($"The class '{className}' was not found in the dynamically generated assembly '{_loadedDynamicAssembly.FullName}'.");
+
+            void SetStaticPropertyValue(string propertyName, object value)
+            {
+                var propertyInfo = contextDataClassInfo.GetProperty(propertyName, BindingFlags.Public | BindingFlags.Static);
+           
+                if (propertyInfo == null)
+                    throw new ApplicationException($"Failed to find property '{propertyName}' in class '{className}'.");
+            
+                propertyInfo.SetValue(null, value);
+            }
+            
+            SetStaticPropertyValue(DynamicCodeGenerationHelpers.GetDiContainerPropertyName(), 
+                diContainer);
+            
+            SetStaticPropertyValue(DynamicCodeGenerationHelpers.GetSerializerAggregatorPropertyName(), 
+                typeBasedSimpleSerializerAggregator);
+            
+            SetStaticPropertyValue(DynamicCodeGenerationHelpers.GetValueProviderWithCachedValuesForValueInitializerElementsPropertyName(), 
+                valueProviderWithCachedValuesForValueInitializerElements);
         }
 
         private void ProcessConfigurationFileElementAfterTreeConstructed(IConfigurationFileElement configurationFileElement, ref bool stopProcessing)
@@ -963,7 +1044,6 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
                     return $"{GetType()}-{_moduleClassFullName}";
                 return $"{GetType()}-{NativeModuleObject.GetType().FullName}";
             }
-
         }
     }
 }

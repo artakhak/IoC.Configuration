@@ -41,7 +41,7 @@ namespace IoC.Configuration.Tests.SuccessfulDiModuleLoadTests
         [OneTimeSetUp]
         public static void ClassInitialize()
         {
-            ClassInitializeCommon(DiImplementationType.Ninject, () => CreateCodeBasedContainerInfo(DiImplementationType.Ninject));
+            ClassInitializeCommon(() => CreateCodeBasedContainerInfo(DiImplementationType.Ninject));
         }
 
         #endregion

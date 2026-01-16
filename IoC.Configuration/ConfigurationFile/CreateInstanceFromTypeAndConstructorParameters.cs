@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright ï¿½ 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -34,23 +34,13 @@ namespace IoC.Configuration.ConfigurationFile
 {
     public class CreateInstanceFromTypeAndConstructorParameters : ICreateInstanceFromTypeAndConstructorParameters
     {
-        #region Member Variables
-
         [NotNull]
         private readonly IInjectedPropertiesValidator _injectedPropertiesValidator;
-
-        #endregion
-
-        #region  Constructors
 
         public CreateInstanceFromTypeAndConstructorParameters([NotNull] IInjectedPropertiesValidator injectedPropertiesValidator)
         {
             _injectedPropertiesValidator = injectedPropertiesValidator;
         }
-
-        #endregion
-
-        #region ICreateInstanceFromTypeAndConstructorParameters Interface Implementation
 
         public object CreateInstance(IConfigurationFileElement configurationFileElement, Type createdObjectType,
                                      IEnumerable<IParameterElement> constructorParameters,
@@ -65,10 +55,6 @@ namespace IoC.Configuration.ConfigurationFile
         {
             return GenerateValueLocal(configurationFileElement, validBaseType, createdObjectType, constructorParameters, injectedProperties);
         }
-
-        #endregion
-
-        #region Member Functions
 
         private object GenerateValueLocal(IConfigurationFileElement configurationFileElement, Type validBaseType, Type createdObjectType,
                                           IEnumerable<IParameterElement> constructorParameters,
@@ -139,7 +125,5 @@ namespace IoC.Configuration.ConfigurationFile
                 throw new ConfigurationParseException(configurationFileElement, $"Failed to generate an instance of type {createdObjectType}.");
             }
         }
-
-        #endregion
     }
 }

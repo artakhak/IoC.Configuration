@@ -31,8 +31,6 @@ namespace IoC.Configuration.ConfigurationFile
 {
     public interface IConfigurationFileElementFactory
     {
-        #region Current Type Interface
-
         [NotNull]
         IConfiguration CreateConfiguration(XmlElement xmlElement);
 
@@ -45,7 +43,5 @@ namespace IoC.Configuration.ConfigurationFile
         /// <exception cref="ConfigurationParseException"></exception>
         [NotNull]
         IConfigurationFileElement CreateConfigurationFileElement([NotNull] XmlElement xmlElement, [NotNull] IConfigurationFileElement parentConfigurationFileElement);
-
-        #endregion
     }
 }

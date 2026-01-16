@@ -41,7 +41,7 @@ namespace IoC.Configuration.Tests.SuccessfulDiModuleLoadTests
         [OneTimeSetUp]
         public static void ClassInitialize()
         {
-            ClassInitializeCommon(DiImplementationType.Autofac, () => CreateFileConfigurationBasedContainerInfo(DiImplementationType.Autofac));
+            ClassInitializeCommon(() => CreateFileConfigurationBasedContainerInfo(DiImplementationType.Autofac));
         }
 
         #endregion

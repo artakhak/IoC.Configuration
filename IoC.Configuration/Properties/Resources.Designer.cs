@@ -73,66 +73,11 @@ namespace IoC.Configuration.Properties {
         ///
         ///            &lt;!--The same ob [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string IoC_Configuration_Schema_2F7CE7FF_CB22_40B0_9691_EAC689C03A36 {
-            get {
-                return ResourceManager.GetString("IoC_Configuration_Schema_2F7CE7FF_CB22_40B0_9691_EAC689C03A36", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-        ///&lt;xs:schema attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
-        ///    &lt;xs:simpleType name=&quot;scopeValues&quot;&gt;
-        ///        &lt;xs:restriction base=&quot;xs:string&quot;&gt;
-        ///            &lt;!--The same object will be used for all service resolutions --&gt;
-        ///            &lt;xs:enumeration value=&quot;singleton&quot;/&gt;
-        ///
-        ///            &lt;!--New object will be created per request--&gt;
-        ///            &lt;xs:enumeration value=&quot;transient&quot;/&gt;
-        ///
-        ///            &lt;!--The same ob [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string IoC_Configuration_Schema_2F7CE7FF_CB22_40B0_9691_EAC689C03A361 {
-            get {
-                return ResourceManager.GetString("IoC_Configuration_Schema_2F7CE7FF_CB22_40B0_9691_EAC689C03A361", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-        ///&lt;xs:schema attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
-        ///    &lt;xs:simpleType name=&quot;scopeValues&quot;&gt;
-        ///        &lt;xs:restriction base=&quot;xs:string&quot;&gt;
-        ///            &lt;!--The same object will be used for all service resolutions --&gt;
-        ///            &lt;xs:enumeration value=&quot;singleton&quot;/&gt;
-        ///
-        ///            &lt;!--New object will be created per request--&gt;
-        ///            &lt;xs:enumeration value=&quot;transient&quot;/&gt;
-        ///
-        ///            &lt;!--The same ob [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string IoC_Configuration_Schema_2F7CE7FF_CB22_40B0_9691_EAC689C03A362 {
-            get {
-                return ResourceManager.GetString("IoC_Configuration_Schema_2F7CE7FF_CB22_40B0_9691_EAC689C03A362", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-        ///&lt;xs:schema attributeFormDefault=&quot;unqualified&quot; elementFormDefault=&quot;qualified&quot; xmlns:xs=&quot;http://www.w3.org/2001/XMLSchema&quot;&gt;
-        ///    &lt;xs:simpleType name=&quot;scopeValues&quot;&gt;
-        ///        &lt;xs:restriction base=&quot;xs:string&quot;&gt;
-        ///            &lt;!--The same object will be used for all service resolutions --&gt;
-        ///            &lt;xs:enumeration value=&quot;singleton&quot;/&gt;
-        ///
-        ///            &lt;!--New object will be created per request--&gt;
-        ///            &lt;xs:enumeration value=&quot;transient&quot;/&gt;
-        ///
-        ///            &lt;!--The same ob [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string IoC_Configuration_Schema_2F7CE7FF_CB22_40B0_9691_EAC689C03A363 {
-            get {
-                return ResourceManager.GetString("IoC_Configuration_Schema_2F7CE7FF_CB22_40B0_9691_EAC689C03A363", resourceCulture);
+        internal static string IoC_Configuration_Schema_22B4BA50_3429_48FE_8059_B9C1F855A639
+        {
+            get
+            {
+                return ResourceManager.GetString("IoC_Configuration_Schema_22B4BA50_3429_48FE_8059_B9C1F855A639", resourceCulture);
             }
         }
     }

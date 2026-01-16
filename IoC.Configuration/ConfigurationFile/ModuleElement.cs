@@ -36,7 +36,7 @@ namespace IoC.Configuration.ConfigurationFile
 {
     public class ModuleElement : ConfigurationFileElementAbstr, IModuleElement
     {
-        #region Member Variables
+        
 
         [NotNull]
         private readonly ICreateInstanceFromTypeAndConstructorParameters _createInstanceFromTypeAndConstructorParameters;
@@ -53,10 +53,6 @@ namespace IoC.Configuration.ConfigurationFile
 
         private ITypeInfo _typeInfo;
 
-        #endregion
-
-        #region  Constructors
-
         public ModuleElement([NotNull] XmlElement xmlElement, [CanBeNull] IConfigurationFileElement parent,
                              [NotNull] ITypeHelper typeHelper,
                              [NotNull] ICreateInstanceFromTypeAndConstructorParameters createInstanceFromTypeAndConstructorParameters) : base(xmlElement, parent)
@@ -64,18 +60,14 @@ namespace IoC.Configuration.ConfigurationFile
             _typeHelper = typeHelper;
             _createInstanceFromTypeAndConstructorParameters = createInstanceFromTypeAndConstructorParameters;
         }
-
-        #endregion
-
-        #region IModuleElement Interface Implementation
-
+        
         public override void AddChild(IConfigurationFileElement child)
         {
             base.AddChild(child);
 
-            if (child is IParameters)
+            if (child is IParameters parameters)
             {
-                _parameters = (IParameters) child;
+                _parameters = parameters;
 
                 foreach (var parameter in _parameters.AllParameters)
                     if (parameter.IsResolvedFromDiContainer)
@@ -165,7 +157,5 @@ namespace IoC.Configuration.ConfigurationFile
                 LogHelper.Context.Log.InfoFormat("Created an instance of dependency injection module: {0}.", _typeInfo.TypeCSharpFullName);
             }
         }
-
-        #endregion
     }
 }

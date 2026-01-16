@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright ï¿½ 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -31,8 +31,6 @@ namespace IoC.Configuration.ConfigurationFile
 {
     public interface ICreateInstanceFromTypeAndConstructorParameters
     {
-        #region Current Type Interface
-
         /// <summary>
         ///     Creates the instance using constructor parameters and injected properties.
         /// </summary>
@@ -55,7 +53,5 @@ namespace IoC.Configuration.ConfigurationFile
         object CreateInstance([NotNull] IConfigurationFileElement configurationFileElement, [NotNull] Type validBaseType, [NotNull] Type createdObjectType,
                               [CanBeNull] [ItemNotNull] IEnumerable<IParameterElement> constructorParameters,
                               [CanBeNull] [ItemNotNull] IEnumerable<IInjectedPropertyElement> injectedProperties = null);
-
-        #endregion
     }
 }

@@ -31,8 +31,6 @@ namespace IoC.Configuration
 {
     public interface ITypeInfo
     {
-        #region Current Type Interface
-
         /// <summary>
         ///     If the type represented by this class is an array, <see cref="ArrayItemTypeInfo" /> is the type info of array
         ///     items.
@@ -62,7 +60,5 @@ namespace IoC.Configuration
 
         [NotNull]
         string TypeInternalFullNameWithAssembly { get; }
-
-        #endregion
     }
 }

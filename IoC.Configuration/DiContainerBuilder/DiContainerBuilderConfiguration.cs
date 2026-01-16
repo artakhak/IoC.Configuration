@@ -43,7 +43,10 @@ namespace IoC.Configuration.DiContainerBuilder
     {
         [CanBeNull]
         private IDiContainer _diContainer;
-
+        
+        [NotNull]
+        private readonly IValueProviderWithCachedValuesForValueInitializerElements _valueProviderWithCachedValuesForValueInitializerElements;
+        
         [CanBeNull]
         private IDiManager _diManager;
 
@@ -66,19 +69,42 @@ namespace IoC.Configuration.DiContainerBuilder
 
         [NotNull]
         protected readonly ServiceRegistrationBuilder _serviceRegistrationBuilder = new ServiceRegistrationBuilder();
-       
+
         /// <summary>
-        ///     A constructor.
+        /// Represents a base class for configuration builders used to create and configure dependency injection containers.
         /// </summary>
         /// <param name="entryAssemblyFolder">
         ///     The location where the executable is.
-        ///     For non test projects <see cref="IGlobalsCore.EntryAssemblyFolder" /> can be used as a value for this parameter.
+        ///     For non-test projects <see cref="IGlobalsCore.EntryAssemblyFolder" /> can be used as a value for this parameter.
         ///     However, for tests projects <see cref="IGlobalsCore.EntryAssemblyFolder" /> might be
-        ///     be the folder where the test execution library is, so a different value might need to be passed.
+        ///     the folder where the test execution library is, so a different value might need to be passed.
         /// </param>
-        public DiContainerBuilderConfiguration([NotNull] string entryAssemblyFolder)
+        /// <param name="valueProviders">
+        /// Configures the container to use the specified <see cref="IValueProvider" /> for resolving
+        /// values during the configuration process.
+        /// The value providers are resolved in the order they are added.
+        /// </param>
+        protected DiContainerBuilderConfiguration([NotNull] string entryAssemblyFolder,
+            [CanBeNull] IReadOnlyList<IValueProvider> valueProviders = null)
         {
             _entryAssemblyFolder = entryAssemblyFolder;
+
+            IValueProvider valueProvider;
+
+            if (valueProviders == null)
+                valueProvider = new AggregatedValueProvider(Array.Empty<IValueProvider>());
+            else if (valueProviders.Count == 1)
+                valueProvider = valueProviders[0];
+            else
+                valueProvider = new AggregatedValueProvider(valueProviders);
+            
+            _valueProviderWithCachedValuesForValueInitializerElements = new ValueProviderWithCachedValuesForValueInitializerElements(
+                valueProvider
+            );
+            
+#pragma warning disable CS0618 // Type or member is obsolete
+            ValueProviderWithCachedValuesForValueInitializerElementsStatic = _valueProviderWithCachedValuesForValueInitializerElements;
+#pragma warning restore CS0618 // Type or member is obsolete
         }
 
         public virtual void Dispose()
@@ -93,8 +119,20 @@ namespace IoC.Configuration.DiContainerBuilder
         /// </summary>
         public virtual void Init()
         {
+           
         }
 
+        /// <summary>
+        /// TODO: This method should be integrated with <see cref="OnContainerStarted"/> and <see cref="NotifyModulesOnContainerReady"/>.
+        /// A temporary solution to let <see cref="FileBased.FileBasedConfiguration"/> set thge static property values from 
+        /// </summary>
+        protected internal virtual void ProcessOnContainerStarted(IDiContainer diContainer, 
+            IValueProviderWithCachedValuesForValueInitializerElements valueProviderWithCachedValuesForValueInitializerElements,
+            ITypeBasedSimpleSerializerAggregator typeBasedSimpleSerializerAggregator)
+        {
+            
+        }
+        
         protected virtual void OnContainerStarted()
         {
         }
@@ -160,9 +198,44 @@ namespace IoC.Configuration.DiContainerBuilder
             }
         }
 
-        [Obsolete("This property should be used only in dynamically generated code. In all other cases either inject dependencies in constructors, or use IContainerInfo object returned by DiContainerBuilderConfiguration.StartContainer() (normally only in application entry code when the container is created).")]
-        public static IDiContainer DiContainerStatic { get; private set; }
+        [Obsolete("This property should be used only in dynamically generated code.")]
+        [ThreadStatic]
+        private static IDiContainer _diContainerStatic;
 
+        [Obsolete("This property should be used only in dynamically generated code.")]
+        internal static IDiContainer DiContainerStatic
+        {
+            get => _diContainerStatic;
+            private set => _diContainerStatic = value;
+        }
+
+        [Obsolete("This property should be used only in dynamically generated code.")]
+        [ThreadStatic]
+        private static IValueProviderWithCachedValuesForValueInitializerElements _valueProviderWithCachedValuesForValueInitializerElementsStatic;
+
+        [Obsolete("This property should be used only in dynamically generated code.")]
+        internal static IValueProviderWithCachedValuesForValueInitializerElements ValueProviderWithCachedValuesForValueInitializerElementsStatic
+        {
+            get => _valueProviderWithCachedValuesForValueInitializerElementsStatic;
+            private set => _valueProviderWithCachedValuesForValueInitializerElementsStatic = value;
+        }
+
+        [Obsolete("This property should be used only in dynamically generated code.")]
+        [ThreadStatic]
+        private static ITypeBasedSimpleSerializerAggregator _serializerAggregatorStatic;
+
+        // IC-5. TODO: Find a way to get rid off SerializerAggregatorStatic property.
+        // Currently it is used only in dynamically generated code in couple of places.
+        // The value of SerializerAggregatorStatic is resolved from _diContainer.
+        // We should generate dynamically generated classes that need ITypeBasedSimpleSerializerAggregator
+        // in such a way that they resolve ITypeBasedSimpleSerializerAggregator via constructor injection. 
+        [Obsolete("This property should be used only in dynamically generated code.")]
+        internal static ITypeBasedSimpleSerializerAggregator SerializerAggregatorStatic
+        {
+            get => _serializerAggregatorStatic;
+            private set => _serializerAggregatorStatic = value;
+        }
+        
         /// <summary>
         ///     Gets or sets the DI manager.
         /// </summary>
@@ -189,6 +262,15 @@ namespace IoC.Configuration.DiContainerBuilder
         [NotNull]
         [ItemNotNull]
         protected IReadOnlyList<object> NativeAndDiModules => _nativeAndDiModules;
+
+        /// <summary>
+        /// Provides access to the value provider that caches values for elements initialized with specific value initializers.
+        /// </summary>
+        /// <value>
+        /// An implementation of <see cref="IoC.Configuration.IValueProviderWithCachedValuesForValueInitializerElements"/>
+        /// that manages and retrieves cached values associated with value initializer elements.
+        /// </value>
+        protected IValueProviderWithCachedValuesForValueInitializerElements ValueProviderWithCachedValuesForValueInitializerElements => _valueProviderWithCachedValuesForValueInitializerElements;
 
         private void NotifyModulesOnContainerReady([NotNull] [ItemNotNull] IEnumerable<object> nativeModules, [NotNull] IDiContainer diContainer)
         {
@@ -317,9 +399,6 @@ namespace IoC.Configuration.DiContainerBuilder
             }
         }
 
-        [Obsolete("This property should be used only in dynamically generated code. In all other cases either inject dependencies in constructors, or use IContainerInfo object returned by DiContainerBuilderConfiguration.StartContainer() (normally only in application entry code when the container is created).")]
-        public static ITypeBasedSimpleSerializerAggregator SerializerAggregatorStatic { get; private set; }
-
         /// <summary>
         ///     Starts the container.
         /// </summary>
@@ -341,11 +420,17 @@ namespace IoC.Configuration.DiContainerBuilder
                 _diContainer.StartMainLifeTimeScope();
 
                 // NOTE, It is important that DiContainerStatic and SerializerAggregatorStatic are initialized first thing after 
-                // _diContainer.StartMainLifeTimeScope() is called, since this objects might be needed when resolving services in other
+                // _diContainer.StartMainLifeTimeScope() is called, since these objects might be needed when resolving services in other
                 // method calls that follow.
 #pragma warning disable CS0612, CS0618
+                
                 DiContainerStatic = _diContainer;
                 SerializerAggregatorStatic = _diContainer.Resolve<ITypeBasedSimpleSerializerAggregator>();
+                
+                ProcessOnContainerStarted(
+                    _diContainer, _valueProviderWithCachedValuesForValueInitializerElements, 
+                    SerializerAggregatorStatic);
+                
 #pragma warning restore CS0612, CS0618
 
                 NotifyModulesOnContainerReady(_generatedNativeModules, _diContainer);

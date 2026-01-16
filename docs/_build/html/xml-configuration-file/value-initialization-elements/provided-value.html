@@ -1,0 +1,232 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>providedValue element &mdash; IoC.Configuration 2.2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=f35be339"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Startup Actions" href="../startup-actions.html" />
+    <link rel="prev" title="parameterValue element" href="parameterValue.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            IoC.Configuration
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../sample-files/index.html">Sample Files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../bindings-in-modules/index.html">Type Binding In Modules</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">XML Configuration File</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../assemblies-and-probing-paths.html">Assemblies and Probing Paths</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../using-types-in-configuration.html">Using Types in Configuration File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../parameter-serializers.html">Parameter Serializers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../constructor-parameters.html">Constructor Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../settings.html">Settings</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../specifying-di-manager.html">Specifying DI Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dependency-injection.html">Dependency Injection</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Value Initialization Elements</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="predefined-type-value-elements.html">Predefined Type Value Initializer Elements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="object.html"><strong>object</strong> element</a></li>
+<li class="toctree-l3"><a class="reference internal" href="injected-object.html"><strong>injectedObject</strong> element</a></li>
+<li class="toctree-l3"><a class="reference internal" href="collection.html"><strong>collection</strong> element</a></li>
+<li class="toctree-l3"><a class="reference internal" href="constructed-value.html"><strong>constructedValue</strong> element</a></li>
+<li class="toctree-l3"><a class="reference internal" href="setting-value.html"><strong>settingValue</strong> element</a></li>
+<li class="toctree-l3"><a class="reference internal" href="class-member.html"><strong>classMember</strong> element</a></li>
+<li class="toctree-l3"><a class="reference internal" href="parameterValue.html"><strong>parameterValue</strong> element</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#"><strong>providedValue</strong> element</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#how-it-works">How it Works</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#xml-configuration-examples">XML Configuration Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../startup-actions.html">Startup Actions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../plugins.html">Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../additional-services.html">Additional Services Provided by IoC.Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../troubleshooting-configuration-file-errors.html">Troubleshooting Configuration File Errors</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../loading-ioc-configuration/index.html">Loading IoC Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../resolving-types/index.generated.html">Resolving Types</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../application-integration/index.html">Application Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting/index.html">Trouble-shooting</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">IoC.Configuration</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">XML Configuration File</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Value Initialization Elements</a></li>
+      <li class="breadcrumb-item active"><strong>providedValue</strong> element</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/xml-configuration-file/value-initialization-elements/provided-value.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="providedvalue-element">
+<h1><strong>providedValue</strong> element<a class="headerlink" href="#providedvalue-element" title="Link to this heading"></a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">providedValue</span></code> element is used to inject values that are resolved at runtime through custom logic rather than being hardcoded in the XML or resolved directly from the DI container. This is particularly useful for injecting external dependencies like loggers, session data, or environment-specific values.</p>
+<section id="how-it-works">
+<h2>How it Works<a class="headerlink" href="#how-it-works" title="Link to this heading"></a></h2>
+<p>When the configuration parser encounters a <code class="docutils literal notranslate"><span class="pre">providedValue</span></code> element, it attempts to resolve the value using a list of <code class="docutils literal notranslate"><span class="pre">IValueProvider</span></code> implementations passed during the initialization of the <code class="docutils literal notranslate"><span class="pre">FileBasedConfiguration</span></code>.</p>
+<section id="setup-in-c">
+<h3>Setup in C#<a class="headerlink" href="#setup-in-c" title="Link to this heading"></a></h3>
+<p>To use <code class="docutils literal notranslate"><span class="pre">providedValue</span></code>, you must initialize the <code class="docutils literal notranslate"><span class="pre">ValueProviders</span></code> property in <code class="docutils literal notranslate"><span class="pre">IoC.Configuration.DiContainerBuilder.FileBased.FileBasedConfigurationParameters</span></code>.</p>
+<div class="highlight-csharp notranslate"><div class="highlight"><pre><span></span><span class="c1">// Example setup for ValueProviders</span>
+<span class="kt">var</span><span class="w"> </span><span class="n">configurationParameters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">FileBasedConfigurationParameters</span><span class="p">(</span>
+<span class="w">    </span><span class="n">configurationFileContentsProvider</span><span class="p">,</span>
+<span class="w">    </span><span class="n">entryAssemblyFolder</span><span class="p">,</span>
+<span class="w">    </span><span class="n">loadedAssemblies</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="c1">// Initialize the list of value providers</span>
+<span class="w">    </span><span class="n">ValueProviders</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">IValueProvider</span><span class="o">&gt;</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">        </span><span class="k">new</span><span class="w"> </span><span class="nf">MyCustomValueProvider</span><span class="p">(</span><span class="n">logger</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// Use configurationParameters to build the DiContainer</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">IValueProvider</span></code> interface requires implementing <code class="docutils literal notranslate"><span class="pre">TryResolveValue</span></code>, which receives information about the target (type, name, and whether it’s a parameter, property, or setting) to provide the appropriate object.</p>
+</section>
+</section>
+<section id="xml-configuration-examples">
+<h2>XML Configuration Examples<a class="headerlink" href="#xml-configuration-examples" title="Link to this heading"></a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">providedValue</span></code> element can be used for module parameters, service constructor arguments, properties, and settings.</p>
+<section id="injection-into-modules">
+<h3>1. Injection into Modules<a class="headerlink" href="#injection-into-modules" title="Link to this heading"></a></h3>
+<p>You can pass externally provided values into DI modules. This is useful for passing a pre-configured logger to a module that needs to register it.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;module</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;Modules.IoC.DiModule3&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;parameters&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- The value for &#39;diModule3_param1&#39; will be resolved by a ValueProvider --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;providedValue</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;diModule3_param1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;System.Int32&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/parameters&gt;</span>
+<span class="nt">&lt;/module&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="injection-into-services-and-properties">
+<h3>2. Injection into Services and Properties<a class="headerlink" href="#injection-into-services-and-properties" title="Link to this heading"></a></h3>
+<p>It can be used within <code class="docutils literal notranslate"><span class="pre">&lt;services&gt;</span></code> to inject dependencies into constructors or via property injection.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;service</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;IoC.Configuration.Tests.ProvidedValue.TestClasses.ITestInterface1&quot;</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;implementation</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;IoC.Configuration.Tests.ProvidedValue.TestClasses.TestInterface1_Impl1&quot;</span><span class="nt">&gt;</span>
+<span class="w">        </span><span class="nt">&lt;parameters&gt;</span>
+<span class="w">            </span><span class="nt">&lt;providedValue</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;logger&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Diagnostics.Log.ILog&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/parameters&gt;</span>
+<span class="w">        </span><span class="nt">&lt;injectedProperties&gt;</span>
+<span class="w">            </span><span class="nt">&lt;providedValue</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;LoggerInjectedIntoProperty&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Diagnostics.Log.ILog&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/injectedProperties&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/implementation&gt;</span>
+<span class="nt">&lt;/service&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="usage-in-settings">
+<h3>3. Usage in Settings<a class="headerlink" href="#usage-in-settings" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">providedValue</span></code> can also define application settings that are resolved at runtime.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;settings&gt;</span>
+<span class="w">    </span><span class="nt">&lt;providedValue</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;Logger&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;OROptimizer.Diagnostics.Log.ILog&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/settings&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="plugin-support">
+<h3>4. Plugin Support<a class="headerlink" href="#plugin-support" title="Link to this heading"></a></h3>
+<p>Plugins can also leverage provided values for their own initialization and settings.</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="nt">&lt;plugin</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;Plugin1&quot;</span><span class="w"> </span><span class="err">...</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;parameters&gt;</span>
+<span class="w">        </span><span class="nt">&lt;providedValue</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;param1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;System.Int64&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/parameters&gt;</span>
+<span class="w">    </span><span class="nt">&lt;injectedProperties&gt;</span>
+<span class="w">        </span><span class="nt">&lt;providedValue</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;Property2&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;System.Int64&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/injectedProperties&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;settings&gt;</span>
+<span class="w">        </span><span class="nt">&lt;providedValue</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;Int32Setting1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;System.Int32&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">        </span><span class="nt">&lt;providedValue</span><span class="w"> </span><span class="na">name=</span><span class="s">&quot;StringSetting1&quot;</span><span class="w"> </span><span class="na">type=</span><span class="s">&quot;System.String&quot;</span><span class="w"> </span><span class="nt">/&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/settings&gt;</span>
+<span class="nt">&lt;/plugin&gt;</span>
+</pre></div>
+</div>
+<p><a href="#id1"><span class="problematic" id="id2">``</span></a><a href="#id3"><span class="problematic" id="id4">`</span></a></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="parameterValue.html" class="btn btn-neutral float-left" title="parameterValue element" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../startup-actions.html" class="btn btn-neutral float-right" title="Startup Actions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2018, Artak Hakobyan.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

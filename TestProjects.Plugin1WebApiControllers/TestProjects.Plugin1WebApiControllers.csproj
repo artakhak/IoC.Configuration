@@ -12,7 +12,7 @@
 		<Compile Include="Controller1.cs" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="OROptimizer.Shared" Version="2.7.0" />
-		<!--<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
+		<!--<PackageReference Include="OROptimizer.Shared" Version="2.7.0" />-->
+		<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
 	</ItemGroup>
 </Project>

@@ -5,15 +5,9 @@ namespace SharedServices.Implementations
 {
     public abstract class PluginBaseForTests : PluginAbstr, IPluginState
     {
-        #region IPluginState Interface Implementation
-
         public bool IsDisposedOf { get; private set; }
 
         public bool IsInitialized { get; private set; }
-
-        #endregion
-
-        #region Current Type Interface
 
         protected virtual void DisposeVirtual()
         {
@@ -22,10 +16,6 @@ namespace SharedServices.Implementations
         protected virtual void InitializeVirtual()
         {
         }
-
-        #endregion
-
-        #region Member Functions
 
         public sealed override void Dispose()
         {
@@ -38,7 +28,5 @@ namespace SharedServices.Implementations
             IsInitialized = true;
             InitializeVirtual();
         }
-
-        #endregion
     }
 }

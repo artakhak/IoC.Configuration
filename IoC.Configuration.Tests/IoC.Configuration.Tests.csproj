@@ -21,8 +21,8 @@
 		<!--<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />-->
 		<PackageReference Include="TestsSharedLibrary" Version="1.0.3" />
 
-		<PackageReference Include="IoC.Configuration" Version="3.0.0" />
-		<!--<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />-->
+		<!--<PackageReference Include="IoC.Configuration" Version="3.0.0" />-->
+		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -173,6 +173,10 @@
 		<Compile Include="LoadedAssembliesForTests.cs" />
 		<Compile Include="PluginAssemblyTypeUsageValidatorTests.cs" />
 		<Compile Include="PrimitiveTypeDefaultBindingsModule.cs" />
+		<Compile Include="ProvidedValue\TestClasses\ITestInterface1.cs" />
+		<Compile Include="ProvidedValue\TestClasses\TestInterface1_Impl.cs" />
+		<Compile Include="ProvidedValue\TestClasses\TestValueProvider.cs" />
+		<Compile Include="ProvidedValue\TestClasses\ValueProvider.cs" />
 		<Compile Include="ProxyService\ProxyServiceFailedLoadTests.cs" />
 		<Compile Include="ProxyService\ProxyServiceSuccessfulLoadTests.cs" />
 		<Compile Include="ProxyService\ProxyServiceSuccessfulLoadTests_Autofac.cs" />
@@ -189,6 +193,10 @@
 		<Compile Include="ProxyService\Services\IInterface1_Extension.cs" />
 		<Compile Include="ProxyService\Services\IInterface1_Extension_Impl1.cs" />
 		<Compile Include="ProxyService\Services\Interface1User.cs" />
+		<Compile Include="ProvidedValue\FailedLoadTests.cs" />
+		<Compile Include="ProvidedValue\SuccessfulLoadTests.cs" />
+		<Compile Include="ProvidedValue\SuccessfulLoadTests_Autofac.cs" />
+		<Compile Include="ProvidedValue\SuccessfulLoadTests_Ninject.cs" />
 		<Compile Include="SettingValue\Services\AppInfo.cs" />
 		<Compile Include="SettingValue\Services\IAppIds.cs" />
 		<Compile Include="SettingValue\Services\IAppInfo.cs" />
@@ -263,8 +271,12 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
 		<None Include="IoCConfiguration_proxyService.xml" />
+		<None Include="IoCConfiguration_providedValue.xml">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 		<None Include="IoCConfiguration_settingValue_ReferencingInConfiguration.xml" />
 		<None Include="IoCConfiguration_valueImplementation.xml" />
+		<Content Include="IoCConfiguration_providedValue.xml" />
 		<Content Include="TestTemplateFiles\IoCConfiguration_TestTemplate.xml" />
 	</ItemGroup>
 	<ItemGroup>
@@ -281,19 +293,19 @@
 		</Compile>
 	</ItemGroup>
 	<ItemGroup>
-		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.3\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd">
+		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.3\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.3\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Template.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.4\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd">
+		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.4\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.4\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Template.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.5\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd">
+		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.5\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.5\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Template.xml">

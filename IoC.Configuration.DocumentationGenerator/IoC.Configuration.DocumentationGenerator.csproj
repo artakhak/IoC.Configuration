@@ -22,11 +22,11 @@
 		<PackageReference Include="FileInclude" Version="1.3.0" />
 		<!--<ProjectReference Include="..\..\FileInclude\FileInclude\FileInclude.csproj" />-->
 
-		<PackageReference Include="OROptimizer.Shared" Version="2.7.0" />
-		<!--<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />-->
+		<!--<PackageReference Include="OROptimizer.Shared" Version="2.7.0" />-->
+		<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
 		
-		<PackageReference Include="OROptimizer.Shared.Log4Net" Version="1.1.0" />
-		<!--<ProjectReference Include="..\..\OROptimizer.Shared.Log4Net\OROptimizer.Shared.Log4Net\OROptimizer.Shared.Log4Net.csproj" />-->
+		<!--<PackageReference Include="OROptimizer.Shared.Log4Net" Version="1.1.0" />-->
+		<ProjectReference Include="..\..\OROptimizer.Shared.Log4Net\OROptimizer.Shared.Log4Net\OROptimizer.Shared.Log4Net.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		

@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright ï¿½ 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -23,7 +23,6 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
 
-using System;
 using IoC.Configuration.DiContainerBuilder.FileBased;
 using JetBrains.Annotations;
 using OROptimizer.DynamicCode;
@@ -32,24 +31,13 @@ namespace IoC.Configuration.ConfigurationFile
 {
     public class SettingElement : ParameterElement, ISettingElement
     {
-        #region Member Variables
-
-        [NotNull]
-        private readonly IIdentifierValidator _identifierValidator;
-
-        #endregion
-
-        #region  Constructors
+        [NotNull] private readonly IIdentifierValidator _identifierValidator;
 
         public SettingElement([NotNull] IValueInitializerElement decoratedValueInitializerElement,
-                              [NotNull] IIdentifierValidator identifierValidator) : base(decoratedValueInitializerElement)
+            [NotNull] IIdentifierValidator identifierValidator) : base(decoratedValueInitializerElement)
         {
             _identifierValidator = identifierValidator;
         }
-
-        #endregion
-
-        #region ISettingElement Interface Implementation
 
         public object DeserializedValue { get; private set; }
 
@@ -68,9 +56,6 @@ namespace IoC.Configuration.ConfigurationFile
             base.ValidateAfterChildrenAdded();
             DeserializedValue = GenerateValue();
         }
-        #endregion
-
-        #region Member Functions
 
         protected override void AddCodeOnGenerateValueCSharp(IDynamicAssemblyBuilder dynamicAssemblyBuilder)
         {
@@ -88,7 +73,5 @@ namespace IoC.Configuration.ConfigurationFile
         {
             return OwningPluginElement == null ? DynamicCodeGenerationHelpers.SettingValuesClassName : DynamicCodeGenerationHelpers.GetPluginSettingValuesClassName(OwningPluginElement.Name);
         }
-
-        #endregion
     }
 }

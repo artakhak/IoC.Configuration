@@ -36,8 +36,6 @@ namespace IoC.Configuration.DiContainer
     /// <seealso cref="System.IDisposable" />
     public interface IDiContainer : IServiceResolver, IDisposable
     {
-        #region Current Type Interface
-
         /// <summary>
         ///     Gets the current lifetime scope.
         /// </summary>
@@ -97,7 +95,7 @@ namespace IoC.Configuration.DiContainer
         ///     Starts a new lifetime scope and assigns it to <see cref="MainLifeTimeScope" />.
         /// </summary>
         void StartMainLifeTimeScope();
-
-        #endregion
     }
+    
+    
 }

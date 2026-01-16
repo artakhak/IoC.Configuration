@@ -23,19 +23,19 @@ This file can also be downloaded from `IoC.Configuration.Template.xml <https://g
       For more complete example, look at files IoCConfiguration_Overview.xml and some ther configuration files in test project 
       IoC.Configuration.Tests at https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.Tests.
       
-      The XML configuration file is validated against schema file IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd, 
+      The XML configuration file is validated against schema file IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd,
       which can be found in folder IoC.Configuration.Content in output directory. 
       The schema file can also be downloaded from 
-      http://oroptimizer.com/ioc.configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd or in source code 
+      http://oroptimizer.com/ioc.configuration/V2/IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd or in source code
       project in Github.com.
 
       To use Visual Studio code completion based on schema contents, right click Properties on this file in Visual Studio, and in Schemas 
-      field pick the schema IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd.
+      field pick the schema IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd.
    -->
 
    <iocConfiguration
    	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-   	xsi:noNamespaceSchemaLocation="http://oroptimizer.com/IoC.Configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd">
+   	xsi:noNamespaceSchemaLocation="IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd">
      
        <!--The application should have write permissions to path specified in appDataDir. This is where dynamically generated DLLs are saved.-->
        <appDataDir path="C:\Users\user1\AppData\Local\MyApplication" />

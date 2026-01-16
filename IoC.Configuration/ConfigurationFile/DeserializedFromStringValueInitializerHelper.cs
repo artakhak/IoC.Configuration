@@ -25,6 +25,7 @@
 
 using System;
 using IoC.Configuration.DiContainerBuilder;
+using IoC.Configuration.DiContainerBuilder.FileBased;
 using JetBrains.Annotations;
 using OROptimizer;
 using OROptimizer.Diagnostics.Log;
@@ -51,7 +52,15 @@ namespace IoC.Configuration.ConfigurationFile
                 return valueToCSharpCodeConverter.GenerateCSharpCode(deserializedValue);
 
 #pragma warning disable CS0612, CS0618
-            return $"{typeof(DiContainerBuilderConfiguration).FullName}.{nameof(DiContainerBuilderConfiguration.SerializerAggregatorStatic)}.{nameof(DiContainerBuilderConfiguration.SerializerAggregatorStatic.Deserialize)}<{valueTypeInfo.TypeCSharpFullName}>(@\"{valueAsString}\")";
+            return string.Concat(
+                FileBasedConfiguration.DynamicImplementationsNamespaceStatic,
+                ".",
+                DynamicCodeGenerationHelpers.IoCConfigurationContextDataClassName,
+                ".",
+                DynamicCodeGenerationHelpers.GetSerializerAggregatorPropertyName(),
+                ".",
+                $"{nameof(DiContainerBuilderConfiguration.SerializerAggregatorStatic.Deserialize)}<{valueTypeInfo.TypeCSharpFullName}>(@\"{valueAsString}\")"
+            );
 #pragma warning restore CS0612, CS0618
         }
 

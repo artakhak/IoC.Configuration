@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml;
 using IoC.Configuration.ConfigurationFile;
 using IoC.Configuration.DiContainer;
@@ -18,10 +19,11 @@ namespace IoC.Configuration.Tests.TestTemplateFiles
         protected static void OnClassInitialize(DiImplementationType diImplementationType,
                                                 [NotNull] string configurationRelativePath,
                                                 [CanBeNull] IDiModule[] additionalModulesToLoad = null,
-                                                [CanBeNull] Action<XmlDocument> modifyConfigurationFileOnLoad = null)
+                                                [CanBeNull] Action<XmlDocument> modifyConfigurationFileOnLoad = null,
+                                                [CanBeNull] IReadOnlyList<IValueProvider> valueProviders = null)
         {
             var loadData = Helpers.LoadConfigurationFile(diImplementationType, configurationRelativePath,
-                additionalModulesToLoad, modifyConfigurationFileOnLoad);
+                additionalModulesToLoad, modifyConfigurationFileOnLoad, valueProviders);
 
             ContainerInfo = loadData.containerInfo;
             DiContainer = ContainerInfo.DiContainer;

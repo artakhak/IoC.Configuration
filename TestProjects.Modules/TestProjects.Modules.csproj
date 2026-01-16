@@ -16,9 +16,12 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<Compile Include="Autofac\AutofacModule1.cs" />
+		<Compile Include="Autofac\AutofacModule2.cs" />
 		<Compile Include="IoC\DiModule1.cs" />
 		<Compile Include="IoC\DiModule2.cs" />
+		<Compile Include="IoC\DiModule3.cs" />
 		<Compile Include="Ninject\NinjectModule1.cs" />
+		<Compile Include="Ninject\NinjectModule2.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly1\TestProjects.DynamicallyLoadedAssembly1.csproj" />
@@ -26,13 +29,13 @@
 		<ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="IoC.Configuration" Version="3.0.0" />
-		<!--<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />-->
+		<!--<PackageReference Include="IoC.Configuration" Version="3.0.0" />-->
+		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
 		
-		<PackageReference Include="IoC.Configuration.Autofac" Version="2.2.0" />
-		<!--<ProjectReference Include="..\IoC.Configuration.Autofac\IoC.Configuration.Autofac.csproj" />-->
+		<!--<PackageReference Include="IoC.Configuration.Autofac" Version="2.2.0" />-->
+		<ProjectReference Include="..\IoC.Configuration.Autofac\IoC.Configuration.Autofac.csproj" />
 		
-		<PackageReference Include="IoC.Configuration.Ninject" Version="2.2.1" />
-		<!--<ProjectReference Include="..\IoC.Configuration.Ninject\IoC.Configuration.Ninject.csproj" />-->
+		<!--<PackageReference Include="IoC.Configuration.Ninject" Version="2.2.1" />-->
+		<ProjectReference Include="..\IoC.Configuration.Ninject\IoC.Configuration.Ninject.csproj" />
 	</ItemGroup>
 </Project>

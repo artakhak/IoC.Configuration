@@ -56,6 +56,7 @@ REM copy plugin DLLs
 
 if not exist "%PluginDlls%\Plugin1" mkdir "%PluginDlls%\Plugin1"
 xcopy "%SolutionDir%TestProjects.TestPluginAssembly1\bin\%ConfigurationName%\TestProjects.TestPluginAssembly1.*"  "%PluginDlls%\Plugin1" /Y
+
 xcopy "%SolutionDir%TestProjects.ModulesForPlugin1\bin\%ConfigurationName%\TestProjects.ModulesForPlugin1.*"  "%PluginDlls%\Plugin1" /Y
 xcopy "%SolutionDir%TestProjects.Plugin1WebApiControllers\bin\%ConfigurationName%\TestProjects.Plugin1WebApiControllers.*"  "%PluginDlls%\Plugin1" /Y
 

@@ -33,8 +33,6 @@ namespace IoC.Configuration.DependencyInjection
 {
     public class DynamicallyGeneratedImplementationsModule : ModuleAbstr
     {
-        #region Member Variables
-
         [NotNull]
         private readonly string _dynamicallyGeneratedAssemblyFilePath;
 
@@ -42,19 +40,11 @@ namespace IoC.Configuration.DependencyInjection
         [ItemNotNull]
         private readonly IEnumerable<InterfaceImplementationInfo> _interfaceImplementationsInfo;
 
-        #endregion
-
-        #region  Constructors
-
         public DynamicallyGeneratedImplementationsModule([NotNull] [ItemNotNull] IEnumerable<InterfaceImplementationInfo> interfaceImplementationsInfo, [NotNull] string dynamicallyGeneratedAssemblyFilePath)
         {
             _interfaceImplementationsInfo = interfaceImplementationsInfo;
             _dynamicallyGeneratedAssemblyFilePath = dynamicallyGeneratedAssemblyFilePath;
         }
-
-        #endregion
-
-        #region Member Functions
 
         protected override void AddServiceRegistrations()
         {
@@ -67,33 +57,19 @@ namespace IoC.Configuration.DependencyInjection
             }
         }
 
-        #endregion
-
-        #region Nested Types
-
         public class InterfaceImplementationInfo
         {
-            #region  Constructors
-
             public InterfaceImplementationInfo([NotNull] Type interfaceType, [NotNull] string implementingClassName)
             {
                 InterfaceType = interfaceType;
                 ImplementingClassName = implementingClassName;
             }
 
-            #endregion
-
-            #region Member Functions
-
             [NotNull]
             public string ImplementingClassName { get; }
 
             [NotNull]
             public Type InterfaceType { get; }
-
-            #endregion
         }
-
-        #endregion
     }
 }
