@@ -173,6 +173,10 @@
 		<Compile Include="LoadedAssembliesForTests.cs" />
 		<Compile Include="PluginAssemblyTypeUsageValidatorTests.cs" />
 		<Compile Include="PrimitiveTypeDefaultBindingsModule.cs" />
+		<Compile Include="ProvidedValue\TestClasses\ITestInterface1.cs" />
+		<Compile Include="ProvidedValue\TestClasses\TestInterface1_Impl.cs" />
+		<Compile Include="ProvidedValue\TestClasses\TestValueProvider.cs" />
+		<Compile Include="ProvidedValue\TestClasses\ValueProvider.cs" />
 		<Compile Include="ProxyService\ProxyServiceFailedLoadTests.cs" />
 		<Compile Include="ProxyService\ProxyServiceSuccessfulLoadTests.cs" />
 		<Compile Include="ProxyService\ProxyServiceSuccessfulLoadTests_Autofac.cs" />
@@ -288,19 +292,19 @@
 		</Compile>
 	</ItemGroup>
 	<ItemGroup>
-		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.3\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd">
+		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.3\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.3\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Template.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.4\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd">
+		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.4\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.4\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Template.xml">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
-		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.5\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd">
+		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.5\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 		<Content Update="C:\Users\artak\.nuget\packages\ioc.configuration\1.0.5\contentFiles\any\netstandard2.0\IoC.Configuration.Content\IoC.Configuration.Template.xml">

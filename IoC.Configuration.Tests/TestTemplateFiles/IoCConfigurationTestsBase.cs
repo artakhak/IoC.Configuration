@@ -3,6 +3,7 @@ using IoC.Configuration.DiContainer;
 using JetBrains.Annotations;
 using OROptimizer.Diagnostics.Log;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using NUnit.Framework;
@@ -44,9 +45,11 @@ namespace IoC.Configuration.Tests.TestTemplateFiles
 
         protected void LoadConfigurationFile(DiImplementationType diImplementationType, Action<IDiContainer, IConfiguration> onConfigurationLoaded,
                                              [CanBeNull] IDiModule[] additionalModulesToLoad = null,
-                                             [CanBeNull] Action<XmlDocument> modifyConfigurationFileOnLoad = null)
+                                             [CanBeNull] Action<XmlDocument> modifyConfigurationFileOnLoad = null,
+                                             [CanBeNull] IReadOnlyList<IValueProvider> valueProviders = null)
         {
-            var loadData = Helpers.LoadConfigurationFile(diImplementationType, GetConfigurationRelativePath(), additionalModulesToLoad, modifyConfigurationFileOnLoad);
+            var loadData = Helpers.LoadConfigurationFile(diImplementationType, GetConfigurationRelativePath(), 
+                additionalModulesToLoad, modifyConfigurationFileOnLoad, valueProviders);
 
             using (var containerInfo = loadData.containerInfo)
             {

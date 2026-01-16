@@ -90,7 +90,15 @@ namespace IoC.Configuration.ConfigurationFile
                     variableInitializationCode.AppendFormat("public static {0} {1}=", classMemberData.ClassInfo.TypeCSharpFullName, variableName);
 
 #pragma warning disable CS0612, CS0618
-                    variableInitializationCode.Append($"{typeof(DiContainerBuilderConfiguration).FullName}.{nameof(DiContainerBuilderConfiguration.DiContainerStatic)}.{nameof(IDiContainer.Resolve)}");
+                    variableInitializationCode.Append(string.Concat(
+                        FileBasedConfiguration.DynamicImplementationsNamespaceStatic,
+                        ".",
+                        DynamicCodeGenerationHelpers.IoCConfigurationContextDataClassName,
+                        ".",
+                        DynamicCodeGenerationHelpers.GetDiContainerPropertyName(),
+                        ".",
+                        nameof(IDiContainer.Resolve)
+                    ));
 #pragma warning restore CS0612, CS0618
 
                     variableInitializationCode.Append($"<{classMemberData.ClassInfo.TypeCSharpFullName}>();");
@@ -339,7 +347,6 @@ namespace IoC.Configuration.ConfigurationFile
                 return methodInfo.Invoke(injectedObject, classMemberData.Parameters.Select(x =>
                    x.GenerateValue()).ToArray());
             }
-                
 
             if (classMemberInfo is FieldInfo fieldInfo)
                 return fieldInfo.GetValue(injectedObject);

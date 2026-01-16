@@ -29,7 +29,7 @@ namespace IoC.Configuration
     {
         // TODO: Add an element Version to configuration file and use to convert to latest version. 
         // Will do in next version of IoC.Configuration that will introduce changes to configuration file.
-        public const string ConfigurationFileVersion = "7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F";
+        public const string ConfigurationFileVersion = "22B4BA50-3429-48FE-8059-B9C1F855A639";
         public const string IoCConfigurationSchemaName = "IoC.Configuration.Schema." + ConfigurationFileVersion + ".xsd";
         public const string OnDiContainerReadyMethodName = "OnDiContainerReady";
     }

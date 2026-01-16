@@ -137,14 +137,15 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         /// <param name="fileBasedConfigurationParameters">An instance of <see cref="FileBasedConfigurationParameters"/> used to load and process the configuration file.</param>
         // ReSharper disable once NotNullMemberIsNotInitialized
         public FileBasedConfiguration([NotNull] FileBasedConfigurationParameters fileBasedConfigurationParameters) : 
-            base(fileBasedConfigurationParameters.EntryAssemblyFolder)
+            base(fileBasedConfigurationParameters.EntryAssemblyFolder, fileBasedConfigurationParameters.ValueProviders)
         {
             _fileBasedConfigurationParameters = fileBasedConfigurationParameters;
 
             var assemblyLocator = IoCServiceFactoryAmbientContext.Context.CreateAssemblyLocator(() => Configuration, fileBasedConfigurationParameters.EntryAssemblyFolder);
 
             _assemblyLocator = assemblyLocator;
-            _configurationFileElementFactory = new ConfigurationFileElementFactory(assemblyLocator);
+            _configurationFileElementFactory = new ConfigurationFileElementFactory(assemblyLocator,
+                this.ValueProviderWithCachedValuesForValueInitializerElements);
 
             var uniqueId = GlobalsCoreAmbientContext.Context.GenerateUniqueId();
             _dynamicImplementationsNamespace = $"DynamicImplementations_{uniqueId}";

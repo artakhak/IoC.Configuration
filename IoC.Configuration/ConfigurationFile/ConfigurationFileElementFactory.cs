@@ -33,10 +33,11 @@ namespace IoC.Configuration.ConfigurationFile
 {
     public class ConfigurationFileElementFactory : IConfigurationFileElementFactory
     {
-        #region Member Variables
-
         [NotNull]
         private readonly IAssemblyLocator _assemblyLocator;
+
+        [NotNull]
+        private readonly IValueProviderWithCachedValuesForValueInitializerElements _valueProviderWithCachedValuesForValueInitializerElements;
 
         [NotNull]
         private readonly IClassMemberValueInitializerHelper _classMemberValueInitializerHelper;
@@ -55,20 +56,14 @@ namespace IoC.Configuration.ConfigurationFile
         [NotNull]
         private readonly IValidateDiManagerCompatibility _validateDiManagerCompatibility = new ValidateDiManagerCompatibility();
 
-        #endregion
-
-        #region  Constructors
-
-        public ConfigurationFileElementFactory([NotNull] IAssemblyLocator assemblyLocator)
+        public ConfigurationFileElementFactory([NotNull] IAssemblyLocator assemblyLocator,
+            IValueProviderWithCachedValuesForValueInitializerElements valueProviderWithCachedValuesForValueInitializerElements)
         {
             _assemblyLocator = assemblyLocator;
+            _valueProviderWithCachedValuesForValueInitializerElements = valueProviderWithCachedValuesForValueInitializerElements;
             _typeHelper = IoCServiceFactoryAmbientContext.Context.CreateTypeHelper(_assemblyLocator);
             _classMemberValueInitializerHelper = IoCServiceFactoryAmbientContext.Context.CreateClassMemberValueInitializerHelper(_typeHelper);
         }
-
-        #endregion
-
-        #region IConfigurationFileElementFactory Interface Implementation
 
         public IConfiguration CreateConfiguration(XmlElement xmlElement)
         {
@@ -419,11 +414,7 @@ namespace IoC.Configuration.ConfigurationFile
 
             return configurationFileElement;
         }
-
-        #endregion
-
-        #region Member Functions
-
+        
         private IValueInitializerElement CreateValueInitializerElement([NotNull] XmlElement xmlElement, [NotNull] IConfigurationFileElement parentConfigurationFileElement,
                                                                        [NotNull] IDeserializedFromStringValueInitializerHelper deserializedFromStringValueInitializerHelper)
         {
@@ -461,14 +452,16 @@ namespace IoC.Configuration.ConfigurationFile
 
                 case ConfigurationFileElementNames.ClassMember:
                     return new ClassMemberValueInitializerElement(xmlElement, parentConfigurationFileElement, _typeHelper, _classMemberValueInitializerHelper);
-
+                case ConfigurationFileElementNames.ProvidedValue:
+                    return new ProvidedValueInitializerElement(xmlElement, parentConfigurationFileElement, _typeHelper, 
+                        _valueProviderWithCachedValuesForValueInitializerElements);
+                    
                 case ConfigurationFileElementNames.ParameterValue:
                     return new ParameterValueInitializerElement(xmlElement, parentConfigurationFileElement, _typeHelper);
             }
 
             throw new InvalidElementConfigurationParseException(xmlElement, parentConfigurationFileElement);
         }
-
 
         private ITypeBasedSimpleSerializerAggregator GetTypeBasedSimpleSerializerAggregator([NotNull] IConfigurationFileElement parentConfigurationFileElement)
         {
@@ -485,7 +478,5 @@ namespace IoC.Configuration.ConfigurationFile
 
             return TypeBasedSimpleSerializerAggregator.GetDefaultSerializerAggregator();
         }
-
-        #endregion
     }
 }

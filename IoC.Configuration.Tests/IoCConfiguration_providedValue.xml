@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <!--
-   The XML configuration file is validated against schema file IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd, 
+   The XML configuration file is validated against schema file IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd, 
    which can be found in folder IoC.Configuration.Content in output directory. 
    The schema file can also be downloaded from 
-   http://oroptimizer.com/ioc.configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd or in source code 
+   http://oroptimizer.com/ioc.configuration/V2/IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd or in source code 
    project in Github.com.
    
    To use Visual Studio code completion based on schema contents, right click Properties on this file in Visual Studio, and in Schemas 
-   field pick the schema IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd.
+   field pick the schema IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd.
 
    Before running the tests make sure to execute IoC.Configuration\Tests\IoC.Configuration.Tests\PostBuildCommands.bat to copy the dlls into 
    folders specified in this configuration file.
@@ -16,7 +16,7 @@
 -->
 <iocConfiguration
         xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-        xsi:noNamespaceSchemaLocation="http://oroptimizer.com/IoC.Configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd">
+        xsi:noNamespaceSchemaLocation="http://oroptimizer.com/IoC.Configuration/V2/IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd">
 
     <!--The application should have write permissions to path specified in appDataDir. 
     This is where dynamically generated DLLs are saved.-->
@@ -46,6 +46,9 @@
                 path="TestFiles\ContainerImplementations\Ninject"/>
         <probingPath
                 path="TestFiles\DynamicallyLoadedDlls"/>
+
+        <probingPath
+                path="TestFiles\TestAssemblyResolution"/>
     </additionalAssemblyProbingPaths>
 
     <assemblies>
@@ -82,10 +85,12 @@
         <assembly name="IoC.Configuration.Tests" alias="tests"/>
 
         <assembly name="System.Threading.Tasks.Extensions" alias="threading_tasks_extensions"/>
+        <assembly name="System.Private.CoreLib" alias="corlib"/>
     </assemblies>
 
     <typeDefinitions>
-        <typeDefinition alias="Guid" type="System.Guid" />
+        <typeDefinition alias="Guid" type="System.Guid"/>
+        <typeDefinition alias="ILog" type="OROptimizer.Diagnostics.Log.ILog"/>
     </typeDefinitions>
 
     <parameterSerializers serializerAggregatorType="OROptimizer.Serializer.TypeBasedSimpleSerializerAggregator"
@@ -138,48 +143,58 @@
     -->
 
     <settings>
-        <int32 name="SynchronizerFrequencyInMilliseconds" value="5000"  />
-        <double name="MaxCharge" value="155.7" />
-        <string name="DisplayValue" value="Some display value" />        
-
-        <object name="Project1Guid" typeRef="Guid" value="EA91B230-3FF8-43FA-978B-3261493D58A3" />
-        <object name="Project2Guid" typeRef="Guid" value="9EDC7F1A-6BD6-4277-9015-5A9277218681" />
-        
-        <boolean name="failCustomServiceValidation" value="false"/>
+        <providedValue name="Logger" typeRef="ILog"/>
     </settings>
 
     <dependencyInjection>
         <modules>
-
-            <!--<module type="Modules.Autofac.AutofacModule2" >
+            <!--
+            Type Modules.IoC.DiModule3 is an IoC.Configuration module and is a subclass 
+            of IoC.Configuration.DiContainer.ModuleAbstr
+            -->
+            <module type="Modules.IoC.DiModule3">
                 <parameters>
-                    <int32 name="param1" value="1" />
-                </parameters>
-            </module>-->
-
-            <!--Type Modules.IoC.DiModule3 is an IoC.Configuration module and is a subclass 
-                of IoC.Configuration.DiContainer.ModuleAbstr-->
-            <!--<module type="Modules.IoC.DiModule3">
-                <parameters>
-                    
+                    <providedValue name="diModule3_param1" type="System.Int32"/>
                 </parameters>                
-            </module>-->
+            </module>
 
-            <!--Type Modules.Ninject.NinjectModule2 is a Ninject module and is a
-            subclass of Ninject.Modules.NinjectModule-->
-            <!--<module type="Modules.Ninject.NinjectModule2" >
+            <!--
+            Type Modules.Ninject.AutofacModule2 is an Autofac module and is a
+            subclass of Modules.Autofac.AutofacModule-->
+            <module type="Modules.Autofac.AutofacModule2">
                 <parameters>
-                    <int32 name="param1" value="3" />
+                    <providedValue name="logger" typeRef="ILog"/>
+                    <int32 name="param2" value="11"/>
                 </parameters>
-            </module>-->
+            </module>
+
+            <!--
+            Type Modules.Ninject.NinjectModule2 is a Ninject module and is a
+            subclass of Ninject.Modules.NinjectModule-->
+            <module type="Modules.Ninject.NinjectModule2">
+                <parameters>
+                    <providedValue name="logger" typeRef="ILog"/>
+                    <int32 name="param2" value="11"/>
+                </parameters>
+            </module>
         </modules>
-        <services>           
-            
+        <services>
+            <service type="IoC.Configuration.Tests.ProvidedValue.TestClasses.ITestInterface1">
+                <implementation
+                        type="IoC.Configuration.Tests.ProvidedValue.TestClasses.TestInterface1_Impl" scope="transient">
+                    <parameters>
+                        <providedValue name="loggerInjectedInConstructor" typeRef="ILog"/>
+                    </parameters>
+
+                    <injectedProperties>
+                        <providedValue name="LoggerInjectedIntoProperty" typeRef="ILog"/>
+                    </injectedProperties>
+                </implementation>
+            </service>
         </services>
 
         <autoGeneratedServices>
             <!--The scope for autoService implementations is always singleton -->
-
         </autoGeneratedServices>
     </dependencyInjection>
 
@@ -191,19 +206,54 @@
         <pluginSetup plugin="Plugin1">
             <!--The type in pluginImplementation should be non-abstract class 
                 that implements IoC.Configuration.IPlugin and which has a public constructor-->
-            <pluginImplementation type="TestPluginAssembly1.Implementations.Plugin1_Simple">
+            <pluginImplementation type="TestPluginAssembly1.Implementations.Plugin1">
+                <parameters>
+                    <providedValue name="param1" type="System.Int64"/>
+                </parameters>
+                <injectedProperties>
+                    <providedValue name="Property2" type="System.Int64"/>
+                </injectedProperties>
             </pluginImplementation>
 
             <settings>
-
+                <providedValue name="Int32Setting1" type="System.Int32"/>
+                <providedValue name="StringSetting1" type="System.String"/>
+                <int64 name="Int64Setting1" value="25" />
             </settings>
 
             <dependencyInjection>
                 <modules>
-                    <!--Add plugin modules too for tests-->
+                    <module type="ModulesForPlugin1.Ninject.NinjectModule1">
+                        <parameters>
+                            <providedValue name="param1" type="System.Int32"/>
+                        </parameters>
+                    </module>
+
+                    <module type="ModulesForPlugin1.Autofac.AutofacModule1" >
+                        <parameters>
+                            <providedValue name="param1" type="System.Int32"/>
+                        </parameters>
+                    </module>
+
+                    <module type="ModulesForPlugin1.IoC.DiModule1" >
+                        <parameters>
+                            <providedValue name="param1" type="System.Int32"/>
+                        </parameters>
+                    </module>
                 </modules>
 
                 <services>
+                    <service type="TestPluginAssembly1.Interfaces.IDoor">
+                        <implementation scope="singleton" type="TestPluginAssembly1.Implementations.Door">
+                            <parameters>
+                                <providedValue name="color" type="System.Int32"/>
+                                <double value="80" name="height"/>
+                            </parameters>
+                            <injectedProperties>
+                                <providedValue name="Height" type="System.Double" />
+                            </injectedProperties>
+                        </implementation>
+                    </service>
                 </services>
 
                 <autoGeneratedServices>

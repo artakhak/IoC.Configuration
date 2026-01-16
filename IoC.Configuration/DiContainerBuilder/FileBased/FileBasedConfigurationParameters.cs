@@ -125,5 +125,8 @@ namespace IoC.Configuration.DiContainerBuilder.FileBased
         /// </summary>
         [CanBeNull]
         public Delegates.OnDynamicAssemblyEmitComplete OnDynamicAssemblyEmitComplete { get; set; }
+        
+        [CanBeNull] 
+        public IReadOnlyList<IValueProvider> ValueProviders { get; set; }
     }
 }

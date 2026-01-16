@@ -29,6 +29,7 @@ using JetBrains.Annotations;
 using NUnit.Framework;
 using OROptimizer.Diagnostics.Log;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
@@ -186,7 +187,8 @@ public static class Helpers
     public static (IContainerInfo containerInfo, IConfiguration configuration) LoadConfigurationFile(DiImplementationType diImplementationType, 
         [NotNull] string configurationRelativePath,
         [CanBeNull] IDiModule[] additionalModulesToLoad = null,
-        [CanBeNull] Action<XmlDocument> modifyConfigurationFileOnLoad = null)
+        [CanBeNull] Action<XmlDocument> modifyConfigurationFileOnLoad = null,
+        [CanBeNull] IReadOnlyList<IValueProvider> valueProviders = null)
     {
         TestsHelper.SetupLogger();
 
@@ -206,7 +208,7 @@ public static class Helpers
                         modifyConfigurationFileOnLoad?.Invoke(e.XmlDocument);
                     },
                     AttributeValueTransformers = new[] { new FileFolderPathAttributeValueTransformer() },
-
+                    ValueProviders = valueProviders
                 })
             .WithoutPresetDiContainer();
 

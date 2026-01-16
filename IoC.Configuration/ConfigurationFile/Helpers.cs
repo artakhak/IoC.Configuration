@@ -220,7 +220,7 @@ namespace IoC.Configuration.ConfigurationFile
         {
             var xmlElementText = new StringBuilder();
 
-            // Add details about current element
+            // Add details about the current element
             xmlElementText.Append($"<{xmlElement.Name}");
 
             for (var attrIndex = 0; attrIndex < xmlElement.Attributes.Count; ++attrIndex)

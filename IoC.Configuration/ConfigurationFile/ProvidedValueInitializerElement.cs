@@ -1,4 +1,5 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
 using IoC.Configuration.DiContainerBuilder.FileBased;
 using JetBrains.Annotations;
 using OROptimizer.DynamicCode;
@@ -8,23 +9,19 @@ namespace IoC.Configuration.ConfigurationFile
     public class ProvidedValueInitializerElement: ValueInitializerElement
     {
         private readonly IValueProviderWithCachedValuesForValueInitializerElements _valueProviderWithCachedValuesForValueInitializerElements;
-        private readonly string _name;
-        private readonly ProvidedValueTargetType _providedValueTargetType;
+        private readonly Guid _elementIdentifier = Guid.NewGuid();
         
         public ProvidedValueInitializerElement([NotNull] XmlElement xmlElement, 
             IConfigurationFileElement parent, [NotNull] ITypeHelper typeHelper, 
-            IValueProviderWithCachedValuesForValueInitializerElements valueProviderWithCachedValuesForValueInitializerElements, 
-            string name, ProvidedValueTargetType providedValueTargetType
-            ) : base(xmlElement, parent, typeHelper)
+            IValueProviderWithCachedValuesForValueInitializerElements valueProviderWithCachedValuesForValueInitializerElements) : base(xmlElement, parent, typeHelper)
         {
             _valueProviderWithCachedValuesForValueInitializerElements = valueProviderWithCachedValuesForValueInitializerElements;
-            _name = name;
-            _providedValueTargetType = providedValueTargetType;
         }
 
         /// <inheritdoc />
         protected override string DoGenerateValueCSharp(IDynamicAssemblyBuilder dynamicAssemblyBuilder)
         {
+            var elementIdentifierString = _elementIdentifier.ToString("N");
 #pragma warning disable CS0612, CS0618
             return string.Concat(
                 FileBasedConfiguration.DynamicImplementationsNamespaceStatic,
@@ -32,13 +29,14 @@ namespace IoC.Configuration.ConfigurationFile
                 DynamicCodeGenerationHelpers.IoCConfigurationContextDataClassName,
                 ".",
                 DynamicCodeGenerationHelpers.GetValueProviderWithCachedValuesForValueInitializerElementsPropertyName(),
-                "().",
+                ".",
                 nameof(IValueProviderWithCachedValuesForValueInitializerElements.ResolveValue),
                 "<",
                 ValueTypeInfo.TypeCSharpFullName,
-                ">(",
-                this.GetType().GUID.ToString("N"),
-                ");"
+                ">(System.Guid.Parse(\"",
+                elementIdentifierString,
+                "\")",
+                ")"
             );
 #pragma warning restore CS0612, CS0618
         }
@@ -46,7 +44,7 @@ namespace IoC.Configuration.ConfigurationFile
         /// <inheritdoc />
         public override object GenerateValue()
         {
-            return _valueProviderWithCachedValuesForValueInitializerElements.ResolveValue<object>(this.GetType().GUID);
+            return _valueProviderWithCachedValuesForValueInitializerElements.ResolveValue<object>(this._elementIdentifier);
         }
 
         /// <inheritdoc />
@@ -60,9 +58,30 @@ namespace IoC.Configuration.ConfigurationFile
                 throw new ConfigurationParseException(this,
                     $"The type information property [{nameof(ValueTypeInfo)}] was not initialized.");
             
-            var providedValueData = new ProvidedValueData(ValueTypeInfo.Type, _name, _providedValueTargetType);
+            var parent = this.Parent;
+            string name = null;
+            ProvidedValueTargetType? providedValueTargetType = null;
+            
+            if (parent is IParameters)
+            {
+                name = GetAttributeValue(ConfigurationFileAttributeNames.Name);
+                providedValueTargetType = ProvidedValueTargetType.ConstructorParameter;
+            }
+            else if (parent is ISettingsElement)
+            {
+                name = GetAttributeValue(ConfigurationFileAttributeNames.Name);
+                providedValueTargetType = ProvidedValueTargetType.Setting;
+            }
+            else if (parent is IInjectedProperties)
+            {
+                name = GetAttributeValue(ConfigurationFileAttributeNames.Name);
+                providedValueTargetType = ProvidedValueTargetType.Property;
+            }
+            
+            var providedValueData = new ProvidedValueData(ValueTypeInfo.Type, name, providedValueTargetType);
+            
             if (_valueProviderWithCachedValuesForValueInitializerElements.TryResolveValue(
-                    this.GetType().GUID, providedValueData, out object providedValue) && providedValue != null)
+                    this._elementIdentifier, providedValueData, out object providedValue) && providedValue != null)
             {
                 if (providedValueData.Type.IsAssignableFrom(providedValue.GetType()))
                 {

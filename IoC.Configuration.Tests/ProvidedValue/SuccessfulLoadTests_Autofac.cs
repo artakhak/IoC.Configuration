@@ -9,7 +9,7 @@ namespace IoC.Configuration.Tests.ProvidedValue
         [OneTimeSetUp]
         public static void ClassInitialize()
         {
-            OnClassInitialize(DiImplementationType.Autofac, ConfigurationRelativePath);
+            OnClassInitialize(DiImplementationType.Autofac);
         }
 
         [OneTimeTearDown]

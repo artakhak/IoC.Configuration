@@ -5,14 +5,15 @@ using JetBrains.Annotations;
 namespace IoC.Configuration
 {
     /// <summary>
-    /// This 
+    /// This interface represents a value provider that caches resolved values for value initializer elements identified by their unique GUIDs.
     /// </summary>
-    public interface IValueProviderWithCachedValuesForValueInitializerElements //: IValueProvider
+    public interface IValueProviderWithCachedValuesForValueInitializerElements
     {
-        bool TryResolveValue(Guid valueInitializerElementGuid, IProvidedValueData providedValueData, out object resolvedValue);
-        T ResolveValue<T>(Guid valueInitializerElementGuid);
+        bool TryResolveValue(Guid valueInitializerElementId, IProvidedValueData providedValueData, out object resolvedValue);
+        T ResolveValue<T>(Guid valueInitializerElementId);
     }
 
+    /// <inheritdoc />
     public class ValueProviderWithCachedValuesForValueInitializerElements : IValueProviderWithCachedValuesForValueInitializerElements
     {
         private readonly IValueProvider _valueProvider;
@@ -28,16 +29,16 @@ namespace IoC.Configuration
         }
         
         /// <inheritdoc />
-        public bool TryResolveValue(Guid valueInitializerElementGuid, IProvidedValueData providedValueData, out object resolvedValue)
+        public bool TryResolveValue(Guid valueInitializerElementId, IProvidedValueData providedValueData, out object resolvedValue)
         {
             lock (_lockObject)
             {
-                if (_valueInitializerElementGuidToProvidedValue.TryGetValue(valueInitializerElementGuid, out resolvedValue))
+                if (_valueInitializerElementGuidToProvidedValue.TryGetValue(valueInitializerElementId, out resolvedValue))
                     return true;
 
                 if (_valueProvider.TryResolveValue(providedValueData, out resolvedValue))
                 {
-                    _valueInitializerElementGuidToProvidedValue[valueInitializerElementGuid] = resolvedValue;
+                    _valueInitializerElementGuidToProvidedValue[valueInitializerElementId] = resolvedValue;
                     return true;
                 }
                 
@@ -47,11 +48,11 @@ namespace IoC.Configuration
         }
 
         /// <inheritdoc />
-        public T ResolveValue<T>(Guid valueInitializerElementGuid)
+        public T ResolveValue<T>(Guid valueInitializerElementId)
         {
             lock (_lockObject)
             {
-                if (_valueInitializerElementGuidToProvidedValue.TryGetValue(valueInitializerElementGuid, out var value))
+                if (_valueInitializerElementGuidToProvidedValue.TryGetValue(valueInitializerElementId, out var value))
                 {
                     if (value is T resolvedValue)
                     {
@@ -60,7 +61,7 @@ namespace IoC.Configuration
                 }
             }
             
-            throw new InvalidCastException($"Failed to resolve value in value initialization element with type Id: {valueInitializerElementGuid}!");
+            throw new InvalidCastException($"Failed to resolve value in value initialization element with element identifier Id: {valueInitializerElementId}!");
         }
     }
 }

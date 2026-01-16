@@ -5,7 +5,7 @@ namespace IoC.Configuration
     /// <inheritdoc />
     public class ProvidedValueData : IProvidedValueData
     {
-        public ProvidedValueData(Type type, string name, ProvidedValueTargetType providedValueTargetType)
+        public ProvidedValueData(Type type, string name, ProvidedValueTargetType? providedValueTargetType)
         {
             Type = type;
             Name = name;
@@ -19,6 +19,6 @@ namespace IoC.Configuration
         public string Name { get; }
         
         /// <inheritdoc />
-        public ProvidedValueTargetType ProvidedValueTargetType { get; }
+        public ProvidedValueTargetType? ProvidedValueTargetType { get; }
     }
 }

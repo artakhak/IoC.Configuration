@@ -1,24 +1,24 @@
 ﻿using IoC.Configuration.DiContainer;
+using IoC.Configuration.DiContainerBuilder;
 using Ninject.Modules;
-using SharedServices.Implementations;
-using SharedServices.Interfaces;
+using OROptimizer.Diagnostics.Log;
 
 namespace Modules.Ninject;
 
 public class NinjectModule2 : NinjectModule
 {
+    private readonly ILog _logger;
 
-    public NinjectModule2(int param1, int param2)
+    public NinjectModule2(ILog logger, int param2)
     {
-        Property1 = param1;
+        _logger = logger;
         Property2 = param2;
     }
-
-    public IDiContainer DiContainer { get; private set; }
-
+    
+    /// <inheritdoc />
     public override void Load()
     {
-        Bind<IInterface1>().To<Interface1_Impl2>().InSingletonScope();
+        Bind<ILog>().ToConstant(_logger).InSingletonScope();
     }
 
     /// <summary>
@@ -27,9 +27,8 @@ public class NinjectModule2 : NinjectModule
     /// <param name="diContainer"></param>
     public void OnDiContainerReady(IDiContainer diContainer)
     {
-        DiContainer = diContainer;
+        
     }
-
-    public int Property1 { get; }
+    
     public int Property2 { get; }
 }

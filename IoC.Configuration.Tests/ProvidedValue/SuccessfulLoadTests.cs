@@ -1,148 +1,117 @@
-﻿using IoC.Configuration.Tests.TestTemplateFiles;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using IoC.Configuration.ConfigurationFile;
+using IoC.Configuration.Tests.ProvidedValue.TestClasses;
+using IoC.Configuration.Tests.TestTemplateFiles;
 using NUnit.Framework;
+using OROptimizer.Diagnostics.Log;
+using TestsSharedLibrary.DependencyInjection;
 
 namespace IoC.Configuration.Tests.ProvidedValue;
 
 public abstract class SuccessfulLoadTests : IoCConfigurationTestsForSuccessfulLoad
 {
-    protected readonly static string ConfigurationRelativePath = "IoCConfiguration_providedValue.xml";
+    private const string ConfigurationRelativePath = "IoCConfiguration_providedValue.xml";
 
+    private static readonly ILog _logger = new LogToConsole();
+    
     [Test]
     public void IoCModuleParameterResolved()
     {
-        
     }
     
-    // [Test]
-    // public void CollectionInjectionInConstructedValueElement_Tests()
-    // {
-    //     var collectionsSetting = Settings.GetSettingValueOrThrow<DemoCollectionInjection>("Collections");
-    //
-    //     Assert.AreEqual(2, collectionsSetting.IntValues.Count);
-    //     Assert.AreEqual(17, collectionsSetting.IntValues[0]);
-    //     Assert.AreEqual(14, collectionsSetting.IntValues[1]);
-    //
-    //     Assert.AreEqual(3, collectionsSetting.Texts.Count);
-    //     Assert.AreEqual("Microsoft", collectionsSetting.Texts[0]);
-    //     Assert.AreEqual("Google", collectionsSetting.Texts[1]);
-    //     Assert.AreEqual("Amazon", collectionsSetting.Texts[2]);
-    // }
+    protected static void OnClassInitialize(DiImplementationType diImplementationType)
+    {
+        OnClassInitialize(diImplementationType, ConfigurationRelativePath, null,
+            null, new List<IValueProvider>
+            {
+                new ValueProvider(_logger)
+            });
+    }
 
-    // [Test]
-    // public void CollectionInjectionIntoModuleConstructor_Tests()
-    // {
-    //     var module1 = (Module1)Configuration.DependencyInjection.Modules.Modules.FirstOrDefault(x => x.DiModule is Module1).DiModule;
-    //     var module1InjectedValuesList = new List<int>(module1.Values);
-    //
-    //     Assert.AreEqual(2, module1InjectedValuesList.Count);
-    //     Assert.AreEqual(5, module1InjectedValuesList[0]);
-    //     Assert.AreEqual(7, module1InjectedValuesList[1]);
-    // }
-    // [Test]
-    // public void CollectionInValueImplementation_Tests1()
-    // {
-    //     var dbConnectionsList = DiContainer.Resolve<IReadOnlyList<IDbConnection>>();
-    //     Assert.AreEqual(4, dbConnectionsList.Count);
-    //
-    //     var sqliteDbConnection = (SqliteDbConnection)dbConnectionsList[0];
-    //     Assert.AreEqual(@"c:\SQLiteFiles\MySqliteDb.sqlite", sqliteDbConnection.FilePath);
-    //
-    //     var sqlServerDbConnection = (SqlServerDbConnection)dbConnectionsList[1];
-    //
-    //     Assert.AreEqual("SQLSERVER2012", sqlServerDbConnection.ServerName);
-    //     Assert.AreEqual("DB1", sqlServerDbConnection.DatabaseName);
-    //     Assert.AreEqual("user1", sqlServerDbConnection.UserName);
-    //     Assert.AreEqual("password123", sqlServerDbConnection.Password);
-    //
-    //     sqlServerDbConnection = (SqlServerDbConnection)dbConnectionsList[2];
-    //
-    //     Assert.AreEqual("SQLSERVER2016", sqlServerDbConnection.ServerName);
-    //     Assert.AreEqual("DB2", sqlServerDbConnection.DatabaseName);
-    //     Assert.AreEqual("user2", sqlServerDbConnection.UserName);
-    //     Assert.AreEqual("password456", sqlServerDbConnection.Password);
-    //
-    //     var mySqlServerDbConnection = dbConnectionsList[3];
-    //     Assert.AreEqual("TestPluginAssembly1.Implementations.MySqlDbConnection", mySqlServerDbConnection.GetType().FullName);
-    //
-    //     Assert.AreEqual("user=User1;password=123", mySqlServerDbConnection.ConnectionString);
-    // }
-    //
-    // [Test]
-    // public void CollectionInValueImplementation_Tests2()
-    // {
-    //     var resolvedArray = DiContainer.Resolve<TestLocalTypesClass.IInterface1[]>();
-    //     Assert.AreEqual(2, resolvedArray.Length);
-    //
-    //     Assert.IsInstanceOf<TestLocalTypesClass.Interface1_Impl1>(resolvedArray[0]);
-    //     Assert.AreEqual(13, resolvedArray[0].Value);
-    //
-    //     Assert.IsInstanceOf<TestLocalTypesClass.Interface1_Impl1>(resolvedArray[1]);
-    //     Assert.AreEqual(17, resolvedArray[1].Value);
-    // }
-    //
-    // [Test]
-    // public void CollectionsInjectedIntoSelfBoundService_Tests()
-    // {
-    //     var collectionsTestClass1Instance = DiContainer.Resolve<CollectionsTestClass1>();
-    //
-    //     // collectionsTestClass1Instance.ReadOnlyListValues
-    //     Assert.AreEqual(3, collectionsTestClass1Instance.ReadOnlyListValues.Count);
-    //     Assert.AreEqual(17, collectionsTestClass1Instance.ReadOnlyListValues[0]);
-    //     Assert.AreEqual(24, collectionsTestClass1Instance.ReadOnlyListValues[1]);
-    //     Assert.AreEqual(27, collectionsTestClass1Instance.ReadOnlyListValues[2]);
-    //
-    //     // collectionsTestClass1Instance.ArrayValues
-    //     Assert.AreEqual(2, collectionsTestClass1Instance.ArrayValues.Length);
-    //
-    //     Assert.IsInstanceOf<Interface1_Impl>(collectionsTestClass1Instance.ArrayValues[0]);
-    //     Assert.AreEqual(37, collectionsTestClass1Instance.ArrayValues[0].Property1);
-    //
-    //     Assert.IsInstanceOf<Interface1_Impl>(collectionsTestClass1Instance.ArrayValues[1]);
-    //     Assert.AreEqual(29, collectionsTestClass1Instance.ArrayValues[1].Property1);
-    //
-    //     // collectionsTestClass1Instance.EnumerableValues
-    //     var enumValuesToList = collectionsTestClass1Instance.EnumerableValues.ToList();
-    //
-    //     Assert.AreEqual(3, enumValuesToList.Count);
-    //
-    //     Assert.IsInstanceOf<Interface1_Impl>(enumValuesToList[0]);
-    //     Assert.AreEqual(18, enumValuesToList[0].Property1);
-    //
-    //     Assert.IsInstanceOf<Interface1_Impl>(enumValuesToList[1]);
-    //     Assert.AreEqual(21, enumValuesToList[1].Property1);
-    //
-    //     Assert.IsInstanceOf<Interface1_Impl>(enumValuesToList[2]);
-    //     Assert.AreEqual(37, enumValuesToList[2].Property1);
-    //
-    //     // collectionsTestClass1Instance.ListValues
-    //     var listValues = collectionsTestClass1Instance.ListValues;
-    //
-    //     Assert.AreEqual(3, listValues.Count);
-    //
-    //     Assert.IsInstanceOf<Interface1_Impl>(listValues[0]);
-    //     Assert.AreEqual(37, listValues[0].Property1);
-    //
-    //     Assert.IsInstanceOf<Interface1_Impl>(listValues[1]);
-    //     Assert.AreEqual(21, listValues[1].Property1);
-    //
-    //     Assert.IsInstanceOf<Interface1_Impl>(listValues[2]);
-    //     Assert.AreEqual(139, listValues[2].Property1);
-    // }
-    //
-    // [Test]
-    // public void CollectionsInAutoService_Tests()
-    // {
-    //     var auroService = DiContainer.Resolve<IAutoService1>();
-    //
-    //     var getAllActionIdsReturnValue = auroService.GetAllActionIds(3);
-    //     Assert.AreEqual(2, getAllActionIdsReturnValue.Count);
-    //     Assert.AreEqual(27, getAllActionIdsReturnValue[0]);
-    //     Assert.AreEqual(17, getAllActionIdsReturnValue[1]);
-    //
-    //     getAllActionIdsReturnValue = auroService.GetAllActionIds(12);
-    //     Assert.AreEqual(3, getAllActionIdsReturnValue.Count);
-    //     Assert.AreEqual(13, getAllActionIdsReturnValue[0]);
-    //     Assert.AreEqual(27, getAllActionIdsReturnValue[1]);
-    //     Assert.AreEqual(17, getAllActionIdsReturnValue[2]);
-    // }
+    [Test]
+    public void TestProvidedValueInjectionIntoModules()
+    {
+        // Logger is injected into constructor of Modules.Autofac.AutofacModule2 and
+        // Modules.Ninject.NinjectModule2 and is registered in these modules.
+        // Successfully resolving ILog means that the provided value was correctly injected into the module.
+        var logger = DiContainer.Resolve<ILog>();
+        Assert.That(logger, Is.SameAs(_logger));
+        
+        var dependencyInjectionElement = DiContainer.Resolve<IConfiguration>().DependencyInjection;
+        
+        Assert.That(Helpers.GetPropertyValue<int>(
+            GetModule(dependencyInjectionElement, "Modules.IoC.DiModule3").DiModule, "DiModule3_Property1"), Is.EqualTo(37));
+    }
+    
+    [Test]
+    public void TestProvidedValueInjectionIntoPluginModules()
+    {
+        var dependencyInjectionElement = DiContainer.Resolve<IConfiguration>().PluginsSetup.AllPluginSetups.FirstOrDefault().DependencyInjection;
+
+        if (DiImplementationType == DiImplementationType.Autofac)
+            Assert.AreEqual(101, Helpers.GetPropertyValue<int>(GetModule(dependencyInjectionElement, "ModulesForPlugin1.Autofac.AutofacModule1").DiModule, "Property1"));
+        else if (DiImplementationType == DiImplementationType.Ninject)
+            Assert.AreEqual(101, Helpers.GetPropertyValue<int>(GetModule(dependencyInjectionElement, "ModulesForPlugin1.Ninject.NinjectModule1").DiModule, "Property1"));
+
+        Assert.AreEqual(101, Helpers.GetPropertyValue<int>(GetModule(dependencyInjectionElement, "ModulesForPlugin1.IoC.DiModule1").DiModule, "Property1"));
+    }
+    
+    private IModuleElement GetModule(IDependencyInjection dependencyInjection, string moduleType)
+    {
+        var allModules = dependencyInjection.Modules.Modules.Where(x => moduleType.Equals(x.DiModule.GetType().FullName, StringComparison.Ordinal)).ToList();
+
+        Assert.AreEqual(1, allModules.Count);
+
+        return allModules[0];
+    }
+    
+    [Test]
+    public void TestProvidedValueInjectionIntoSettings()
+    {
+        var logger = Settings.GetSettingValueOrThrow<ILog>("Logger");
+        Assert.That(logger, Is.SameAs(_logger));
+    }
+    
+    [Test]
+    public void TestProvidedValueInjectionIntoPluginSettings()
+    {
+        var pluginRepository = DiContainer.Resolve<IPluginDataRepository>();
+
+        var pluginData = pluginRepository.GetPluginData("Plugin1");
+        
+        Assert.AreEqual(pluginData.Settings.GetSettingValueOrThrow<int>("Int32Setting1"), 57);
+        Assert.AreEqual(pluginData.Settings.GetSettingValueOrThrow<string>("StringSetting1"), "String Setting1 Value");
+    }
+    
+    [Test]
+    public void TestProvidedValueInjectionIntoServiceConstructorAndProperty()
+    {
+        var testInterface1 = DiContainer.Resolve<IoC.Configuration.Tests.ProvidedValue.TestClasses.ITestInterface1>();
+        Assert.That(testInterface1.LoggerInjectedInConstructor, Is.SameAs(_logger));
+        Assert.That(testInterface1.LoggerInjectedIntoProperty, Is.SameAs(_logger));
+    }
+    
+    [Test]
+    public void TestProvidedValueInjectionIntoPluginServiceConstructorAndProperty()
+    {   
+        var door = DiContainer.Resolve(Helpers.GetType("TestPluginAssembly1.Interfaces.IDoor"));
+        var color = Helpers.GetPropertyValue<int>(door, "Color");
+        var height = Helpers.GetPropertyValue<double>(door, "Height");
+        
+        Assert.That(color, Is.EqualTo(150));
+        Assert.That(height, Is.EqualTo(90.1));
+    }
+    
+    [Test]
+    public void TestProvidedValueInjectedIntoPluginConstructorAndParameter()
+    {
+        var pluginRepository = DiContainer.Resolve<IPluginDataRepository>();
+
+        var pluginData = pluginRepository.GetPluginData("Plugin1");
+        
+        Assert.AreEqual(Helpers.GetPropertyValue<long>(pluginData!.Plugin, "Property1"), (long)17, "Parameter injection via 'value provider' failed");
+        Assert.AreEqual(Helpers.GetPropertyValue<long>(pluginData!.Plugin, "Property2"), (long)27, "Property injection via 'value provider' failed");
+    }
 }

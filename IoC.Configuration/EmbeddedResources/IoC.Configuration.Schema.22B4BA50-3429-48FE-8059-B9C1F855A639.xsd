@@ -203,6 +203,13 @@
 		</xs:complexContent>
 	</xs:complexType>
 
+	<xs:complexType name="namedProvidedValueType">
+		<xs:attribute name="name" use="required" type="xs:string"/>
+		<xs:attribute name="type" type="xs:string" use="optional"/>
+		<xs:attribute name="assembly" type="xs:string" use="optional"/>
+		<xs:attribute name="typeRef" type="xs:string" use="optional"/>
+	</xs:complexType>
+
 	<xs:complexType name="parameterValueType">
 		<xs:attribute name="paramName" use="required" type="xs:string"/>
 	</xs:complexType>
@@ -347,6 +354,7 @@
 				<xs:element name="constructedValue" type="namedConstructedValueType" minOccurs="1" maxOccurs="1"/>
 				<xs:element name="collection" type="namedCollectionType" minOccurs="1" maxOccurs="1"/>
 				<xs:element name="classMember" type="namedClassMemberType" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="providedValue" type="namedProvidedValueType" minOccurs="1" maxOccurs="1"/>
 			</xs:choice>
 		</xs:sequence>
 	</xs:complexType>
@@ -364,6 +372,7 @@
 				<xs:element name="string" type="namedStringType" minOccurs="1" maxOccurs="1"/>
 				<xs:element name="object" type="namedObjectType" minOccurs="1" maxOccurs="1"/>
 				<xs:element name="constructedValue" type="namedConstructedValueType" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="providedValue" type="namedProvidedValueType" minOccurs="1" maxOccurs="1"/>
 			</xs:choice>
 		</xs:sequence>
 	</xs:complexType>
@@ -386,6 +395,7 @@
 				<xs:element name="collection" type="namedCollectionTypeWithDi" minOccurs="1" maxOccurs="1"/>
 				<xs:element name="classMember" type="namedClassMemberTypeWithDi" minOccurs="1" maxOccurs="1"/>
 				<xs:element name="parameterValue" type="namedParameterValueType" minOccurs="1" maxOccurs="1"/>
+				<xs:element name="providedValue" type="namedProvidedValueType" minOccurs="1" maxOccurs="1"/>
 			</xs:choice>
 		</xs:sequence>
 	</xs:complexType>

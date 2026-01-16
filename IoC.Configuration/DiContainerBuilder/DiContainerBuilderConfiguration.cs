@@ -103,7 +103,7 @@ namespace IoC.Configuration.DiContainerBuilder
             );
             
 #pragma warning disable CS0618 // Type or member is obsolete
-            ValueProviderWithCachedValuesForValueInitializerElementsStatic = new ValueProviderWithCachedValuesForValueInitializerElements(valueProvider);
+            ValueProviderWithCachedValuesForValueInitializerElementsStatic = _valueProviderWithCachedValuesForValueInitializerElements;
 #pragma warning restore CS0618 // Type or member is obsolete
         }
 
@@ -262,6 +262,15 @@ namespace IoC.Configuration.DiContainerBuilder
         [NotNull]
         [ItemNotNull]
         protected IReadOnlyList<object> NativeAndDiModules => _nativeAndDiModules;
+
+        /// <summary>
+        /// Provides access to the value provider that caches values for elements initialized with specific value initializers.
+        /// </summary>
+        /// <value>
+        /// An implementation of <see cref="IoC.Configuration.IValueProviderWithCachedValuesForValueInitializerElements"/>
+        /// that manages and retrieves cached values associated with value initializer elements.
+        /// </value>
+        protected IValueProviderWithCachedValuesForValueInitializerElements ValueProviderWithCachedValuesForValueInitializerElements => _valueProviderWithCachedValuesForValueInitializerElements;
 
         private void NotifyModulesOnContainerReady([NotNull] [ItemNotNull] IEnumerable<object> nativeModules, [NotNull] IDiContainer diContainer)
         {

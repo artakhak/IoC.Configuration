@@ -30,23 +30,9 @@ namespace IoC.Configuration.ConfigurationFile
 {
     public class ParameterElement : ValueInitializerElementDecorator, IParameterElement
     {
-        #region Member Variables
-
-        [NotNull]
-        private readonly IValueInitializerElement _decoratedValueInitializerElement;
-
-        #endregion
-
-        #region  Constructors
-
         public ParameterElement([NotNull] IValueInitializerElement decoratedValueInitializerElement) : base(decoratedValueInitializerElement)
         {
-            _decoratedValueInitializerElement = decoratedValueInitializerElement;
         }
-
-        #endregion
-
-        #region IParameterElement Interface Implementation
 
         public override void Initialize()
         {
@@ -55,7 +41,5 @@ namespace IoC.Configuration.ConfigurationFile
         }
 
         public string Name { get; private set; }
-
-        #endregion
     }
 }
