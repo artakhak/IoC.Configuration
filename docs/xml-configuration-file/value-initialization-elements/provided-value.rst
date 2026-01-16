@@ -4,6 +4,9 @@
 
 The ``providedValue`` element is used to inject values that are resolved at runtime through custom logic rather than being hardcoded in the XML or resolved directly from the DI container. This is particularly useful for injecting external dependencies like loggers, session data, or environment-specific values.
 
+.. note::
+    Refer to :doc:`../../sample-files/IoCConfiguration_providedValue.generated` for more examples on **providedValue** element as well as related unit tests in `ProvidedValue tests <https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.Tests/ProvidedValue>`_ for more examples.
+
 How it Works
 ------------
 

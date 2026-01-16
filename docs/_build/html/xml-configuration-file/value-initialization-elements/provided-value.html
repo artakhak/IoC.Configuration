@@ -110,6 +110,10 @@
   <section id="providedvalue-element">
 <h1><strong>providedValue</strong> element<a class="headerlink" href="#providedvalue-element" title="Link to this heading"></a></h1>
 <p>The <code class="docutils literal notranslate"><span class="pre">providedValue</span></code> element is used to inject values that are resolved at runtime through custom logic rather than being hardcoded in the XML or resolved directly from the DI container. This is particularly useful for injecting external dependencies like loggers, session data, or environment-specific values.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Refer to <a class="reference internal" href="../../sample-files/IoCConfiguration_providedValue.generated.html"><span class="doc">IoCConfiguration_providedValue.xml</span></a> for more examples on <strong>providedValue</strong> element as well as related unit tests in <a class="reference external" href="https://github.com/artakhak/IoC.Configuration/tree/master/IoC.Configuration.Tests/ProvidedValue">ProvidedValue tests</a> for more examples.</p>
+</div>
 <section id="how-it-works">
 <h2>How it Works<a class="headerlink" href="#how-it-works" title="Link to this heading"></a></h2>
 <p>When the configuration parser encounters a <code class="docutils literal notranslate"><span class="pre">providedValue</span></code> element, it attempts to resolve the value using a list of <code class="docutils literal notranslate"><span class="pre">IValueProvider</span></code> implementations passed during the initialization of the <code class="docutils literal notranslate"><span class="pre">FileBasedConfiguration</span></code>.</p>

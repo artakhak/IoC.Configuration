@@ -17,6 +17,7 @@ var templateFileRelativePaths = new (string, string)[]
     (@"docs\sample-files\IoCConfiguration_classMember.rst.template", "IoCConfiguration_classMember.generated.rst"),
     (@"docs\sample-files\IoCConfiguration_collection.rst.template", "IoCConfiguration_collection.generated.rst"),
     (@"docs\sample-files\IoCConfiguration_constructedValue.rst.template", "IoCConfiguration_constructedValue.generated.rst"),
+    (@"docs\sample-files\IoCConfiguration_providedValue.rst.template", "IoCConfiguration_providedValue.generated.rst"),
     (@"docs\sample-files\IoCConfiguration_GenericTypesAndTypeReUse.rst.template", "IoCConfiguration_GenericTypesAndTypeReUse.generated.rst"),
     (@"docs\sample-files\IoCConfiguration_Overview.rst.template", "IoCConfiguration_Overview.generated.rst"),
     (@"docs\sample-files\IoCConfiguration_proxyService.rst.template", "IoCConfiguration_proxyService.generated.rst"),

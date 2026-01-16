@@ -25,5 +25,6 @@ Sample Files
    IoCConfiguration_valueImplementation.generated.rst
    IoCConfiguration_collection.generated.rst
    IoCConfiguration_constructedValue.generated.rst
+   IoCConfiguration_providedValue.generated.rst
    IoCConfiguration_classMember.generated.rst
    IoCConfiguration_settingValue_ReferencingInConfiguration.generated.rst
