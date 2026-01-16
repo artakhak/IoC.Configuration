@@ -2,11 +2,11 @@
 XML Configuration File Schema
 =============================
 
-XML Configuration file is validated against the schema file **IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd** below, when the file is loaded by **IoC.Configuration**.
+XML Configuration file is validated against the schema file **IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd** below, when the file is loaded by **IoC.Configuration**.
 
 This file can be found also in folder "IoC.Configuration.Content", under the folder where Nuget package **IoC.Configuration** is downloaded (see the screenshot below),
-or can also be downloaded from `IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/IoC.Configuration.Content/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd>`_ or
-from `oroptimizer.com/IoC.Configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd <http://oroptimizer.com/IoC.Configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd>`_.
+or can also be downloaded from `IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/IoC.Configuration.Content/IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd>`_ or
+from `oroptimizer.com/IoC.Configuration/V2/IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd <http://oroptimizer.com/IoC.Configuration/V2/IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd>`_.
 
 .. image:: ioc.configuration-files.jpg
 
@@ -21,7 +21,7 @@ Alternatively, reference the schema in xmlConfiguration element as displayed bel
    
    <iocConfiguration
    	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-   	xsi:noNamespaceSchemaLocation="http://oroptimizer.com/IoC.Configuration/V2/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd">
+   	xsi:noNamespaceSchemaLocation="http://oroptimizer.com/IoC.Configuration/V2/IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd">
    	<!--...-->
    <iocConfiguration>
  
@@ -235,6 +235,13 @@ Alternatively, reference the schema in xmlConfiguration element as displayed bel
    		</xs:complexContent>
    	</xs:complexType>
 
+   	<xs:complexType name="namedProvidedValueType">
+   		<xs:attribute name="name" use="required" type="xs:string"/>
+   		<xs:attribute name="type" type="xs:string" use="optional"/>
+   		<xs:attribute name="assembly" type="xs:string" use="optional"/>
+   		<xs:attribute name="typeRef" type="xs:string" use="optional"/>
+   	</xs:complexType>
+
    	<xs:complexType name="parameterValueType">
    		<xs:attribute name="paramName" use="required" type="xs:string"/>
    	</xs:complexType>
@@ -379,6 +386,7 @@ Alternatively, reference the schema in xmlConfiguration element as displayed bel
    				<xs:element name="constructedValue" type="namedConstructedValueType" minOccurs="1" maxOccurs="1"/>
    				<xs:element name="collection" type="namedCollectionType" minOccurs="1" maxOccurs="1"/>
    				<xs:element name="classMember" type="namedClassMemberType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="providedValue" type="namedProvidedValueType" minOccurs="1" maxOccurs="1"/>
    			</xs:choice>
    		</xs:sequence>
    	</xs:complexType>
@@ -396,6 +404,7 @@ Alternatively, reference the schema in xmlConfiguration element as displayed bel
    				<xs:element name="string" type="namedStringType" minOccurs="1" maxOccurs="1"/>
    				<xs:element name="object" type="namedObjectType" minOccurs="1" maxOccurs="1"/>
    				<xs:element name="constructedValue" type="namedConstructedValueType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="providedValue" type="namedProvidedValueType" minOccurs="1" maxOccurs="1"/>
    			</xs:choice>
    		</xs:sequence>
    	</xs:complexType>
@@ -418,6 +427,7 @@ Alternatively, reference the schema in xmlConfiguration element as displayed bel
    				<xs:element name="collection" type="namedCollectionTypeWithDi" minOccurs="1" maxOccurs="1"/>
    				<xs:element name="classMember" type="namedClassMemberTypeWithDi" minOccurs="1" maxOccurs="1"/>
    				<xs:element name="parameterValue" type="namedParameterValueType" minOccurs="1" maxOccurs="1"/>
+   				<xs:element name="providedValue" type="namedProvidedValueType" minOccurs="1" maxOccurs="1"/>
    			</xs:choice>
    		</xs:sequence>
    	</xs:complexType>

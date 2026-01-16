@@ -2,7 +2,7 @@
 Sample Files
 ============
 
-- The XML configuration file schema is available at `IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/IoC.Configuration.Content/IoC.Configuration.Schema.7579ADB2-0FBD-4210-A8CA-EE4B4646DB3F.xsd>`_.
+- The XML configuration file schema is available at `IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/IoC.Configuration.Content/IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd>`_.
 
 - A template XML configuration file can be downloaded from `IoC.Configuration.Template.xml <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration/IoC.Configuration.Content/IoC.Configuration.Template.xml>`_.
     .. note::
