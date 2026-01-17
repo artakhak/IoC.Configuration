@@ -1,0 +1,43 @@
+﻿<pluginSetup plugin="Plugin1">
+    <!--The type in pluginImplementation should be non-abstract class 
+        that implements IoC.Configuration.IPlugin and which has a public constructor-->
+    <pluginImplementation type="TestPluginAssembly1.Implementations.Plugin1">
+        <parameters>
+            <providedValue name="param1" type="System.Int64"/>
+        </parameters>
+        <injectedProperties>
+            <providedValue name="Property2" type="System.Int64"/>
+        </injectedProperties>
+    </pluginImplementation>
+    <settings>
+        <providedValue name="Int32Setting1" type="System.Int32"/>
+        <int64 name="Int64Setting1" value="25" />
+    </settings>
+    <dependencyInjection>
+        <modules>            
+            <module type="ModulesForPlugin1.Autofac.AutofacModule1" >
+                <parameters>
+                    <providedValue name="param1" type="System.Int32"/>
+                </parameters>
+            </module>
+            <module type="ModulesForPlugin1.IoC.DiModule1" >
+                <parameters>
+                    <providedValue name="param1" type="System.Int32"/>
+                </parameters>
+            </module>
+        </modules>
+        
+        <services>
+            <service type="TestPluginAssembly1.Interfaces.IDoor">
+                <implementation scope="singleton" type="TestPluginAssembly1.Implementations.Door">
+                    <parameters>
+                        <providedValue name="color" type="System.Int32"/>
+                    </parameters>
+                    <injectedProperties>
+                        <providedValue name="Height" type="System.Double" />
+                    </injectedProperties>
+                </implementation>
+            </service>
+        </services>
+    </dependencyInjection>
+</pluginSetup>

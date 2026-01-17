@@ -92,7 +92,7 @@ Below is a simple example of setting up custom auto-service in configuration fil
 `DemoIoCConfiguration_autoServiceCustom.xml <https://github.com/artakhak/IoC.Configuration/blob/master/IoC.Configuration.Tests/DocumentationTets/AutoServiceCustom/DemoIoCConfiguration_autoServiceCustom.xml>`_.
 
 .. code-block:: xml
-    :linenos:   
+    :linenos:
    
     <dependencyInjection>
         <modules>

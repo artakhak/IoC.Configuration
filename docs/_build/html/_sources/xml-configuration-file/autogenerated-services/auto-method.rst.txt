@@ -2,10 +2,6 @@
 Element **autoMethod**
 ======================
 
-.. contents::
-  :local:
-  :depth: 2
-
 Element **autoMethod** is used to configure the auto-generated implementation of a method in interface specified in element **autoService**.
 
 An example of **autoMethod** elements is provided in :doc:`index`. In this section some specifics of this element will be provided.

@@ -2,10 +2,6 @@
 Element **autoProperty**
 ========================
 
-.. contents::
-  :local:
-  :depth: 2
-
 Element **autoProperty** is used to configure the auto-generated implementation of a property in interface specified in element **autoService**.
 
 An example of **autoProperty** elements is provided in :doc:`index`. In this section some specifics of this element will be provided.
