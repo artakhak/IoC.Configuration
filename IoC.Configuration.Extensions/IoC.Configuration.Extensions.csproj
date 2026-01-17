@@ -14,8 +14,8 @@
 	</PropertyGroup>
 	<PropertyGroup>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<PackageVersion>1.1.1</PackageVersion>
-		<Version>1.1.1</Version>
+		<PackageVersion>1.1.2</PackageVersion>
+		<Version>1.1.2</Version>
 		<Company>OROptimizer</Company>
 		<Authors>Artak Hakobyan</Authors>
 		<Description>
@@ -26,7 +26,10 @@
 		<PackageTags>IoC Configuration dependencyinjection inversion of control autofac ninject xml Autofac</PackageTags>
 		<PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
-		<PackageReleaseNotes>Referencing the latest version of IoC.Configuration.</PackageReleaseNotes>
+		<PackageReleaseNotes>
+			- Referencing latest versions of some libraries
+			- Couple of minor changes in project file
+		</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -39,17 +42,27 @@
 	<ItemGroup>
 		<Compile Include="AssemblyScanning\AssemblyScannerForSelfBoundTypesModule.cs" />
 	</ItemGroup>
+	
 	<ItemGroup>
-		<None Include="README.md" />
+		<None Include="README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
 	</ItemGroup>
+	
 	<ItemGroup>
-		
 		<PackageReference Include="JetBrains.Annotations" Version="2021.2.0" PrivateAssets="all" ExcludeAssets="runtime">
 			<IncludeAssets>compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.13.0" />
+	</ItemGroup>
 
-		<!--<PackageReference Include="IoC.Configuration" Version="3.0.0" />-->
+	<!--IoC.Configuration-->
+	<ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
+		<PackageReference Include="IoC.Configuration" Version="3.1.0" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
 		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
 	</ItemGroup>
 </Project>

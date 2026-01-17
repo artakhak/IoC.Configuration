@@ -26,16 +26,32 @@
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
+	</ItemGroup>	
+
+	<!--IoC.Configuration-->
+	<ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
+		<PackageReference Include="IoC.Configuration" Version="3.1.0"/>
 	</ItemGroup>
 
-	<ItemGroup>
-		<!--<PackageReference Include="IoC.Configuration" Version="3.0.0" />-->
-		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+	<ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
+		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj"/>
+	</ItemGroup>
 
-		<!--<PackageReference Include="IoC.Configuration.Autofac" Version="2.2.0" />-->
-		<ProjectReference Include="..\IoC.Configuration.Autofac\IoC.Configuration.Autofac.csproj" />
+	<!--IoC.Configuration.Autofac-->
+	<ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_Autofac_PROJECT'))">
+		<PackageReference Include="IoC.Configuration.Autofac" Version="2.2.1"/>
+	</ItemGroup>
 
-		<!--<PackageReference Include="IoC.Configuration.Ninject" Version="2.2.1" />-->
-		<ProjectReference Include="..\IoC.Configuration.Ninject\IoC.Configuration.Ninject.csproj" />
+	<ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_Autofac_PROJECT'))">
+		<ProjectReference Include="..\IoC.Configuration.Autofac\IoC.Configuration.Autofac.csproj"/>
+	</ItemGroup>
+
+	<!--IoC.Configuration.Ninject-->
+	<ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_Ninject_PROJECT'))">
+		<PackageReference Include="IoC.Configuration.Ninject" Version="2.2.3"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_Ninject_PROJECT'))">
+		<ProjectReference Include="..\IoC.Configuration.Ninject\IoC.Configuration.Ninject.csproj"/>
 	</ItemGroup>
 </Project>

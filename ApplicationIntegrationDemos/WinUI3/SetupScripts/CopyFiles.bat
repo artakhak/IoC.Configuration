@@ -34,8 +34,8 @@ if not exist "%IoCConfigurationFiles%\ContainerImplementations\Autofac" mkdir "%
 if not exist "%IoCConfigurationFiles%\ContainerImplementations\Ninject" mkdir "%IoCConfigurationFiles%\ContainerImplementations\Ninject"
 
 REM Enable the code that copies from %NugetPackagesDir% to copy the IoC.Configuration.Autofac and IoC.Configuration.Ninject packages from Nuget
-xcopy "%NugetPackagesDir%\ioc.configuration.autofac\2.2.0\lib\netstandard2.0\IoC.Configuration.Autofac.*"  %IoCConfigurationFiles%\ContainerImplementations\Autofac /Y
-xcopy "%NugetPackagesDir%\ioc.configuration.ninject\2.2.1\lib\netstandard2.0\IoC.Configuration.Ninject.*"  %IoCConfigurationFiles%\ContainerImplementations\Ninject /Y
+xcopy "%NugetPackagesDir%\ioc.configuration.autofac\2.2.1\lib\netstandard2.0\IoC.Configuration.Autofac.*"  %IoCConfigurationFiles%\ContainerImplementations\Autofac /Y
+xcopy "%NugetPackagesDir%\ioc.configuration.ninject\2.2.3\lib\netstandard2.0\IoC.Configuration.Ninject.*"  %IoCConfigurationFiles%\ContainerImplementations\Ninject /Y
 
 REM Enable the code that copies from "%IoCConfigurationFiles%\ContainerImplementations" to copy the IoC.Configuration.Autofac and IoC.Configuration.Ninject packages built by solution
 REM xcopy "%SolutionDir%IoC.Configuration.Autofac\bin\%ConfigurationName%\IoC.Configuration.Autofac.*"  "%IoCConfigurationFiles%\ContainerImplementations\Autofac" /Y

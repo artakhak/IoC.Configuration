@@ -93,10 +93,14 @@
 	<ItemGroup>
 		<PackageReference Include="JetBrains.Annotations" Version="2020.3.0" PrivateAssets="All" ExcludeAssets="runtime" />
 	</ItemGroup>
+	
+	<!--IoC.Configuration-->
+	<ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
+		<PackageReference Include="IoC.Configuration" Version="3.1.0"/>
+	</ItemGroup>
 
-	<ItemGroup>
-		<!--<PackageReference Include="IoC.Configuration" Version="3.0.0" />-->
-		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+	<ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
+		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj"/>
 	</ItemGroup>
 	
 	<ItemGroup>

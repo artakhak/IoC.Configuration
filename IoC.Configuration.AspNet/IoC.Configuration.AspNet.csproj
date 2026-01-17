@@ -1,13 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<RootNamespace>IoC.Configuration.AspNet</RootNamespace>
 		<AssemblyName>IoC.Configuration.AspNet</AssemblyName>
-		<PackageVersion>1.0.0</PackageVersion>
-		<Version>1.0.0</Version>
+		<PackageVersion>1.1.0</PackageVersion>
+		<Version>1.1.0</Version>
 		<EnableDefaultItems>true</EnableDefaultItems>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<Authors>Artak Hakobyan</Authors>
@@ -23,9 +23,11 @@
 		<RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
 		
 		<PackageReleaseNotes>
-			- Added helper methods to register REST API controllers specified in IoC.Configuration file.
-			- Added an implementation of IoC.Configuration.DiContainerBuilder.IApplicationHostBuilder&lt;IHost&gt; for ASP.NET application.
+			- Moved to net8.0 since was seeing warnings about some dependency injection libbraries not being tested with net6.0.
+			- Referencing latest version of IoC.Configuration
+			- Couple of minor changes in project file
 		</PackageReleaseNotes>
+		
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -38,10 +40,14 @@
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>
 		</None>
+	</ItemGroup>	
+
+	<!--IoC.Configuration-->
+	<ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
+		<PackageReference Include="IoC.Configuration" Version="3.1.0" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<!--<PackageReference Include="IoC.Configuration" Version="3.0.0" />-->
+	<ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
 		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
 	</ItemGroup>
 

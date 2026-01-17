@@ -18,14 +18,30 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />    
   </ItemGroup>
 
-  <ItemGroup>
-    <!--<PackageReference Include="OROptimizer.Shared" Version="2.7.0" />-->
+  <!--OROptimizer.Shared-->
+  <ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_OROptimizer_Shared_PROJECT'))">
+    <PackageReference Include="OROptimizer.Shared" Version="2.7.1" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_OROptimizer_Shared_PROJECT'))">
     <ProjectReference Include="..\..\..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
+  </ItemGroup>
 
-    <!--<PackageReference Include="IoC.Configuration" Version="3.0.0" />-->
+  <!--IoC.Configuration-->
+  <ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
+    <PackageReference Include="IoC.Configuration" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
     <ProjectReference Include="..\..\..\IoC.Configuration\IoC.Configuration.csproj" />
+  </ItemGroup>
 
-    <!--<PackageReference Include="IoC.Configuration.AspNet" Version="1.0.0" />-->
+  <!--IoC.Configuration.AspNet-->
+  <ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_AspNet_PROJECT'))">
+    <PackageReference Include="IoC.Configuration.AspNet" Version="1.1.0" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_AspNet_PROJECT'))">
     <ProjectReference Include="..\..\..\IoC.Configuration.AspNet\IoC.Configuration.AspNet.csproj" />
   </ItemGroup>
 

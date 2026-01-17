@@ -35,13 +35,23 @@
 		<ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly1\TestProjects.DynamicallyLoadedAssembly1.csproj" />
 		<ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly2\TestProjects.DynamicallyLoadedAssembly2.csproj" />
 		<ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
+	</ItemGroup>	
+
+	<!--OROptimizer.Shared-->
+	<ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_OROptimizer_Shared_PROJECT'))">
+		<PackageReference Include="OROptimizer.Shared" Version="2.7.1" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<!--<PackageReference Include="OROptimizer.Shared" Version="2.7.0" />-->
+	<ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_OROptimizer_Shared_PROJECT'))">
 		<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
+	</ItemGroup>
 
-		<!--<PackageReference Include="IoC.Configuration" Version="3.0.0" />-->
-		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+	<!--IoC.Configuration-->
+	<ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
+		<PackageReference Include="IoC.Configuration" Version="3.1.0"/>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
+		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj"/>
 	</ItemGroup>
 </Project>

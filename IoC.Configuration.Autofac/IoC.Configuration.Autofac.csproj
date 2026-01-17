@@ -12,8 +12,8 @@
 		<EnableDefaultItems>true</EnableDefaultItems>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<PackageVersion>2.2.0</PackageVersion>
-		<Version>2.2.0</Version>
+		<PackageVersion>2.2.1</PackageVersion>
+		<Version>2.2.1</Version>
 		<Company>OROptimizer</Company>
 		<Authors>Artak Hakobyan</Authors>
 		<Description>
@@ -26,9 +26,8 @@
 		<PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
 		<PackageReleaseNotes>
-			- Added implementation for IoC.Configuration.DiContainer.IDiManager.BuildServiceProvider(...,IApplicationHostBuilder hostBuilder,...)
-				to support application integration. More specifically, integration with applications like ASP.NET. WinUI 3, MAUI, etc.,
-				by replacing the application native container with IoC.Configuration container.
+			- Referencing latest versions of some libraries
+			- Couple of minor changes in project file
 		</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -44,9 +43,6 @@
 		<WarningLevel>3</WarningLevel>
 	</PropertyGroup>
 	<ItemGroup>
-	  <Content Include="README.md" />
-	</ItemGroup>
-	<ItemGroup>
 		<None Include="..\IoC.Configuration.licenseheader" Link="IoC.Configuration.licenseheader" />
 		<None Include="README.md">
 		  <Pack>True</Pack>
@@ -59,11 +55,23 @@
 		<PackageReference Include="JetBrains.Annotations" Version="2020.3.0" PrivateAssets="All" ExcludeAssets="runtime" />
 		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.13.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+	</ItemGroup>
 
-		<!--<PackageReference Include="OROptimizer.Shared" Version="2.7.0" />-->
+	<!--OROptimizer.Shared-->
+	<ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_OROptimizer_Shared_PROJECT'))">
+		<PackageReference Include="OROptimizer.Shared" Version="2.7.1" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_OROptimizer_Shared_PROJECT'))">
 		<ProjectReference Include="..\..\OROptimizer.Shared\OROptimizer.Shared\OROptimizer.Shared.csproj" />
+	</ItemGroup>
 
-		<!--<PackageReference Include="IoC.Configuration" Version="3.0.0" />-->
+	<!--IoC.Configuration-->
+	<ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
+		<PackageReference Include="IoC.Configuration" Version="3.1.0" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
 		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
 	</ItemGroup>
 </Project>

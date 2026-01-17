@@ -31,9 +31,14 @@
   <ItemGroup>
     <ProjectReference Include="..\TestProjects.DynamicallyLoadedAssembly1\TestProjects.DynamicallyLoadedAssembly1.csproj" />
     <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
+  </ItemGroup> 
+
+  <!--IoC.Configuration-->
+  <ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
+    <PackageReference Include="IoC.Configuration" Version="3.1.0"/>
   </ItemGroup>
-  <ItemGroup>
-    <!--<PackageReference Include="IoC.Configuration" Version="3.0.0" />-->
-    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+
+  <ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
+    <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj"/>
   </ItemGroup>
 </Project>

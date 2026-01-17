@@ -1,43 +1,59 @@
 <Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup Label="Globals">
-		<SccProjectName>SAK</SccProjectName>
-		<SccProvider>SAK</SccProvider>
-		<SccAuxPath>SAK</SccAuxPath>
-		<SccLocalPath>SAK</SccLocalPath>
-	</PropertyGroup>
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<EnableDefaultItems>false</EnableDefaultItems>
-		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-	</PropertyGroup>
-	<PropertyGroup>
-		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<RootNamespace>ModulesForPlugin1</RootNamespace>
-	</PropertyGroup>
-	<ItemGroup>
-		<Compile Include="Autofac\AutofacModule1.cs" />
-		<Compile Include="Ninject\IoC\DiModule1.cs" />
-		<Compile Include="Ninject\IoC\DiModule2.cs" />
-		<Compile Include="Ninject\NinjectModule1.cs" />
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="Autofac" Version="8.0.0" />
-		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0" />
-		<PackageReference Include="Ninject" Version="3.3.6" />
-	</ItemGroup>
-	<ItemGroup>
-		<ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
-		<ProjectReference Include="..\TestProjects.TestPluginAssembly1\TestProjects.TestPluginAssembly1.csproj" />		
-	</ItemGroup>
+    <PropertyGroup Label="Globals">
+        <SccProjectName>SAK</SccProjectName>
+        <SccProvider>SAK</SccProvider>
+        <SccAuxPath>SAK</SccAuxPath>
+        <SccLocalPath>SAK</SccLocalPath>
+    </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <EnableDefaultItems>false</EnableDefaultItems>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+    <PropertyGroup>
+        <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+        <RootNamespace>ModulesForPlugin1</RootNamespace>
+    </PropertyGroup>
+    <ItemGroup>
+        <Compile Include="Autofac\AutofacModule1.cs"/>
+        <Compile Include="Ninject\IoC\DiModule1.cs"/>
+        <Compile Include="Ninject\IoC\DiModule2.cs"/>
+        <Compile Include="Ninject\NinjectModule1.cs"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Autofac" Version="8.0.0"/>
+        <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="8.0.0"/>
+        <PackageReference Include="Ninject" Version="3.3.6"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj"/>
+        <ProjectReference Include="..\TestProjects.TestPluginAssembly1\TestProjects.TestPluginAssembly1.csproj"/>
+    </ItemGroup>
 
-	<ItemGroup>
-		<!--<PackageReference Include="IoC.Configuration" Version="3.0.0" />-->
-		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+    <!--IoC.Configuration-->
+    <ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
+        <PackageReference Include="IoC.Configuration" Version="3.1.0"/>
+    </ItemGroup>
 
-		<!--<PackageReference Include="IoC.Configuration.Autofac" Version="2.2.0" />-->
-		<ProjectReference Include="..\IoC.Configuration.Autofac\IoC.Configuration.Autofac.csproj" />
+    <ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
+        <ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj"/>
+    </ItemGroup>
 
-		<!--<PackageReference Include="IoC.Configuration.Ninject" Version="2.2.1" />-->
-		<ProjectReference Include="..\IoC.Configuration.Ninject\IoC.Configuration.Ninject.csproj" />
-	</ItemGroup>
+    <!--IoC.Configuration.Autofac-->
+    <ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_Autofac_PROJECT'))">
+        <PackageReference Include="IoC.Configuration.Autofac" Version="2.2.1"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_Autofac_PROJECT'))">
+        <ProjectReference Include="..\IoC.Configuration.Autofac\IoC.Configuration.Autofac.csproj"/>
+    </ItemGroup>
+
+    <!--IoC.Configuration.Ninject-->
+    <ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_Ninject_PROJECT'))">
+        <PackageReference Include="IoC.Configuration.Ninject" Version="2.2.3"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_Ninject_PROJECT'))">
+        <ProjectReference Include="..\IoC.Configuration.Ninject\IoC.Configuration.Ninject.csproj"/>
+    </ItemGroup>
 </Project>

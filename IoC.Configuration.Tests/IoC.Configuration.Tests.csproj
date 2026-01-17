@@ -18,16 +18,29 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.CodeAnalysis" Version="4.13.0" />		
-		<!--<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />-->
-		<PackageReference Include="TestsSharedLibrary" Version="1.0.3" />
-
-		<!--<PackageReference Include="IoC.Configuration" Version="3.0.0" />-->
-		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+		<!--<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />-->		
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\TestProjects.SharedServices\TestProjects.SharedServices.csproj" />
-		<!--<ProjectReference Include="..\..\TestsSharedLibrary\TestsSharedLibrary.csproj" />-->
+	</ItemGroup>
+
+	<!--IoC.Configuration-->
+	<ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
+		<PackageReference Include="IoC.Configuration" Version="3.1.0" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
+		<ProjectReference Include="..\IoC.Configuration\IoC.Configuration.csproj" />
+	</ItemGroup>
+
+	<!--TestsSharedLibrary-->
+	<ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_TestsSharedLibrary_PROJECT'))">
+		<PackageReference Include="TestsSharedLibrary" Version="1.0.4" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_TestsSharedLibrary_PROJECT'))">
+		<ProjectReference Include="..\..\TestsSharedLibrary\TestsSharedLibrary.csproj" />
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">

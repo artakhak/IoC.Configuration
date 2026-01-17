@@ -1,17 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>    
-  </PropertyGroup>  
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <!--<PackageReference Include="IoC.Configuration" Version="3.0.0" />-->
-    <ProjectReference Include="..\..\..\IoC.Configuration\IoC.Configuration.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <ProjectReference Include="..\MauiDemo.Interfaces\MauiDemo.Interfaces.csproj" />
-  </ItemGroup>
+    <!--IoC.Configuration-->
+    <ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
+        <PackageReference Include="IoC.Configuration" Version="3.1.0"/>
+    </ItemGroup>
+
+    <ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
+        <ProjectReference Include="..\..\..\IoC.Configuration\IoC.Configuration.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\MauiDemo.Interfaces\MauiDemo.Interfaces.csproj"/>
+    </ItemGroup>
 </Project>
