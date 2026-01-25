@@ -35,7 +35,7 @@ This file can also be downloaded from `IoC.Configuration.Template.xml <https://g
 
    <iocConfiguration
    	xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-   	xsi:noNamespaceSchemaLocation="IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd">
+   	xsi:noNamespaceSchemaLocation="http://oroptimizer.com/IoC.Configuration/V2/IoC.Configuration.Schema.22B4BA50-3429-48FE-8059-B9C1F855A639.xsd">
      
        <!--The application should have write permissions to path specified in appDataDir. This is where dynamically generated DLLs are saved.-->
        <appDataDir path="C:\Users\user1\AppData\Local\MyApplication" />
