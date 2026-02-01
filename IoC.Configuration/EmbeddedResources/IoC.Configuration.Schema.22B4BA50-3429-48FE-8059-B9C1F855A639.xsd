@@ -116,6 +116,14 @@
 
 	<xs:complexType name="stringType">
 		<xs:attribute name="value" use="required" type="xs:string"/>
+		<!--
+		Any value that describes the value,
+		For example, an application can use metadata="path" and 
+		use an instance of IoC.Configuration.AttributeValueTransformer.IAttributeValueTransformer
+		to transform the value to replace occurrences of '/' with path separator for an operating
+		system ('\' for windows, and '/' for unix).
+		-->
+		<xs:attribute name="metadata" use="optional" type="xs:string"/>
 	</xs:complexType>
 
 	<xs:complexType name="namedStringType">

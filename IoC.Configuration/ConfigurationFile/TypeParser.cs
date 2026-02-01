@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright ï¿½ 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -32,15 +32,9 @@ namespace IoC.Configuration.ConfigurationFile
 {
     public class TypeParser : ITypeParser
     {
-        #region Member Variables
-
         private readonly char ArraySymbolChar = '#';
 
         private static readonly string InvalidTypeNameErrorMessage;
-
-        #endregion
-
-        #region  Constructors
 
         static TypeParser()
         {
@@ -50,10 +44,6 @@ namespace IoC.Configuration.ConfigurationFile
 
             InvalidTypeNameErrorMessage = errorMessage.ToString();
         }
-
-        #endregion
-
-        #region ITypeParser Interface Implementation
 
         public ITypeData Parse([NotNull] string typeFullName)
         {
@@ -176,10 +166,6 @@ namespace IoC.Configuration.ConfigurationFile
             return currTypeData;
         }
 
-        #endregion
-
-        #region Member Functions
-
         private string ParseNextTypeName(string typeFullName, ref int currentIndex)
         {
             // Regex.IsMatch(typeAttributeValue, "^([a-zA-Z_]+[0-9]*)+(.[a-zA-Z_]+[0-9]*)*$"))
@@ -245,7 +231,5 @@ namespace IoC.Configuration.ConfigurationFile
                 ++currentIndex;
             }
         }
-
-        #endregion
     }
 }
