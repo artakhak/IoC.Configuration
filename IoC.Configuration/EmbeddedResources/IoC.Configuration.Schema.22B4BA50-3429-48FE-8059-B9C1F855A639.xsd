@@ -448,10 +448,6 @@
 						<xs:attribute name="name" type="xs:string" use="required"/>
 						<xs:attribute name="alias" type="xs:string" use="required"/>
 						<xs:attribute name="plugin" type="xs:string" use="optional"/>
-						<!--loadAlways is deprecated and will be deleted in the future. 
-							All assemblies in configuration file are now added as references to dynamically generated assembly, however
-							.NET only loads assemblies that are used in referencing assembly-->
-						<xs:attribute name="loadAlways" type="xs:boolean" use="optional" default="false"/>
 						<xs:attribute name="overrideDirectory" type="xs:string" use="optional"/>
 					</xs:complexType>
 				</xs:element>

@@ -34,6 +34,7 @@
 			In this example an application can use an instance of IoC.Configuration.AttributeValueTransformer.IAttributeValueTransformer
 			to transform the value to replace occurrences of '/' with path separator for an operating
 			system ('\' for windows, and '/' for unix).
+			- removed loadAllways from schema. This attribute was bot used since 2022 and a warning was logged about that fact before.
 		</PackageReleaseNotes>
 		<RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
 		<PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>

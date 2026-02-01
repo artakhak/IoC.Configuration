@@ -1,5 +1,5 @@
 // This software is part of the IoC.Configuration library
-// Copyright © 2018 IoC.Configuration Contributors
+// Copyright ï¿½ 2018 IoC.Configuration Contributors
 // http://oroptimizer.com
 //
 // Permission is hereby granted, free of charge, to any person
@@ -154,19 +154,6 @@ namespace IoC.Configuration.ConfigurationFile
         {
             if (_xmlElement.HasAttribute(ConfigurationFileAttributeNames.Enabled))
                 _enabled = this.GetEnabledAttributeValue();
-
-            LogDeprecatedElementAttributeUsage();
-        }
-
-        private void LogDeprecatedElementAttributeUsage()
-        {
-            var loadAlwaysAttributeName = "loadAlways";
-
-            if (_xmlElement.HasAttribute(loadAlwaysAttributeName))
-            {
-                LogHelper.Context.Log.WarnFormat("Attribute '{0}' in configuration file has been deprecated and will be removed in the future. Use of this attribute has no effect.",
-                    loadAlwaysAttributeName);
-            }
         }
 
         /// <summary>
