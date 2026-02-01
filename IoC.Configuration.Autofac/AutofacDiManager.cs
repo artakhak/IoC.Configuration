@@ -57,14 +57,23 @@ namespace IoC.Configuration.Autofac
         {
             var iocAutofacServiceProviderFactory = new IoCAutofacServiceProviderFactory(new AutofacServiceProviderFactory());
 
-            iocAutofacServiceProviderFactory.OnServiceProviderCreated += (sender, e) =>
-            {
-                serviceProviderCreated?.Invoke(e);
-            };
-
+            AutofacDiContainer autofacDiContainer = null;
+            
             iocAutofacServiceProviderFactory.OnContainerBuilderCreated += (sender, e) =>
             {
-                diContainerCreated?.Invoke(new AutofacDiContainer(e));
+                autofacDiContainer = new AutofacDiContainer(e);
+                diContainerCreated?.Invoke(autofacDiContainer);
+            };
+            
+            iocAutofacServiceProviderFactory.OnServiceProviderCreated += (sender, e) =>
+            {
+                if (autofacDiContainer == null)
+                {
+                    throw new ApplicationException($"The value of [{nameof(autofacDiContainer)}] was not set when [{typeof(IoCAutofacServiceProviderFactory)}.{nameof(IoCAutofacServiceProviderFactory.OnServiceProviderCreated)}] is executed.");
+                }
+                
+                autofacDiContainer.OnServiceProviderCreated(e);
+                serviceProviderCreated?.Invoke(e);
             };
 
             hostBuilder.UseServiceProviderFactory(iocAutofacServiceProviderFactory);

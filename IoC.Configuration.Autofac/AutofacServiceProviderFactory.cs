@@ -36,7 +36,6 @@ namespace IoC.Configuration.Autofac
         public IServiceProvider CreateServiceProvider(ContainerBuilder containerBuilder)
         {
             var serviceProvider = _autofacServiceProviderFactory.CreateServiceProvider(containerBuilder);
-
             OnServiceProviderCreated?.Invoke(this, serviceProvider);
             return serviceProvider;
         }

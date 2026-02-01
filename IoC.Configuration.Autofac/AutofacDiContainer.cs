@@ -10,10 +10,8 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -22,8 +20,10 @@
 // WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 // OTHER DEALINGS IN THE SOFTWARE.
+
 using System;
 using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using IoC.Configuration.DiContainer;
 using JetBrains.Annotations;
 using OROptimizer.Diagnostics.Log;
@@ -32,19 +32,13 @@ namespace IoC.Configuration.Autofac
 {
     public class AutofacDiContainer : IDiContainer
     {
-        #region Member Variables
-
         private AutofacLifeTimeScope _currentLifeTimeScope;
 
         [NotNull]
         private readonly object _lockObject = new object();
 
         private AutofacLifeTimeScope _mainLifeTimeScope;
-
-        #endregion
-
-        #region  Constructors
-
+        
         public AutofacDiContainer() : this(new ContainerBuilder())
         {
         }
@@ -54,10 +48,6 @@ namespace IoC.Configuration.Autofac
             ContainerBuilder = containerBuilder;
             ContainerBuilder.RegisterBuildCallback(OnContainerBuilt);
         }
-
-        #endregion
-
-        #region IDiContainer Interface Implementation
 
         public ILifeTimeScope CurrentLifeTimeScope => _currentLifeTimeScope;
 
@@ -138,7 +128,6 @@ namespace IoC.Configuration.Autofac
                     throw new Exception("Container is not properly initialized.");
                 }
 
-
                 _mainLifeTimeScope = new AutofacLifeTimeScope(Container.BeginLifetimeScope());
 
                 _mainLifeTimeScope.LifeTimeScopeTerminated += (sender, e) => { Container.Dispose(); };
@@ -147,21 +136,33 @@ namespace IoC.Configuration.Autofac
             }
         }
 
-        #endregion
-
-        #region Member Functions
-
         public IContainer Container { get; private set; }
 
         [NotNull]
         public ContainerBuilder ContainerBuilder { get; }
+
+        internal void OnServiceProviderCreated(IServiceProvider serviceProvider)
+        {
+            if (Container != null)
+                return;
+            
+            if (serviceProvider is AutofacServiceProvider autofacServiceProvider &&
+                autofacServiceProvider.LifetimeScope is IContainer container)
+            {
+                Container = container;
+                return;
+            }
+            
+            LogHelper.Context.Log.Error($"Failed to retrieve [{typeof(IContainer)}] from service provider of type [{serviceProvider.GetType()}].");
+        }
         
         private void OnContainerBuilt([NotNull] ILifetimeScope lifetimeScope)
         {
+            if (Container != null)
+                return;
+            
             if (lifetimeScope is IContainer container)
                 Container = container;
         }
-
-        #endregion
     }
 }
