@@ -96,6 +96,4 @@ namespace IoC.Configuration.DiContainer
         /// </summary>
         void StartMainLifeTimeScope();
     }
-    
-    
 }

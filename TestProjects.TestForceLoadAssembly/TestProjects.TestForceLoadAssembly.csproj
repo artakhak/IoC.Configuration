@@ -20,7 +20,7 @@
 
 	<!--OROptimizer.Shared-->
 	<ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_OROptimizer_Shared_PROJECT'))">
-		<PackageReference Include="OROptimizer.Shared" Version="2.7.1" />
+		<PackageReference Include="OROptimizer.Shared" Version="2.7.2" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_OROptimizer_Shared_PROJECT'))">

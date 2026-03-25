@@ -12,8 +12,8 @@
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<AssemblyName>IoC.Configuration.Ninject</AssemblyName>
 		<RootNamespace>IoC.Configuration.Ninject</RootNamespace>
-		<PackageVersion>2.2.3</PackageVersion>
-		<Version>2.2.3</Version>
+		<PackageVersion>2.2.4</PackageVersion>
+		<Version>2.2.4</Version>
 		<Authors>Artak Hakobyan</Authors>
 		<Company>OROptimizer</Company>
 		<Description>
@@ -27,7 +27,7 @@
 		<PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
 		<PackageReleaseNotes>
-			- Fixed the reference to README.md
+			- Referencing newer versions of packages
 		</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
@@ -59,7 +59,7 @@
 
 	<!--OROptimizer.Shared-->
 	<ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_OROptimizer_Shared_PROJECT'))">
-		<PackageReference Include="OROptimizer.Shared" Version="2.7.1" />
+		<PackageReference Include="OROptimizer.Shared" Version="2.7.2" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_OROptimizer_Shared_PROJECT'))">
