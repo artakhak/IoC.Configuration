@@ -12,8 +12,8 @@
 		<EnableDefaultItems>true</EnableDefaultItems>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<PackageVersion>2.3.1</PackageVersion>
-		<Version>2.3.1</Version>
+		<PackageVersion>2.3.2</PackageVersion>
+		<Version>2.3.2</Version>
 		<Company>OROptimizer</Company>
 		<Authors>Artak Hakobyan</Authors>
 		<Description>
@@ -26,7 +26,7 @@
 		<PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
 		<PackageReleaseNotes>
-			- Referencing newer versions of packages
+			- Referencing of packages
 		</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
@@ -67,7 +67,7 @@
 
 	<!--IoC.Configuration-->
 	<ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
-		<PackageReference Include="IoC.Configuration" Version="3.1.0" />
+		<PackageReference Include="IoC.Configuration" Version="3.2.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">

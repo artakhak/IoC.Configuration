@@ -6,8 +6,8 @@
 		<Nullable>enable</Nullable>
 		<RootNamespace>IoC.Configuration.AspNet</RootNamespace>
 		<AssemblyName>IoC.Configuration.AspNet</AssemblyName>
-		<PackageVersion>1.1.0</PackageVersion>
-		<Version>1.1.0</Version>
+		<PackageVersion>1.1.1</PackageVersion>
+		<Version>1.1.1</Version>
 		<EnableDefaultItems>true</EnableDefaultItems>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<Authors>Artak Hakobyan</Authors>
@@ -23,9 +23,7 @@
 		<RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
 		
 		<PackageReleaseNotes>
-			- Moved to net8.0 since was seeing warnings about some dependency injection libbraries not being tested with net6.0.
-			- Referencing latest version of IoC.Configuration
-			- Couple of minor changes in project file
+			- Referencing IoC.Configuration 3.2.0
 		</PackageReleaseNotes>
 		
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -44,7 +42,7 @@
 
 	<!--IoC.Configuration-->
 	<ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
-		<PackageReference Include="IoC.Configuration" Version="3.1.0" />
+		<PackageReference Include="IoC.Configuration" Version="3.2.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">

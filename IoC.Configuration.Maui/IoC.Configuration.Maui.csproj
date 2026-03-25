@@ -5,8 +5,8 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
-		<PackageVersion>1.0.1</PackageVersion>
-        <Version>1.0.1</Version>
+		<PackageVersion>1.0.2</PackageVersion>
+        <Version>1.0.2</Version>
         <Authors>OROptimizer</Authors>
         <PackageReadmeFile>README.md</PackageReadmeFile>
 
@@ -25,7 +25,6 @@
 
 		<PackageReleaseNotes>
 			- Referencing latest version of IoC.Configuration
-			- Couple of minor changes in project file
 		</PackageReleaseNotes>
 		
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -43,7 +42,7 @@
 
 	<!--IoC.Configuration-->
 	<ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
-		<PackageReference Include="IoC.Configuration" Version="3.1.0" />
+		<PackageReference Include="IoC.Configuration" Version="3.2.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_PROJECT'))">
