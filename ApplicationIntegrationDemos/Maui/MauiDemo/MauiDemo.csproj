@@ -92,7 +92,7 @@
 
     <!--IoC.Configuration.Maui-->
     <ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_Maui_PROJECT'))">
-        <PackageReference Include="IoC.Configuration.Maui" Version="1.0.0" />
+        <PackageReference Include="IoC.Configuration.Maui" Version="1.0.2" />
     </ItemGroup>
 
     <ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_Maui_PROJECT'))">

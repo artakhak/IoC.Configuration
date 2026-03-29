@@ -12,8 +12,8 @@
 		<EnableDefaultItems>true</EnableDefaultItems>
 		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-		<PackageVersion>2.3.2</PackageVersion>
-		<Version>2.3.2</Version>
+		<PackageVersion>2.3.0</PackageVersion>
+		<Version>2.3.0</Version>
 		<Company>OROptimizer</Company>
 		<Authors>Artak Hakobyan</Authors>
 		<Description>
@@ -26,7 +26,10 @@
 		<PackageProjectUrl>http://iocconfiguration.readthedocs.io</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/artakhak/IoC.Configuration</RepositoryUrl>
 		<PackageReleaseNotes>
-			- Referencing of packages
+			- A fix to a bug related to host integration/service provider to handle a special case when
+			Autofac OnActivated() is used and IoC.Configuration.Autofac.AutofacDiContainer.OnContainerBuilt() method does not set the value of Container property.
+			-Referencing newer versions of packages
+			-Updated package release notes of packages that depend on IoC.Configuration
 		</PackageReleaseNotes>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>

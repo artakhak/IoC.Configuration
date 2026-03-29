@@ -39,7 +39,7 @@
 
 	<!--IoC.Configuration.Autofac-->
 	<ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_Autofac_PROJECT'))">
-		<PackageReference Include="IoC.Configuration.Autofac" Version="2.2.1"/>
+		<PackageReference Include="IoC.Configuration.Autofac" Version="2.3.0"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_Autofac_PROJECT'))">
@@ -48,7 +48,7 @@
 
 	<!--IoC.Configuration.Ninject-->
 	<ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_Ninject_PROJECT'))">
-		<PackageReference Include="IoC.Configuration.Ninject" Version="2.2.3"/>
+		<PackageReference Include="IoC.Configuration.Ninject" Version="2.2.4"/>
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_Ninject_PROJECT'))">

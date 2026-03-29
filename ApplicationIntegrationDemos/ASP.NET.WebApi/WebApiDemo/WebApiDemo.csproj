@@ -38,7 +38,7 @@
 
   <!--IoC.Configuration.AspNet-->
   <ItemGroup Condition="'$(Configuration)'=='Release' Or !$(DefineConstants.Contains('REFERENCE_IoC_Configuration_AspNet_PROJECT'))">
-    <PackageReference Include="IoC.Configuration.AspNet" Version="1.1.0" />
+    <PackageReference Include="IoC.Configuration.AspNet" Version="1.1.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(Configuration)'=='Debug' And $(DefineConstants.Contains('REFERENCE_IoC_Configuration_AspNet_PROJECT'))">
